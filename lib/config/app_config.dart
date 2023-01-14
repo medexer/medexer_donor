@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AppStyles {
-  static Color bgPrimary = Color(0xFF1152FD);
-  static Color bgOrange = Color(0xFFe36414);
-  static Color bgGreen = Color(0xFF2d6a4f);
-  static Color bgGreenLight = Color.fromARGB(255, 59, 134, 100);
-  static Color bgBlue = Color.fromARGB(255, 5, 93, 122);
-  static Color bgBlueLight = Color.fromARGB(255, 12, 134, 174);
+  static Color bgBlack = Colors.black87;
+  static Color bgGray = Color(0xFF87898E);
+  static Color bgGray4 = Colors.grey.shade400;
+  static Color bgPrimary = Color(0xFFFF0000);
 }
 
 class AppLayout {
