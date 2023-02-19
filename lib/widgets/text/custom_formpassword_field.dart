@@ -36,7 +36,7 @@ class _CustomFormPasswordFieldState extends State<CustomFormPasswordField> {
         border: Border.all(
           color: AppStyles.bgGray,
         ),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(25),
       ),
       child: TextFormField(
         obscureText: widget.showPassword ? widget.showPassword : false,
@@ -60,7 +60,7 @@ class _CustomFormPasswordFieldState extends State<CustomFormPasswordField> {
             child: widget.suffixIcon,
           ),
           hintStyle: TextStyle(
-            color: AppStyles.bgGray,
+            color: Colors.white,
           ),
         ),
         style: TextStyle(

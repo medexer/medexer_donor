@@ -7,6 +7,7 @@ class AppStyles {
   static Color bgBlack = Colors.black87;
   static Color bgGray = Color(0xFF87898E);
   static Color bgGray4 = Colors.grey.shade400;
+  static Color bgBlue = Color(0xFF5079FA);
   static Color bgPrimary = Color(0xFFFF0000);
 }
 

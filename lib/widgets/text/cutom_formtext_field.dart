@@ -28,7 +28,7 @@ class CustomFormTextField extends StatelessWidget {
         border: Border.all(
           color: AppStyles.bgGray,
         ),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(25),
       ),
       child: TextFormField(
         controller: controller ?? controller,
@@ -40,7 +40,7 @@ class CustomFormTextField extends StatelessWidget {
           contentPadding: EdgeInsets.only(left: 20),
           // prefixIcon: prefixIcon ?? prefixIcon,
           hintStyle: TextStyle(
-            color: AppStyles.bgGray,
+            color: Colors.white,
           ),
         ),
         style: TextStyle(

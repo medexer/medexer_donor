@@ -2,7 +2,7 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:medexer_donor/screens/public/login_screen.dart';
+import 'package:medexer_donor/screens/auth/login_screen.dart';
 
 class NavigationServices {
   final authStorage = GetStorage();

@@ -1,32 +1,34 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medexer_donor/config/app_config.dart';
-import 'package:medexer_donor/screens/public/login_screen.dart';
+import 'package:medexer_donor/screens/auth/forgot_password_screen.dart';
+import 'package:medexer_donor/screens/auth/signup_screen.dart';
+import 'package:medexer_donor/screens/home/home_screen.dart';
 import 'package:medexer_donor/widgets/buttons/custom_button.dart';
 import 'package:medexer_donor/widgets/text/custom_formpassword_field.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 import 'package:medexer_donor/widgets/text/cutom_formtext_field.dart';
 
-class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   bool rememberMe = false;
   bool showPassword = true;
-  bool showConfirmPassword = true;
-  TextEditingController usernameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmPasswordController = TextEditingController();
 
-  void signupHandler() async {}
+  void signinHandler() async {
+    debugPrint('[LOGIN]');
+    Get.to(() => HomeScreen());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,7 @@ class _SignupScreenState extends State<SignupScreen> {
           ),
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/images/splash__1.jpg'),
+              image: AssetImage('assets/images/splash__1.png'),
               fit: BoxFit.cover,
             ),
           ),
@@ -53,7 +55,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 children: [
                   Center(
                     child: CustomTextWidget(
-                      text: 'Sign Up',
+                      text: 'Login',
                       size: 30.0.sp,
                       color: Colors.white,
                       weight: FontWeight.bold,
@@ -61,43 +63,59 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   SizedBox(height: 6.0.hp),
                   CustomFormTextField(
-                    hintText: 'Username',
-                    controller: usernameController,
-                    background: Colors.white,
-                  ),
-                  SizedBox(height: 3.0.hp),
-                  CustomFormTextField(
                     hintText: 'Email',
                     controller: emailController,
-                    background: Colors.white,
+                    background: Colors.white.withOpacity(0.4),
                   ),
                   SizedBox(height: 3.0.hp),
                   CustomFormPasswordField(
                     controller: passwordController,
-                    hintText: 'Password',
+                    hintText: 'Enter your password',
                     suffixIcon: ImageIcon(
                       AssetImage('assets/icons/icon__eye.png'),
                     ),
                     showPassword: showPassword,
-                    background: Colors.white,
+                    background: Colors.white.withOpacity(0.4),
                   ),
-                  SizedBox(height: 3.0.hp),
-                  CustomFormPasswordField(
-                    controller: confirmPasswordController,
-                    hintText: 'Confirm password',
-                    suffixIcon: ImageIcon(
-                      AssetImage('assets/icons/icon__eye.png'),
-                    ),
-                    showPassword: showConfirmPassword,
-                    background: Colors.white,
+                  Row(
+                    children: [
+                      Switch(
+                        value: rememberMe,
+                        onChanged: (value) {
+                          setState(() {
+                            rememberMe = !rememberMe;
+                          });
+
+                          debugPrint('[REMEMBER ME] :: $rememberMe');
+                        },
+                        inactiveTrackColor: AppStyles.bgGray,
+                      ),
+                      Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          Get.to(
+                            transition: Transition.zoom,
+                            duration: Duration(milliseconds: 500),
+                            () => ForgotPasswordScreen(),
+                          );
+                        },
+                        child: CustomTextWidget(
+                          text: 'Forgot password?',
+                          size: 12.0.sp,
+                          color: AppStyles.bgGray4,
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(height: 3.0.hp),
                   CustomButton(
-                    text: 'Signup',
+                    text: 'Login',
                     width: double.maxFinite,
                     height: 6.0.hp,
                     onTapHandler: () {
-                      signupHandler();
+                      // signinHandler();
+                      debugPrint('[LOGIN]');
+                      Get.to(() => HomeScreen());
                     },
                     fontSize: 12.0.sp,
                     borderRadius: 5,
@@ -113,7 +131,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                       SizedBox(width: 4.0.wp),
                       CustomTextWidget(
-                        text: 'Or signup with',
+                        text: 'Or login with',
                         size: 12.0.sp,
                         color: AppStyles.bgGray4,
                       ),
@@ -128,7 +146,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          // OAUTH-GOOGLE: SIGNUP
+                          // OAUTH-GOOGLE: LOGIN
                         },
                         child: Container(
                           width: 20.0.wp,
@@ -146,7 +164,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       Spacer(),
                       GestureDetector(
                         onTap: () {
-                          // OAUTH-APPLE: SIGNUP
+                          // OAUTH-APPLE: LOGIN
                         },
                         child: Container(
                           width: 20.0.wp,
@@ -164,7 +182,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       Spacer(),
                       GestureDetector(
                         onTap: () {
-                          // OAUTH-FACEBOOK: SIGNUP
+                          // OAUTH-FACEBOOK: LOGIN
                         },
                         child: Container(
                           width: 20.0.wp,
@@ -183,12 +201,12 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 10.0.hp),
+              SizedBox(height: 20.0.hp),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CustomTextWidget(
-                    text: 'Already have an account? ',
+                    text: 'Don\'t have an account? ',
                     size: 12.0.sp,
                     color: AppStyles.bgGray4,
                   ),
@@ -198,11 +216,11 @@ class _SignupScreenState extends State<SignupScreen> {
                       Get.to(
                         transition: Transition.rightToLeft,
                         duration: Duration(milliseconds: 800),
-                        () => LoginScreen(),
+                        () => SignupScreen(),
                       );
                     },
                     child: CustomTextWidget(
-                      text: 'Login',
+                      text: 'Signup',
                       size: 12.0.sp,
                       color: AppStyles.bgPrimary,
                     ),

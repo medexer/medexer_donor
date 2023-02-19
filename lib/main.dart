@@ -5,11 +5,11 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:medexer_donor/database/root_repository.dart';
-import 'package:medexer_donor/screens/main/home_screen.dart';
-import 'package:medexer_donor/screens/public/login_screen.dart';
-import 'package:medexer_donor/screens/public/onboarding_screen.dart';
-import 'package:medexer_donor/screens/public/signup_screen.dart';
-import 'package:medexer_donor/screens/public/splash_screen.dart';
+import 'package:medexer_donor/screens/home/home_screen.dart';
+import 'package:medexer_donor/screens/auth/login_screen.dart';
+import 'package:medexer_donor/screens/auth/onboarding_screen.dart';
+import 'package:medexer_donor/screens/auth/signup_screen.dart';
+import 'package:medexer_donor/screens/auth/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        fontFamily: 'Roboto'
+        fontFamily: 'Poppins',
       ),
       home: authStorage.read('user') != null ? HomeScreen() : SplashScreen(),
       initialRoute: '/',

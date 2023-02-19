@@ -1,29 +1,39 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:medexer_donor/config/app_config.dart';
-import 'package:medexer_donor/screens/public/signup_screen.dart';
+import 'package:medexer_donor/screens/auth/login_screen.dart';
 import 'package:medexer_donor/widgets/buttons/custom_button.dart';
 import 'package:medexer_donor/widgets/text/custom_formpassword_field.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 import 'package:medexer_donor/widgets/text/cutom_formtext_field.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupScreenState extends State<SignupScreen> {
   bool rememberMe = false;
   bool showPassword = true;
+  bool showConfirmPassword = true;
+  TextEditingController usernameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
 
-  void signinHandler() async {}
+  void signupHandler() async {
+    debugPrint('SIGNUP');
+    Get.to(
+      transition: Transition.rightToLeft,
+      duration: Duration(milliseconds: 800),
+      () => LoginScreen(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/images/splash__1.jpg'),
+              image: AssetImage('assets/images/splash__1.png'),
               fit: BoxFit.cover,
             ),
           ),
@@ -50,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Center(
                     child: CustomTextWidget(
-                      text: 'Login',
+                      text: 'Sign Up',
                       size: 30.0.sp,
                       color: Colors.white,
                       weight: FontWeight.bold,
@@ -58,48 +68,43 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   SizedBox(height: 6.0.hp),
                   CustomFormTextField(
+                    hintText: 'Username',
+                    controller: usernameController,
+                    background: Colors.white.withOpacity(0.4),
+                  ),
+                  SizedBox(height: 3.0.hp),
+                  CustomFormTextField(
                     hintText: 'Email',
                     controller: emailController,
-                    background: Colors.white,
+                    background: Colors.white.withOpacity(0.4),
                   ),
                   SizedBox(height: 3.0.hp),
                   CustomFormPasswordField(
                     controller: passwordController,
-                    hintText: 'Enter your password',
+                    hintText: 'Password',
                     suffixIcon: ImageIcon(
                       AssetImage('assets/icons/icon__eye.png'),
                     ),
                     showPassword: showPassword,
-                    background: Colors.white,
+                    background: Colors.white.withOpacity(0.4),
                   ),
-                  Row(
-                    children: [
-                      Switch(
-                        value: rememberMe,
-                        onChanged: (value) {
-                          setState(() {
-                            rememberMe = !rememberMe;
-                          });
-
-                          debugPrint('[REMEMBER ME] :: $rememberMe');
-                        },
-                        inactiveTrackColor: AppStyles.bgGray,
-                      ),
-                      Spacer(),
-                      CustomTextWidget(
-                        text: 'Forgot password?',
-                        size: 12.0.sp,
-                        color: AppStyles.bgGray4,
-                      ),
-                    ],
+                  SizedBox(height: 3.0.hp),
+                  CustomFormPasswordField(
+                    controller: confirmPasswordController,
+                    hintText: 'Confirm password',
+                    suffixIcon: ImageIcon(
+                      AssetImage('assets/icons/icon__eye.png'),
+                    ),
+                    showPassword: showConfirmPassword,
+                    background: Colors.white.withOpacity(0.4),
                   ),
                   SizedBox(height: 3.0.hp),
                   CustomButton(
-                    text: 'Login',
+                    text: 'Signup',
                     width: double.maxFinite,
                     height: 6.0.hp,
                     onTapHandler: () {
-                      signinHandler();
+                      signupHandler();
                     },
                     fontSize: 12.0.sp,
                     borderRadius: 5,
@@ -115,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       SizedBox(width: 4.0.wp),
                       CustomTextWidget(
-                        text: 'Or login with',
+                        text: 'Or signup with',
                         size: 12.0.sp,
                         color: AppStyles.bgGray4,
                       ),
@@ -130,7 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          // OAUTH-GOOGLE: LOGIN
+                          // OAUTH-GOOGLE: SIGNUP
                         },
                         child: Container(
                           width: 20.0.wp,
@@ -148,7 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Spacer(),
                       GestureDetector(
                         onTap: () {
-                          // OAUTH-APPLE: LOGIN
+                          // OAUTH-APPLE: SIGNUP
                         },
                         child: Container(
                           width: 20.0.wp,
@@ -166,7 +171,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Spacer(),
                       GestureDetector(
                         onTap: () {
-                          // OAUTH-FACEBOOK: LOGIN
+                          // OAUTH-FACEBOOK: SIGNUP
                         },
                         child: Container(
                           width: 20.0.wp,
@@ -185,12 +190,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 20.0.hp),
+              SizedBox(height: 10.0.hp),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CustomTextWidget(
-                    text: 'Don\'t have an account? ',
+                    text: 'Already have an account? ',
                     size: 12.0.sp,
                     color: AppStyles.bgGray4,
                   ),
@@ -200,11 +205,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       Get.to(
                         transition: Transition.rightToLeft,
                         duration: Duration(milliseconds: 800),
-                        () => SignupScreen(),
+                        () => LoginScreen(),
                       );
                     },
                     child: CustomTextWidget(
-                      text: 'Signup',
+                      text: 'Login',
                       size: 12.0.sp,
                       color: AppStyles.bgPrimary,
                     ),

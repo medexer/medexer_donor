@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medexer_donor/screens/public/login_screen.dart';
+import 'package:medexer_donor/screens/auth/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -37,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
         height: screenHeight,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/splash__1.jpg'),
+            image: AssetImage('assets/images/splash__1.png'),
             fit: BoxFit.cover,
           ),
         ),
