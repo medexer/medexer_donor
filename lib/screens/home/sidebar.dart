@@ -8,10 +8,12 @@ import 'package:medexer_donor/screens/home/app_guide_screen.dart';
 import 'package:medexer_donor/screens/home/contact_us_screen.dart';
 import 'package:medexer_donor/screens/home/donor_centers.dart';
 import 'package:medexer_donor/screens/home/home_screen.dart';
-import 'package:medexer_donor/screens/home/notification_screen.dart';
+import 'package:medexer_donor/screens/home/sub_screens/notification_screens/notification_screen.dart';
 import 'package:medexer_donor/screens/home/profile_screen.dart';
 import 'package:medexer_donor/screens/home/rewards_wallet_screen.dart';
 import 'package:medexer_donor/screens/home/settings_screen.dart';
+
+import '../../widgets/buttons/custom_button.dart';
 
 class SideBar extends StatefulWidget {
   const SideBar({super.key});
@@ -100,7 +102,23 @@ class _SideBarState extends State<SideBar> {
               AssetImage('assets/icons/icon__notification.png'),
               color: AppStyles.bgBlue,
             ),
-            title: Text('Notification'),
+            title: Row(
+              mainAxisAlignment:MainAxisAlignment.spaceEvenly,
+              children: [
+                Text('Notification'),
+                 CustomButton(
+                  text: 'New',
+                  width: 20.0.wp,                    
+                  height: 5.0.hp,
+                  onTapHandler: (){
+                  },
+                  fontSize: 10.0.sp,
+                  fontColor: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  borderRadius: 30,
+                  backgroundColor: AppStyles.bgPrimary),
+              ],
+            ),
             onTap: () {
               Get.to(() => NotificationScreen());
               debugPrint('[NOTIFICATIONS]');
@@ -126,6 +144,14 @@ class _SideBarState extends State<SideBar> {
             onTap: () {
               Get.to(() => SettingsScreen());
               debugPrint('[SETTINGS]');
+            },
+          ),
+
+          ListTile(
+            leading: Icon(Icons.logout, color: AppStyles.bgPrimary,),
+            title: Text('Log out', style: TextStyle(color: AppStyles.bgPrimary),),
+            onTap: () {
+              debugPrint('[LOG OUT]');
             },
           ),
         ],

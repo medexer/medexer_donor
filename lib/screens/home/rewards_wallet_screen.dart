@@ -7,7 +7,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/screens/home/sidebar.dart';
 import 'package:medexer_donor/widgets/buttons/custom_button.dart';
-import 'package:medexer_donor/widgets/card/custom_message_card.dart';
 import 'package:medexer_donor/widgets/page_header.dart';
 import '../../widgets/text/custom_text_widget.dart';
 
@@ -37,7 +36,6 @@ class _RewardsWalletScreenState extends State<RewardsWalletScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Stack(
-                //mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Container(
                     color: AppStyles.bgBlue,
@@ -48,7 +46,7 @@ class _RewardsWalletScreenState extends State<RewardsWalletScreen> {
                       children:[
                         SizedBox(height: 3.0.hp,),
                         PageHeader(scaffoldKey: scaffoldKey),
-                        SizedBox(height: 20.0.hp,),
+                        SizedBox(height: 15.0.hp,),
                         Padding(
                           padding:  EdgeInsets.only(left: 9.0.wp),
                           child: CustomTextWidget(
@@ -73,7 +71,7 @@ class _RewardsWalletScreenState extends State<RewardsWalletScreen> {
                           width: 80.0.wp,
                           height: 15.0.hp,
                           child: Padding(
-                            padding: const EdgeInsets.all(15.0),
+                            padding: const EdgeInsets.all(3.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,28 +81,33 @@ class _RewardsWalletScreenState extends State<RewardsWalletScreen> {
                                   children: [
                                     CustomTextWidget(
                                       text: 'TOTAL',
+                                      size: 12.0.sp,
+                                      weight: FontWeight.bold,
+                                    ),
+                                    CustomTextWidget(
+                                      text: '5,000',
                                       size: 15.0.sp,
                                       weight: FontWeight.bold,
                                     ),
                                     CustomTextWidget(
-                                      text: '\$50',
-                                      size: 15.0.sp,
+                                      text: 'point',
+                                      size: 8.0.sp,
                                       weight: FontWeight.bold,
                                     ),
                                   ],
                                 ),
                                 Padding(
-                                  padding:  EdgeInsets.only(top: 10.0, left: 20.0.wp),
+                                  padding:  EdgeInsets.only(top: 3.0, left: 20.0.wp),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
                                     CustomButton(
                                       text: 'Redeem points in cash',
                                       width: 30.0.wp,
-                                      height: 4.0.hp,
+                                      height: 5.0.hp,
                                       onTapHandler: (){
                                       },
-                                      fontSize: 5.0.sp,
+                                      fontSize: 7.0.sp,
                                       fontColor: Colors.white,
                                       fontWeight: FontWeight.bold,
                                       borderRadius: 30,
@@ -112,10 +115,10 @@ class _RewardsWalletScreenState extends State<RewardsWalletScreen> {
                                     CustomButton(
                                       text: 'Redeem points in souvenir',
                                       width: 30.0.wp,
-                                      height: 4.0.hp,
+                                      height: 5.0.hp,
                                       onTapHandler: (){
                                       },
-                                      fontSize: 5.0.sp,
+                                      fontSize: 7.0.sp,
                                       fontColor: Colors.white,
                                       fontWeight: FontWeight.bold,
                                       borderRadius: 30,

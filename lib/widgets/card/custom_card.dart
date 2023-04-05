@@ -37,43 +37,60 @@ class CustomCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      height: height,
-      margin: type == 'list'
-          ? EdgeInsets.only(right: AppLayout.getWidth(10))
-          : const EdgeInsets.all(0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: color),
-        borderRadius: BorderRadius.circular(borderRadius),
-      ),
-      child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-        CustomTextWidget(
-          text: text,
-          color: fontColor,
-          size: fontSize,
-        ),
-
-        CustomTextWidget(
-          text: text1,
-          color: fontColor,
-          size: fontSize,
-        ),
-        SizedBox(height: 2.0.hp),
-        CustomButton(
-          text: text, 
-          width: width, 
-          height: height, 
-          onTapHandler: onTapHandler, 
-          fontSize: fontSize, 
-          fontColor: fontColor, 
-          fontWeight: fontWeight, 
-          borderRadius: borderRadius, 
-          backgroundColor: backgroundColor
-        )
-      ]),
-    );
+    return 
+    // Container(
+    //   width: width,
+    //   height: height,
+    //   margin: type == 'list'
+    //       ? EdgeInsets.only(right: AppLayout.getWidth(10))
+    //       : const EdgeInsets.all(0),
+    //   decoration: BoxDecoration(
+    //     color: Colors.white,
+    //     border: Border.all(color: color),
+    //     borderRadius: BorderRadius.circular(borderRadius),
+    //   ),
+    //   child: 
+      Container(
+        height: 200,
+        child: Card(
+          
+          shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0)
+              ),
+              borderOnForeground: true,
+              shadowColor: AppStyles.bgPrimary,
+              elevation: 10,
+              color: Colors.white,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start, 
+            children: [
+            CustomTextWidget(
+              text: text,
+              color: fontColor,
+              size: fontSize,
+            ),
+        
+            CustomTextWidget(
+              text: text1,
+              color: fontColor,
+              size: fontSize,
+            ),
+            //SizedBox(height: 2.0.hp),
+            CustomButton(
+              text: text, 
+              width: width, 
+              height: height, 
+              onTapHandler: onTapHandler, 
+              fontSize: fontSize, 
+              fontColor: fontColor, 
+              fontWeight: fontWeight, 
+              borderRadius: borderRadius, 
+              backgroundColor: backgroundColor
+            )
+          ]),
+     // ),
+    ),
+      );
   }
 }
 

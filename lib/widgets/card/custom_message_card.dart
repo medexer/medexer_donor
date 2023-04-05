@@ -135,7 +135,7 @@ class _CustomScheduleCardState extends State<CustomScheduleCard> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
+                  SizedBox(
                     width: 30.0.wp,
                     height: 10.0.hp,
                     child: Image.asset('assets/images/logo__1.png'),
@@ -204,7 +204,7 @@ class _CustomClaimCardState extends State<CustomClaimCard> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
+                  SizedBox(
                     width: 20.0.wp,
                     height: 10.0.hp,
                     child: Image.asset('assets/images/logo__1.png'),
@@ -303,12 +303,15 @@ class _CustomProfileCardState extends State<CustomProfileCard> {
               borderRadius: BorderRadius.circular(15.0)
             ),
             borderOnForeground: true,
-            shadowColor: AppStyles.bgPrimary,
+            shadowColor: AppStyles.bgBlue,
             elevation: 10,
             color: Colors.white,
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [ 
+                  CustomTextWidget(
+                    text: 'Enter password to authorize changes'
+                    ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: CustomFormPasswordField(
@@ -316,7 +319,7 @@ class _CustomProfileCardState extends State<CustomProfileCard> {
                         AssetImage('assets/icons/icon__eye.png'),
                       ), 
                       showPassword: showPassword, 
-                      hintText: 'Authorise',
+                      hintText: 'Password',
                       background: AppStyles.bgGray4,
                     ),
                   ),
@@ -325,7 +328,7 @@ class _CustomProfileCardState extends State<CustomProfileCard> {
                   Padding(
                     padding: EdgeInsets.only(left:10.0.hp,right: 10.0.hp),
                     child: CustomButton(
-                      text: 'Submit', 
+                      text: 'Authorize', 
                       width: double.maxFinite,
                       height: 6.0.hp, 
                       fontSize: 15.0.sp, 

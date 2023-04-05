@@ -49,7 +49,7 @@ class _ForgotPasswordSuccessScreenState
               ),
               SizedBox(height: 2.0.hp),
               CustomTextWidget(
-                text: 'Success',
+                text: 'Password has been reset successfully!',
                 color: Colors.white,
               ),
               SizedBox(height: 2.0.hp),
