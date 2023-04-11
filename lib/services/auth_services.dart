@@ -20,40 +20,35 @@ class AuthServices extends GetxController {
   var authRequestError = ''.obs;
   var authRequestStatus = ''.obs;
 
-
-Future<void> signinController(
-    Map dto,
-  ) async {
+  Future<void> signinController(Map dto) async {
     try {
       authLoading.value = true;
       authRequestStatus.value = 'PENDING';
+      debugPrint('[SIGNIN-PENDING]');
+
       final response = await dio.post(
         '${APIConstants.backendServerUrl}auth/donor/signin',
         data: dto,
       );
 
       if (response.statusCode == 200) {
-        authStorage.write('USER', response.data['user']);
-        authStorage.write('ACCESSTOKEN', response.data['access']);
-        authStorage.write('REFRESHTOKEN', response.data['refresh']);
+        debugPrint('[SIGNIN-SUCCESS] ${response.data['data']['user']}');
+        authStorage.write('USER', response.data['data']['user']);
+        authStorage.write('ACCESSTOKEN', response.data['data']['access']);
+        authStorage.write('REFRESHTOKEN', response.data['data']['refresh']);
 
         userRepository.userData.value =
-            UserModel.fromJson(response.data['user']);
+            UserModel.fromJson(response.data['data']['user']);
 
         authLoading.value = false;
         authRequestError.value = '';
         authRequestStatus.value = 'SUCCESS';
 
-        if (!response.data['user']['is_verified']) {
-          authRequestError.value = 'ACCOUNT UNVERIFIED';
-
-        } else {
-          Get.to(
-            transition: Transition.rightToLeftWithFade,
-            duration: const Duration(milliseconds: 500),
-            () => HomeScreen()
-          );
-        }
+        Get.to(
+          transition: Transition.rightToLeftWithFade,
+          duration: const Duration(milliseconds: 500),
+          () => HomeScreen(),
+        );
       } else {
         debugPrint('[SIGNIN ERROR] ${response.data}');
       }
@@ -71,7 +66,6 @@ Future<void> signinController(
   }
 
   Future<void> signupController(
-
     Map dto,
   ) async {
     try {
@@ -92,7 +86,7 @@ Future<void> signinController(
         Get.to(
           transition: Transition.rightToLeft,
           duration: const Duration(milliseconds: 500),
-          () =>LoginScreen(),
+          () => LoginScreen(),
         );
       }
     } catch (error) {
@@ -109,5 +103,4 @@ Future<void> signinController(
       }
     }
   }
-
 }
