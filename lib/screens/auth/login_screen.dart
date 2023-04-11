@@ -12,6 +12,10 @@ import 'package:medexer_donor/widgets/text/custom_formpassword_field.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 import 'package:medexer_donor/widgets/text/cutom_formtext_field.dart';
 
+import '../../database/user_repository.dart';
+import '../../services/auth_services.dart';
+import '../../widgets/snackbars/custom_snackbar_container.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -22,12 +26,109 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool rememberMe = false;
   bool showPassword = true;
+  final AuthServices authServices = Get.find();
+  final UserRepository userRepository = Get.find();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  void signinHandler() async {
-    debugPrint('[LOGIN]');
-    Get.to(() => HomeScreen());
+  Future<void> signinHandler() async {
+    if (!emailController.text.trim().isNotEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: CustomSnackbarContainer(
+            backgroundType: 'ERROR',
+            title: 'Oh Snap!',
+            description: 'Email field is required',
+          ),
+          behavior: SnackBarBehavior.floating,
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+        ),
+      );
+    } else if (!passwordController.text.trim().isNotEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: CustomSnackbarContainer(
+            backgroundType: 'ERROR',
+            title: 'Oh Snap!',
+            description: 'Password field is required',
+          ),
+          behavior: SnackBarBehavior.floating,
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+        ),
+      );
+    } else {
+      Map data = {
+        "email": emailController.text.trim(),
+        "password": passwordController.text.trim(),
+      };
+      await authServices.signinController(
+        data,
+      );
+
+      if (authServices.authRequestError.value == 'Incorrect password') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: CustomSnackbarContainer(
+              backgroundType: 'ERROR',
+              title: 'Validation Error',
+              description: authServices.authRequestError.value,
+            ),
+            behavior: SnackBarBehavior.floating,
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            margin: EdgeInsets.only(
+              bottom: MediaQuery.of(context).size.height - 150,
+            ),
+          ),
+        );
+      }
+      if (authServices.authRequestError.value == 'Email is not registered!') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: CustomSnackbarContainer(
+              backgroundType: 'ERROR',
+              title: 'Validation Error',
+              description: authServices.authRequestError.value,
+            ),
+            behavior: SnackBarBehavior.floating,
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            margin: EdgeInsets.only(
+              bottom: MediaQuery.of(context).size.height - 150,
+            ),
+          ),
+        );
+      }
+
+      if (authServices.authRequestError.value == 'ACCOUNT UNVERIFIED') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: CustomSnackbarContainer(
+              backgroundType: '',
+              title: 'Account Unverified',
+              description:
+                  'Please check your mail for an activation token to activate your account.',
+            ),
+            behavior: SnackBarBehavior.floating,
+            elevation: 0,
+            duration: Duration(milliseconds: 5000),
+            backgroundColor: Colors.transparent,
+            margin: EdgeInsets.only(
+              bottom: MediaQuery.of(context).size.height - 150,
+            ),
+          ),
+        );
+      }
+
+      if (authServices.authRequestStatus.value == 'SUCCESS') {
+        setState(() {
+          emailController.clear();
+          passwordController.clear();
+        });
+      }
+    }
   }
 
   @override
@@ -110,14 +211,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                   SizedBox(height: 3.0.hp),
+                  authServices.authRequestStatus.value == 'PENDING'?
+                  CircularProgressIndicator():
                   CustomButton(
                     text: 'Login',
                     width: double.maxFinite,
                     height: 6.0.hp,
                     onTapHandler: () {
-                      // signinHandler();
-                      debugPrint('[LOGIN]');
-                      Get.to(() => HomeScreen());
+                      signinHandler();
+                     // debugPrint('[LOGIN]');
+                      // Get.to(() => HomeScreen());
                     },
                     fontSize: 12.0.sp,
                     borderRadius: 5,

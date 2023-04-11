@@ -2,6 +2,8 @@
 
 import 'package:get/get.dart';
 
-class UserRepository extends GetxController {
+import '../models/user_model.dart';
 
+class UserRepository extends GetxController {
+  var userData = UserModel.fromJson({}).obs;
 }
