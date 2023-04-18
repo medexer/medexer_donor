@@ -53,6 +53,7 @@ class _AppGuideScreenState extends State<AppGuideScreen> {
                     ),
 
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CustomTextWidget(
                           text: "Note: ",
@@ -61,7 +62,7 @@ class _AppGuideScreenState extends State<AppGuideScreen> {
                           ),
 
                         CustomTextWidget(
-                          text: "You will have to wait for your KYC to be approved for you to fully use this app.",
+                          text: "You will have to wait for your KYC to be \napproved for you to fully use this app.",
                           size: 9.0.sp,
                           weight: FontWeight.w500,
                           ),
@@ -69,7 +70,7 @@ class _AppGuideScreenState extends State<AppGuideScreen> {
                     ),
 
                     CustomTextWidget(
-                      text: "ALWAYS MAKE SURE THE DONATION CENTER YOU WERE CONTRACTED BY IS VERIFIED ",
+                      text: "ALWAYS MAKE SURE THE DONATION CENTER \nYOU WERE CONTRACTED BY IS VERIFIED ",
                       size: 9.0.sp,
                       weight: FontWeight.bold,
                     ),
@@ -78,7 +79,7 @@ class _AppGuideScreenState extends State<AppGuideScreen> {
                       text: "To do so:" 
                         "\n*\tNaviaget to Maun > Donation Centers \n*\tMake sure to see that it is a verified donation center or DO NOT GO.\nGot question?\nNaviagte to > Menu > Contact Us and send us a message or you can connect with us through any of our social media platforms.",
                       size: 9.0.sp,
-                      weight: FontWeight.bold,
+                      //weight: FontWeight.bold,
                     ),
               
                   ],

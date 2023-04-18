@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medexer_donor/config/app_config.dart';
-import '../../widgets/buttons/custom_button.dart';
-import '../../widgets/text/custom_text_widget.dart';
+import '../../../widgets/buttons/custom_button.dart';
+import '../../../widgets/text/custom_text_widget.dart';
 
 class TattoosScreen extends StatefulWidget {
  

@@ -3,15 +3,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medexer_donor/config/app_config.dart';
-import 'package:medexer_donor/screens/home/about_us_screen.dart';
-import 'package:medexer_donor/screens/home/app_guide_screen.dart';
-import 'package:medexer_donor/screens/home/contact_us_screen.dart';
-import 'package:medexer_donor/screens/home/donor_centers.dart';
-import 'package:medexer_donor/screens/home/home_screen.dart';
-import 'package:medexer_donor/screens/home/sub_screens/notification_screens/notification_screen.dart';
-import 'package:medexer_donor/screens/home/profile_screen.dart';
-import 'package:medexer_donor/screens/home/rewards_wallet_screen.dart';
-import 'package:medexer_donor/screens/home/settings_screen.dart';
+import 'package:medexer_donor/screens/home/sub_screens/about_us_screen.dart';
+import 'package:medexer_donor/screens/home/sub_screens/app_guide_screen.dart';
+import 'package:medexer_donor/screens/home/sub_screens/contact_us_screen.dart';
+import 'package:medexer_donor/screens/home/donor_pages/donor_centers.dart';
+import 'package:medexer_donor/screens/home/sub_screens/home_screen.dart';
+import 'package:medexer_donor/screens/home/sub_screens/notification_screen.dart';
+import 'package:medexer_donor/screens/auth/donor_profile.dart/profile_screen.dart';
+import 'package:medexer_donor/screens/home/sub_screens/rewards_wallet_screen.dart';
+import 'package:medexer_donor/screens/home/sub_screens/settings_screen.dart';
 
 import '../../widgets/buttons/custom_button.dart';
 

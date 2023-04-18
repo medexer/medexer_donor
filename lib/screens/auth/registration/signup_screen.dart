@@ -9,8 +9,8 @@ import 'package:medexer_donor/widgets/buttons/custom_button.dart';
 import 'package:medexer_donor/widgets/text/custom_formpassword_field.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 import 'package:medexer_donor/widgets/text/cutom_formtext_field.dart';
-import '../../services/auth_services.dart';
-import '../../widgets/snackbars/custom_snackbar_container.dart';
+import '../../../services/auth_services.dart';
+import '../../../widgets/snackbars/custom_snackbar_container.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});

@@ -5,10 +5,10 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:medexer_donor/database/root_repository.dart';
-import 'package:medexer_donor/screens/home/home_screen.dart';
+import 'package:medexer_donor/screens/home/sub_screens/home_screen.dart';
 import 'package:medexer_donor/screens/auth/login_screen.dart';
 import 'package:medexer_donor/screens/auth/onboarding_screen.dart';
-import 'package:medexer_donor/screens/auth/signup_screen.dart';
+import 'package:medexer_donor/screens/auth/registration/signup_screen.dart';
 import 'package:medexer_donor/screens/auth/splash_screen.dart';
 
 void main() async {

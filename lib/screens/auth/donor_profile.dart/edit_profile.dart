@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
-import '../../widgets/buttons/custom_button.dart';
+import '../../../widgets/buttons/custom_button.dart';
 
 
 class EditProfileScreen extends StatefulWidget {

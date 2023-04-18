@@ -3,10 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medexer_donor/config/app_config.dart';
-import 'package:medexer_donor/screens/cards_demo.dart';
+
 import 'package:medexer_donor/screens/home/sidebar.dart';
-import 'package:medexer_donor/screens/kyc/kyc_page.dart';
-import 'package:medexer_donor/screens/kyc/success_screen.dart';
+import 'package:medexer_donor/screens/auth/kyc/kyc_page.dart';
+import 'package:medexer_donor/screens/auth/kyc/success_screen.dart';
 import 'package:medexer_donor/widgets/buttons/custom_button.dart';
 import 'package:medexer_donor/widgets/page_header.dart';
 
@@ -26,6 +26,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     return Scaffold(
       key: scaffoldKey,
+      drawer: SideBar(),
       body: SingleChildScrollView(
         child: Container(
           height: screenHeight,
@@ -39,7 +40,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       width: 10.0.wp, 
                       height: 3.0.hp, 
                       onTapHandler: (){
-                        Get.to(MyWidget());
                       }, 
                       fontSize: 15,
                       fontColor: Colors.white, 

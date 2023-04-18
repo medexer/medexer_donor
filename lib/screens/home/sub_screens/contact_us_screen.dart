@@ -6,8 +6,8 @@ import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/screens/home/sidebar.dart';
 import 'package:medexer_donor/widgets/page_header.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
-import '../../widgets/buttons/custom_button.dart';
-import '../../widgets/text/cutom_formtext_field.dart';
+import '../../../widgets/buttons/custom_button.dart';
+import '../../../widgets/text/cutom_formtext_field.dart';
 
 class ContactUsScreen extends StatefulWidget {
   const ContactUsScreen({super.key});

@@ -3,10 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medexer_donor/config/app_config.dart';
-import 'package:medexer_donor/screens/home/sub_screens/route_screen.dart';
+import 'package:medexer_donor/screens/home/route_screen.dart';
 import 'package:medexer_donor/screens/home/sidebar.dart';
-import 'package:medexer_donor/screens/map/googe_map_screen.dart';
-import 'package:medexer_donor/screens/map/map_list.dart';
 import 'package:medexer_donor/screens/map/trialMap.dart';
 import 'package:medexer_donor/widgets/page_header.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';

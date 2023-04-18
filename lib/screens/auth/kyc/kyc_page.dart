@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medexer_donor/config/app_config.dart';
-import 'package:medexer_donor/screens/home/sidebar.dart';
-import 'package:medexer_donor/screens/kyc/sub_screen/id_proof.dart';
-import 'package:medexer_donor/screens/kyc/sub_screen/personal_detail.dart';
+import 'package:medexer_donor/screens/auth/kyc/sub_screen/id_proof.dart';
+import 'package:medexer_donor/screens/auth/kyc/sub_screen/personal_detail.dart';
 
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 

@@ -2,9 +2,7 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:medexer_donor/config/app_config.dart';
-import 'package:medexer_donor/screens/auth/login_screen.dart';
-import 'package:medexer_donor/screens/kyc/kyc_page.dart';
-import 'package:medexer_donor/screens/kyc/thanks_registration.dart';
+import 'package:medexer_donor/screens/auth/registration/thanks_registration.dart';
 import 'package:medexer_donor/widgets/buttons/custom_button.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 

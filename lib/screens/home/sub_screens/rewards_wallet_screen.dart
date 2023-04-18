@@ -8,7 +8,7 @@ import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/screens/home/sidebar.dart';
 import 'package:medexer_donor/widgets/buttons/custom_button.dart';
 import 'package:medexer_donor/widgets/page_header.dart';
-import '../../widgets/text/custom_text_widget.dart';
+import '../../../widgets/text/custom_text_widget.dart';
 
 class RewardsWalletScreen extends StatefulWidget {
   const RewardsWalletScreen({super.key});

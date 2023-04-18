@@ -4,17 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:medexer_donor/config/app_config.dart';
-import 'package:medexer_donor/screens/auth/forgot_password_screen.dart';
-import 'package:medexer_donor/screens/auth/signup_screen.dart';
-import 'package:medexer_donor/screens/home/home_screen.dart';
+import 'package:medexer_donor/screens/auth/registration/forgot_password_screen.dart';
+import 'package:medexer_donor/screens/auth/registration/signup_screen.dart';
 import 'package:medexer_donor/widgets/buttons/custom_button.dart';
 import 'package:medexer_donor/widgets/text/custom_formpassword_field.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 import 'package:medexer_donor/widgets/text/cutom_formtext_field.dart';
-
 import '../../database/user_repository.dart';
 import '../../services/auth_services.dart';
 import '../../widgets/snackbars/custom_snackbar_container.dart';
+import 'registration/reset_password_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -109,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
               backgroundType: '',
               title: 'Account Unverified',
               description:
-                  'Please check your mail for an activation token to activate your account.',
+                  'Please check your mail for an activation\n token to activate your account.',
             ),
             behavior: SnackBarBehavior.floating,
             elevation: 0,
@@ -220,8 +219,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             height: 6.0.hp,
                             onTapHandler: () {
                               signinHandler();
-                              // debugPrint('[LOGIN]');
-                              // Get.to(() => HomeScreen());
                             },
                             fontSize: 12.0.sp,
                             borderRadius: 5,

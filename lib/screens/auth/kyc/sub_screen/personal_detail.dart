@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medexer_donor/widgets/custom_selection_box.dart';
+import 'package:medexer_donor/screens/auth/kyc/custom_selection_box.dart';
 
 class PersonalDetailScreen extends StatefulWidget {
    const PersonalDetailScreen({super.key});

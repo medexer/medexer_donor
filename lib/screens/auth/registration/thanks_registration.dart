@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:medexer_donor/config/app_config.dart';
-import '../../widgets/buttons/custom_button.dart';
-import '../../widgets/text/custom_text_widget.dart';
+import 'package:medexer_donor/screens/auth/kyc/kyc_page.dart';
+import '../../../widgets/buttons/custom_button.dart';
+import '../../../widgets/text/custom_text_widget.dart';
 
 class ThanksRegistrationScreen extends StatefulWidget {
  
@@ -11,7 +13,7 @@ class ThanksRegistrationScreen extends StatefulWidget {
   State<ThanksRegistrationScreen> createState() =>_ThanksRegistrationScreenState();
 }
 class _ThanksRegistrationScreenState extends State<ThanksRegistrationScreen> {
-  final allChecked = CheckModal(title: '');
+  bool checkedIn=false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,10 +52,10 @@ class _ThanksRegistrationScreenState extends State<ThanksRegistrationScreen> {
                         Row(
                           children:  [
                             Checkbox(
-                              value: allChecked.value, 
-                            onChanged: (value){
+                              value: checkedIn, 
+                            onChanged: (newValue){
                                 setState(() {
-                                  allChecked.value=!allChecked.value;
+                                  checkedIn=newValue!;
                                 });
                             }),
                             CustomTextWidget(
@@ -91,12 +93,19 @@ class _ThanksRegistrationScreenState extends State<ThanksRegistrationScreen> {
                         text: 'Lets Do This', 
                         width: double.maxFinite,
                         height: 6.0.hp, 
-                        fontSize: 20.0.sp, 
+                        fontSize: 15.0.sp, 
                         fontColor: Colors.white, 
                         fontWeight:FontWeight.normal, 
                         borderRadius: 20, 
                         backgroundColor: AppStyles.bgBlue, 
-                        onTapHandler: (){},
+                        onTapHandler: (){
+                          if(checkedIn=true){
+                            Get.to(const KycScreen());
+                          }
+                          else{
+                            return null;
+                          }
+                        },
                     ),
                         
                ],
