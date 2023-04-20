@@ -33,6 +33,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
           height: screenHeight,
           child: Column(
             children: [
+              SizedBox(height: 2.0.hp,),
               PageHeader(scaffoldKey: scaffoldKey),
               SizedBox(height: 10.0.hp,),
               Expanded(
@@ -137,12 +138,16 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                   ),
                   
                   SizedBox(height: 4.0.hp),
-                  CustomFormTextField(
-                    hintText: 'Message',
-                    maxLines: 8,
-                    controller: messageController,
-                    background:AppStyles.bgGray4.withOpacity(0.4),
-                    hintColor: AppStyles.bgBlack,
+                  Container(
+                    width: 60.0.wp,
+                    height: 5.0.hp,
+                    child: CustomFormTextField(
+                      hintText: 'Message',
+                      maxLines: 8,
+                      controller: messageController,
+                      background:AppStyles.bgGray4.withOpacity(0.4),
+                      hintColor: AppStyles.bgBlack,
+                    ),
                   ),
 
                   SizedBox(height: 3.0.hp),

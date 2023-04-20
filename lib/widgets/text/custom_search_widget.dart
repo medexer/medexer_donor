@@ -48,7 +48,7 @@ class CustomSearchField extends StatelessWidget {
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: hintText,
-                contentPadding: EdgeInsets.all(15),
+                //contentPadding: EdgeInsets.all(15),
                 // prefixIcon: prefixIcon ?? prefixIcon,
                 hintStyle: TextStyle(
                   color: AppStyles.bgGray,

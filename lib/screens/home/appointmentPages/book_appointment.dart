@@ -18,14 +18,12 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
   final DonorActivityService donorActivityServices =Get.find();
   final UserRepository userRepository = Get.find();
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  TextEditingController searchController = TextEditingController();
-  TextEditingController hospitalController = TextEditingController();
+  //TextEditingController searchController = TextEditingController();
+  //TextEditingController hospitalController = TextEditingController();
   TextEditingController messageController = TextEditingController();
 
   Future<void> donorActivityHandler() async {
-    if(!hospitalController.text.trim().isNotEmpty||
-    !messageController.text.trim().isNotEmpty
-    ) {
+    if(!messageController.text.trim().isNotEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: CustomSnackbarContainer(
@@ -42,10 +40,11 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
     } 
     else {
       Map data = {
-        "message": messageController.text.trim(),
-        "hospital":hospitalController.text.trim(),
-        'donor':'5',
-        "date": DateTime.now(),
+        //"message": messageController.text.trim(),
+        //"hospital":hospitalController.text.trim(),
+        //'donor':'5',
+        
+        'message':'want an appointment next 3-4 weeks'
       };
 
       debugPrint('[BOOKANAPPOINTMENT DTO] :: $data');
@@ -81,7 +80,6 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
         );
         setState(() {
           messageController.clear();
-          hospitalController.clear();
         });
       }
     }
@@ -110,23 +108,23 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            height: 8.0.hp,
-                            child: TextFormField(
-                        controller: hospitalController,
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                               borderRadius: BorderRadius.circular(20.0)
-                            ),
-                            hintText: 'Redplate Hospital',
-                            labelText:'Hosptal'
-                        ),     
-                      ),
-                          ),
-                    ),
-                    SizedBox(height: 2.0.hp,),
+                    //     Padding(
+                    //       padding: const EdgeInsets.all(8.0),
+                    //       child: Container(
+                    //         height: 8.0.hp,
+                    //         child: TextFormField(
+                    //     controller: hospitalController,
+                    //     decoration: InputDecoration(
+                    //         border: OutlineInputBorder(
+                    //            borderRadius: BorderRadius.circular(20.0)
+                    //         ),
+                    //         hintText: 'Redplate Hospital',
+                    //         labelText:'Hosptal'
+                    //     ),     
+                    //   ),
+                    //       ),
+                    // ),
+                    SizedBox(height: 4.0.hp,),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(

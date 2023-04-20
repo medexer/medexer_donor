@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
+import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/screens/home/sidebar.dart';
 import 'package:medexer_donor/widgets/page_header.dart';
 
@@ -26,6 +27,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
           height: screenHeight,
           child: Column(
             children: [
+              SizedBox(height: 2.0.hp,),
               PageHeader(scaffoldKey: scaffoldKey),
               Expanded(
                 child: Align(

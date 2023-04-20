@@ -31,32 +31,38 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController passwordController = TextEditingController();
 
   Future<void> signinHandler() async {
-    if (!emailController.text.trim().isNotEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: CustomSnackbarContainer(
-            backgroundType: 'ERROR',
-            title: 'Oh Snap!',
-            description: 'Email field is required',
-          ),
-          behavior: SnackBarBehavior.floating,
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-        ),
-      );
-    } else if (!passwordController.text.trim().isNotEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: CustomSnackbarContainer(
-            backgroundType: 'ERROR',
-            title: 'Oh Snap!',
-            description: 'Password field is required',
-          ),
-          behavior: SnackBarBehavior.floating,
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-        ),
-      );
+    if (!emailController.text.trim().isNotEmpty
+    ||!passwordController.text.trim().isNotEmpty) {
+      Get.snackbar(
+        backgroundColor: AppStyles.bgPrimary,
+        'ERROR!', 
+        'Please ensure your fill in all fields in the form as the are required.'
+        );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(
+      //     content: CustomSnackbarContainer(
+      //       backgroundType: 'ERROR',
+      //       title: 'Oh Snap!',
+      //       description: 'Email field is required',
+      //     ),
+      //     behavior: SnackBarBehavior.floating,
+      //     elevation: 0,
+      //     backgroundColor: Colors.transparent,
+      //   ),
+      // );
+    // } else if (!passwordController.text.trim().isNotEmpty) {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     SnackBar(
+    //       content: CustomSnackbarContainer(
+    //         backgroundType: 'ERROR',
+    //         title: 'Oh Snap!',
+    //         description: 'Password field is required',
+    //       ),
+    //       behavior: SnackBarBehavior.floating,
+    //       elevation: 0,
+    //       backgroundColor: Colors.transparent,
+    //     ),
+    //   );
     } else {
       Map data = {
         "email": emailController.text.trim(),
@@ -103,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (authServices.authRequestError.value == 'ACCOUNT UNVERIFIED') {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          SnackBar( 
             content: CustomSnackbarContainer(
               backgroundType: '',
               title: 'Account Unverified',

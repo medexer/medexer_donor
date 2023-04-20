@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:medexer_donor/models/donor_activity_model.dart';
 import 'package:medexer_donor/screens/auth/login_screen.dart';
+import 'package:medexer_donor/screens/home/appointmentPages/view_appointment.dart';
 import '../config/api_client.dart';
 import '../config/api_config.dart';
 import '../database/user_repository.dart';
@@ -40,7 +41,7 @@ class DonorActivityService extends GetxController {
         Get.to(
           transition: Transition.rightToLeft,
           duration: const Duration(milliseconds: 500),
-          () => LoginScreen(),
+          () => ViewAppointmentScreen(),
         );
       }
     } catch (error) {
@@ -81,6 +82,34 @@ class DonorActivityService extends GetxController {
         donorActivityLoading.value = false;
         donorActivityStatus.value = 'FAILED';
         debugPrint('[DONOR ACTIVITY: CATCH ERROR] ${error.response!.data}');
+      }
+    }
+  }
+
+
+  Future<void> fetchHospitalController() async {
+    try {
+      donorActivityLoading.value = true;
+      donorActivityStatus.value = 'PENDING';
+      final response = await dio.get(
+        '${APIConstants.backendServerUrl}donor/appointments/4',
+        options: Options(
+          headers: {
+            'Authorization': authStorage.read('ACCESSTOKEN'),
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        debugPrint('[HOSPITAL RESPONSE] ${response.data}');
+
+        userRepository.donorData.value = DonorActivityModel.fromJson(response.data);
+      }
+    } catch (error) {
+      if (error is DioError) {
+        donorActivityLoading.value = false;
+        donorActivityStatus.value = 'FAILED';
+        debugPrint('[HOSPITAL: CATCH ERROR] ${error.response!.data}');
       }
     }
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medexer_donor/config/app_config.dart';
-import 'package:medexer_donor/screens/auth/donor_profile.dart/edit_profile.dart';
+import 'package:medexer_donor/screens/home/donor_profile.dart/edit_profile.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 
 

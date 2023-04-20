@@ -103,7 +103,7 @@ class _RewardsWalletScreenState extends State<RewardsWalletScreen> {
                                     children: [
                                     CustomButton(
                                       text: 'Redeem points in cash',
-                                      width: 30.0.wp,
+                                      width: 40.0.wp,
                                       height: 5.0.hp,
                                       onTapHandler: (){
                                       },
@@ -114,7 +114,7 @@ class _RewardsWalletScreenState extends State<RewardsWalletScreen> {
                                       backgroundColor: Colors.lightGreen),
                                     CustomButton(
                                       text: 'Redeem points in souvenir',
-                                      width: 30.0.wp,
+                                      width: 40.0.wp,
                                       height: 5.0.hp,
                                       onTapHandler: (){
                                       },

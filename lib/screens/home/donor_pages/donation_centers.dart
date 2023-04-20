@@ -21,6 +21,7 @@ class DonationCenters extends StatefulWidget {
 }
 
 class _DonationCentersState extends State<DonationCenters> {
+  TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -37,7 +38,7 @@ class _DonationCentersState extends State<DonationCenters> {
                   padding: EdgeInsets.all(4.0.wp),
                   child: CustomSearchField(
                     hintText: 'Search For Donation Center',
-                    //controller: searchController,
+                    controller: searchController,
                     icon: 'assets/icons/icon__search.png',
                     // background: Colors.white.withOpacity(0.4),
                   ),

@@ -89,7 +89,7 @@ class AuthServices extends GetxController {
         Get.to(
           transition: Transition.rightToLeft,
           duration: const Duration(milliseconds: 500),
-          () => ThanksRegistrationScreen(),
+          () => HomeScreen(),
         );
       }
     } catch (error) {

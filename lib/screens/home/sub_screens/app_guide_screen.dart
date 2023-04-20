@@ -31,10 +31,11 @@ class _AppGuideScreenState extends State<AppGuideScreen> {
               Expanded(
                 child: Column(
                   children: [
+                    SizedBox(height: 2.0.hp,),
                     PageHeader(scaffoldKey: scaffoldKey),
               
                     SizedBox(
-                      height: 5.0.hp,
+                      height: 2.0.hp,
                     ),
                     CustomTextWidget(
                       text: "Guide on how\nto use the app",
@@ -42,12 +43,12 @@ class _AppGuideScreenState extends State<AppGuideScreen> {
                       weight: FontWeight.w500,
                       ),
                     Padding(
-                      padding: EdgeInsets.only(left:13.0.wp, top:4.0.hp,right: 10.0.wp),
+                      padding: EdgeInsets.only(left:3.0.wp, top:.0.hp,right: 3.0.wp),
                       child: CustomTextWidget(
                         text: "Medexer seeks to increase the ease with which hospitals have access to blood and saves lives by connecting hospitals directly to blood donors\n\nYou find and book appointments with blood donation centers by doing the following:" 
                         "\n*\tNavigate to Menu > Home\n*\tEnter the name of the hospital or donation centre on the search bar.\n*\tClick on the correct result that pops up. \n*\tMake a call or send SMS to the hospital or donation centre to book an appointment.\n*\tLocate the donation centre by following the map directions\n\nYour request to book an appointment will have to be approved by the donation centre before you can donate blood."
                         "\n Your request to book an appointment will have to be approved by the donation center before you can donate blood",
-                        size: 9.0.sp,
+                        size: 8.0.sp,
                         weight: FontWeight.w600,
                           ),
                     ),
@@ -57,13 +58,13 @@ class _AppGuideScreenState extends State<AppGuideScreen> {
                       children: [
                         CustomTextWidget(
                           text: "Note: ",
-                          size: 9.0.sp,
+                          size: 8.0.sp,
                           weight: FontWeight.bold,
                           ),
 
                         CustomTextWidget(
                           text: "You will have to wait for your KYC to be \napproved for you to fully use this app.",
-                          size: 9.0.sp,
+                          size: 8.0.sp,
                           weight: FontWeight.w500,
                           ),
                       ],
@@ -71,14 +72,14 @@ class _AppGuideScreenState extends State<AppGuideScreen> {
 
                     CustomTextWidget(
                       text: "ALWAYS MAKE SURE THE DONATION CENTER \nYOU WERE CONTRACTED BY IS VERIFIED ",
-                      size: 9.0.sp,
+                      size: 8.0.sp,
                       weight: FontWeight.bold,
                     ),
 
                     CustomTextWidget(
                       text: "To do so:" 
                         "\n*\tNaviaget to Maun > Donation Centers \n*\tMake sure to see that it is a verified donation center or DO NOT GO.\nGot question?\nNaviagte to > Menu > Contact Us and send us a message or you can connect with us through any of our social media platforms.",
-                      size: 9.0.sp,
+                      size: 8.0.sp,
                       //weight: FontWeight.bold,
                     ),
               

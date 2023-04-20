@@ -37,45 +37,46 @@ class _DonorCentersScreenState extends State<DonorCentersScreen>
                 PageHeader(scaffoldKey: scaffoldKey),
                 SizedBox(height: 2.0.hp),
                 TabBar(
-                  unselectedLabelColor:AppStyles.bgGray,
-                  indicator: BoxDecoration(
-                  borderRadius:BorderRadius.circular(50),
-                  color: AppStyles.bgBlue
-                  ),
-                  indicatorPadding: EdgeInsets.symmetric(horizontal: 10),
-                  indicatorColor: AppStyles.bgBlue,
-                  controller: tabController,
-                  tabs: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        border: Border.all(color: AppStyles.bgBlue, width: 1)
-                      ),
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: CustomTextWidget(
-                          text: "Centers",
-                          color: AppStyles.bgBlack,
-                          size: 12.0.sp,
-                        ),
-                      ),
+                    unselectedLabelColor:AppStyles.bgGray,
+                    indicator: BoxDecoration(
+                    borderRadius:BorderRadius.circular(50),
+                    color: AppStyles.bgBlue
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        border: Border.all(color: AppStyles.bgBlue, width: 1)
-                      ),
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: CustomTextWidget(
-                          text: "Appointments",
-                          color: AppStyles.bgBlack,
-                          size: 12.0.sp,
+                    indicatorPadding: EdgeInsets.symmetric(horizontal: 10),
+                    indicatorColor: AppStyles.bgBlue,
+                    controller: tabController,
+                    tabs: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          border: Border.all(color: AppStyles.bgBlue, width: 1)
+                        ),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: CustomTextWidget(
+                            text: "Centers",
+                            color: AppStyles.bgBlack,
+                            size: 12.0.sp,
+                          ),
                         ),
                       ),
-                    )
-                  ],
-                ),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          border: Border.all(color: AppStyles.bgBlue, width: 1)
+                        ),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: CustomTextWidget(
+                            text: "Appointments",
+                            color: AppStyles.bgBlack,
+                            size: 12.0.sp,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                
                 Container(
                   height: screenHeight * 0.82,
                   padding: EdgeInsets.only(top: 2.0.hp),

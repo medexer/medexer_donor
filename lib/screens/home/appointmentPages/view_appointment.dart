@@ -77,7 +77,7 @@ class _ViewAppointmentScreenState extends State<ViewAppointmentScreen> {
               size: 10.0.sp,
               ),
             CustomTextWidget(
-              text:userRepository.donorData.value.date.toString(),
+              text:userRepository.donorData.value.message.toString(),
               color: Colors.green,
               size: 10.0.sp, 
               ),
