@@ -52,7 +52,7 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blue,
         fontFamily: 'Poppins',
       ),
-      home: authStorage.read('user') != null ? HomeScreen() : SplashScreen(),
+      home: authStorage.read('USER') != null ? HomeScreen() : SplashScreen(),
       initialRoute: '/',
       getPages: [
         GetPage(name: '/', page: () => LoginScreen()),

@@ -64,7 +64,7 @@ class _CustomFormPasswordFieldState extends State<CustomFormPasswordField> {
           ),
         ),
         style: TextStyle(
-          color: AppStyles.bgBlack,
+          color: Colors.white,
         ),
       ),
     );

@@ -19,7 +19,7 @@ class CustomFormTextField extends StatelessWidget {
     this.controller,
     this.keyboardType,
     required this.maxLines,
-    required this.hintText, 
+    required this.hintText,
     required this.hintColor,
   });
 
@@ -46,11 +46,11 @@ class CustomFormTextField extends StatelessWidget {
           contentPadding: EdgeInsets.only(left: 20),
           // prefixIcon: prefixIcon ?? prefixIcon,
           hintStyle: TextStyle(
-          color: hintColor,
+            color: hintColor,
           ),
         ),
         style: TextStyle(
-          color: AppStyles.bgBlack,
+          color: Colors.white,
         ),
       ),
     );

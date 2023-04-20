@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:medexer_donor/config/app_config.dart';
+import 'package:medexer_donor/screens/auth/login_screen.dart';
 import 'package:medexer_donor/screens/home/sub_screens/about_us_screen.dart';
 import 'package:medexer_donor/screens/home/sub_screens/app_guide_screen.dart';
 import 'package:medexer_donor/screens/home/sub_screens/contact_us_screen.dart';
@@ -23,6 +25,8 @@ class SideBar extends StatefulWidget {
 }
 
 class _SideBarState extends State<SideBar> {
+  final authStorage = GetStorage();
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -37,7 +41,7 @@ class _SideBarState extends State<SideBar> {
             title: Text('John Doe'),
             subtitle: Text('Profile'),
             onTap: () {
-              Get.to(()=>ProfileScreen());
+              Get.to(() => ProfileScreen());
               debugPrint('[PROFILE]');
             },
           ),
@@ -103,20 +107,19 @@ class _SideBarState extends State<SideBar> {
               color: AppStyles.bgBlue,
             ),
             title: Row(
-              mainAxisAlignment:MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text('Notification'),
-                 CustomButton(
-                  text: 'New',
-                  width: 20.0.wp,                    
-                  height: 5.0.hp,
-                  onTapHandler: (){
-                  },
-                  fontSize: 10.0.sp,
-                  fontColor: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  borderRadius: 30,
-                  backgroundColor: AppStyles.bgPrimary),
+                CustomButton(
+                    text: 'New',
+                    width: 20.0.wp,
+                    height: 5.0.hp,
+                    onTapHandler: () {},
+                    fontSize: 10.0.sp,
+                    fontColor: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    borderRadius: 30,
+                    backgroundColor: AppStyles.bgPrimary),
               ],
             ),
             onTap: () {
@@ -146,12 +149,25 @@ class _SideBarState extends State<SideBar> {
               debugPrint('[SETTINGS]');
             },
           ),
-
           ListTile(
-            leading: Icon(Icons.logout, color: AppStyles.bgPrimary,),
-            title: Text('Log out', style: TextStyle(color: AppStyles.bgPrimary),),
-            onTap: () {
+            leading: Icon(
+              Icons.logout,
+              color: AppStyles.bgPrimary,
+            ),
+            title: Text(
+              'Log out',
+              style: TextStyle(color: AppStyles.bgPrimary),
+            ),
+            onTap: () async {
               debugPrint('[LOG OUT]');
+
+              await authStorage.remove('USER');
+
+              Get.to(
+                transition: Transition.rightToLeftWithFade,
+                duration: const Duration(milliseconds: 500),
+                () => LoginScreen(),
+              );
             },
           ),
         ],
