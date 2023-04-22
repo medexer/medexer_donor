@@ -12,8 +12,7 @@ import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 import 'package:medexer_donor/widgets/text/cutom_formtext_field.dart';
 import '../../database/user_repository.dart';
 import '../../services/auth_services.dart';
-import '../../widgets/snackbars/custom_snackbar_container.dart';
-import 'registration/reset_password_screen.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -38,31 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
         'ERROR!', 
         'Please ensure your fill in all fields in the form as the are required.'
         );
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   SnackBar(
-      //     content: CustomSnackbarContainer(
-      //       backgroundType: 'ERROR',
-      //       title: 'Oh Snap!',
-      //       description: 'Email field is required',
-      //     ),
-      //     behavior: SnackBarBehavior.floating,
-      //     elevation: 0,
-      //     backgroundColor: Colors.transparent,
-      //   ),
-      // );
-    // } else if (!passwordController.text.trim().isNotEmpty) {
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     SnackBar(
-    //       content: CustomSnackbarContainer(
-    //         backgroundType: 'ERROR',
-    //         title: 'Oh Snap!',
-    //         description: 'Password field is required',
-    //       ),
-    //       behavior: SnackBarBehavior.floating,
-    //       elevation: 0,
-    //       backgroundColor: Colors.transparent,
-    //     ),
-    //   );
+      
     } else {
       Map data = {
         "email": emailController.text.trim(),
@@ -73,61 +48,52 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       if (authServices.authRequestError.value == 'Incorrect password') {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: CustomSnackbarContainer(
-              backgroundType: 'ERROR',
-              title: 'Validation Error',
-              description: authServices.authRequestError.value,
-            ),
-            behavior: SnackBarBehavior.floating,
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            margin: EdgeInsets.only(
-              bottom: MediaQuery.of(context).size.height - 150,
-            ),
-          ),
+        Get.snackbar(
+        backgroundColor: AppStyles.bgPrimary,
+        'ERROR!', 
+        authServices.authRequestError.value
         );
       }
       if (authServices.authRequestError.value == 'Email is not registered!') {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: CustomSnackbarContainer(
-              backgroundType: 'ERROR',
-              title: 'Validation Error',
-              description: authServices.authRequestError.value,
-            ),
-            behavior: SnackBarBehavior.floating,
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            margin: EdgeInsets.only(
-              bottom: MediaQuery.of(context).size.height - 150,
-            ),
-          ),
+        Get.snackbar(
+        backgroundColor: AppStyles.bgPrimary,
+        'ERROR!', 
+        authServices.authRequestError.value
         );
       }
 
       if (authServices.authRequestError.value == 'ACCOUNT UNVERIFIED') {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar( 
-            content: CustomSnackbarContainer(
-              backgroundType: '',
-              title: 'Account Unverified',
-              description:
-                  'Please check your mail for an activation\n token to activate your account.',
-            ),
-            behavior: SnackBarBehavior.floating,
-            elevation: 0,
-            duration: Duration(milliseconds: 5000),
-            backgroundColor: Colors.transparent,
-            margin: EdgeInsets.only(
-              bottom: MediaQuery.of(context).size.height - 150,
-            ),
-          ),
+        Get.snackbar(
+        backgroundColor: AppStyles.bgPrimary,
+        'ERROR!', 
+        'Please check your mail for an activation token to activate your account.'
         );
       }
 
       if (authServices.authRequestStatus.value == 'SUCCESS') {
+         setState(() {
+          authServices.authLoading.value = false;
+          authServices.authRequestError.value = '';
+          authServices.authRequestStatus.value = '';
+        });
+        showDialog(context: context, 
+            builder: (BuildContext context){
+              return AlertDialog(
+                content: Text("LOGIN SUCCESSFULLY"),
+                actions: [
+                  CustomButton(text: 'OK', 
+                  width: 15.0.wp, 
+                  height:4.0.hp, 
+                  onTapHandler: (){
+                    Get.back();
+                  }, fontSize: 13.0.sp, 
+                  fontColor: Colors.white, 
+                  fontWeight: FontWeight.w300, 
+                  borderRadius: 10, 
+                  backgroundColor: AppStyles.bgBlue)
+                ],
+              );
+            });
         setState(() {
           emailController.clear();
           passwordController.clear();

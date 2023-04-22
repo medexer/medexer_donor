@@ -4,7 +4,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:medexer_donor/models/donor_activity_model.dart';
-import 'package:medexer_donor/screens/auth/login_screen.dart';
 import 'package:medexer_donor/screens/home/appointmentPages/view_appointment.dart';
 import '../config/api_client.dart';
 import '../config/api_config.dart';

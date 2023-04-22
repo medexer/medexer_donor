@@ -10,7 +10,6 @@ import 'package:medexer_donor/widgets/text/custom_formpassword_field.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 import 'package:medexer_donor/widgets/text/cutom_formtext_field.dart';
 import '../../../services/auth_services.dart';
-import '../../../widgets/snackbars/custom_snackbar_container.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -29,49 +28,29 @@ class _SignupScreenState extends State<SignupScreen> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
 
-  // void signupHandler() async {
-  //   debugPrint('SIGNUP');
-  //   Get.to(
-  //     transition: Transition.rightToLeft,
-  //     duration: Duration(milliseconds: 800),
-  //     () => LoginScreen(),
-  //   );
-  // }
+
 
   Future<void> signupHandler() async {
     if(!usernameController.text.trim().isNotEmpty||
     !emailController.text.trim().isNotEmpty||
-    !passwordController.text.trim().isNotEmpty
+    !passwordController.text.trim().isNotEmpty||
+    !confirmPasswordController.text.trim().isNotEmpty
     ) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: CustomSnackbarContainer(
-            backgroundType: '',
-            title: 'Info',
-            description:
-                'Please ensure your fill in all fields in the form as the are required.',
-          ),
-          behavior: SnackBarBehavior.floating,
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-        ),
-      );
+      Get.snackbar(
+        backgroundColor: AppStyles.bgPrimary,
+        'ERROR!', 
+        'Please ensure your fill in all fields in the form as the are required.'
+        ); 
+    
     } 
-    else if(confirmPasswordController==passwordController){
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: CustomSnackbarContainer(
-            backgroundType: '',
-            title: 'Info',
-            description:
-                'Enter thesame Password',
-          ),
-          behavior: SnackBarBehavior.floating,
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-        ),
-      );
-    }else {
+    // else if(confirmPasswordController!=passwordController){
+    //   Get.snackbar(
+    //     backgroundColor: AppStyles.bgPrimary,
+    //     'ERROR!', 
+    //     'Enter thesame Password'
+    //     );
+    //}
+    else {
       Map data = {
         "fullName": usernameController.text.trim(),
         "email":emailController.text.trim(),
@@ -87,38 +66,17 @@ class _SignupScreenState extends State<SignupScreen> {
       
 
       if (authServices.authRequestError.value == 'Invalid email address.') {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: CustomSnackbarContainer(
-              backgroundType: 'ERROR',
-              title: 'Oh snap!',
-              description: authServices.authRequestError.value,
-            ),
-            behavior: SnackBarBehavior.floating,
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            margin: EdgeInsets.only(
-              bottom: MediaQuery.of(context).size.height - 150,
-            ),
-          ),
+        Get.snackbar(
+        backgroundColor: AppStyles.bgPrimary,
+        'ERROR!', 
+        authServices.authRequestError.value
         );
       }
-      if (authServices.authRequestError.value ==
-          'User with this Email Address already exists.') {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: CustomSnackbarContainer(
-              backgroundType: 'ERROR',
-              title: 'DUPLICATE',
-              description: authServices.authRequestError.value,
-            ),
-            behavior: SnackBarBehavior.floating,
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            margin: EdgeInsets.only(
-              bottom: MediaQuery.of(context).size.height - 150,
-            ),
-          ),
+      if (authServices.authRequestError.value =='User with this Email Address already exists.') {
+        Get.snackbar(
+        backgroundColor: AppStyles.bgPrimary,
+        'ERROR!', 
+        authServices.authRequestError.value
         );
       }
 
@@ -129,23 +87,24 @@ class _SignupScreenState extends State<SignupScreen> {
           authServices.authRequestStatus.value = '';
         });
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: CustomSnackbarContainer(
-              backgroundType: 'SUCCESS',
-              title: 'Success',
-              description:
-                  'Registration successful.',
-            ),
-            behavior: SnackBarBehavior.floating,
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            margin: EdgeInsets.only(
-              // ignore: use_build_context_synchronously
-              bottom: MediaQuery.of(context).size.height - 150,
-            ),
-          ),
-        );
+          showDialog(context: context, 
+            builder: (BuildContext context){
+              return AlertDialog(
+                content: Text("REGISTRATION SUCCESSFULLY"),
+                actions: [
+                  CustomButton(text: 'OK', 
+                  width: 15.0.wp, 
+                  height:3.0.hp, 
+                  onTapHandler: (){
+                    Get.back();
+                  }, fontSize: 13.0.sp, 
+                  fontColor: Colors.white, 
+                  fontWeight: FontWeight.w300, 
+                  borderRadius: 10, 
+                  backgroundColor: AppStyles.bgBlue)
+                ],
+              );
+            });
         setState(() {
           usernameController.clear();
           emailController.clear();

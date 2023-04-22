@@ -24,19 +24,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
  Future<void> forgetPassordHandler() async {
     if (!emailController.text.trim().isNotEmpty ) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: CustomSnackbarContainer(
-            backgroundType: '',
-            title: 'Info',
-            description:
-                'Please ensure your fill in all fields in the form as the are required.',
-          ),
-          behavior: SnackBarBehavior.floating,
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-        ),
-      );
+      Get.snackbar(
+        backgroundColor: AppStyles.bgPrimary,
+        'ERROR!', 
+        'Please ensure your fill in all fields in the form as the are required.'
+        ); 
     } else {
       Map data = {"email": emailController.text.trim(),};
       debugPrint('[SIGNUP DTO] :: $data');
@@ -47,21 +39,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       debugPrint('[ERROR] :: ${authServices.authRequestError.value}');
 
       if (authServices.authRequestError.value == 'Invalid email address.') {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: CustomSnackbarContainer(
-              backgroundType: 'ERROR',
-              title: 'Oh snap!',
-              description: authServices.authRequestError.value,
-            ),
-            behavior: SnackBarBehavior.floating,
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            margin: EdgeInsets.only(
-              bottom: MediaQuery.of(context).size.height - 150,
-            ),
-          ),
-        );
+        Get.snackbar(
+        backgroundColor: AppStyles.bgPrimary,
+        'ERROR!', 
+        authServices.authRequestError.value
+
+        ); 
       }
       
       if (authServices.authRequestStatus.value == 'SUCCESS') {
@@ -71,22 +54,24 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           authServices.authRequestStatus.value = '';
         });
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: CustomSnackbarContainer(
-              backgroundType: 'SUCCESS',
-              title: 'Success',
-              description:
-                  'Registration successful, please refer to your phone number for your account verification OTP.',
-            ),
-            behavior: SnackBarBehavior.floating,
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            margin: EdgeInsets.only(
-              bottom: MediaQuery.of(context).size.height - 150,
-            ),
-          ),
-        );
+showDialog(context: context, 
+            builder: (BuildContext context){
+              return AlertDialog(
+                content: Text("OTP SENT TO EMAIL"),
+                actions: [
+                  CustomButton(text: 'OK', 
+                  width: 15.0.wp, 
+                  height:2.0.hp, 
+                  onTapHandler: (){
+                    Get.back();
+                  }, fontSize: 13.0.sp, 
+                  fontColor: Colors.white, 
+                  fontWeight: FontWeight.w300, 
+                  borderRadius: 10, 
+                  backgroundColor: AppStyles.bgBlue)
+                ],
+              );
+            });
 
         setState(() {emailController.clear();});
       }

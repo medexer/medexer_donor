@@ -35,24 +35,24 @@ class AuthServices extends GetxController {
       );
 
       if (response.statusCode == 200) {
+        debugPrint('should navigate ooooooooooooooooooooooooooooooooo');
+         Get.to(
+          transition: Transition.rightToLeftWithFade,
+          duration: const Duration(milliseconds: 500),
+          () => HomeScreen(),
+        );
         debugPrint('[SIGNIN-SUCCESS] ${response.data['data']['user']}');
         authStorage.write('USER', response.data['data']['user']);
         authStorage.write('ACCESSTOKEN', response.data['data']['access']);
         authStorage.write('REFRESHTOKEN', response.data['data']['refresh']);
 
-        userRepository.userData.value =
-            UserModel.fromJson(response.data['data']['user']);
+        userRepository.userData.value = UserModel.fromJson(response.data['data']['user']);
 
         authLoading.value = false;
         authRequestError.value = '';
         authRequestStatus.value = 'SUCCESS';
-
-        Get.to(
-          transition: Transition.rightToLeftWithFade,
-          duration: const Duration(milliseconds: 500),
-          () => HomeScreen(),
-        );
-      } else {
+      }
+       else {
         debugPrint('[SIGNIN ERROR] ${response.data}');
       }
     } catch (error) {
@@ -67,6 +67,7 @@ class AuthServices extends GetxController {
       }
     }
   }
+
 
   Future<void> signupController(
     Map dto,
