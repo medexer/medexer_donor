@@ -13,7 +13,6 @@ import 'package:medexer_donor/widgets/text/cutom_formtext_field.dart';
 import '../../database/user_repository.dart';
 import '../../services/auth_services.dart';
 
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -30,14 +29,12 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController passwordController = TextEditingController();
 
   Future<void> signinHandler() async {
-    if (!emailController.text.trim().isNotEmpty
-    ||!passwordController.text.trim().isNotEmpty) {
+    if (!emailController.text.trim().isNotEmpty ||
+        !passwordController.text.trim().isNotEmpty) {
       Get.snackbar(
-        backgroundColor: AppStyles.bgPrimary,
-        'ERROR!', 
-        'Please ensure your fill in all fields in the form as the are required.'
-        );
-      
+          backgroundColor: AppStyles.bgPrimary,
+          'ERROR!',
+          'Please ensure your fill in all fields in the form as the are required.');
     } else {
       Map data = {
         "email": emailController.text.trim(),
@@ -49,55 +46,22 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (authServices.authRequestError.value == 'Incorrect password') {
         Get.snackbar(
-        backgroundColor: AppStyles.bgPrimary,
-        'ERROR!', 
-        authServices.authRequestError.value
-        );
+            backgroundColor: AppStyles.bgPrimary,
+            'ERROR!',
+            authServices.authRequestError.value);
       }
       if (authServices.authRequestError.value == 'Email is not registered!') {
         Get.snackbar(
-        backgroundColor: AppStyles.bgPrimary,
-        'ERROR!', 
-        authServices.authRequestError.value
-        );
+            backgroundColor: AppStyles.bgPrimary,
+            'ERROR!',
+            authServices.authRequestError.value);
       }
 
       if (authServices.authRequestError.value == 'ACCOUNT UNVERIFIED') {
         Get.snackbar(
-        backgroundColor: AppStyles.bgPrimary,
-        'ERROR!', 
-        'Please check your mail for an activation token to activate your account.'
-        );
-      }
-
-      if (authServices.authRequestStatus.value == 'SUCCESS') {
-         setState(() {
-          authServices.authLoading.value = false;
-          authServices.authRequestError.value = '';
-          authServices.authRequestStatus.value = '';
-        });
-        showDialog(context: context, 
-            builder: (BuildContext context){
-              return AlertDialog(
-                content: Text("LOGIN SUCCESSFULLY"),
-                actions: [
-                  CustomButton(text: 'OK', 
-                  width: 15.0.wp, 
-                  height:4.0.hp, 
-                  onTapHandler: (){
-                    Get.back();
-                  }, fontSize: 13.0.sp, 
-                  fontColor: Colors.white, 
-                  fontWeight: FontWeight.w300, 
-                  borderRadius: 10, 
-                  backgroundColor: AppStyles.bgBlue)
-                ],
-              );
-            });
-        setState(() {
-          emailController.clear();
-          passwordController.clear();
-        });
+            backgroundColor: AppStyles.bgPrimary,
+            'ERROR!',
+            'Please check your mail for an activation token to activate your account.');
       }
     }
   }

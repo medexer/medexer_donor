@@ -1,4 +1,3 @@
-
 class UserModel {
   String? id;
   int? pkid;
@@ -6,17 +5,9 @@ class UserModel {
   String? email;
   String? donorID;
   bool? isActive;
-  String? isDonor;
+  bool? isDonor;
   String? otp;
-  String? bloodGroup;
-  String? genotype;
-  String? haveDonatedBlood;
-  String? lastBloodDonationTime;
-  String? hasTattos; 
-  String? documentUploadCover;
-  String? identificationType;
-  String? documentUploadRear;
-  
+  bool? isKycUpdated;
 
   UserModel(
       {this.id,
@@ -27,13 +18,7 @@ class UserModel {
       this.isActive,
       this.isDonor,
       this.otp,
-      this.bloodGroup,
-      this.genotype,
-      this.haveDonatedBlood,
-      this.lastBloodDonationTime,
-      this.hasTattos,
-      this.documentUploadCover
-      });
+      this.isKycUpdated});
 
   UserModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -44,12 +29,7 @@ class UserModel {
     isActive = json['is_active'];
     isDonor = json['is_donor'];
     otp = json['otp'];
-    bloodGroup = json['bloodGroup'];
-    genotype = json['genotype'];
-    haveDonatedBlood = json['haveDonatedBlood'];
-    lastBloodDonationTime = json['lastBloodDonationTime'];
-    hasTattos = json['hasTattos'];
-    documentUploadCover=json['documentUploadCover'];
+    isKycUpdated = json['is_kyc_updated'];
   }
 
   Map<String, dynamic> toJson() {
@@ -62,12 +42,7 @@ class UserModel {
     data['is_active'] = this.isActive;
     data['is_donor'] = this.isDonor;
     data['otp'] = this.otp;
-    data['blood_group'] = this.bloodGroup;
-    data['genotype'] = this.genotype;
-    data['haveDonatedBlood'] = this.haveDonatedBlood;
-    data['lastBloodDonationTime'] = this.lastBloodDonationTime;
-    data['hasTattos'] = this.hasTattos;
-    data['documentUploadCover'] =this.documentUploadCover;
+    data['is_kyc_updated'] = this.isKycUpdated;
     return data;
   }
 }

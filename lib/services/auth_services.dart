@@ -13,7 +13,6 @@ import '../config/api_config.dart';
 import '../models/user_model.dart';
 import '../screens/auth/registration/forgot_password_success_screen.dart';
 
-
 class AuthServices extends GetxController {
   final dio = DioConfig().api;
   final authStorage = GetStorage();
@@ -35,24 +34,25 @@ class AuthServices extends GetxController {
       );
 
       if (response.statusCode == 200) {
-        debugPrint('should navigate ooooooooooooooooooooooooooooooooo');
-         Get.to(
-          transition: Transition.rightToLeftWithFade,
-          duration: const Duration(milliseconds: 500),
-          () => HomeScreen(),
-        );
-        debugPrint('[SIGNIN-SUCCESS] ${response.data['data']['user']}');
-        authStorage.write('USER', response.data['data']['user']);
+        debugPrint('[SIGNIN-SUCCESS]');
+
+        authStorage.write('MDX-USER', response.data['data']['user']);
         authStorage.write('ACCESSTOKEN', response.data['data']['access']);
         authStorage.write('REFRESHTOKEN', response.data['data']['refresh']);
 
-        userRepository.userData.value = UserModel.fromJson(response.data['data']['user']);
+        userRepository.userData.value =
+            UserModel.fromJson(response.data['data']['user']);
 
         authLoading.value = false;
         authRequestError.value = '';
         authRequestStatus.value = 'SUCCESS';
-      }
-       else {
+
+        Get.to(
+          transition: Transition.rightToLeftWithFade,
+          duration: const Duration(milliseconds: 500),
+          () => HomeScreen(),
+        );
+      } else {
         debugPrint('[SIGNIN ERROR] ${response.data}');
       }
     } catch (error) {
@@ -67,7 +67,6 @@ class AuthServices extends GetxController {
       }
     }
   }
-
 
   Future<void> signupController(
     Map dto,
@@ -108,15 +107,14 @@ class AuthServices extends GetxController {
     }
   }
 
-
-
   Future<void> forgetPassworController(
     Map dto,
   ) async {
     try {
       authLoading.value = true;
       authRequestStatus.value = 'PENDING';
-      final response = await dio.put('${APIConstants.backendServerUrl}auth/donor/forgot-password',
+      final response = await dio.put(
+        '${APIConstants.backendServerUrl}auth/donor/forgot-password',
         data: dto,
       );
 
@@ -148,14 +146,14 @@ class AuthServices extends GetxController {
     }
   }
 
-
   Future<void> resetPasswordController(
- Map dto,
+    Map dto,
   ) async {
     try {
       authLoading.value = true;
       authRequestStatus.value = 'PENDING';
-      final response = await dio.put('${APIConstants.backendServerUrl}auth/donor/reset-password',
+      final response = await dio.put(
+        '${APIConstants.backendServerUrl}auth/donor/reset-password',
         data: dto,
       );
 
@@ -187,11 +185,14 @@ class AuthServices extends GetxController {
     }
   }
 
-  Future<void> kycController(Map dto,) async {
+  Future<void> kycController(
+    Map dto,
+  ) async {
     try {
       authLoading.value = true;
       authRequestStatus.value = 'PENDING';
-      final response = await dio.post('${APIConstants.backendServerUrl}registration/donor/kyc-capture',
+      final response = await dio.post(
+        '${APIConstants.backendServerUrl}registration/donor/kyc-capture',
         data: dto,
       );
 
@@ -203,10 +204,9 @@ class AuthServices extends GetxController {
         debugPrint('[KYC RESPONSE]:: ${response.data}');
 
         Get.to(
-          transition: Transition.rightToLeft,
-          duration: const Duration(milliseconds: 500),
-          () => IdProofScreen()
-        );
+            transition: Transition.rightToLeft,
+            duration: const Duration(milliseconds: 500),
+            () => IdProofScreen());
       }
     } catch (error) {
       if (error is DioError) {
