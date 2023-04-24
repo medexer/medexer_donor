@@ -63,7 +63,7 @@ class KycModel {
     data['hasTattos']=this.hasTattos;
     data['identificationType']=this.identificationType;
     data['documentUploadCover']=this.documentUploadCover;
-    data['documentUploadRear']=this.documentUploadRear
+    data['documentUploadRear']=this.documentUploadRear;
     data['donorID'] = this.donorID;
     data['is_active'] = this.isActive;
     data['is_donor'] = this.isDonor;
