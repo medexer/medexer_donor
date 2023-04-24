@@ -2,15 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-//import 'package:get/get.dart';
 import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/screens/home/appointmentPages/book_appointment.dart';
-import 'package:medexer_donor/screens/home/appointmentPages/reschedule_appointment.dart';
 import 'package:medexer_donor/screens/home/appointmentPages/view_appointment.dart';
 import 'package:medexer_donor/widgets/buttons/custom_button.dart';
-import 'package:medexer_donor/widgets/card/custom_message_card.dart';
 import 'package:medexer_donor/widgets/text/custom_search_widget.dart';
-//import 'package:medexer_donor/widgets/buttons/custom_button.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 
 class DonationCenters extends StatefulWidget {

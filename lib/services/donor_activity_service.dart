@@ -14,6 +14,7 @@ class DonorActivityService extends GetxController {
   final dio = DioConfig().api;
   final authStorage = GetStorage();
   final UserRepository userRepository = Get.find();
+  HospitalScreenModel? hospitalScreenModel;
   
   var donorActivityLoading = false.obs;
   var donorActivityError = ''.obs;
@@ -28,7 +29,7 @@ class DonorActivityService extends GetxController {
       donorActivityStatus.value = 'PENDING';
       final response = await dio.post(
         '${APIConstants.backendServerUrl}donor/appointments/create',
-        data: dto,
+        data:dto,
       );
       if (response.statusCode == 200) {
         donorActivityLoading.value = false;
@@ -85,13 +86,16 @@ class DonorActivityService extends GetxController {
     }
   }
 
-
+  Future<void>onInit()async{
+    super.onInit();
+    fetchHospitalController();
+  }
   Future<void> fetchHospitalController() async {
     try {
       donorActivityLoading.value = true;
       donorActivityStatus.value = 'PENDING';
       final response = await dio.get(
-        '${APIConstants.backendServerUrl}donor/appointments/4',
+        '${APIConstants.backendServerUrl}donor/donation-centers/3',
         options: Options(
           headers: {
             'Authorization': authStorage.read('ACCESSTOKEN'),
@@ -102,7 +106,7 @@ class DonorActivityService extends GetxController {
       if (response.statusCode == 200) {
         debugPrint('[HOSPITAL RESPONSE] ${response.data}');
 
-        userRepository.donorData.value = DonorActivityModel.fromJson(response.data);
+        userRepository.hospitalData.value = HospitalScreenModel.fromJson(response.data);
       }
     } catch (error) {
       if (error is DioError) {

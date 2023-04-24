@@ -8,5 +8,6 @@ import '../models/user_model.dart';
 class UserRepository extends GetxController {
   var userData = UserModel.fromJson({}).obs;
   var donorData = DonorActivityModel.fromJson({}).obs;
+  var hospitalData = HospitalScreenModel.fromJson({}).obs;
   var kycFormData = {}.obs;
 }

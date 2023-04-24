@@ -4,7 +4,6 @@ import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/widgets/buttons/custom_button.dart';
 import '../../../database/user_repository.dart';
 import '../../../services/donor_activity_service.dart';
-import '../../../widgets/snackbars/custom_snackbar_container.dart';
 import '../../../widgets/text/custom_text_widget.dart';
 
 class BookAppointmentScreen extends StatefulWidget {
@@ -33,17 +32,16 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
      } 
     else {
       Map data = {
-      
-        'message':'week4'
-        //messageController.text.trim()
+        'hospital':3,
+        'message':messageController.text.trim()
       };
 
-      debugPrint('[BOOKANAPPOINTMENT DTO] :: $data');
+      debugPrint('[BOOKANAPPOINTMENT DTO] ::: $data');
       await donorActivityServices.appointmentController(
         data,
       );
 
-      debugPrint('[ERROR] :: ${donorActivityServices.donorActivityError.value}');
+      debugPrint('[ERROR] ::: ${donorActivityServices.donorActivityError.value}');
       
       if (donorActivityServices.donorActivityStatus.value == 'SUCCESS') {
         setState(() {
