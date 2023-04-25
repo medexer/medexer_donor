@@ -17,9 +17,8 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
   final DonorActivityService donorActivityServices =Get.find();
   final UserRepository userRepository = Get.find();
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  //TextEditingController searchController = TextEditingController();
-  //TextEditingController hospitalController = TextEditingController();
   TextEditingController messageController = TextEditingController();
+  TextEditingController hospitalController = TextEditingController();
 
   Future<void> donorActivityHandler() async {
     if(!messageController.text.trim().isNotEmpty) {
@@ -32,8 +31,9 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
      } 
     else {
       Map data = {
-        'hospital':3,
-        'message':messageController.text.trim()
+        'message':messageController.text.trim(),
+        //'hospital':hospitalController.text.trim()
+        'hospital':3
       };
 
       debugPrint('[BOOKANAPPOINTMENT DTO] ::: $data');
@@ -57,7 +57,7 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
                 actions: [
                   CustomButton(text: 'OK', 
                   width: 15.0.wp, 
-                  height:2.0.hp, 
+                  height:4.0.hp, 
                   onTapHandler: (){
                     Get.back();
                   }, fontSize: 13.0.sp, 
@@ -98,22 +98,22 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                    //     Padding(
-                    //       padding: const EdgeInsets.all(8.0),
-                    //       child: Container(
-                    //         height: 8.0.hp,
-                    //         child: TextFormField(
-                    //     controller: hospitalController,
-                    //     decoration: InputDecoration(
-                    //         border: OutlineInputBorder(
-                    //            borderRadius: BorderRadius.circular(20.0)
-                    //         ),
-                    //         hintText: 'Redplate Hospital',
-                    //         labelText:'Hosptal'
-                    //     ),     
-                    //   ),
-                    //       ),
-                    // ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            height: 8.0.hp,
+                            child: TextFormField(
+                        controller: hospitalController,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                               borderRadius: BorderRadius.circular(20.0)
+                            ),
+                            hintText: 'Redplate Hospital',
+                            labelText:'Hosptal'
+                        ),     
+                      ),
+                    ),
+                 ),
                     SizedBox(height: 4.0.hp,),
                     Padding(
                       padding: const EdgeInsets.all(8.0),

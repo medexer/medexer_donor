@@ -79,7 +79,7 @@ class _DonationCentersState extends State<DonationCenters> {
                   ),
                   trailing: GestureDetector(
                     onTap: () {
-                      Get.to(const BookAppointmentScreen());
+                      Get.to(()=>const BookAppointmentScreen());
                       //debugPrint('[BOOK-APPOINTMENT]');
                     },
                     child: CustomButton(
@@ -113,7 +113,6 @@ class _DonationCentersState extends State<DonationCenters> {
             fontWeight: FontWeight.bold, 
             borderRadius: 20, 
             backgroundColor: AppStyles.bgBlue)
-
       ],
         
     );

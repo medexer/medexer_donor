@@ -30,6 +30,11 @@ class DonorActivityService extends GetxController {
       final response = await dio.post(
         '${APIConstants.backendServerUrl}donor/appointments/create',
         data:dto,
+         options: Options(
+          headers: {
+            'Authorization': authStorage.read('ACCESSTOKEN'),
+          },
+        ),
       );
       if (response.statusCode == 200) {
         donorActivityLoading.value = false;
@@ -58,33 +63,75 @@ class DonorActivityService extends GetxController {
       }
     }
   }
-
-  Future<void> fetchAppointmentDataController() async {
+  Future<void> UpdateAppointmentController(
+    Map dto,
+  ) async {
     try {
       donorActivityLoading.value = true;
       donorActivityStatus.value = 'PENDING';
-      final response = await dio.get(
+      final response = await dio.put(
         '${APIConstants.backendServerUrl}donor/appointments/4',
-        options: Options(
+        data:dto,
+         options: Options(
           headers: {
             'Authorization': authStorage.read('ACCESSTOKEN'),
           },
         ),
       );
-
       if (response.statusCode == 200) {
-        debugPrint('[APPOINTDATA RESPONSE] ${response.data}');
+        donorActivityLoading.value = false;
+        donorActivityError.value = '';
+        donorActivityStatus.value = 'SUCCESS';
+        debugPrint('[BOOK APPOINTMENT UPDATE SUCCESSFUL]');
+        debugPrint('[BOOK APPOINTMENT UPDATE RESPONSE]:: ${response.data}');
 
-        userRepository.donorData.value = DonorActivityModel.fromJson(response.data);
+        Get.to(
+          transition: Transition.rightToLeft,
+          duration: const Duration(milliseconds: 500),
+          () => ViewAppointmentScreen(),
+        );
       }
     } catch (error) {
       if (error is DioError) {
         donorActivityLoading.value = false;
         donorActivityStatus.value = 'FAILED';
-        debugPrint('[DONOR ACTIVITY: CATCH ERROR] ${error.response!.data}');
+        debugPrint('[BOOK APPOINTMENT UPDATE CATCH ERROR] ${error.response!.data}');
+        if (error.response!.data['email'] != null) {
+          donorActivityError.value = error.response!.data['email'][0];
+        }
+        if (error.response!.data['message'] != null) {
+          donorActivityError.value = error.response!.data['message'];
+        }
       }
     }
   }
+
+  // Future<void> fetchAppointmentDataController() async {
+  //   try {
+  //     donorActivityLoading.value = true;
+  //     donorActivityStatus.value = 'PENDING';
+  //     final response = await dio.get(
+  //       '${APIConstants.backendServerUrl}donor/appointments/4',
+  //       options: Options(
+  //         headers: {
+  //           'Authorization': authStorage.read('ACCESSTOKEN'),
+  //         },
+  //       ),
+  //     );
+
+  //     if (response.statusCode == 200) {
+  //       debugPrint('[APPOINTDATA RESPONSE] ${response.data}');
+
+  //       userRepository.donorData.value = DonorActivityModel.fromJson(response.data);
+  //     }
+  //   } catch (error) {
+  //     if (error is DioError) {
+  //       donorActivityLoading.value = false;
+  //       donorActivityStatus.value = 'FAILED';
+  //       debugPrint('[DONOR ACTIVITY: CATCH ERROR] ${error.response!.data}');
+  //     }
+  //   }
+  // }
 
   Future<void>onInit()async{
     super.onInit();

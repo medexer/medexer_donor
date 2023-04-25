@@ -26,7 +26,7 @@ class _ViewAppointmentScreenState extends State<ViewAppointmentScreen> {
     @override
   void initState(){
     super.initState();
-    donorActivityServices.fetchAppointmentDataController();
+    //donorActivityServices.fetchAppointmentDataController();
   }
   
   @override
