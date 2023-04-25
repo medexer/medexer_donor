@@ -3,13 +3,12 @@
 import 'package:get/get.dart';
 import 'package:medexer_donor/database/user_repository.dart';
 import 'package:medexer_donor/services/auth_services.dart';
-import 'package:medexer_donor/services/donor_activity_service.dart';
+import 'package:medexer_donor/services/donor_services.dart';
 
 class RootRepository extends GetxController {
   initializeRepositories() {
     UserRepository userRepository = Get.put(UserRepository());
     AuthServices authServices = Get.put(AuthServices());
-    //UserServices donorServices = Get.put(UserServices());
-    DonorActivityService donorActivityService =Get.put(DonorActivityService());
+    DonorServices donorServices = Get.put(DonorServices());
   }
 }

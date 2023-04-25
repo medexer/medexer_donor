@@ -1,163 +1,150 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medexer_donor/config/app_config.dart';
+import 'package:medexer_donor/models/donation_center_model.dart';
 import 'package:medexer_donor/widgets/buttons/custom_button.dart';
+import 'package:medexer_donor/widgets/text/cutom_formtext_field.dart';
 import '../../../database/user_repository.dart';
-import '../../../services/donor_activity_service.dart';
+import '../../../services/donor_services.dart';
 import '../../../widgets/text/custom_text_widget.dart';
 
 class BookAppointmentScreen extends StatefulWidget {
-  const BookAppointmentScreen({super.key});
+  final DonationCenterModel donationCenter;
+  const BookAppointmentScreen({super.key, required this.donationCenter});
 
   @override
   State<BookAppointmentScreen> createState() => _BookAppointmentScreenState();
 }
 
 class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
-  final DonorActivityService donorActivityServices =Get.find();
+  final DonorServices donorServices = Get.find();
   final UserRepository userRepository = Get.find();
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  //TextEditingController searchController = TextEditingController();
-  //TextEditingController hospitalController = TextEditingController();
   TextEditingController messageController = TextEditingController();
 
-  Future<void> donorActivityHandler() async {
-    if(!messageController.text.trim().isNotEmpty) {
+  Future<void> submitHandler() async {
+    if (!messageController.text.trim().isNotEmpty) {
       Get.snackbar(
+        'ERROR',
         backgroundColor: AppStyles.bgPrimary,
-        'ERROR!', 
-        'Please ensure your fill in all fields in the form as the are required.'
-    
+        'Message field is required.',
       );
-     } 
-    else {
-      Map data = {
-        'hospital':3,
-        'message':messageController.text.trim()
+    } else {
+      Map formData = {
+        'hospital': widget.donationCenter.pkid,
+        'message': messageController.text.trim(),
       };
 
-      debugPrint('[BOOKANAPPOINTMENT DTO] ::: $data');
-      await donorActivityServices.appointmentController(
-        data,
+      debugPrint('[BOOK-APPOINTMENT-DTO] ::: $formData');
+      await donorServices.bookAppointmentController(
+        formData,
       );
-
-      debugPrint('[ERROR] ::: ${donorActivityServices.donorActivityError.value}');
-      
-      if (donorActivityServices.donorActivityStatus.value == 'SUCCESS') {
-        setState(() {
-          donorActivityServices.donorActivityLoading.value = false;
-          donorActivityServices.donorActivityError.value = '';
-          donorActivityServices.donorActivityStatus.value = '';
-        });
-
-        showDialog(context: context, 
-            builder: (BuildContext context){
-              return AlertDialog(
-                content: const Text("Successfully Booked an Appoinment"),
-                actions: [
-                  CustomButton(text: 'OK', 
-                  width: 15.0.wp, 
-                  height:2.0.hp, 
-                  onTapHandler: (){
-                    Get.back();
-                  }, fontSize: 13.0.sp, 
-                  fontColor: Colors.white, 
-                  fontWeight: FontWeight.w300, 
-                  borderRadius: 10, 
-                  backgroundColor: AppStyles.bgBlue)
-                ],
-              );
-            });
-        setState(() {
-          messageController.clear();
-        });
-      }
     }
-   }
-  
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,   
+      key: scaffoldKey,
       body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 2.0.wp),
           child: Column(
+            // crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(height: 15.0.hp,),
+              SizedBox(
+                height: 15.0.hp,
+              ),
               Padding(
                 padding: EdgeInsets.all(2.0.wp),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomTextWidget(
                       text: 'Book Appointment',
                       size: 15.0.sp,
-                      weight: FontWeight.bold,
-                      ),
-                    SizedBox(height: 3.0.hp,),
+                      weight: FontWeight.w500,
+                    ),
+                    SizedBox(
+                      height: 3.0.hp,
+                    ),
                     Form(
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                    //     Padding(
-                    //       padding: const EdgeInsets.all(8.0),
-                    //       child: Container(
-                    //         height: 8.0.hp,
-                    //         child: TextFormField(
-                    //     controller: hospitalController,
-                    //     decoration: InputDecoration(
-                    //         border: OutlineInputBorder(
-                    //            borderRadius: BorderRadius.circular(20.0)
-                    //         ),
-                    //         hintText: 'Redplate Hospital',
-                    //         labelText:'Hosptal'
-                    //     ),     
-                    //   ),
-                    //       ),
-                    // ),
-                    SizedBox(height: 4.0.hp,),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        height: 12.0.hp,
-                        child: TextFormField(
-                          maxLines: 2,
-                          controller: messageController,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                               borderRadius: BorderRadius.circular(20.0)
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            CustomFormTextField(
+                              maxLines: 1,
+                              readOnly: true,
+                              borderRadius: 10,
+                              textColor: AppStyles.bgBlack,
+                              controller: TextEditingController(
+                                  text:
+                                      '${widget.donationCenter.hospitalName}'),
+                              background: Colors.white.withOpacity(0.4),
+                              hintColor: AppStyles.bgBlack,
                             ),
-                            hintText: 'I would love to come for my checkup tomorrow',
-                            labelText:'Message'
-                          ), 
-                        ),
-                      ),
+                            SizedBox(height: 2.0.hp),
+                            CustomFormTextField(
+                              maxLines: 1,
+                              readOnly: true,
+                              borderRadius: 10,
+                              textColor: AppStyles.bgBlack,
+                              controller: TextEditingController(
+                                  text: '${widget.donationCenter.location}'),
+                              background: Colors.white.withOpacity(0.4),
+                              hintColor: AppStyles.bgBlack,
+                            ),
+                            SizedBox(height: 2.0.hp),
+                            CustomFormTextField(
+                              maxLines: 6,
+                              paddingLeft: 10,
+                              paddingRight: 10,
+                              height: 14.0.hp,
+                              borderRadius: 10,
+                              textColor: AppStyles.bgBlack,
+                              controller: messageController,
+                              background: Colors.white.withOpacity(0.4),
+                              hintColor: AppStyles.bgBlack,
+                            ),
+                            // SizedBox(height: 2.0.hp),
+                            // Container(
+                            //   height: 12.0.hp,
+                            //   child: TextFormField(
+                            //     maxLines: 5,
+                            //     controller: messageController,
+                            //     decoration: InputDecoration(
+                            //       border: OutlineInputBorder(
+                            //         borderRadius: BorderRadius.circular(5.0),
+                            //       ),
+                            //       hintText:
+                            //           'I would love to come for my checkup tomorrow',
+                            //       labelText: 'Message',
+                            //     ),
+                            //   ),
+                            // ),
+                            SizedBox(height: 2.0.hp),
+                            CustomButton(
+                                text: 'Book Appointment',
+                                height: 6.0.hp,
+                                width: 60.0.wp,
+                                onTapHandler: () {
+                                  submitHandler();
+                                },
+                                fontSize: 10.0.sp,
+                                fontColor: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                borderRadius: 10,
+                                backgroundColor: AppStyles.bgBlue),
+                          ]),
                     ),
-                    SizedBox(height: 2.0.hp,),
-                    CustomButton(
-                      text: 'Book Appointment', 
-                      height: 6.0.hp,
-                      width: 60.0.wp, 
-                      onTapHandler: (){
-                        donorActivityHandler();
-                      }, 
-                      fontSize: 10.0.sp, 
-                      fontColor: Colors.white, 
-                      fontWeight:FontWeight.bold, 
-                      borderRadius: 20, 
-                      backgroundColor: AppStyles.bgBlue
-                      ),
-                  ]
-                ),
-
-              ),
-                    
                   ],
                 ),
               )
-              
-          ],
+            ],
+          ),
         ),
       ),
-  );
- }
+    );
+  }
 }

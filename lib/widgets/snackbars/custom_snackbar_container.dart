@@ -27,7 +27,7 @@ class CustomSnackbarContainer extends StatelessWidget {
             padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: backgroundType == 'ERROR'
-                  ? Color(0xFFC72C41)
+                  ? Color.fromARGB(255, 181, 179, 179)
                   : backgroundType == 'SUCCESS'
                       ? Color.fromARGB(255, 119, 199, 44)
                       : AppStyles.bgPrimary,

@@ -14,6 +14,7 @@ import 'package:medexer_donor/screens/home/sub_screens/notification_screen.dart'
 import 'package:medexer_donor/screens/home/donor_profile.dart/profile_screen.dart';
 import 'package:medexer_donor/screens/home/sub_screens/rewards_wallet_screen.dart';
 import 'package:medexer_donor/screens/home/sub_screens/settings_screen.dart';
+import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 
 import '../../widgets/buttons/custom_button.dart';
 
@@ -51,7 +52,10 @@ class _SideBarState extends State<SideBar> {
               AssetImage('assets/icons/icon__home.png'),
               color: AppStyles.bgBlue,
             ),
-            title: Text('Home'),
+            title: CustomTextWidget(
+              text: 'Home',
+              size: 12.0.sp,
+            ),
             onTap: () {
               Get.to(() => HomeScreen());
               debugPrint('[FAV]');
@@ -62,7 +66,10 @@ class _SideBarState extends State<SideBar> {
               AssetImage('assets/icons/icon__location.png'),
               color: AppStyles.bgBlue,
             ),
-            title: Text('Donor Centers'),
+            title: CustomTextWidget(
+              text: 'Donor Centers',
+              size: 12.0.sp,
+            ),
             onTap: () {
               Get.to(() => DonorCentersScreen());
               debugPrint('[DONOR-CENTERS]');
@@ -73,7 +80,10 @@ class _SideBarState extends State<SideBar> {
               AssetImage('assets/icons/icon__info.png'),
               color: AppStyles.bgBlue,
             ),
-            title: Text('Guide'),
+            title: CustomTextWidget(
+              text: 'Guide',
+              size: 12.0.sp,
+            ),
             onTap: () {
               Get.to(() => AppGuideScreen());
               debugPrint('[APP-GUIDE]');
@@ -84,7 +94,10 @@ class _SideBarState extends State<SideBar> {
               AssetImage('assets/icons/icon__wallet.png'),
               color: AppStyles.bgBlue,
             ),
-            title: Text('Rewards/Wallet'),
+            title: CustomTextWidget(
+              text: 'Rewards/Wallet',
+              size: 12.0.sp,
+            ),
             onTap: () {
               Get.to(() => RewardsWalletScreen());
               debugPrint('[REWARDS-WALLET]');
@@ -95,7 +108,10 @@ class _SideBarState extends State<SideBar> {
               AssetImage('assets/icons/icon__call.png'),
               color: AppStyles.bgBlue,
             ),
-            title: Text('Contact Us'),
+            title: CustomTextWidget(
+              text: 'Contact Us',
+              size: 12.0.sp,
+            ),
             onTap: () {
               Get.to(() => ContactUsScreen());
               debugPrint('[CONTACT-US]');
@@ -107,19 +123,28 @@ class _SideBarState extends State<SideBar> {
               color: AppStyles.bgBlue,
             ),
             title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text('Notification'),
-                CustomButton(
-                    text: 'New',
-                    width: 20.0.wp,
-                    height: 5.0.hp,
-                    onTapHandler: () {},
-                    fontSize: 10.0.sp,
-                    fontColor: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    borderRadius: 30,
-                    backgroundColor: AppStyles.bgPrimary),
+                CustomTextWidget(
+                  text: 'Notification',
+                  size: 12.0.sp,
+                ),
+                SizedBox(width: 1.0.wp),
+                ClipOval(
+                  child: Container(
+                    padding: EdgeInsets.all(3),
+                    decoration: BoxDecoration(
+                      color: AppStyles.bgPrimary,
+                    ),
+                    child: Center(
+                      child: CustomTextWidget(
+                        text: 'New',
+                        size: 8.0.sp,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
             onTap: () {
@@ -132,7 +157,10 @@ class _SideBarState extends State<SideBar> {
               AssetImage('assets/icons/icon__favourite.png'),
               color: AppStyles.bgBlue,
             ),
-            title: Text('About Us'),
+            title: CustomTextWidget(
+              text: 'About Us',
+              size: 12.0.sp,
+            ),
             onTap: () {
               Get.to(() => AboutUsScreen());
               debugPrint('[ABOUT-US]');
@@ -143,7 +171,10 @@ class _SideBarState extends State<SideBar> {
               AssetImage('assets/icons/icon__settings.png'),
               color: AppStyles.bgBlue,
             ),
-            title: Text('Settings'),
+            title: CustomTextWidget(
+              text: 'Settings',
+              size: 12.0.sp,
+            ),
             onTap: () {
               Get.to(() => SettingsScreen());
               debugPrint('[SETTINGS]');

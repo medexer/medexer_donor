@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/widgets/buttons/custom_button.dart';
 import '../../../database/user_repository.dart';
-import '../../../services/donor_activity_service.dart';
+import '../../../services/donor_services.dart';
 import '../../../widgets/snackbars/custom_snackbar_container.dart';
 import '../../../widgets/text/custom_text_widget.dart';
 
@@ -11,11 +11,13 @@ class ReschedulAppointmentScreen extends StatefulWidget {
   const ReschedulAppointmentScreen({super.key});
 
   @override
-  State<ReschedulAppointmentScreen> createState() => _ReschedulAppointmentScreenState();
+  State<ReschedulAppointmentScreen> createState() =>
+      _ReschedulAppointmentScreenState();
 }
 
-class _ReschedulAppointmentScreenState extends State<ReschedulAppointmentScreen> {
-  final DonorActivityService donorActivityServices =Get.find();
+class _ReschedulAppointmentScreenState
+    extends State<ReschedulAppointmentScreen> {
+  final DonorServices DonorServicess = Get.find();
   final UserRepository userRepository = Get.find();
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController searchController = TextEditingController();
@@ -39,7 +41,7 @@ class _ReschedulAppointmentScreenState extends State<ReschedulAppointmentScreen>
   //         backgroundColor: Colors.transparent,
   //       ),
   //     );
-  //   } 
+  //   }
   //   else {
   //     Map data = {
   //       "message": messageController.text.trim(),
@@ -49,17 +51,17 @@ class _ReschedulAppointmentScreenState extends State<ReschedulAppointmentScreen>
   //     };
 
   //     debugPrint('[BOOKANAPPOINTMENT DTO] :: $data');
-  //     await donorActivityServices.appointmentController(
+  //     await DonorServicess.bookAppointmentController(
   //       data,
   //     );
 
-  //     debugPrint('[ERROR] :: ${donorActivityServices.donorActivityError.value}');
-      
-  //     if (donorActivityServices.donorActivityStatus.value == 'SUCCESS') {
+  //     debugPrint('[ERROR] :: ${DonorServicess.donorRequestError.value}');
+
+  //     if (DonorServicess.donorRequestStatus.value == 'SUCCESS') {
   //       setState(() {
-  //         donorActivityServices.donorActivityLoading.value = false;
-  //         donorActivityServices.donorActivityError.value = '';
-  //         donorActivityServices.donorActivityStatus.value = '';
+  //         DonorServicess.donorRequestLoading.value = false;
+  //         DonorServicess.donorRequestError.value = '';
+  //         DonorServicess.donorRequestStatus.value = '';
   //       });
 
   //       ScaffoldMessenger.of(context).showSnackBar(
@@ -89,86 +91,88 @@ class _ReschedulAppointmentScreenState extends State<ReschedulAppointmentScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,   
+      key: scaffoldKey,
       body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(height: 15.0.hp,),
-              Padding(
-                padding: EdgeInsets.all(2.0.wp),
-                child: Column(
-                  children: [
-                    CustomTextWidget(
-                      text: 'Book Appointment',
-                      size: 15.0.sp,
-                      weight: FontWeight.bold,
-                      ),
-                    SizedBox(height: 3.0.hp,),
-                    Form(
-                      child: Column(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 15.0.hp,
+            ),
+            Padding(
+              padding: EdgeInsets.all(2.0.wp),
+              child: Column(
+                children: [
+                  CustomTextWidget(
+                    text: 'Book Appointment',
+                    size: 15.0.sp,
+                    weight: FontWeight.bold,
+                  ),
+                  SizedBox(
+                    height: 3.0.hp,
+                  ),
+                  Form(
+                    child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            height: 8.0.hp,
-                            child: TextFormField(
-                        controller: hospitalController,
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                               borderRadius: BorderRadius.circular(20.0)
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              height: 8.0.hp,
+                              child: TextFormField(
+                                controller: hospitalController,
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0)),
+                                    hintText: 'Redplate Hospital',
+                                    labelText: 'Hosptal'),
+                              ),
                             ),
-                            hintText: 'Redplate Hospital',
-                            labelText:'Hosptal'
-                        ),     
-                      ),
                           ),
-                    ),
-                    SizedBox(height: 2.0.hp,),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        height: 12.0.hp,
-                        child: TextFormField(
-                          maxLines: 2,
-                          controller: messageController,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                               borderRadius: BorderRadius.circular(20.0)
+                          SizedBox(
+                            height: 2.0.hp,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              height: 12.0.hp,
+                              child: TextFormField(
+                                maxLines: 2,
+                                controller: messageController,
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0)),
+                                    hintText:
+                                        'I would love to come for my checkup tomorrow',
+                                    labelText: 'Message'),
+                              ),
                             ),
-                            hintText: 'I would love to come for my checkup tomorrow',
-                            labelText:'Message'
-                          ), 
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 2.0.hp,),
-                    CustomButton(
-                      text: 'Reschedule Appointment', 
-                      height: 6.0.hp,
-                      width: 60.0.wp, 
-                      onTapHandler: (){
-                        //donorActivityHandler();
-                      }, 
-                      fontSize: 10.0.sp, 
-                      fontColor: Colors.white, 
-                      fontWeight:FontWeight.bold, 
-                      borderRadius: 20, 
-                      backgroundColor: AppStyles.bgBlue
-                      ),
-                  ]
-                ),
-
+                          ),
+                          SizedBox(
+                            height: 2.0.hp,
+                          ),
+                          CustomButton(
+                              text: 'Reschedule Appointment',
+                              height: 6.0.hp,
+                              width: 60.0.wp,
+                              onTapHandler: () {
+                                //donorActivityHandler();
+                              },
+                              fontSize: 10.0.sp,
+                              fontColor: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              borderRadius: 20,
+                              backgroundColor: AppStyles.bgBlue),
+                        ]),
+                  ),
+                ],
               ),
-                    
-                  ],
-                ),
-              )
-              
+            )
           ],
         ),
       ),
-  );
- }
+    );
+  }
 }
