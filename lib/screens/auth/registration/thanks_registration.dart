@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medexer_donor/config/app_config.dart';
-import 'package:medexer_donor/screens/auth/kyc/kyc_page.dart';
+import 'package:medexer_donor/screens/auth/kyc/kyc_screen.dart';
 import '../../../widgets/buttons/custom_button.dart';
 import '../../../widgets/text/custom_text_widget.dart';
 

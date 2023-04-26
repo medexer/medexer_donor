@@ -1,9 +1,13 @@
 // ignore_for_file: library_prefixes, prefer_const_constructors, unnecessary_brace_in_string_interps, unnecessary_null_comparison
 import 'package:dio/dio.dart';
+import 'package:dio/src/form_data.dart' as DioFormData;
+import 'package:dio/src/multipart_file.dart' as DioMultipartFile;
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
+import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/database/user_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:medexer_donor/screens/auth/kyc/kyc_screen.dart';
 import 'package:medexer_donor/screens/auth/registration/reset_password_screen.dart';
 import 'package:medexer_donor/screens/home/sub_screens/home_screen.dart';
 import 'package:medexer_donor/screens/auth/kyc/sub_screen/id_proof.dart';
@@ -46,11 +50,19 @@ class AuthServices extends GetxController {
         authRequestError.value = '';
         authRequestStatus.value = 'SUCCESS';
 
-        Get.to(
-          transition: Transition.rightToLeftWithFade,
-          duration: const Duration(milliseconds: 500),
-          () => HomeScreen(),
-        );
+        if (userRepository.userData.value.isKycUpdated == false) {
+          Get.to(
+            transition: Transition.rightToLeftWithFade,
+            duration: const Duration(milliseconds: 500),
+            () => KycScreen(),
+          );
+        } else {
+          Get.to(
+            transition: Transition.rightToLeftWithFade,
+            duration: const Duration(milliseconds: 500),
+            () => HomeScreen(),
+          );
+        }
       } else {
         debugPrint('[SIGNIN ERROR] ${response.data}');
       }
@@ -180,6 +192,124 @@ class AuthServices extends GetxController {
         if (error.response!.data['message'] != null) {
           authRequestError.value = error.response!.data['message'];
         }
+      }
+    }
+  }
+
+  Future<void> updateProfileController(Map dto) async {
+    try {
+      authLoading.value = true;
+      authRequestStatus.value = 'PENDING';
+
+      DioFormData.FormData formData = DioFormData.FormData.fromMap({
+        ...dto,
+        'avatar': await DioMultipartFile.MultipartFile.fromFile(
+            dto['avatar'].path,
+            filename: dto['avatar'].name)
+      });
+      // print(formData['avatar']);
+
+      final response = await dio.put(
+        '${APIConstants.backendServerUrl}auth/donor/update-profile',
+        data: formData,
+        options: Options(
+          headers: {
+            'Authorization': authStorage.read('ACCESSTOKEN'),
+            'Content-Type': 'multipart/form-data'
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        authLoading.value = false;
+        authRequestError.value = '';
+        authRequestStatus.value = 'SUCCESS';
+
+        authStorage.write('MDX-USER', response.data['data']);
+        userRepository.userData.value =
+            UserModel.fromJson(response.data['data']);
+
+        Get.snackbar(
+          'Success',
+          'Profile updated successfully!',
+          colorText: Colors.white,
+          backgroundColor: AppStyles.bgBlue.withOpacity(0.8),
+        );
+
+        Get.to(
+          transition: Transition.fade,
+          duration: const Duration(milliseconds: 500),
+          () => HomeScreen(),
+        );
+        debugPrint('[UPDATE-PROFILE-SUCCESS] :: ${response.data}');
+      }
+    } catch (error) {
+      if (error is DioError) {
+        authLoading.value = false;
+        authRequestStatus.value = 'FAILED';
+        debugPrint('[RESETPASSSWORD CATCH ERROR] ${error.response!.data}');
+      }
+    }
+  }
+
+  Future<void> kycCaptureController(Map dto) async {
+    try {
+      authLoading.value = true;
+      authRequestStatus.value = 'PENDING';
+      debugPrint('[KYC-CAPTURE-PENDING]');
+
+      DioFormData.FormData formData = DioFormData.FormData.fromMap({
+        ...dto,
+        'documentUploadCover': await DioMultipartFile.MultipartFile.fromFile(
+          dto['documentUploadCover'].path,
+          filename: dto['documentUploadCover'].name,
+        ),
+        'documentUploadRear': await DioMultipartFile.MultipartFile.fromFile(
+          dto['documentUploadRear'].path,
+          filename: dto['documentUploadRear'].name,
+        )
+      });
+      // print(formData['avatar']);
+
+      final response = await dio.post(
+        '${APIConstants.backendServerUrl}registration/donor/kyc-capture',
+        data: formData,
+        options: Options(
+          headers: {
+            'Authorization': authStorage.read('ACCESSTOKEN'),
+            'Content-Type': 'multipart/form-data',
+          },
+        ),
+      );
+
+      if (response.statusCode == 201) {
+        authLoading.value = false;
+        authRequestError.value = '';
+        authRequestStatus.value = 'SUCCESS';
+
+        authStorage.write('MDX-USER', response.data['data']['user']);
+        userRepository.userData.value =
+            UserModel.fromJson(response.data['data']['user']);
+
+        Get.snackbar(
+          'Success',
+          'KYC captured successfully!',
+          colorText: Colors.white,
+          backgroundColor: AppStyles.bgBlue.withOpacity(0.8),
+        );
+
+        Get.to(
+          transition: Transition.fade,
+          duration: const Duration(milliseconds: 500),
+          () => HomeScreen(),
+        );
+        debugPrint('[KYC-CAPTURE-SUCCESS] :: ${response.data}');
+      }
+    } catch (error) {
+      if (error is DioError) {
+        authLoading.value = false;
+        authRequestStatus.value = 'FAILED';
+        debugPrint('[KYC-CAPTURE-CATCH-ERROR] ${error.response!.data}');
       }
     }
   }

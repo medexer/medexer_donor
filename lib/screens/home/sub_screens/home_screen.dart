@@ -2,7 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:medexer_donor/config/app_config.dart';
+import 'package:medexer_donor/database/user_repository.dart';
+import 'package:medexer_donor/models/user_model.dart';
+import 'package:medexer_donor/screens/auth/kyc/kyc_screen.dart';
 import 'package:medexer_donor/screens/home/route_screen.dart';
 import 'package:medexer_donor/screens/home/sidebar.dart';
 import 'package:medexer_donor/screens/map/trialMap.dart';
@@ -18,6 +22,31 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  final authStorage = GetStorage();
+  final UserRepository userRepository = Get.find();
+
+  void initializeState() async {
+    if (userRepository.userData.value.fullName == null) {
+      userRepository.userData.value =
+          UserModel.fromJson(authStorage.read('MDX-USER'));
+    }
+    await Future.delayed(Duration(seconds: 3));
+
+    if (userRepository.userData.value.isKycUpdated == false) {
+      Get.to(
+        transition: Transition.rightToLeftWithFade,
+        duration: const Duration(milliseconds: 500),
+        () => KycScreen(),
+      );
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    initializeState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,14 +112,12 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Stack(
             children: [
               SingleChildScrollView(
-                child: Container(
-                  height: screenHeight,
-                  child:GoogleMapTrial() 
-                  // Image.asset(
-                  //   'assets/images/map__1.jpg',
-                  //   fit: BoxFit.cover,
-                  // ),
-                ),
+                child: Container(height: screenHeight, child: GoogleMapTrial()
+                    // Image.asset(
+                    //   'assets/images/map__1.jpg',
+                    //   fit: BoxFit.cover,
+                    // ),
+                    ),
               ),
               Positioned(
                 top: 0,

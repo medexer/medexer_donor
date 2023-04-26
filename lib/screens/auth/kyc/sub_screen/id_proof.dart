@@ -1,14 +1,14 @@
-import 'dart:io';
-import 'dart:convert';
-import 'package:flutter/material.dart';
+// ignore_for_file: sized_box_for_whitespace
+
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:medexer_donor/config/app_config.dart';
+import 'package:medexer_donor/services/auth_services.dart';
+import 'package:medexer_donor/database/user_repository.dart';
 import 'package:medexer_donor/widgets/buttons/custom_button.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
-import 'package:image_picker/image_picker.dart';
-import '../../../../database/user_repository.dart';
-import '../../../../services/auth_services.dart';
-import '../../../../widgets/snackbars/custom_snackbar_container.dart';
+import 'package:medexer_donor/widgets/snackbars/custom_snackbar_container.dart';
 
 class IdProofScreen extends StatefulWidget {
   const IdProofScreen({super.key});
@@ -18,29 +18,43 @@ class IdProofScreen extends StatefulWidget {
 }
 
 class _IdProofScreenState extends State<IdProofScreen> {
+  late PlatformFile documentRear;
+  late PlatformFile documentCover;
+  bool isDocumentRearUploaded = false;
+  bool isDocumentCoverUploaded = false;
+  String identificationType = "Voter's Card";
+
   final AuthServices authServices = Get.find();
-    final UserRepository userRepository = Get.find();
+  final UserRepository userRepository = Get.find();
   TextEditingController identificationTypeController = TextEditingController();
-  
- File? _image;
-  final picker = ImagePicker();
-  late File file;
-  
-  Future getImage()async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera, maxHeight: 240, maxWidth: 240);
-    // String url = base64.encode(File(pickedFile!.path).readAsBytesSync().toList());
+
+  Future handleFileChange(String position) async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: [
+        'jpg',
+        'jpeg',
+      ],
+    );
+
+    if (result!.files.isEmpty) return;
+
+    debugPrint("${result.files[0].path} :: file path ");
+
+    if (position == 'COVER') {
       setState(() {
-      // ignore: unnecessary_null_comparison
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        Get.snackbar('Error', 'Please Provide Image');
-      }
-    });
-}
+        isDocumentCoverUploaded = true;
+        documentCover = result.files[0];
+      });
+    } else {
+      setState(() {
+        isDocumentRearUploaded = true;
+        documentRear = result.files[0];
+      });
+    }
+  }
 
-
-Future<void> kycHandler() async {
+  Future<void> kycHandler() async {
     if (!identificationTypeController.text.trim().isNotEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -64,218 +78,270 @@ Future<void> kycHandler() async {
       //   //   fileName:_image.path.split('/').last ?? _image
       //   // )
       // };
-      } 
+    }
 
-      //debugPrint('[SIGNUP DTO] :: $data');
-      
-    
-      debugPrint('[ERROR] :: ${authServices.authRequestError.value}');
+    //debugPrint('[SIGNUP DTO] :: $data');
 
-      
-      if (authServices.authRequestStatus.value == 'SUCCESS') {
-        setState(() {
-          authServices.authLoading.value = false;
-          authServices.authRequestError.value = '';
-          authServices.authRequestStatus.value = '';
-        });
+    debugPrint('[ERROR] :: ${authServices.authRequestError.value}');
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const CustomSnackbarContainer(
-              backgroundType: 'SUCCESS',
-              title: 'Success',
-              description:
-                  'Registration successful, please refer to your phone number for your account verification OTP.',
-            ),
-            behavior: SnackBarBehavior.floating,
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            margin: EdgeInsets.only(
-              bottom: MediaQuery.of(context).size.height - 150,
-            ),
+    if (authServices.authRequestStatus.value == 'SUCCESS') {
+      setState(() {
+        authServices.authLoading.value = false;
+        authServices.authRequestError.value = '';
+        authServices.authRequestStatus.value = '';
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const CustomSnackbarContainer(
+            backgroundType: 'SUCCESS',
+            title: 'Success',
+            description:
+                'Registration successful, please refer to your phone number for your account verification OTP.',
           ),
-        );
+          behavior: SnackBarBehavior.floating,
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          margin: EdgeInsets.only(
+            bottom: MediaQuery.of(context).size.height - 150,
+          ),
+        ),
+      );
 
-        setState(() {
-          // bloodGroupController.clear();
-          // genotypeController.clear();
-          // donatedBloodController.clear();
-          // lastTimeController.clear();
-          // tattoosController.clear();
+      setState(() {
+        // bloodGroupController.clear();
+        // genotypeController.clear();
+        // donatedBloodController.clear();
+        // lastTimeController.clear();
+        // tattoosController.clear();
       });
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
+      bottomNavigationBar: SizedBox(
+        height: screenHeight * 0.14,
+        // color: Colors.amber,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CustomButton(
+              text: 'Submit',
+              width: 50.0.wp,
+              height: 6.0.hp,
+              onTapHandler: () async {
+                if (!isDocumentCoverUploaded) {
+                  Get.snackbar(
+                    'Error',
+                    'Document cover is required',
+                    colorText: Colors.white,
+                    backgroundColor: AppStyles.bgBlue.withOpacity(0.8),
+                  );
+                }
+                if (!isDocumentRearUploaded) {
+                  Get.snackbar(
+                    'Error',
+                    'Document rear is required',
+                    colorText: Colors.white,
+                    backgroundColor: AppStyles.bgBlue.withOpacity(0.8),
+                  );
+                }
+
+                Map formData = {
+                  'bloodGroup': userRepository.kycFormData.value.bloodGroup,
+                  'genotype': userRepository.kycFormData.value.genotype,
+                  'haveDonatedBlood':
+                      userRepository.kycFormData.value.haveDonatedBlood,
+                  'lastBloodDonationTime':
+                      userRepository.kycFormData.value.lastBloodDonationTime,
+                  'hasTattos': userRepository.kycFormData.value.hasTattos,
+                  'documentUploadRear': documentRear,
+                  'documentUploadCover': documentCover,
+                  'identificationType': identificationType == "Voter's Card"
+                      ? 'VOTERCARD'
+                      : 'NATIONALIDENTITYCARD',
+                };
+
+                await authServices.kycCaptureController(formData);
+              },
+              fontSize: 12.0.sp,
+              borderRadius: 10,
+              fontColor: AppStyles.bgWhite,
+              fontWeight: FontWeight.bold,
+              backgroundColor: AppStyles.bgBlue,
+            ),
+          ],
+        ),
+      ),
       body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CustomTextWidget(
-                text: 'Choose Document Type',
-                color: AppStyles.bgBlack,
-                weight: FontWeight.bold,
-                size: 15.0.sp,
+          child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 2.0.wp),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CustomButton(
+                      text: 'Voter\'s Card',
+                      width: 35.0.wp,
+                      height: 6.0.hp,
+                      onTapHandler: () {
+                        setState(() {
+                          identificationType = "Voter's Card";
+                        });
+                      },
+                      fontSize: 10.0.sp,
+                      fontColor: identificationType == "Voter's Card"
+                          ? AppStyles.bgWhite
+                          : AppStyles.bgWhite,
+                      fontWeight: FontWeight.w500,
+                      borderRadius: 20,
+                      backgroundColor: identificationType == "Voter's Card"
+                          ? AppStyles.bgBlue
+                          : AppStyles.bgBlack.withOpacity(0.3),
+                    ),
+                  ),
                 ),
-                SizedBox(height: 2.0.hp,),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CustomButton(
+                      text: 'National Identity Card',
+                      width: 50.0.wp,
+                      height: 6.0.hp,
+                      onTapHandler: () {
+                        setState(() {
+                          identificationType = "National Identity Card";
+                        });
+                      },
+                      fontSize: 10.0.sp,
+                      fontColor: identificationType == "National Identity Card"
+                          ? AppStyles.bgWhite
+                          : AppStyles.bgWhite,
+                      fontWeight: FontWeight.w500,
+                      borderRadius: 20,
+                      backgroundColor:
+                          identificationType == "National Identity Card"
+                              ? AppStyles.bgBlue
+                              : AppStyles.bgBlack.withOpacity(0.3),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: 4.0.hp),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 4.0.wp),
+                  child: CustomTextWidget(
+                    text:
+                        'Upload or take a picture of your identity card preferrable on a plain background. Make sure the edge are visible',
+                    size: 12.0.sp,
+                    color: AppStyles.bgBlack.withOpacity(0.8),
+                  ),
+                ),
+                SizedBox(height: 4.0.hp),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: CustomButton(
-                        text: 'Voter\'s Card', 
-                        width: 35.0.wp, 
-                        height:6.0.hp, 
-                        onTapHandler: (){}, 
-                        fontSize: 10.0.sp, 
-                        fontColor: Colors.white, 
-                        fontWeight: FontWeight.w300, 
-                        borderRadius: 20, 
-                        backgroundColor: AppStyles.bgBlue
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          handleFileChange('COVER');
+                        },
+                        child: Container(
+                          height: 10.0.hp,
+                          width: 40.0.wp,
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                            borderOnForeground: true,
+                            shadowColor: Colors.grey.withOpacity(0.3),
+                            elevation: 10,
+                            color: isDocumentCoverUploaded
+                                ? Colors.blueGrey.shade400
+                                : Colors.white,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.add_a_photo_outlined,
+                                  color: isDocumentCoverUploaded
+                                      ? AppStyles.bgWhite
+                                      : AppStyles.bgBlue,
+                                ),
+                                SizedBox(height: 1.0.hp),
+                                CustomTextWidget(
+                                  text: 'Front',
+                                  size: 12.0.sp,
+                                  color: isDocumentCoverUploaded
+                                      ? AppStyles.bgWhite
+                                      : AppStyles.bgBlack,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: CustomButton(
-                          text: 'Nationa Identity Card', 
-                          width: 50.0.wp, 
-                          height:6.0.hp, 
-                          onTapHandler: (){}, 
-                          fontSize: 10.0.sp, 
-                          fontColor: AppStyles.bgBlack, 
-                          fontWeight: FontWeight.w300, 
-                          borderRadius: 20, 
-                          borderColor: AppStyles.bgBlue,
-                          backgroundColor: Colors.white,
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          handleFileChange('REAR');
+                        },
+                        child: Container(
+                          height: 10.0.hp,
+                          width: 40.0.wp,
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0)),
+                            borderOnForeground: true,
+                            shadowColor: Colors.grey.withOpacity(0.3),
+                            elevation: 5,
+                            color: isDocumentRearUploaded
+                                ? Colors.blueGrey.shade400
+                                : Colors.white,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.add_a_photo_outlined,
+                                  color: isDocumentRearUploaded
+                                      ? AppStyles.bgWhite
+                                      : AppStyles.bgBlue,
+                                ),
+                                SizedBox(height: 1.0.hp),
+                                CustomTextWidget(
+                                  text: 'Back',
+                                  size: 12.0.sp,
+                                  color: isDocumentRearUploaded
+                                      ? AppStyles.bgWhite
+                                      : AppStyles.bgBlack,
+                                )
+                              ],
+                            ),
+                          ),
                         ),
                       ),
-                  ]
+                    ),
+                  ],
                 ),
-
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CustomTextWidget(
-                        text:'Take or upload a poto of your Voter\'s Card',
-                        weight: FontWeight.bold,
-                        color: AppStyles.bgBlack,
-                        size: 10.0.sp, 
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8.0.wp),
-                        child: CustomTextWidget(
-                          text: 'Upload or take a picture of your Voter\'s Card preferrable on a plain background.\'nMake sure the edge are visible',
-                          size:10.0.sp
-                         ),
-                      ),
-                         
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: 40.0.wp,
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15.0)
-                                ),
-                                borderOnForeground: true,
-                                shadowColor: Colors.grey,
-                                elevation: 5,
-                                color: Colors.white,
-                                child: Column(
-                                  children: [
-                                        IconButton(
-                                          onPressed: (){
-                                            getImage();
-                                          }, 
-                                          icon: Icon(Icons.add_a_photo_outlined, 
-                                          color: AppStyles.bgBlue,
-                                          ),
-                                        ),
-                                        CustomTextWidget(
-                                          text: 'Front',
-                                          color: AppStyles.bgBlack,
-                                          size: 16.0.sp,
-                                        ),
-                                  ],
-                                ),  
-                              ),
-                            ),
-                            
-                            Container(
-                              width: 40.0.wp,
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15.0)
-                                ),
-                                borderOnForeground: true,
-                                shadowColor: Colors.grey,
-                                elevation: 5,
-                                color: Colors.white,
-                                child: Column(
-                                  children: [
-                                          IconButton(
-                                          onPressed: (){
-                                            getImage();
-                                            }, 
-                                          icon: Icon(Icons.add_a_photo_outlined, color: AppStyles.bgBlue,
-                                          ),
-                                        ),
-                                        CustomTextWidget(
-                                          text: 'Back',
-                                          color: AppStyles.bgBlack,
-                                          size: 16.0.sp,
-                                          )
-                                  ],
-                                ),  
-                              ),
-                            ),
-                          ]
-                        ),
-                        _image!=null?Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            child: Image.file(
-                              _image!, width:100, height: 100,)
-                              ),
-                        ):const Text('Select Image from Gallary '),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.all(4.0.wp),
-                                child: CustomButton(
-                                  text: 'Previous', 
-                                  width: 30.0.wp, 
-                                  height: 5.0.hp, 
-                                  onTapHandler: (){}, 
-                                  fontSize: 13.0.sp, 
-                                  fontWeight: FontWeight.bold, 
-                                  borderRadius: 5, 
-                                  backgroundColor: AppStyles.bgBlue, fontColor: Colors.white,),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(4.0.wp),
-                                child: CustomButton(
-                                  text: 'Submit', 
-                                  width: 30.0.wp, 
-                                  height: 5.0.hp, 
-                                  onTapHandler: (){}, 
-                                  fontSize: 13.0.sp, 
-                                  fontWeight: FontWeight.bold, 
-                                  borderRadius: 5, 
-                                  backgroundColor: AppStyles.bgBlue, fontColor: Colors.white),
-                              )
-                        ],
-                      )
-                    ],
-                  )
-                ],
-              )
+              ],
+            ),
+          ],
         ),
+      )),
     );
   }
 }

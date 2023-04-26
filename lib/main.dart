@@ -40,6 +40,8 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
+    // authStorage.remove('MDX-USER');
+
     rootRepository.initializeRepositories();
   }
 
@@ -52,7 +54,8 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blue,
         fontFamily: 'Poppins',
       ),
-      home: authStorage.read('MDX-USER') != null ? HomeScreen() : SplashScreen(),
+      home:
+          authStorage.read('MDX-USER') != null ? HomeScreen() : SplashScreen(),
       initialRoute: '/',
       getPages: [
         GetPage(name: '/', page: () => LoginScreen()),

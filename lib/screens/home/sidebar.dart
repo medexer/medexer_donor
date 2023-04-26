@@ -3,20 +3,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:medexer_donor/config/api_config.dart';
 import 'package:medexer_donor/config/app_config.dart';
+import 'package:medexer_donor/database/user_repository.dart';
 import 'package:medexer_donor/screens/auth/login_screen.dart';
 import 'package:medexer_donor/screens/home/sub_screens/about_us_screen.dart';
 import 'package:medexer_donor/screens/home/sub_screens/app_guide_screen.dart';
 import 'package:medexer_donor/screens/home/sub_screens/contact_us_screen.dart';
 import 'package:medexer_donor/screens/home/donor_pages/donor_centers.dart';
 import 'package:medexer_donor/screens/home/sub_screens/home_screen.dart';
-import 'package:medexer_donor/screens/home/sub_screens/notification_screen.dart';
+import 'package:medexer_donor/screens/home/sub_screens/notifications_screen.dart';
 import 'package:medexer_donor/screens/home/donor_profile.dart/profile_screen.dart';
 import 'package:medexer_donor/screens/home/sub_screens/rewards_wallet_screen.dart';
-import 'package:medexer_donor/screens/home/sub_screens/settings_screen.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
-
-import '../../widgets/buttons/custom_button.dart';
 
 class SideBar extends StatefulWidget {
   const SideBar({super.key});
@@ -27,6 +26,7 @@ class SideBar extends StatefulWidget {
 
 class _SideBarState extends State<SideBar> {
   final authStorage = GetStorage();
+  final UserRepository userRepository = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -34,17 +34,21 @@ class _SideBarState extends State<SideBar> {
       child: ListView(
         padding: EdgeInsets.only(top: 4.0.hp),
         children: [
-          ListTile(
-            leading: CircleAvatar(
-              radius: 30,
-              backgroundImage: AssetImage('assets/images/avatar__1.jpg'),
+          Obx(
+            () => ListTile(
+              leading: CircleAvatar(
+                radius: 30,
+                backgroundImage: NetworkImage(
+                    '${APIConstants.backendServerRootUrl}${userRepository.userData.value.avatar}'),
+                // backgroundImage: AssetImage('assets/images/avatar__1.jpg'),
+              ),
+              title: Text('${userRepository.userData.value.fullName}'),
+              subtitle: Text('Profile'),
+              onTap: () {
+                Get.to(() => ProfileScreen());
+                debugPrint('[PROFILE]');
+              },
             ),
-            title: Text('John Doe'),
-            subtitle: Text('Profile'),
-            onTap: () {
-              Get.to(() => ProfileScreen());
-              debugPrint('[PROFILE]');
-            },
           ),
           Divider(),
           ListTile(
@@ -75,20 +79,20 @@ class _SideBarState extends State<SideBar> {
               debugPrint('[DONOR-CENTERS]');
             },
           ),
-          ListTile(
-            leading: ImageIcon(
-              AssetImage('assets/icons/icon__info.png'),
-              color: AppStyles.bgBlue,
-            ),
-            title: CustomTextWidget(
-              text: 'Guide',
-              size: 12.0.sp,
-            ),
-            onTap: () {
-              Get.to(() => AppGuideScreen());
-              debugPrint('[APP-GUIDE]');
-            },
-          ),
+          // ListTile(
+          //   leading: ImageIcon(
+          //     AssetImage('assets/icons/icon__info.png'),
+          //     color: AppStyles.bgBlue,
+          //   ),
+          //   title: CustomTextWidget(
+          //     text: 'Guide',
+          //     size: 12.0.sp,
+          //   ),
+          //   onTap: () {
+          //     Get.to(() => AppGuideScreen());
+          //     debugPrint('[APP-GUIDE]');
+          //   },
+          // ),
           ListTile(
             leading: ImageIcon(
               AssetImage('assets/icons/icon__wallet.png'),
@@ -148,7 +152,7 @@ class _SideBarState extends State<SideBar> {
               ],
             ),
             onTap: () {
-              Get.to(() => NotificationScreen());
+              Get.to(() => NotificationsScreen());
               debugPrint('[NOTIFICATIONS]');
             },
           ),
@@ -166,20 +170,20 @@ class _SideBarState extends State<SideBar> {
               debugPrint('[ABOUT-US]');
             },
           ),
-          ListTile(
-            leading: ImageIcon(
-              AssetImage('assets/icons/icon__settings.png'),
-              color: AppStyles.bgBlue,
-            ),
-            title: CustomTextWidget(
-              text: 'Settings',
-              size: 12.0.sp,
-            ),
-            onTap: () {
-              Get.to(() => SettingsScreen());
-              debugPrint('[SETTINGS]');
-            },
-          ),
+          // ListTile(
+          //   leading: ImageIcon(
+          //     AssetImage('assets/icons/icon__settings.png'),
+          //     color: AppStyles.bgBlue,
+          //   ),
+          //   title: CustomTextWidget(
+          //     text: 'Settings',
+          //     size: 12.0.sp,
+          //   ),
+          //   onTap: () {
+          //     Get.to(() => SettingsScreen());
+          //     debugPrint('[SETTINGS]');
+          //   },
+          // ),
           ListTile(
             leading: Icon(
               Icons.logout,
@@ -192,7 +196,7 @@ class _SideBarState extends State<SideBar> {
             onTap: () async {
               debugPrint('[LOG OUT]');
 
-              await authStorage.remove('USER');
+              await authStorage.remove('MDX-USER');
 
               Get.to(
                 transition: Transition.rightToLeftWithFade,

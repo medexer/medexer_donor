@@ -66,7 +66,7 @@ class _CustomSelectionTextFieldState extends State<CustomSelectionTextField> {
       };
 
       debugPrint('[SIGNUP DTO] :: $data');
-      userRepository.kycFormData.value = data;
+      // userRepository.kycFormData.value = data;
     
       debugPrint('[ERROR] :: ${authServices.authRequestError.value}');
 

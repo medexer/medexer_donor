@@ -83,8 +83,8 @@ class _DonorCentersScreenState extends State<DonorCentersScreen>
                   child: TabBarView(
                     controller: tabController,
                     children: [
-                      DonationCenters(),
-                      Appointments(),
+                      DonationCenters(height: screenHeight * 0.8),
+                      Appointments(height: screenHeight * 0.8),
                     ],
                   ),
                 )

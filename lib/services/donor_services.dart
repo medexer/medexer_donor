@@ -3,8 +3,10 @@ import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/models/appointment_model.dart';
 import 'package:medexer_donor/models/donation_center_model.dart';
+import 'package:medexer_donor/models/notification_model.dart';
 import 'package:medexer_donor/screens/home/appointmentPages/view_appointment.dart';
 import 'package:medexer_donor/config/api_client.dart';
 import 'package:medexer_donor/config/api_config.dart';
@@ -124,6 +126,117 @@ class DonorServices extends GetxController {
         donorRequestStatus.value = 'FAILED';
 
         debugPrint('[FETCH-DONATION-CENTERS-ERROR] ${error.response!.data}');
+      }
+    }
+  }
+
+  Future<void> contactUsController(Map dto) async {
+    try {
+      donorRequestLoading.value = true;
+      donorRequestStatus.value = 'PENDING';
+      debugPrint('[CONTACT-US-PENDING]');
+
+      final response = await dio.post(
+        '${APIConstants.backendServerUrl}donor/contact-us',
+        data: dto,
+        options: Options(
+          headers: {
+            'Authorization': authStorage.read('ACCESSTOKEN'),
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        Get.snackbar(
+          'Message',
+          'Contact us message sent successfully',
+          colorText: Colors.white,
+          backgroundColor: AppStyles.bgBlue.withOpacity(0.8),
+        );
+
+        donorRequestStatus.value = '';
+        donorRequestLoading.value = false;
+        debugPrint('[CONTACT-US-SUCCESS]');
+      }
+    } catch (error) {
+      if (error is DioError) {
+        donorRequestLoading.value = false;
+        donorRequestStatus.value = 'FAILED';
+
+        debugPrint('[CONTACT-US-ERROR] ${error.response!.data}');
+        Get.snackbar(
+          'Error',
+          'An error occurred while sending contact us message, please try again.',
+          colorText: Colors.white,
+          backgroundColor: AppStyles.bgBlue.withOpacity(0.8),
+        );
+      }
+    }
+  }
+
+  Future<void> fetchNotificationsController() async {
+    try {
+      donorRequestLoading.value = true;
+      donorRequestStatus.value = 'PENDING';
+      debugPrint('[FETCH-NOTIFICATIONS-PENDING]');
+
+      final response = await dio.get(
+        '${APIConstants.backendServerUrl}donor/notifications',
+        options: Options(
+          headers: {
+            'Authorization': authStorage.read('ACCESSTOKEN'),
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        userRepository.notifications.clear();
+
+        for (var item in response.data['data']) {
+          userRepository.notifications.add(NotificationModel.fromJson(item));
+        }
+
+        donorRequestStatus.value = '';
+        donorRequestLoading.value = false;
+        debugPrint('[FETCH-NOTIFICATIONS-SUCCESS]');
+      }
+    } catch (error) {
+      if (error is DioError) {
+        donorRequestLoading.value = false;
+        donorRequestStatus.value = 'FAILED';
+
+        debugPrint('[FETCH-NOTIFICATIONS-ERROR] ${error.response!.data}');
+      }
+    }
+  }
+
+  Future<void> readNotificationsController(int? notification) async {
+    try {
+      donorRequestLoading.value = true;
+      donorRequestStatus.value = 'PENDING';
+      debugPrint('[READ-NOTIFICATION-PENDING]');
+
+      final response = await dio.put(
+        '${APIConstants.backendServerUrl}donor/notifications/${notification}/update',
+        options: Options(
+          headers: {
+            'Authorization': authStorage.read('ACCESSTOKEN'),
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        donorRequestStatus.value = '';
+        donorRequestLoading.value = false;
+
+        debugPrint('[READ-NOTIFICATION-SUCCESS]');
+      }
+    } catch (error) {
+      if (error is DioError) {
+        donorRequestLoading.value = false;
+        donorRequestStatus.value = 'FAILED';
+
+        debugPrint('[READ-NOTIFICATION-ERROR] ${error.response!.data}');
       }
     }
   }

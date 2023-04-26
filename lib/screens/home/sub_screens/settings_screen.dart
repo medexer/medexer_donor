@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:medexer_donor/config/app_config.dart';
 
 import 'package:medexer_donor/screens/home/sidebar.dart';
-import 'package:medexer_donor/screens/auth/kyc/kyc_page.dart';
+import 'package:medexer_donor/screens/auth/kyc/kyc_screen.dart';
 import 'package:medexer_donor/screens/auth/kyc/success_screen.dart';
 import 'package:medexer_donor/widgets/buttons/custom_button.dart';
 import 'package:medexer_donor/widgets/page_header.dart';

@@ -5,6 +5,7 @@ class UserModel {
   String? email;
   String? donorID;
   bool? isActive;
+  String? avatar;
   bool? isDonor;
   String? otp;
   bool? isKycUpdated;
@@ -16,6 +17,7 @@ class UserModel {
       this.email,
       this.donorID,
       this.isActive,
+      this.avatar,
       this.isDonor,
       this.otp,
       this.isKycUpdated});
@@ -27,6 +29,7 @@ class UserModel {
     email = json['email'];
     donorID = json['donorID'];
     isActive = json['is_active'];
+    avatar = json['avatar'];
     isDonor = json['is_donor'];
     otp = json['otp'];
     isKycUpdated = json['is_kyc_updated'];
@@ -40,6 +43,7 @@ class UserModel {
     data['email'] = this.email;
     data['donorID'] = this.donorID;
     data['is_active'] = this.isActive;
+    data['avatar'] = this.avatar;
     data['is_donor'] = this.isDonor;
     data['otp'] = this.otp;
     data['is_kyc_updated'] = this.isKycUpdated;

@@ -9,6 +9,7 @@ class AppStyles {
   static Color bgGray4 = Colors.grey.shade400;
   static Color bgBlue = Color(0xFF5079FA);
   static Color bgPrimary = Color(0xFFFF0000);
+  static Color bgWhite = Color(0xFFFFFFFF);
 }
 
 class AppLayout {
