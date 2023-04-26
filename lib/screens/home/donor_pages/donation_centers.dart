@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:medexer_donor/config/app_config.dart';
+import 'package:medexer_donor/database/user_repository.dart';
 import 'package:medexer_donor/screens/home/appointmentPages/book_appointment.dart';
 import 'package:medexer_donor/screens/home/appointmentPages/view_appointment.dart';
+import 'package:medexer_donor/services/donor_services.dart';
 import 'package:medexer_donor/widgets/buttons/custom_button.dart';
 import 'package:medexer_donor/widgets/text/custom_search_widget.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
@@ -17,79 +19,43 @@ class DonationCenters extends StatefulWidget {
 }
 
 class _DonationCentersState extends State<DonationCenters> {
+  final DonorServices donorServices = Get.find();
+  final UserRepository userRepository = Get.find();
   TextEditingController searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    return Column(
+    donorServices.fetchDonationCentersController();
+    return Obx(
+      () => Column(
         children: [
-          Padding(
-            padding: EdgeInsets.all(2.0.hp),
-            child: CustomTextWidget(
-                text: 'Enter the phone number or ID of the donation center here',
-                size: 10.0.sp,
-               ),
-          ),  
-          
-                Padding(
-                  padding: EdgeInsets.all(4.0.wp),
-                  child: CustomSearchField(
-                    hintText: 'Search For Donation Center',
-                    controller: searchController,
-                    icon: 'assets/icons/icon__search.png',
-                    // background: Colors.white.withOpacity(0.4),
-                  ),
-                ),
-            SizedBox(height: 2.0.hp,),
-            CustomButton(
-              text: '     Comfirm Donor Center', 
-              width: 60.0.wp, 
-              height: 5.0.hp, 
-              onTapHandler: (){
-               Get.to(const ViewAppointmentScreen());
-              }, 
-              fontSize: 10.0.sp, 
-              fontColor: Colors.white, 
-              fontWeight:FontWeight.bold, 
-              borderRadius: 20.0, 
-              backgroundColor: AppStyles.bgBlue),
-            Padding(
-              padding: EdgeInsets.all(20.0.sp),
-              child: CustomTextWidget(
-                text:'List of verified centers near you',
-                size:13.0.sp,
-                weight: FontWeight.bold,
-              ),
-            ),
-           Expanded(
-             child: ListView.builder(
-              itemCount: 20,
-              itemBuilder: (_, index) {
-                return ListTile(
-                  leading: SvgPicture.asset(
-                    'assets/icons/icon__building.svg',
-                    color: AppStyles.bgPrimary,
-                  ),
-                  title: CustomTextWidget(
-                    text: 'Hospital ${index + 1}',
-                    size: 12.0.sp,
-                  ),
-                  subtitle: CustomTextWidget(
-                    text: 'No 1. Lorem Impsum Street...',
-                    size: 8.0.sp,
-                  ),
-                  trailing: GestureDetector(
-                    onTap: () {
-                      Get.to(()=>const BookAppointmentScreen());
-                      //debugPrint('[BOOK-APPOINTMENT]');
-                    },
-                    child: CustomButton(
-                      text: 'Book an Apointment',
-                      borderRadius: 20,
+          Expanded(
+            child: ListView.builder(
+                itemCount: userRepository.donationCenters.length,
+                itemBuilder: (_, index) {
+                  return ListTile(
+                    title: CustomTextWidget(
+                      text:
+                          '${userRepository.donationCenters[index].hospitalName}',
+                      size: 12.0.sp,
+                    ),
+                    subtitle: CustomTextWidget(
+                      text: '${userRepository.donationCenters[index].location}',
+                      size: 8.0.sp,
+                    ),
+                    trailing: CustomButton(
+                      text: 'Book Apointment',
+                      borderRadius: 10,
                       fontColor: Colors.white,
                       backgroundColor: AppStyles.bgBlue,
                       fontSize: 8.0.sp,
-                      onTapHandler: (){
-                        Get.to(const BookAppointmentScreen());
+                      onTapHandler: () {
+                        Get.to(
+                          BookAppointmentScreen(
+                            donationCenter:
+                                userRepository.donationCenters[index],
+                          ),
+                        );
                       },
                       fontWeight: FontWeight.bold,
                       height: 5.0.hp,
@@ -113,9 +79,9 @@ class _DonationCentersState extends State<DonationCenters> {
             fontWeight: FontWeight.bold, 
             borderRadius: 20, 
             backgroundColor: AppStyles.bgBlue)
+
       ],
         
     );
   }
 }
-

@@ -67,7 +67,7 @@ class DioConfig {
     // debugPrint('is expired :: ${JwtDecoder.isExpired(refreshToken)} \n $refreshToken');
 
     final response = await dio.post(
-      '${APIConstants.backendServerUrl}auth/refresh_token',
+      '${APIConstants.backendServerUrl}auth/refresh-token',
       data: {
         'refresh': refreshToken,
       },

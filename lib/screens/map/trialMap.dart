@@ -11,7 +11,8 @@ class GoogleMapTrial extends StatefulWidget {
 }
 
 class _GoogleMapTrialState extends State<GoogleMapTrial> {
-  Completer<GoogleMapController> mapController = Completer();
+  Completer<GoogleMapController> mapController =
+      Completer<GoogleMapController>();
   final Set<Marker> markers = Set();
   static const LatLng showLocation = LatLng(27.7089427, 85.3086209);
   // @override
@@ -31,9 +32,11 @@ class _GoogleMapTrialState extends State<GoogleMapTrial> {
         markers: getMarkers(),
         mapType: MapType.normal,
         onMapCreated: ((controller) {
-          // setState(() {
-          //   mapController = controller as Completer<GoogleMapController>;
-          // });
+          debugPrint('[CONTROLLER]  :: ${controller.runtimeType}');
+
+          setState(() {
+            mapController.complete(controller);
+          });
         }),
       ),
     );
