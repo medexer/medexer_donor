@@ -33,37 +33,39 @@ class _NotificationState extends State<NotificationScreen> {
     return Scaffold(
       key: scaffoldKey,
       drawer: SideBar(),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 2.5.hp,
-            ),
-            PageHeader(scaffoldKey: scaffoldKey),
-            Container(
-              // height: screenHeight,
-              padding: EdgeInsets.symmetric(horizontal: 4.0.wp),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 0.5.hp,
-                  ),
-                  CustomTextWidget(
-                    text: '${widget.notification.title}',
-                    size: 12.0.sp,
-                    weight: FontWeight.w500,
-                  ),
-                  SizedBox(
-                    height: 2.0.hp,
-                  ),
-                  CustomTextWidget(
-                    text: '${widget.notification.message}',
-                    size: 11.0.sp,
-                  ),
-                ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 2.5.hp,
               ),
-            ),
-          ],
+              PageHeader(scaffoldKey: scaffoldKey),
+              Container(
+                // height: screenHeight,
+                padding: EdgeInsets.symmetric(horizontal: 4.0.wp),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 0.5.hp,
+                    ),
+                    CustomTextWidget(
+                      text: '${widget.notification.title}',
+                      size: 12.0.sp,
+                      weight: FontWeight.w500,
+                    ),
+                    SizedBox(
+                      height: 2.0.hp,
+                    ),
+                    CustomTextWidget(
+                      text: '${widget.notification.message}',
+                      size: 11.0.sp,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

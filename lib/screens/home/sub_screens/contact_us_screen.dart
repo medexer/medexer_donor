@@ -32,101 +32,103 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
     return Scaffold(
       key: scaffoldKey,
       drawer: SideBar(),
-      body: SingleChildScrollView(
-        child: Container(
-          height: screenHeight,
-          child: Column(
-            children: [
-              SizedBox(
-                height: 2.0.hp,
-              ),
-              PageHeader(scaffoldKey: scaffoldKey),
-              SizedBox(
-                height: 10.0.hp,
-              ),
-              Expanded(
-                flex: 1,
-                child: CustomTextWidget(
-                  text: 'Reach out to us. We\'re \n always happy to help!',
-                  size: 10.0.sp,
-                  weight: FontWeight.w700,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            height: screenHeight,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 2.0.hp,
                 ),
-              ),
-              Expanded(
-                flex: 6,
-                child: Container(
-                  // width: 70.0.wp,
-                  margin: EdgeInsets.symmetric(horizontal: 4.0.wp),
-                  child: Column(
-                    children: [
-                      Column(children: [
-                        SizedBox(height: 6.0.hp),
-                        CustomFormTextField(
-                          hintText: 'Subject',
-                          controller: subjectController,
-                          background: Colors.white,
-                          borderRadius: 10,
-                          textColor: AppStyles.bgBlack,
-                          hintColor: AppStyles.bgBlack,
-                          maxLines: 1,
-                        ),
-                        SizedBox(height: 4.0.hp),
-                        CustomFormTextField(
-                          hintText: 'Message',
-                          maxLines: 6,
-                          paddingLeft: 10,
-                          paddingRight: 10,
-                          height: 14.0.hp,
-                          borderRadius: 10,
-                          textColor: AppStyles.bgBlack,
-                          controller: messageController,
-                          background: Colors.white.withOpacity(0.4),
-                          hintColor: AppStyles.bgBlack,
-                        ),
-                        SizedBox(height: 3.0.hp),
-                        CustomButton(
-                          text: 'Send Message',
-                          width: double.maxFinite,
-                          height: 6.0.hp,
-                          onTapHandler: () async {
-                            if (subjectController.text.trim() == '') {
-                              Get.snackbar(
-                                'Error',
-                                'Subject is required',
-                                colorText: Colors.white,
-                                backgroundColor:
-                                    AppStyles.bgBlue.withOpacity(0.8),
-                              );
-                            }
-                            if (messageController.text.trim() == '') {
-                              Get.snackbar(
-                                'Error',
-                                'Message is required',
-                                colorText: Colors.white,
-                                backgroundColor:
-                                    AppStyles.bgBlue.withOpacity(0.8),
-                              );
-                            }
-
-                            Map formData = {
-                              "subject": subjectController.text.trim(),
-                              "message": messageController.text.trim(),
-                            };
-
-                            await donorServices.contactUsController(formData);
-                          },
-                          fontSize: 12.0.sp,
-                          borderRadius: 20,
-                          fontColor: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          backgroundColor: AppStyles.bgBlue,
-                        ),
-                      ]),
-                    ],
+                PageHeader(scaffoldKey: scaffoldKey),
+                SizedBox(
+                  height: 10.0.hp,
+                ),
+                Expanded(
+                  flex: 1,
+                  child: CustomTextWidget(
+                    text: 'Reach out to us. We\'re \n always happy to help!',
+                    size: 10.0.sp,
+                    weight: FontWeight.w700,
                   ),
                 ),
-              ),
-            ],
+                Expanded(
+                  flex: 6,
+                  child: Container(
+                    // width: 70.0.wp,
+                    margin: EdgeInsets.symmetric(horizontal: 4.0.wp),
+                    child: Column(
+                      children: [
+                        Column(children: [
+                          SizedBox(height: 6.0.hp),
+                          CustomFormTextField(
+                            hintText: 'Subject',
+                            controller: subjectController,
+                            background: Colors.white,
+                            borderRadius: 10,
+                            textColor: AppStyles.bgBlack,
+                            hintColor: AppStyles.bgBlack,
+                            maxLines: 1,
+                          ),
+                          SizedBox(height: 4.0.hp),
+                          CustomFormTextField(
+                            hintText: 'Message',
+                            maxLines: 6,
+                            paddingLeft: 10,
+                            paddingRight: 10,
+                            height: 14.0.hp,
+                            borderRadius: 10,
+                            textColor: AppStyles.bgBlack,
+                            controller: messageController,
+                            background: Colors.white.withOpacity(0.4),
+                            hintColor: AppStyles.bgBlack,
+                          ),
+                          SizedBox(height: 3.0.hp),
+                          CustomButton(
+                            text: 'Send Message',
+                            width: double.maxFinite,
+                            height: 6.0.hp,
+                            onTapHandler: () async {
+                              if (subjectController.text.trim() == '') {
+                                Get.snackbar(
+                                  'Error',
+                                  'Subject is required',
+                                  colorText: Colors.white,
+                                  backgroundColor:
+                                      AppStyles.bgBlue.withOpacity(0.8),
+                                );
+                              }
+                              if (messageController.text.trim() == '') {
+                                Get.snackbar(
+                                  'Error',
+                                  'Message is required',
+                                  colorText: Colors.white,
+                                  backgroundColor:
+                                      AppStyles.bgBlue.withOpacity(0.8),
+                                );
+                              }
+
+                              Map formData = {
+                                "subject": subjectController.text.trim(),
+                                "message": messageController.text.trim(),
+                              };
+
+                              await donorServices.contactUsController(formData);
+                            },
+                            fontSize: 12.0.sp,
+                            borderRadius: 20,
+                            fontColor: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            backgroundColor: AppStyles.bgBlue,
+                          ),
+                        ]),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -10,7 +10,7 @@ class CustomTextWidget extends StatelessWidget {
   FontWeight? weight;
   TextAlign? alignment;
 
-  CustomTextWidget({
+  CustomTextWidget( {
     super.key,
     this.color,
     this.size,

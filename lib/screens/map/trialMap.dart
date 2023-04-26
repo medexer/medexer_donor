@@ -14,7 +14,7 @@ class _GoogleMapTrialState extends State<GoogleMapTrial> {
   Completer<GoogleMapController> mapController =
       Completer<GoogleMapController>();
   final Set<Marker> markers = Set();
-  static const LatLng showLocation = LatLng(27.7089427, 85.3086209);
+  static const LatLng showLocation = LatLng(9.1667,9.7500);
   // @override
   // void initState() {
   //   super.initState();
@@ -54,7 +54,7 @@ class _GoogleMapTrialState extends State<GoogleMapTrial> {
 
       markers.add(Marker(
         markerId: MarkerId(showLocation.toString()),
-        position: const LatLng(27.7099116, 85.3132343),
+        position: const LatLng(9.895836673, 8.88430300725),
         infoWindow: const InfoWindow(
             title: 'HOSPITAL3', snippet: 'My customer subtitle'),
         icon: BitmapDescriptor.defaultMarker,
@@ -62,9 +62,17 @@ class _GoogleMapTrialState extends State<GoogleMapTrial> {
 
       markers.add(Marker(
         markerId: MarkerId(showLocation.toString()),
-        position: const LatLng(27.7137735, 85.315626),
+        position: const LatLng(9.8555, 8.8543),
         infoWindow: const InfoWindow(
-            title: 'Hospita3', snippet: 'My customer subtitle'),
+            title: 'HOSPITAL2', snippet: 'My customer subtitle'),
+        icon: BitmapDescriptor.defaultMarker,
+      ));
+
+      markers.add(Marker(
+        markerId: MarkerId(showLocation.toString()),
+        position: const LatLng(9.9394, 8.9022),
+        infoWindow: const InfoWindow(
+            title: 'Hospital3', snippet: 'My customer subtitle'),
         icon: BitmapDescriptor.defaultMarker,
       ));
     });

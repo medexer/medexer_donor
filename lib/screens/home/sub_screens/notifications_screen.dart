@@ -38,38 +38,40 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     return Scaffold(
       key: scaffoldKey,
       drawer: SideBar(),
-      body: SingleChildScrollView(
-        child: Obx(
-          () => Container(
-            // height: screenHeight,
-            padding: EdgeInsets.symmetric(horizontal: 2.0.wp),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 2.5.hp,
-                ),
-                PageHeader(scaffoldKey: scaffoldKey),
-                CustomTextWidget(
-                  text: 'Notifications',
-                  size: 16.0.sp,
-                  weight: FontWeight.w600,
-                ),
-                userRepository.notifications.isEmpty
-                    ? Container(
-                        child:
-                            Lottie.asset('assets/animations/animation__1.json'),
-                      )
-                    : Container(
-                        height: screenHeight * 0.85,
-                        child: ListView.builder(
-                            itemCount: userRepository.notifications.length,
-                            itemBuilder: (context, index) {
-                              return NotificationCard(
-                                  notification:
-                                      userRepository.notifications[index]);
-                            }),
-                      ),
-              ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Obx(
+            () => Container(
+              // height: screenHeight,
+              padding: EdgeInsets.symmetric(horizontal: 2.0.wp),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 2.5.hp,
+                  ),
+                  PageHeader(scaffoldKey: scaffoldKey),
+                  CustomTextWidget(
+                    text: 'Notifications',
+                    size: 16.0.sp,
+                    weight: FontWeight.w600,
+                  ),
+                  userRepository.notifications.isEmpty
+                      ? Container(
+                          child: Lottie.asset(
+                              'assets/animations/animation__1.json'),
+                        )
+                      : Container(
+                          height: screenHeight * 0.85,
+                          child: ListView.builder(
+                              itemCount: userRepository.notifications.length,
+                              itemBuilder: (context, index) {
+                                return NotificationCard(
+                                    notification:
+                                        userRepository.notifications[index]);
+                              }),
+                        ),
+                ],
+              ),
             ),
           ),
         ),

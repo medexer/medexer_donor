@@ -4,9 +4,9 @@ import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/models/donation_center_model.dart';
 import 'package:medexer_donor/widgets/buttons/custom_button.dart';
 import 'package:medexer_donor/widgets/text/cutom_formtext_field.dart';
-import '../../../database/user_repository.dart';
-import '../../../services/donor_services.dart';
-import '../../../widgets/text/custom_text_widget.dart';
+import 'package:medexer_donor/database/user_repository.dart';
+import 'package:medexer_donor/services/donor_services.dart';
+import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 
 class BookAppointmentScreen extends StatefulWidget {
   final DonationCenterModel donationCenter;
@@ -21,6 +21,7 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
   final UserRepository userRepository = Get.find();
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController messageController = TextEditingController();
+  TextEditingController hospitalController = TextEditingController();
 
   Future<void> submitHandler() async {
     if (!messageController.text.trim().isNotEmpty) {

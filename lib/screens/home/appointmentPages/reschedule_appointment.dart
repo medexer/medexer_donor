@@ -20,7 +20,6 @@ class _ReschedulAppointmentScreenState
   final DonorServices DonorServicess = Get.find();
   final UserRepository userRepository = Get.find();
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  TextEditingController searchController = TextEditingController();
   TextEditingController hospitalController = TextEditingController();
   TextEditingController messageController = TextEditingController();
 
@@ -64,30 +63,30 @@ class _ReschedulAppointmentScreenState
   //         DonorServicess.donorRequestStatus.value = '';
   //       });
 
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         SnackBar(
-  //           content: const CustomSnackbarContainer(
-  //             backgroundType: 'SUCCESS',
-  //             title: 'Success',
-  //             description:
-  //                 'Book successful.',
-  //           ),
-  //           behavior: SnackBarBehavior.floating,
-  //           elevation: 0,
-  //           backgroundColor: Colors.transparent,
-  //           margin: EdgeInsets.only(
-  //             // ignore: use_build_context_synchronously
-  //             bottom: MediaQuery.of(context).size.height - 150,
-  //           ),
-  //         ),
-  //       );
-  //       setState(() {
-  //         messageController.clear();
-  //         hospitalController.clear();
-  //       });
-  //     }
-  //   }
-  //  }
+    //     showDialog(context: context, 
+    //         builder: (BuildContext context){
+    //           return AlertDialog(
+    //             content: const Text("Successfully Booked Appoinment Update"),
+    //             actions: [
+    //               CustomButton(text: 'OK', 
+    //               width: 15.0.wp, 
+    //               height:4.0.hp, 
+    //               onTapHandler: (){
+    //                 Get.back();
+    //               }, fontSize: 13.0.sp, 
+    //               fontColor: Colors.white, 
+    //               fontWeight: FontWeight.w300, 
+    //               borderRadius: 10, 
+    //               backgroundColor: AppStyles.bgBlue)
+    //             ],
+    //           );
+    //         });
+    //     setState(() {
+    //       messageController.clear();
+    //     });
+    //   }
+    // }
+   //}
   @override
   Widget build(BuildContext context) {
     return Scaffold(

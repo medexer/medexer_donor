@@ -67,7 +67,7 @@ class _DonationCentersState extends State<DonationCenters> {
                             },
                             fontWeight: FontWeight.bold,
                             height: 4.0.hp,
-                            width: 22.0.wp,
+                            width: 28.0.wp,
                           ),
                         );
                       }),

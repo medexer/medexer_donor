@@ -3,13 +3,9 @@ import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
 import 'package:medexer_donor/database/user_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:medexer_donor/screens/auth/registration/reset_password_screen.dart';
-import 'package:medexer_donor/screens/home/sub_screens/home_screen.dart';
 import 'package:medexer_donor/screens/auth/kyc/sub_screen/id_proof.dart';
 import '../config/api_client.dart';
 import '../config/api_config.dart';
-import '../models/user_model.dart';
-import '../screens/auth/registration/forgot_password_success_screen.dart';
 
 class KycServices extends GetxController {
   final dio = DioConfig().api;
