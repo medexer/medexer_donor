@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace
 
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medexer_donor/config/app_config.dart';
@@ -104,3 +106,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+// mapToolbarEnabled: true,
+// myLocationEnabled: true;
+// zoomGesturesEnabled: true,
+// compassEnabled: true,
+//}

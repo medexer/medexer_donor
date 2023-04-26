@@ -1,11 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
-
 import 'package:medexer_donor/database/user_repository.dart';
 import 'package:medexer_donor/services/donor_services.dart';
 

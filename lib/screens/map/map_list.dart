@@ -1,83 +1,178 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:medexer_donor/config/app_config.dart';
+import 'package:custom_info_window/custom_info_window.dart';
 
-class GoogleMapList extends StatefulWidget {
-  const GoogleMapList({ Key?  key }) : super(key: key);
+import '../../database/user_repository.dart';
+import '../../services/donor_services.dart';
+
+class CustomInfoWindowExample extends StatefulWidget {
+   const CustomInfoWindowExample({super.key});
 
   @override
-  _GoogleMapListState createState() => _GoogleMapListState();
+  _CustomInfoWindowExampleState createState() =>
+      _CustomInfoWindowExampleState();
 }
 
+class _CustomInfoWindowExampleState extends State<CustomInfoWindowExample> {
+  final CustomInfoWindowController _customInfoWindowController =
+      CustomInfoWindowController();
+          final UserRepository userRepository = Get.find();
+  final DonorServices donorServices = Get.put(DonorServices());
 
-class _GoogleMapListState extends State<GoogleMapList> {
-  final Completer<GoogleMapController> _controller = Completer();
-
-  static const CameraPosition _kGoogle =CameraPosition(target: LatLng(37.4279613580664,-12.885749559),
-  zoom: 14.4746);
-
-  final List<Marker>_marker = [];
-  final List<Marker>_list=const[
-    Marker(
-      //icon: BitmapDescriptor.defaultMarker,
-    //  visible: true,
-      markerId: MarkerId('1'),
-      position: LatLng(20.42796133580664,80.885749655962),
-      infoWindow: InfoWindow(
-        title: 'Hospital 1'
-        ),
-      ),
-
-
-    Marker(
-      visible: true,
-      icon: BitmapDescriptor.defaultMarker,
-      markerId: MarkerId('2'),
-      position: LatLng(25.42796133580664,80.8857496559621),
-      infoWindow: InfoWindow(
-        title: 'Hospital 2'
-      )
-      ),
-
-      Marker(
-        visible: true,
-      markerId: MarkerId('3'),
-      //icon: BitmapDescriptor.defaultMarker,
-      position: LatLng(25.42796133580664,80.8857496559621),
-      infoWindow: InfoWindow(title: 'Hospital 3'),
-      
-      ),
-
-  ];
+  final LatLng _latLng = const LatLng(9.1667,9.7500);
+  final double _zoom = 15.0;
 
   @override
-  void initState() {
-    super.initState();
-    // Future<void> requestPermission() async 
-    // { await Permission.location.request(); }
-    _marker.addAll(_list);
+  void dispose() {
+    _customInfoWindowController.dispose();
+    super.dispose();
   }
 
-  
+  Set<Marker> _markers = {};
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding:EdgeInsets.only(top:5.0.hp),
-        child: Container(
-          child: GoogleMap(
-            initialCameraPosition: _kGoogle,
-            mapType: MapType.normal,
-            myLocationEnabled: true,
-            compassEnabled: true,
-            onMapCreated: (GoogleMapController controller){
-              _controller.complete(controller);
+    // _markers.add(
+    //   Marker(
+    //     markerId: MarkerId("marker_id"),
+    //     position: _latLng,
+    //     onTap: () {
+    //       _customInfoWindowController.addInfoWindow!(
+    //         Column(
+    //           children: [
+    //             Expanded(
+    //               child: Container(
+    //                 decoration: BoxDecoration(
+    //                   color: Colors.blue,
+    //                   borderRadius: BorderRadius.circular(4),
+    //                 ),
+    //                 child: Padding(
+    //                   padding: const EdgeInsets.all(8.0),
+    //                   child: Row(
+    //                     mainAxisAlignment: MainAxisAlignment.center,
+    //                     children: [
+    //                       Icon(
+    //                         Icons.account_circle,
+    //                         color: Colors.white,
+    //                         size: 30,
+    //                       ),
+    //                       SizedBox(
+    //                         width: 8.0,
+    //                       ),
+    //                       Text(
+    //                         '${userRepository.appointments[index].hospitalInfo.hospitalName}',
+    //                         style:
+    //                             Theme.of(context).textTheme.headline6!.copyWith(
+    //                                   color: Colors.white,
+    //                                 ),
+    //                       )
+    //                     ],
+    //                   ),
+    //                 ),
+    //                 width: double.infinity,
+    //                 height: double.infinity,
+    //               ),
+    //             ),
+                
+    //              Container(
+    //                 color: Colors.blue,
+    //                 width: 20.0,
+    //                 height: 10.0,
+    //               ),
+    //           ],
+    //         ),
+    //         _latLng,
+    //       );
+    //     },
+    //   ),
+    // );
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Custom Info Window Example'),
+        backgroundColor: Colors.red,
+      ),
+      body: Stack(
+        children: <Widget>[
+          GoogleMap(
+            onTap: (position) {
+              _customInfoWindowController.hideInfoWindow!();
             },
+            onCameraMove: (position) {
+              _customInfoWindowController.onCameraMove!();
+            },
+            onMapCreated: (GoogleMapController controller) async {
+              _customInfoWindowController.googleMapController = controller;
+            },
+            markers: {
+              Marker(
+        markerId: MarkerId("marker_id"),
+        position: _latLng,
+        onTap: () {
+          _customInfoWindowController.addInfoWindow!(
+            Column(
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.account_circle,
+                            color: Colors.white,
+                            size: 30,
+                          ),
+                          SizedBox(
+                            width: 8.0,
+                          ),
+                          Text(
+                            "I am here",
+                            // style:
+                            //     Theme.of(context).textTheme.headline6!.copyWith(
+                            //           color: Colors.white,
+                            //         ),
+                          )
+                        ],
+                      ),
+                    ),
+                    width: double.infinity,
+                    height: double.infinity,
+                  ),
+                ),
+                
+                 Container(
+                    color: Colors.blue,
+                    width: 20.0,
+                    height: 10.0,
+                  ),
+              ],
             ),
-    ),
-      );
+            _latLng,
+          );
+        },
+      ),
+    
+            },
+            initialCameraPosition: CameraPosition(
+              target: _latLng,
+              zoom: _zoom,
+            ),
+          ),
+          CustomInfoWindow(
+            controller: _customInfoWindowController,
+            height: 75,
+            width: 150,
+            offset: 50,
+          ),
+        ],
+      ),
+    );
   }
 }

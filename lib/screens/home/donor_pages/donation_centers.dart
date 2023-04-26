@@ -1,14 +1,12 @@
 //import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+
 import 'package:get/get.dart';
 import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/database/user_repository.dart';
 import 'package:medexer_donor/screens/home/appointmentPages/book_appointment.dart';
-import 'package:medexer_donor/screens/home/appointmentPages/view_appointment.dart';
 import 'package:medexer_donor/services/donor_services.dart';
 import 'package:medexer_donor/widgets/buttons/custom_button.dart';
-import 'package:medexer_donor/widgets/text/custom_search_widget.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 
 class DonationCenters extends StatefulWidget {
@@ -58,30 +56,14 @@ class _DonationCentersState extends State<DonationCenters> {
                         );
                       },
                       fontWeight: FontWeight.bold,
-                      height: 5.0.hp,
-                      width: 35.0.wp,
-
-                      )
-                  ),
-                );
-              }),
-           ),
-           SizedBox(height: 2.0.hp,),
-           CustomButton(
-            text: 'Search for more centers', 
-            width: 60.0.wp, 
-            height: 6.0.hp, 
-            onTapHandler: (){
-
-            }, 
-            fontSize: 12.0.sp, 
-            fontColor: Colors.white, 
-            fontWeight: FontWeight.bold, 
-            borderRadius: 20, 
-            backgroundColor: AppStyles.bgBlue)
-
-      ],
-        
+                      height: 4.0.hp,
+                      width: 22.0.wp,
+                    ),
+                  );
+                }),
+          ),
+        ],
+      ),
     );
   }
 }

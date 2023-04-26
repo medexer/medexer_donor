@@ -108,22 +108,7 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
                               background: Colors.white.withOpacity(0.4),
                               hintColor: AppStyles.bgBlack,
                             ),
-                            // SizedBox(height: 2.0.hp),
-                            // Container(
-                            //   height: 12.0.hp,
-                            //   child: TextFormField(
-                            //     maxLines: 5,
-                            //     controller: messageController,
-                            //     decoration: InputDecoration(
-                            //       border: OutlineInputBorder(
-                            //         borderRadius: BorderRadius.circular(5.0),
-                            //       ),
-                            //       hintText:
-                            //           'I would love to come for my checkup tomorrow',
-                            //       labelText: 'Message',
-                            //     ),
-                            //   ),
-                            // ),
+
                             SizedBox(height: 2.0.hp),
                             CustomButton(
                                 text: 'Book Appointment',
