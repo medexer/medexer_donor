@@ -10,6 +10,7 @@ import 'package:medexer_donor/screens/auth/login_screen.dart';
 import 'package:medexer_donor/screens/auth/onboarding_screen.dart';
 import 'package:medexer_donor/screens/auth/registration/signup_screen.dart';
 import 'package:medexer_donor/screens/auth/splash_screen.dart';
+import 'package:medexer_donor/screens/map/final_map.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

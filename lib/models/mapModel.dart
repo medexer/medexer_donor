@@ -1,6 +1,6 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class DonationCenterModel {
+class MapModel {
   String? id;
   int? pkid;
   String? hospitalName;
@@ -13,7 +13,7 @@ class DonationCenterModel {
   double? lat;
   double? long;
 
-  DonationCenterModel(
+  MapModel(
       {this.id,
       this.pkid,
       this.hospitalName,
@@ -26,7 +26,7 @@ class DonationCenterModel {
       this.long,
       });
 
-  DonationCenterModel.fromJson(Map<String, dynamic> json) {
+  MapModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     pkid = json['pkid'];
     hospitalName = json['hospitalName'];
@@ -48,4 +48,28 @@ class DonationCenterModel {
     return data;
   }
 }
+
+// ignore: non_constant_identifier_names
+List<MapModel>MapModels=[
+    MapModel(
+      pkid: 1,
+      hospitalName: 'Plateau State hospital',
+      lat: 9.895836673, 
+      long: 8.88430300725 
+    ),
+    MapModel(
+      pkid: 2,
+      hospitalName: 'JUTH',
+      lat: 9.895725562, 
+      long: 8.88430300725 
+    ),
+    MapModel(
+      pkid: 3,
+      hospitalName: 'ECWA Hospital',
+      lat: 9.895614562, 
+      long: 8.88430300725 
+    )
+
+  ];
+
 

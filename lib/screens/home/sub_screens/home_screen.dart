@@ -11,6 +11,7 @@ import 'package:medexer_donor/models/user_model.dart';
 import 'package:medexer_donor/screens/auth/kyc/kyc_screen.dart';
 import 'package:medexer_donor/screens/home/route_screen.dart';
 import 'package:medexer_donor/screens/home/sidebar.dart';
+import 'package:medexer_donor/screens/map/final_map.dart';
 import 'package:medexer_donor/screens/map/trialMap.dart';
 import 'package:medexer_donor/widgets/page_header.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
@@ -114,7 +115,9 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Stack(
             children: [
               SingleChildScrollView(
-                child: Container(height: screenHeight, child: GoogleMapTrial()
+                child: Container(height: screenHeight, 
+                //child: GoogleMapTrial()
+                child:FinalMap(),
                     // Image.asset(
                     //   'assets/images/map__1.jpg',
                     //   fit: BoxFit.cover,

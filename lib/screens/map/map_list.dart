@@ -1,178 +1,83 @@
+import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:custom_info_window/custom_info_window.dart';
+import 'package:medexer_donor/models/donation_center_model.dart';
 
-import '../../database/user_repository.dart';
-import '../../services/donor_services.dart';
-
-class CustomInfoWindowExample extends StatefulWidget {
-   const CustomInfoWindowExample({super.key});
+class MapList extends StatefulWidget {
+  DonationCenterModel donation;
+  MapList({Key? key, required this.donation}) : super(key: key);
 
   @override
-  _CustomInfoWindowExampleState createState() =>
-      _CustomInfoWindowExampleState();
+  _MapListState createState() => _MapListState();
 }
 
-class _CustomInfoWindowExampleState extends State<CustomInfoWindowExample> {
-  final CustomInfoWindowController _customInfoWindowController =
-      CustomInfoWindowController();
-          final UserRepository userRepository = Get.find();
-  final DonorServices donorServices = Get.put(DonorServices());
-
-  final LatLng _latLng = const LatLng(9.1667,9.7500);
-  final double _zoom = 15.0;
-
-  @override
-  void dispose() {
-    _customInfoWindowController.dispose();
-    super.dispose();
-  }
-
-  Set<Marker> _markers = {};
-
+class _MapListState extends State<MapList> {
+  Completer<GoogleMapController> mapController =
+      Completer<GoogleMapController>();
+  final Set<Marker> markers = Set();
+  static const LatLng showLocation = LatLng(9.1667,9.7500);
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   Future<void> requestPermission() async
+  //   { await Permission.location.request(); }
+  // }
   @override
   Widget build(BuildContext context) {
-    // _markers.add(
-    //   Marker(
-    //     markerId: MarkerId("marker_id"),
-    //     position: _latLng,
-    //     onTap: () {
-    //       _customInfoWindowController.addInfoWindow!(
-    //         Column(
-    //           children: [
-    //             Expanded(
-    //               child: Container(
-    //                 decoration: BoxDecoration(
-    //                   color: Colors.blue,
-    //                   borderRadius: BorderRadius.circular(4),
-    //                 ),
-    //                 child: Padding(
-    //                   padding: const EdgeInsets.all(8.0),
-    //                   child: Row(
-    //                     mainAxisAlignment: MainAxisAlignment.center,
-    //                     children: [
-    //                       Icon(
-    //                         Icons.account_circle,
-    //                         color: Colors.white,
-    //                         size: 30,
-    //                       ),
-    //                       SizedBox(
-    //                         width: 8.0,
-    //                       ),
-    //                       Text(
-    //                         '${userRepository.appointments[index].hospitalInfo.hospitalName}',
-    //                         style:
-    //                             Theme.of(context).textTheme.headline6!.copyWith(
-    //                                   color: Colors.white,
-    //                                 ),
-    //                       )
-    //                     ],
-    //                   ),
-    //                 ),
-    //                 width: double.infinity,
-    //                 height: double.infinity,
-    //               ),
-    //             ),
-                
-    //              Container(
-    //                 color: Colors.blue,
-    //                 width: 20.0,
-    //                 height: 10.0,
-    //               ),
-    //           ],
-    //         ),
-    //         _latLng,
-    //       );
-    //     },
-    //   ),
-    // );
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Custom Info Window Example'),
-        backgroundColor: Colors.red,
-      ),
-      body: Stack(
-        children: <Widget>[
-          GoogleMap(
-            onTap: (position) {
-              _customInfoWindowController.hideInfoWindow!();
-            },
-            onCameraMove: (position) {
-              _customInfoWindowController.onCameraMove!();
-            },
-            onMapCreated: (GoogleMapController controller) async {
-              _customInfoWindowController.googleMapController = controller;
-            },
-            markers: {
-              Marker(
-        markerId: MarkerId("marker_id"),
-        position: _latLng,
-        onTap: () {
-          _customInfoWindowController.addInfoWindow!(
-            Column(
-              children: [
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.account_circle,
-                            color: Colors.white,
-                            size: 30,
-                          ),
-                          SizedBox(
-                            width: 8.0,
-                          ),
-                          Text(
-                            "I am here",
-                            // style:
-                            //     Theme.of(context).textTheme.headline6!.copyWith(
-                            //           color: Colors.white,
-                            //         ),
-                          )
-                        ],
-                      ),
-                    ),
-                    width: double.infinity,
-                    height: double.infinity,
-                  ),
-                ),
-                
-                 Container(
-                    color: Colors.blue,
-                    width: 20.0,
-                    height: 10.0,
-                  ),
-              ],
-            ),
-            _latLng,
-          );
-        },
-      ),
-    
-            },
-            initialCameraPosition: CameraPosition(
-              target: _latLng,
-              zoom: _zoom,
-            ),
-          ),
-          CustomInfoWindow(
-            controller: _customInfoWindowController,
-            height: 75,
-            width: 150,
-            offset: 50,
-          ),
-        ],
+      body: GoogleMap(
+        zoomGesturesEnabled: true,
+        compassEnabled: true,
+        initialCameraPosition:
+            const CameraPosition(target: showLocation, zoom: 15.0),
+        markers: getMarkers(),
+        mapType: MapType.normal,
+        onMapCreated: ((controller) {
+          debugPrint("${widget.donation.lat}");
+
+          setState(() {
+            mapController.complete(controller);
+          });
+        }),
       ),
     );
+  }
+
+  Set<Marker> getMarkers() {
+    setState(() {
+      markers.add(Marker(
+        markerId: MarkerId(showLocation.toString()),
+        position: showLocation,
+        infoWindow: const InfoWindow(
+            title: 'HOSPITAL 1', snippet: 'My customer subtitle'),
+        icon: BitmapDescriptor.defaultMarker,
+      ));
+
+      markers.add(Marker(
+        markerId: MarkerId(showLocation.toString()),
+        position:  LatLng(widget.donation.lat!, widget.donation.long!),
+        infoWindow:  InfoWindow(
+            title: '${widget.donation.hospitalName}', snippet: 'My customer subtitle'),
+        icon: BitmapDescriptor.defaultMarker,
+      ));
+
+      markers.add(Marker(
+        markerId: MarkerId(showLocation.toString()),
+        position: const LatLng(9.8555, 8.8543),
+        infoWindow: const InfoWindow(
+            title: 'HOSPITAL2', snippet: 'My customer subtitle'),
+        icon: BitmapDescriptor.defaultMarker,
+      ));
+
+      markers.add(Marker(
+        markerId: MarkerId(showLocation.toString()),
+        position: const LatLng(9.9394, 8.9022),
+        infoWindow: const InfoWindow(
+            title: 'Hospital3', snippet: 'My customer subtitle'),
+        icon: BitmapDescriptor.defaultMarker,
+      ));
+    });
+    return markers;
   }
 }
