@@ -56,7 +56,7 @@ class _MyAppState extends State<MyApp> {
         fontFamily: 'Poppins',
       ),
       home:
-          authStorage.read('MDX-USER') != null ? HomeScreen() : SplashScreen(),
+          authStorage.read('MDX-USER') != null ? HomeScreen() : FinalMap(),
       initialRoute: '/',
       getPages: [
         GetPage(name: '/', page: () => LoginScreen()),

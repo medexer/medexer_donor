@@ -103,11 +103,15 @@
 //       );
 //   }
 // }
-
+import 'dart:async';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
+//import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import '../../database/user_repository.dart';
+import '../../services/donor_services.dart';
 
 class FinalMap extends StatefulWidget {
   const FinalMap({super.key});
@@ -117,9 +121,13 @@ class FinalMap extends StatefulWidget {
 }
 
 class _FinalMapState extends State<FinalMap> {
+  Completer<GoogleMapController>_controller =Completer();
   CustomInfoWindowController customInfoWindowcontroller = CustomInfoWindowController();
+  final DonorServices donorServices = Get.find();
+  final UserRepository userRepository = Get.find();
 
   final List<Marker>_markers = <Marker>[];
+  final Set<Polyline>_polyLines ={};
   final List<LatLng>_latlang = [
     const LatLng(9.895725562, 8.98430300725),
     const LatLng(9.895614562, 8.58430300725),
@@ -135,24 +143,36 @@ class _FinalMapState extends State<FinalMap> {
   }
 
   loadMarkers(){
-    for(int index=0; index<_latlang.length; index++){
-      _markers.add(Marker(
-      markerId: MarkerId(index.toString()), 
-      icon: BitmapDescriptor.defaultMarker,
-      infoWindow: InfoWindow(
-        title: 'hospital 1'
-      ),
-      position: _latlang[index],
-      onTap: (){
-        customInfoWindowcontroller.addInfoWindow!(const Text('hooo'),_latlang[index]);
-      }
-      )
-      
-      );
-      setState(() {
-        
+    donorServices.fetchDonationCentersController();
+   if(userRepository.donationCenters.isNotEmpty) {
+        for(int index=0; index<userRepository.donationCenters.length; index++){
+          _markers.add(Marker(
+              markerId: MarkerId(index.toString()), 
+              icon: BitmapDescriptor.defaultMarker,
+              infoWindow: InfoWindow(
+                title: '${userRepository.donationCenters[index].hospitalName!}'
+              ),
+              position: _latlang[index],
+              onTap: (){
+                customInfoWindowcontroller.addInfoWindow!(const Text('hooo'),userRepository.donationCenters[index]);
+              }
+            ),
+          );
+        setState(() {
       });
+      _polyLines.add(
+        Polyline(
+          polylineId: const PolylineId('1',),
+          points: _latlang
+        )
+      );
     }
+
+  }else{
+    return const CircularProgressIndicator();
+  }
+    
+    
     
   }
   @override
@@ -160,33 +180,33 @@ class _FinalMapState extends State<FinalMap> {
     return Stack(
       children: [
         GoogleMap(
-            scrollGesturesEnabled: true,
-            compassEnabled: true,
-              myLocationEnabled: true,
-              mapType: MapType.normal,
-              onMapCreated: (GoogleMapController controller){
-                 customInfoWindowcontroller.googleMapController =controller;
-                },
-              markers: Set<Marker>.of(_markers),
-              initialCameraPosition: const CameraPosition(
-                target: LatLng(9.0820,8.6753),
-                zoom: 15,
-                ),
-                onTap: (Position){
-                  customInfoWindowcontroller.hideInfoWindow;
-                },
-                onCameraMove: (Position){
-                  customInfoWindowcontroller.onCameraMove!();
-                },
-          ),
-          CustomInfoWindow(
-            controller: customInfoWindowcontroller,
-            height: 200,
-            width: 300,
-            offset: 35,
-
-            )
-      ],
-    );
+          polylines: _polyLines,
+          scrollGesturesEnabled: true,
+          compassEnabled: true,
+          myLocationEnabled: true,
+          mapType: MapType.normal,
+          onMapCreated: (GoogleMapController controller){
+             customInfoWindowcontroller.googleMapController =controller;
+            },
+          markers: Set<Marker>.of(_markers),
+          initialCameraPosition: const CameraPosition(
+          target: LatLng(9.0820,8.6753),
+          zoom: 15,
+            ),
+            onTap: (Position){
+              customInfoWindowcontroller.hideInfoWindow;
+            },
+            onCameraMove: (Position){
+              customInfoWindowcontroller.onCameraMove!();
+            },
+      ),
+      CustomInfoWindow(
+        controller: customInfoWindowcontroller,
+        height: 200,
+        width: 300,
+       offset: 35,
+     )
+    ],
+  );
   }
 }
