@@ -1,10 +1,12 @@
 //import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/database/user_repository.dart';
 import 'package:medexer_donor/screens/home/appointmentPages/book_appointment.dart';
+import 'package:medexer_donor/screens/home/donation_center/donation_center_search_profile_screen.dart';
 import 'package:medexer_donor/services/donor_services.dart';
 import 'package:medexer_donor/widgets/buttons/custom_button.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
@@ -41,18 +43,55 @@ class _DonationCentersState extends State<DonationCenters> {
                       itemCount: userRepository.donationCenters.length,
                       itemBuilder: (_, index) {
                         return ListTile(
-                          title: CustomTextWidget(
-                            text:
-                                '${userRepository.donationCenters[index].hospitalName}',
-                            size: 12.0.sp,
+                          leading: GestureDetector(
+                            onTap: () {
+                              Get.to(
+                                () => DonationCenterSearchProfileScreen(
+                                  donationCenter:
+                                      userRepository.donationCenters[index],
+                                ),
+                              );
+                            },
+                            child: CircleAvatar(
+                              backgroundColor: AppStyles.bgBlue,
+                              child: SvgPicture.asset(
+                                'assets/icons/icon__medical.svg',
+                                color: AppStyles.bgWhite,
+                              ),
+                            ),
                           ),
-                          subtitle: CustomTextWidget(
-                            text:
-                                '${userRepository.donationCenters[index].location}',
-                            size: 8.0.sp,
+                          title: GestureDetector(
+                            onTap: () {
+                              Get.to(
+                                () => DonationCenterSearchProfileScreen(
+                                  donationCenter:
+                                      userRepository.donationCenters[index],
+                                ),
+                              );
+                            },
+                            child: CustomTextWidget(
+                              text:
+                                  '${userRepository.donationCenters[index].hospitalName}',
+                              size: 12.0.sp,
+                            ),
+                          ),
+                          subtitle: GestureDetector(
+                            onTap: () {
+                              Get.to(
+                                () => DonationCenterSearchProfileScreen(
+                                  donationCenter:
+                                      userRepository.donationCenters[index],
+                                ),
+                              );
+                            },
+                            child: CustomTextWidget(
+                              text:
+                                  '${userRepository.donationCenters[index].centerAddress}',
+                              size: 8.0.sp,
+                            ),
                           ),
                           trailing: CustomButton(
-                            text: 'Book Apointment',
+                            text: 'Book Appointment',
                             borderRadius: 10,
                             fontColor: Colors.white,
                             backgroundColor: AppStyles.bgBlue,
@@ -65,9 +104,9 @@ class _DonationCentersState extends State<DonationCenters> {
                                 ),
                               );
                             },
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w500,
                             height: 4.0.hp,
-                            width: 28.0.wp,
+                            width: 25.0.wp,
                           ),
                         );
                       }),

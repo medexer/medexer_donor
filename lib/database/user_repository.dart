@@ -10,6 +10,12 @@ class UserRepository extends GetxController {
   RxList<dynamic> _donationCenters = [].obs;
   RxList get donationCenters => _donationCenters;
   
+  RxList<dynamic> _searchResults = [].obs;
+  RxList get searchResults => _searchResults;
+  
+  RxList<dynamic> _donationCentersGeoData = [].obs;
+  RxList get donationCentersGeoData => _donationCentersGeoData;
+  
   RxList<dynamic> _appointments = [].obs;
   RxList get appointments => _appointments;
   

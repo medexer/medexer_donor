@@ -22,38 +22,32 @@ class _SignupScreenState extends State<SignupScreen> {
   bool rememberMe = false;
   bool showPassword = true;
   bool showConfirmPassword = true;
-    final AuthServices authServices = Get.find();
+  final AuthServices authServices = Get.find();
   TextEditingController usernameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
 
-
-
   Future<void> signupHandler() async {
-    if(!usernameController.text.trim().isNotEmpty||
-    !emailController.text.trim().isNotEmpty||
-    !passwordController.text.trim().isNotEmpty||
-    !confirmPasswordController.text.trim().isNotEmpty
-    ) {
+    if (!usernameController.text.trim().isNotEmpty ||
+        !emailController.text.trim().isNotEmpty ||
+        !passwordController.text.trim().isNotEmpty ||
+        !confirmPasswordController.text.trim().isNotEmpty) {
+      Get.snackbar(
+          backgroundColor: AppStyles.bgPrimary,
+          'ERROR!',
+          'Please ensure your fill in all fields in the form as the are required.');
+    } else if (confirmPasswordController.text.trim() !=
+        passwordController.text.trim()) {
       Get.snackbar(
         backgroundColor: AppStyles.bgPrimary,
-        'ERROR!', 
-        'Please ensure your fill in all fields in the form as the are required.'
-        ); 
-    
-    } 
-    // else if(confirmPasswordController!=passwordController){
-    //   Get.snackbar(
-    //     backgroundColor: AppStyles.bgPrimary,
-    //     'ERROR!', 
-    //     'Enter thesame Password'
-    //     );
-    //}
-    else {
+        'ERROR!',
+        'Passwords do not match',
+      );
+    } else {
       Map data = {
         "fullName": usernameController.text.trim(),
-        "email":emailController.text.trim(),
+        "email": emailController.text.trim(),
         "password": passwordController.text.trim(),
       };
 
@@ -63,64 +57,30 @@ class _SignupScreenState extends State<SignupScreen> {
       );
 
       debugPrint('[ERROR] :: ${authServices.authRequestError.value}');
-      
 
       if (authServices.authRequestError.value == 'Invalid email address.') {
         Get.snackbar(
-        backgroundColor: AppStyles.bgPrimary,
-        'ERROR!', 
-        authServices.authRequestError.value
-        );
+            backgroundColor: AppStyles.bgPrimary,
+            'ERROR!',
+            authServices.authRequestError.value);
       }
-      if (authServices.authRequestError.value =='User with this Email Address already exists.') {
+      if (authServices.authRequestError.value ==
+          'User with this Email Address already exists.') {
         Get.snackbar(
-        backgroundColor: AppStyles.bgPrimary,
-        'ERROR!', 
-        authServices.authRequestError.value
-        );
-      }
-
-      if (authServices.authRequestStatus.value == 'SUCCESS') {
-        setState(() {
-          authServices.authLoading.value = false;
-          authServices.authRequestError.value = '';
-          authServices.authRequestStatus.value = '';
-        });
-
-          showDialog(context: context, 
-            builder: (BuildContext context){
-              return AlertDialog(
-                content: Text("REGISTRATION SUCCESSFULLY"),
-                actions: [
-                  CustomButton(text: 'OK', 
-                  width: 15.0.wp, 
-                  height:3.0.hp, 
-                  onTapHandler: (){
-                    Get.back();
-                  }, fontSize: 13.0.sp, 
-                  fontColor: Colors.white, 
-                  fontWeight: FontWeight.w300, 
-                  borderRadius: 10, 
-                  backgroundColor: AppStyles.bgBlue)
-                ],
-              );
-            });
-        setState(() {
-          usernameController.clear();
-          emailController.clear();
-          passwordController.clear();
-        });
+            backgroundColor: AppStyles.bgPrimary,
+            'ERROR!',
+            authServices.authRequestError.value);
       }
     }
-   }
+  }
 
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      body: Obx(()=>
-        SingleChildScrollView(
+      body: Obx(
+        () => SingleChildScrollView(
           child: Container(
             height: screenHeight,
             padding: EdgeInsets.symmetric(
@@ -183,21 +143,21 @@ class _SignupScreenState extends State<SignupScreen> {
                       background: Colors.white.withOpacity(0.4),
                     ),
                     SizedBox(height: 3.0.hp),
-                    authServices.authRequestStatus.value =='PENDING'?
-                    CircularProgressIndicator():
-                    CustomButton(
-                      text: 'Signup',
-                      width: double.maxFinite,
-                      height: 6.0.hp,
-                      onTapHandler: () {
-                        signupHandler();
-                      },
-                      fontSize: 12.0.sp,
-                      borderRadius: 5,
-                      fontColor: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      backgroundColor: AppStyles.bgPrimary,
-                    ),
+                    authServices.authRequestStatus.value == 'PENDING'
+                        ? CircularProgressIndicator()
+                        : CustomButton(
+                            text: 'Signup',
+                            width: double.maxFinite,
+                            height: 6.0.hp,
+                            onTapHandler: () {
+                              signupHandler();
+                            },
+                            fontSize: 12.0.sp,
+                            borderRadius: 5,
+                            fontColor: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            backgroundColor: AppStyles.bgPrimary,
+                          ),
                     SizedBox(height: 3.0.hp),
                     Row(
                       children: [

@@ -9,10 +9,11 @@ import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/database/user_repository.dart';
 import 'package:medexer_donor/models/user_model.dart';
 import 'package:medexer_donor/screens/auth/kyc/kyc_screen.dart';
-import 'package:medexer_donor/screens/home/route_screen.dart';
+import 'package:medexer_donor/screens/home/search_donation_centers_screen.dart';
 import 'package:medexer_donor/screens/home/sidebar.dart';
 import 'package:medexer_donor/screens/map/final_map.dart';
 import 'package:medexer_donor/screens/map/trialMap.dart';
+import 'package:medexer_donor/services/donor_services.dart';
 import 'package:medexer_donor/widgets/page_header.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 
@@ -26,6 +27,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final authStorage = GetStorage();
+  final DonorServices donorServices = Get.find();
   final UserRepository userRepository = Get.find();
 
   void initializeState() async {
@@ -69,10 +71,10 @@ class _HomeScreenState extends State<HomeScreen> {
               Center(
                 child: Container(
                   width: 40,
-                  height: 8,
+                  height: 0.6.hp,
                   decoration: BoxDecoration(
+                    color: AppStyles.bgBlack,
                     borderRadius: BorderRadius.circular(50),
-                    color: AppStyles.bgGray.withOpacity(0.5),
                   ),
                 ),
               ),
@@ -82,24 +84,28 @@ class _HomeScreenState extends State<HomeScreen> {
                   Get.to(
                     transition: Transition.downToUp,
                     duration: Duration(milliseconds: 500),
-                    () => RouteScreen(),
+                    () => SearchDonationCentersScreen(),
                   );
                 },
                 child: Container(
                   padding: EdgeInsets.symmetric(
                     vertical: 1.2.hp,
-                    horizontal: 2.0.wp,
+                    horizontal: 4.0.wp,
                   ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: AppStyles.bgGray.withOpacity(0.2),
+                    color: AppStyles.bgGray.withOpacity(0.1),
                   ),
                   child: Row(
                     children: [
-                      Icon(Icons.search),
+                      Icon(
+                        Icons.search,
+                        size: 18,
+                      ),
+                      SizedBox(width: 2.0.wp),
                       CustomTextWidget(
-                        text: 'Search for a Donation Center',
-                        size: 14.0.sp,
+                        text: 'Search for donation center(s)',
+                        size: 12.0.sp,
                       ),
                     ],
                   ),
@@ -115,14 +121,10 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Stack(
             children: [
               SingleChildScrollView(
-                child: Container(height: screenHeight, 
-                //child: GoogleMapTrial()
-                child:FinalMap(),
-                    // Image.asset(
-                    //   'assets/images/map__1.jpg',
-                    //   fit: BoxFit.cover,
-                    // ),
-                    ),
+                child: Container(
+                  height: screenHeight,
+                  child: FinalMap(),
+                ),
               ),
               Positioned(
                 top: 0,
@@ -136,9 +138,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-// mapToolbarEnabled: true,
-// myLocationEnabled: true;
-// zoomGesturesEnabled: true,
-// compassEnabled: true,
-//}

@@ -50,6 +50,10 @@ dependencies:
   file_picker: ^5.2.5  
   lottie: ^2.3.2
   custom_info_window: ^1.0.1
+  url_launcher: ^6.1.10
+  firebase_auth: ^4.2.8
+  firebase_core: ^2.6.1
+  flutter_launcher_icons: ^0.11.0
   
 
 dev_dependencies:
@@ -63,10 +67,11 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
 
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/logo.png"
 
-# The following section is specific to Flutter packages.
 flutter:
 
   # The following line ensures that the Material Icons font is

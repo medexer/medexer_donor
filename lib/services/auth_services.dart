@@ -8,6 +8,7 @@ import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/database/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:medexer_donor/screens/auth/kyc/kyc_screen.dart';
+import 'package:medexer_donor/screens/auth/login_screen.dart';
 import 'package:medexer_donor/screens/auth/registration/reset_password_screen.dart';
 import 'package:medexer_donor/screens/home/sub_screens/home_screen.dart';
 import 'package:medexer_donor/screens/auth/kyc/sub_screen/id_proof.dart';
@@ -40,8 +41,8 @@ class AuthServices extends GetxController {
         debugPrint('[SIGNIN-SUCCESS]');
 
         authStorage.write('MDX-USER', response.data['data']['user']);
-        authStorage.write('ACCESSTOKEN', response.data['data']['access']);
-        authStorage.write('REFRESHTOKEN', response.data['data']['refresh']);
+        authStorage.write('MDX-ACCESSTOKEN', response.data['data']['access']);
+        authStorage.write('MDX-REFRESHTOKEN', response.data['data']['refresh']);
 
         userRepository.userData.value =
             UserModel.fromJson(response.data['data']['user']);
@@ -57,6 +58,13 @@ class AuthServices extends GetxController {
             () => KycScreen(),
           );
         } else {
+          Get.snackbar(
+            'Success',
+            'Login successful!',
+            colorText: Colors.white,
+            backgroundColor: AppStyles.bgBlue.withOpacity(0.8),
+          );
+
           Get.to(
             transition: Transition.rightToLeftWithFade,
             duration: const Duration(milliseconds: 500),
@@ -70,11 +78,11 @@ class AuthServices extends GetxController {
       if (error is DioError) {
         authLoading.value = false;
         authRequestStatus.value = 'FAILED';
-        debugPrint('${error.response!.data}');
-        if (error.response!.data['message'] != null) {
+        debugPrint('${error.response}');
+        if (error.response?.data['message'] != null) {
           authRequestError.value = error.response!.data['message'];
         }
-        debugPrint('[SIGNIN CATCH ERROR] ${error.response!.data}');
+        debugPrint('[SIGNIN CATCH ERROR] ${error.response?.data}');
       }
     }
   }
@@ -97,10 +105,17 @@ class AuthServices extends GetxController {
         debugPrint('[SIGNUP SUCCESS]');
         debugPrint('[SIGNUP RESPONSE]:: ${response.data}');
 
+        Get.snackbar(
+          'Success',
+          'Signup successful!',
+          colorText: Colors.white,
+          backgroundColor: AppStyles.bgBlue.withOpacity(0.8),
+        );
+
         Get.to(
           transition: Transition.rightToLeft,
           duration: const Duration(milliseconds: 500),
-          () => HomeScreen(),
+          () => LoginScreen(),
         );
       }
     } catch (error) {
@@ -214,7 +229,7 @@ class AuthServices extends GetxController {
         data: formData,
         options: Options(
           headers: {
-            'Authorization': authStorage.read('ACCESSTOKEN'),
+            'Authorization': authStorage.read('MDX-ACCESSTOKEN'),
             'Content-Type': 'multipart/form-data'
           },
         ),
@@ -276,7 +291,7 @@ class AuthServices extends GetxController {
         data: formData,
         options: Options(
           headers: {
-            'Authorization': authStorage.read('ACCESSTOKEN'),
+            'Authorization': authStorage.read('MDX-ACCESSTOKEN'),
             'Content-Type': 'multipart/form-data',
           },
         ),

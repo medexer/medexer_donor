@@ -1,9 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:medexer_donor/firebase_options.dart';
 import 'package:medexer_donor/database/root_repository.dart';
 import 'package:medexer_donor/screens/home/sub_screens/home_screen.dart';
 import 'package:medexer_donor/screens/auth/login_screen.dart';
@@ -15,6 +17,9 @@ import 'package:medexer_donor/screens/map/final_map.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   SystemChrome.setPreferredOrientations(
     [
@@ -41,7 +46,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
-    // authStorage.remove('MDX-USER');
+    authStorage.remove('MDX-USER');
 
     rootRepository.initializeRepositories();
   }
@@ -55,8 +60,7 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blue,
         fontFamily: 'Poppins',
       ),
-      home:
-          authStorage.read('MDX-USER') != null ? HomeScreen() : FinalMap(),
+      home: authStorage.read('MDX-USER') != null ? HomeScreen() : LoginScreen(),
       initialRoute: '/',
       getPages: [
         GetPage(name: '/', page: () => LoginScreen()),

@@ -16,7 +16,7 @@ class _MapListState extends State<MapList> {
   Completer<GoogleMapController> mapController =
       Completer<GoogleMapController>();
   final Set<Marker> markers = Set();
-  static const LatLng showLocation = LatLng(9.1667,9.7500);
+  static const LatLng showLocation = LatLng(9.1667, 9.7500);
   // @override
   // void initState() {
   //   super.initState();
@@ -34,7 +34,7 @@ class _MapListState extends State<MapList> {
         markers: getMarkers(),
         mapType: MapType.normal,
         onMapCreated: ((controller) {
-          debugPrint("${widget.donation.lat}");
+          debugPrint("${widget.donation}");
 
           setState(() {
             mapController.complete(controller);
@@ -56,9 +56,10 @@ class _MapListState extends State<MapList> {
 
       markers.add(Marker(
         markerId: MarkerId(showLocation.toString()),
-        position:  LatLng(widget.donation.lat!, widget.donation.long!),
-        infoWindow:  InfoWindow(
-            title: '${widget.donation.hospitalName}', snippet: 'My customer subtitle'),
+        // position:  LatLng(widget.donation.lat!, widget.donation.long!),
+        infoWindow: InfoWindow(
+            title: '${widget.donation.hospitalName}',
+            snippet: 'My customer subtitle'),
         icon: BitmapDescriptor.defaultMarker,
       ));
 

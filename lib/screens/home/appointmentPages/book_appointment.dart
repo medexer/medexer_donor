@@ -92,7 +92,8 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
                               borderRadius: 10,
                               textColor: AppStyles.bgBlack,
                               controller: TextEditingController(
-                                  text: '${widget.donationCenter.location}'),
+                                  text:
+                                      '${widget.donationCenter.centerAddress}'),
                               background: Colors.white.withOpacity(0.4),
                               hintColor: AppStyles.bgBlack,
                             ),

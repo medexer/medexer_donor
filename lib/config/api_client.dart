@@ -16,13 +16,13 @@ class DioConfig {
   DioConfig() {
     api.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
-        // accessToken = authStorage.read('ACCESSTOKEN');
+        // accessToken = authStorage.read('MDX-ACCESSTOKEN');
 
         // options.headers['Authorization'] = accessToken;
         return handler.next(options);
       },
       onError: (DioError error, handler) async {
-        final refreshtoken = await authStorage.read('REFRESHTOKEN');
+        final refreshtoken = await authStorage.read('MDX-REFRESHTOKEN');
 
         // debugPrint('${error.response?.data['detail']} :::++ error');
   
@@ -43,7 +43,7 @@ class DioConfig {
   }
 
   Future<Response<dynamic>> _retry(RequestOptions requestOptions) async {
-    final accessToken = await authStorage.read('ACCESSTOKEN');
+    final accessToken = await authStorage.read('MDX-ACCESSTOKEN');
     // debugPrint('new token :: $accessToken');
 
     final options = Options(
@@ -62,7 +62,7 @@ class DioConfig {
 
   Future<void> refreshToken() async {
     final dio = Dio();
-    final refreshToken = await authStorage.read('REFRESHTOKEN');
+    final refreshToken = await authStorage.read('MDX-REFRESHTOKEN');
 
     // debugPrint('is expired :: ${JwtDecoder.isExpired(refreshToken)} \n $refreshToken');
 
@@ -76,7 +76,7 @@ class DioConfig {
     if (response.statusCode == 200) {
       accessToken = response.data['access'];
       // debugPrint('new token :: $accessToken');
-      authStorage.write('ACCESSTOKEN', "Bearer ${response.data['access']}");
+      authStorage.write('MDX-ACCESSTOKEN', "Bearer ${response.data['access']}");
     }
   }
 }

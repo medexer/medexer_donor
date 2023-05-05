@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/models/appointment_model.dart';
+import 'package:medexer_donor/models/donation_center_geodata_model.dart';
 import 'package:medexer_donor/models/donation_center_model.dart';
 import 'package:medexer_donor/models/notification_model.dart';
-import 'package:medexer_donor/screens/home/appointmentPages/view_appointment.dart';
 import 'package:medexer_donor/config/api_client.dart';
 import 'package:medexer_donor/config/api_config.dart';
 import 'package:medexer_donor/database/user_repository.dart';
@@ -21,6 +21,45 @@ class DonorServices extends GetxController {
   var donorRequestError = ''.obs;
   var donorRequestStatus = ''.obs;
   var donorRequestLoading = false.obs;
+
+  Future<void> fetchDontationCentersGeoDataController() async {
+    try {
+      donorRequestLoading.value = true;
+      donorRequestStatus.value = 'PENDING';
+
+      final response = await dio.get(
+        '${APIConstants.backendServerUrl}donor/donation-centers/geo-data/fetch-all',
+        options: Options(
+          headers: {
+            'Authorization': authStorage.read('MDX-ACCESSTOKEN'),
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        donorRequestLoading.value = false;
+        donorRequestError.value = '';
+        donorRequestStatus.value = 'SUCCESS';
+
+        userRepository.donationCentersGeoData.clear();
+
+        debugPrint('[FETCH-DONATION-CENTERS-GEODATA-SUCCESS]');
+        // debugPrint(
+        //     '[FETCH-DONATION-CENTERS-GEODATA-RESPONSE]:: ${response.data}');
+
+        for (var item in response.data['data']) {
+          userRepository.donationCentersGeoData
+              .add(DonationCenterGeoDataModel.fromJson(item));
+        }
+      }
+    } catch (error) {
+      if (error is DioError) {
+        donorRequestLoading.value = false;
+        donorRequestStatus.value = 'FAILED';
+        debugPrint('[FETCH-DONATION-CENTERS-GEODATA-CATCH-ERROR] ${error}');
+      }
+    }
+  }
 
   Future<void> bookAppointmentController(
     Map dto,
@@ -67,7 +106,7 @@ class DonorServices extends GetxController {
         '${APIConstants.backendServerUrl}donor/appointments',
         options: Options(
           headers: {
-            'Authorization': authStorage.read('ACCESSTOKEN'),
+            'Authorization': authStorage.read('MDX-ACCESSTOKEN'),
           },
         ),
       );
@@ -103,7 +142,7 @@ class DonorServices extends GetxController {
         '${APIConstants.backendServerUrl}donor/donation-centers',
         options: Options(
           headers: {
-            'Authorization': authStorage.read('ACCESSTOKEN'),
+            'Authorization': authStorage.read('MDX-ACCESSTOKEN'),
           },
         ),
       );
@@ -118,14 +157,50 @@ class DonorServices extends GetxController {
 
         donorRequestStatus.value = '';
         donorRequestLoading.value = false;
-        debugPrint('[FETCH-DONATION-CENTERS-SUCCESS]');
+        debugPrint('[FETCH-DONATION-CENTERS-SUCCESS] :: -2');
       }
     } catch (error) {
       if (error is DioError) {
         donorRequestLoading.value = false;
         donorRequestStatus.value = 'FAILED';
 
-        debugPrint('[FETCH-DONATION-CENTERS-ERROR] ${error.response!.data}');
+        debugPrint('[FETCH-DONATION-CENTERS-ERROR] ${error.response?.data}');
+      }
+    }
+  }
+
+  Future<void> searchDonationCentersController(String query) async {
+    try {
+      donorRequestLoading.value = true;
+      donorRequestStatus.value = 'PENDING';
+      debugPrint('[SEARCH-DONATION-CENTERS-PENDING]');
+
+      final response = await dio.get(
+        '${APIConstants.backendServerUrl}donor/donation-centers/search?query=${query}',
+        options: Options(
+          headers: {
+            'Authorization': authStorage.read('MDX-ACCESSTOKEN'),
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        userRepository.searchResults.clear();
+
+        for (var item in response.data['data']) {
+          userRepository.searchResults.add(DonationCenterModel.fromJson(item));
+        }
+
+        donorRequestStatus.value = '';
+        donorRequestLoading.value = false;
+        debugPrint('[SEARCH-DONATION-CENTERS-SUCCESS]');
+      }
+    } catch (error) {
+      if (error is DioError) {
+        donorRequestLoading.value = false;
+        donorRequestStatus.value = 'FAILED';
+
+        debugPrint('[SEARCH-DONATION-CENTERS-ERROR] ${error.response?.data}');
       }
     }
   }
@@ -141,7 +216,7 @@ class DonorServices extends GetxController {
         data: dto,
         options: Options(
           headers: {
-            'Authorization': authStorage.read('ACCESSTOKEN'),
+            'Authorization': authStorage.read('MDX-ACCESSTOKEN'),
           },
         ),
       );
@@ -184,7 +259,7 @@ class DonorServices extends GetxController {
         '${APIConstants.backendServerUrl}donor/notifications',
         options: Options(
           headers: {
-            'Authorization': authStorage.read('ACCESSTOKEN'),
+            'Authorization': authStorage.read('MDX-ACCESSTOKEN'),
           },
         ),
       );
@@ -220,7 +295,7 @@ class DonorServices extends GetxController {
         '${APIConstants.backendServerUrl}donor/notifications/${notification}/update',
         options: Options(
           headers: {
-            'Authorization': authStorage.read('ACCESSTOKEN'),
+            'Authorization': authStorage.read('MDX-ACCESSTOKEN'),
           },
         ),
       );

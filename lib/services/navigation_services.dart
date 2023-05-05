@@ -9,7 +9,6 @@ class NavigationServices {
 
   logOut() {
     try {
-
       Get.to(
         transition: Transition.rightToLeft,
         duration: const Duration(milliseconds: 500),
@@ -17,7 +16,7 @@ class NavigationServices {
       );
 
       authStorage.remove('USER');
-      authStorage.remove('ACCESSTOKEN');
+      authStorage.remove('MDX-ACCESSTOKEN');
     } catch (error) {
       debugPrint('$error :: an error occured');
     }

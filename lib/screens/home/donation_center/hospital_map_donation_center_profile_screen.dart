@@ -1,0 +1,196 @@
+// ignore_for_file: unused_local_variable
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:medexer_donor/config/app_config.dart';
+import 'package:medexer_donor/database/user_repository.dart';
+import 'package:medexer_donor/models/donation_center_geodata_model.dart';
+import 'package:medexer_donor/screens/home/sidebar.dart';
+import 'package:medexer_donor/services/donor_services.dart';
+import 'package:medexer_donor/widgets/buttons/custom_button.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:medexer_donor/widgets/page_header.dart';
+import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
+
+class HospitalMapDonationCenterProfileScreen extends StatefulWidget {
+  final DonationCenterGeoDataModel donationCenter;
+  const HospitalMapDonationCenterProfileScreen(
+      {super.key, required this.donationCenter});
+
+  @override
+  State<HospitalMapDonationCenterProfileScreen> createState() =>
+      _HospitalMapDonationCenterProfileScreenState();
+}
+
+class _HospitalMapDonationCenterProfileScreenState
+    extends State<HospitalMapDonationCenterProfileScreen> {
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final DonorServices donorServices = Get.find();
+  final UserRepository userRepository = Get.find();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    return Scaffold(
+      key: scaffoldKey,
+      drawer: const SideBar(),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(screenHeight * 0.4),
+        child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/hospital__2.jpg'),
+              fit: BoxFit.cover,
+              filterQuality: FilterQuality.high,
+            ),
+          ),
+        ),
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            // height: screenHeight,
+            padding: EdgeInsets.symmetric(
+              vertical: 2.0.hp,
+              horizontal: 4.0.wp,
+            ),
+            child: Column(
+              children: [
+                // PageHeader(scaffoldKey: scaffoldKey),
+                CustomTextWidget(
+                  text: '${widget.donationCenter.centerName}',
+                  size: 14.0.sp,
+                  weight: FontWeight.w500,
+                ),
+                SizedBox(height: 1.0.hp),
+                Row(
+                  children: [
+                    CustomTextWidget(
+                      text: 'About',
+                      size: 12.0.sp,
+                      weight: FontWeight.w500,
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomTextWidget(
+                        text:
+                            '${widget.donationCenter.centerName}, we specialize in the treatment of complex medical conditions such as cancer, heart disease, and neurological disorders. Our team of experts utilizes the latest technology and research to provide personalized care and treatment plans for each patient. We also offer a variety of support services including counseling, nutrition, and pain management.',
+                        size: 12.0.sp,
+                        // weight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 1.0.hp),
+                Row(
+                  children: [
+                    CustomTextWidget(
+                      text: 'Address: ',
+                      size: 12.0.sp,
+                      weight: FontWeight.w500,
+                    ),
+                    Expanded(
+                      child: CustomTextWidget(
+                        text: '${widget.donationCenter.address}',
+                        size: 12.0.sp,
+                        // weight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 1.0.hp),
+                Row(
+                  children: [
+                    CustomTextWidget(
+                      text: 'Contact number: ',
+                      size: 12.0.sp,
+                      weight: FontWeight.w500,
+                    ),
+                    Expanded(
+                      child: CustomTextWidget(
+                        text: '+2349020029920',
+                        size: 12.0.sp,
+                        // weight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 1.0.hp),
+                Row(
+                  children: [
+                    CustomTextWidget(
+                      text: 'Email: ',
+                      size: 12.0.sp,
+                      weight: FontWeight.w500,
+                    ),
+                    Expanded(
+                      child: CustomTextWidget(
+                        text: '${widget.donationCenter.email}',
+                        size: 12.0.sp,
+                        // weight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 2.0.hp),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomButton(
+                      text: 'Call',
+                      width: 35.0.wp,
+                      height: 6.0.hp,
+                      onTapHandler: () async {
+                        final Uri contactNumberUrl =
+                            Uri.parse('tel:+2349020029920');
+                        if (await canLaunchUrl(contactNumberUrl)) {
+                          await launchUrl(contactNumberUrl);
+                        } else {
+                          throw 'Could not launch $contactNumberUrl';
+                        }
+                      },
+                      fontSize: 10.0.sp,
+                      borderRadius: 5,
+                      fontColor: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      backgroundColor: AppStyles.bgBlue,
+                    ),
+                    CustomButton(
+                      text: 'Message',
+                      width: 35.0.wp,
+                      height: 6.0.hp,
+                      onTapHandler: () async {
+                        final Uri contactNumberUrl =
+                            Uri.parse('sms:+2349020029920');
+                        if (await canLaunchUrl(contactNumberUrl)) {
+                          await launchUrl(contactNumberUrl);
+                        } else {
+                          throw 'Could not launch $contactNumberUrl';
+                        }
+                      },
+                      fontSize: 10.0.sp,
+                      borderRadius: 5,
+                      fontColor: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      backgroundColor: Colors.deepPurple,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -1,117 +1,15 @@
-// import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
-// import 'package:google_maps_flutter/google_maps_flutter.dart';
-// import '../../database/user_repository.dart';
-// import '../../models/mapModel.dart';
-// import '../../services/donor_services.dart';
-
-
-// class FinalMapScreen extends StatefulWidget {
-//  // DonationCenterModel donationMap;
-//   FinalMapScreen({ Key?  key}) : super(key: key);
-
-//   @override
-//   _FinalMapScreenState createState() => _FinalMapScreenState();
-// }
-
-// class _FinalMapScreenState extends State<FinalMapScreen> {
-//   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
-//   void initMarker(specify, specifyId){
-//     var markerIdValue = specifyId;
-//     final MarkerId markerId = MarkerId(markerIdValue);
-//     final Marker marker = Marker(
-//       markerId: markerId,
-//       position: LatLng(specify['MapModel'].lat, specify['MapModel'].long),
-//       infoWindow: InfoWindow(
-//         title: '${specify['MapModel'].hospitalName}', snippet: 'I pray it works'
-//       ),
-//       ); setState(() {
-//         markers[markerId] = marker;
-//       });
-//   }  
-
-//   getMarkerData()async{
-//     if(MapModels.isNotEmpty){
-//       for(int index = 0; index<MapModels.length;index++){
-//         initMarker(MapModels[index], MapModels[index].hospitalID);
-//       }
-
-//     }
-
-//   initState(){
-//     getMarkerData();
-//     super.initState();
-//   }
-//   }
-
-//   // @override
-//   // void initState() {
-//   //   super.initState();
-//   //   Future<void> requestPermission() async 
-//   //   { await Permission.location.request(); }
-//   // }
-
-// // Set<Marker>_markers ={};
-
-// // void _onMapCreated(GoogleMapController controller){
-// // setState((){
-// // 	_markers.add(
-// // 	const Marker(
-// // 		markerId: MarkerId('id-1'),
-// // 		position:LatLng(9.0778,10.6775)	
-// // 	    )
-// //     );
-
-// //   _markers.add(
-// //      const Marker(
-// //       markerId:MarkerId('id-2'),
-// //       position:LatLng(9.0885,10.6775)
-// //     )
-// //   );
-// //   });
-// // }
-
-  
-
-//   @override
-//   Widget build(BuildContext context) {
-//     // Set<Marker>getMarker(){
-//     //   return <Marker>{
-//     //     const Marker(
-//     //       markerId: MarkerId('shop'),
-//     //       position: LatLng(9.0778,10.6775),
-//     //       icon: BitmapDescriptor.defaultMarker,
-//     //       infoWindow: InfoWindow(
-//     //         title: 'Home'
-//     //       )
-//     //       )
-//     //   }.toSet();
-//     // }
-//     return  Scaffold( 
-//        body: GoogleMap(
-//         myLocationEnabled: true,
-//         mapType: MapType.normal,
-//               onMapCreated: (GoogleMapController controller){
-//                 controller=controller;
-//               },
-//               markers: Set<Marker>.of(markers.values),
-//               initialCameraPosition: const CameraPosition(
-//                 target: LatLng(9.0778,10.6775),
-//                 zoom: 15,
-//                 )
-//           ),
-//       );
-//   }
-// }
 import 'dart:async';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-//import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
-import '../../database/user_repository.dart';
-import '../../services/donor_services.dart';
+import 'package:medexer_donor/config/app_config.dart';
+import 'package:medexer_donor/database/user_repository.dart';
+import 'package:medexer_donor/models/donation_center_geodata_model.dart';
+import 'package:medexer_donor/screens/home/donation_center/hospital_map_donation_center_profile_screen.dart';
+import 'package:medexer_donor/services/donor_services.dart';
+import 'package:medexer_donor/widgets/buttons/custom_button.dart';
+import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 
 class FinalMap extends StatefulWidget {
   const FinalMap({super.key});
@@ -121,60 +19,112 @@ class FinalMap extends StatefulWidget {
 }
 
 class _FinalMapState extends State<FinalMap> {
-  Completer<GoogleMapController>_controller =Completer();
-  CustomInfoWindowController customInfoWindowcontroller = CustomInfoWindowController();
+  Set<Marker> markers = {};
+  final Set<Polyline> _polyLines = {};
   final DonorServices donorServices = Get.find();
   final UserRepository userRepository = Get.find();
+  CustomInfoWindowController customInfoWindowcontroller =
+      CustomInfoWindowController();
 
-  final List<Marker>_markers = <Marker>[];
-  final Set<Polyline>_polyLines ={};
-  final List<LatLng>_latlang = [
-    const LatLng(9.895725562, 8.98430300725),
-    const LatLng(9.895614562, 8.58430300725),
-    const LatLng(9.895836673, 8.38430300725)
+  Future onMapcreated() async {
+    donorServices.fetchDontationCentersGeoDataController();
+    await Future.delayed(const Duration(seconds: 5));
 
-  ];
+    setState(() {
+      for (DonationCenterGeoDataModel location
+          in userRepository.donationCentersGeoData) {
+        // print('LOC :: ${location.location!.lat}');
+        markers.add(
+          Marker(
+              markerId: MarkerId('${location.centerName}'),
+              position:
+                  LatLng(location.location!.lat!, location.location!.lng!),
+              onTap: () {
+                customInfoWindowcontroller.addInfoWindow!(
+                  Container(
+                    height: 25.0.hp,
+                    decoration: BoxDecoration(
+                      color: AppStyles.bgWhite,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          height: 12.0.hp,
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage('assets/images/hospital__1.jpg'),
+                              fit: BoxFit.cover,
+                              filterQuality: FilterQuality.high,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          // height: 15.0.hp,
+                          padding: EdgeInsets.symmetric(
+                            vertical: 1.0.hp,
+                            horizontal: 2.0.wp,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CustomTextWidget(
+                                text: '${location.centerName}',
+                                size: 14.0.sp,
+                              ),
+                              CustomTextWidget(
+                                text: '${location.address}',
+                                size: 10.0.sp,
+                              ),
+                              SizedBox(height: 1.0.hp),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  CustomButton(
+                                    text: 'Profile',
+                                    width: 30.0.wp,
+                                    height: 4.0.hp,
+                                    onTapHandler: () {
+                                      Get.to(
+                                        () =>
+                                            HospitalMapDonationCenterProfileScreen(
+                                                donationCenter: location),
+                                      );
+
+                                      customInfoWindowcontroller
+                                          .hideInfoWindow!();
+                                    },
+                                    fontSize: 10.0.sp,
+                                    borderRadius: 5,
+                                    fontColor: Colors.white,
+                                    fontWeight: FontWeight.w500,
+                                    backgroundColor: AppStyles.bgBlue,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  LatLng(location.location!.lat!, location.location!.lng!),
+                );
+              }),
+        );
+      }
+      // print('[GEODATA] :: ${userRepository.donationCentersGeoData}');
+    });
+  }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    loadMarkers();
+
+    onMapcreated();
   }
 
-  loadMarkers(){
-    donorServices.fetchDonationCentersController();
-   if(userRepository.donationCenters.isNotEmpty) {
-        for(int index=0; index<userRepository.donationCenters.length; index++){
-          _markers.add(Marker(
-              markerId: MarkerId(index.toString()), 
-              icon: BitmapDescriptor.defaultMarker,
-              infoWindow: InfoWindow(
-                title: '${userRepository.donationCenters[index].hospitalName!}'
-              ),
-              position: _latlang[index],
-              onTap: (){
-                customInfoWindowcontroller.addInfoWindow!(const Text('hooo'),userRepository.donationCenters[index]);
-              }
-            ),
-          );
-        setState(() {
-      });
-      _polyLines.add(
-        Polyline(
-          polylineId: const PolylineId('1',),
-          points: _latlang
-        )
-      );
-    }
-
-  }else{
-    return const CircularProgressIndicator();
-  }
-    
-    
-    
-  }
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -185,28 +135,31 @@ class _FinalMapState extends State<FinalMap> {
           compassEnabled: true,
           myLocationEnabled: true,
           mapType: MapType.normal,
-          onMapCreated: (GoogleMapController controller){
-             customInfoWindowcontroller.googleMapController =controller;
-            },
-          markers: Set<Marker>.of(_markers),
+          onMapCreated: (GoogleMapController controller) {
+            customInfoWindowcontroller.googleMapController = controller;
+
+            // onMapcreated();
+          },
+          // markers: _markers!,
+          markers: markers,
           initialCameraPosition: const CameraPosition(
-          target: LatLng(9.0820,8.6753),
-          zoom: 15,
-            ),
-            onTap: (Position){
-              customInfoWindowcontroller.hideInfoWindow;
-            },
-            onCameraMove: (Position){
-              customInfoWindowcontroller.onCameraMove!();
-            },
-      ),
-      CustomInfoWindow(
-        controller: customInfoWindowcontroller,
-        height: 200,
-        width: 300,
-       offset: 35,
-     )
-    ],
-  );
+            target: LatLng(9.906587499999999, 8.9547031),
+            zoom: 10,
+          ),
+          onTap: (Position) {
+            customInfoWindowcontroller.hideInfoWindow!();
+          },
+          onCameraMove: (Position) {
+            customInfoWindowcontroller.onCameraMove!();
+          },
+        ),
+        CustomInfoWindow(
+          controller: customInfoWindowcontroller,
+          height: 25.0.hp,
+          width: 300,
+          offset: 35,
+        )
+      ],
+    );
   }
 }
