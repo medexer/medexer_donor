@@ -2,16 +2,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medexer_donor/config/api_config.dart';
 import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/database/user_repository.dart';
-import 'package:medexer_donor/models/donation_center_geodata_model.dart';
 import 'package:medexer_donor/models/donation_center_model.dart';
 import 'package:medexer_donor/screens/home/donation_center/donation_center_location_screen.dart';
 import 'package:medexer_donor/screens/home/sidebar.dart';
 import 'package:medexer_donor/services/donor_services.dart';
 import 'package:medexer_donor/widgets/buttons/custom_button.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:medexer_donor/widgets/page_header.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 
 class DonationCenterSearchProfileScreen extends StatefulWidget {
@@ -28,6 +27,8 @@ class _DonationCenterSearchProfileScreenState
     extends State<DonationCenterSearchProfileScreen> {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
+  String name = '';
+  String named = '';
   final DonorServices donorServices = Get.find();
   final UserRepository userRepository = Get.find();
 
@@ -46,13 +47,21 @@ class _DonationCenterSearchProfileScreenState
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(screenHeight * 0.4),
         child: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/images/hospital__2.jpg'),
+              image: NetworkImage(
+                  '${APIConstants.backendServerRootUrl}${widget.donationCenter.hospitalProfile!.hospitalImage}'),
               fit: BoxFit.cover,
               filterQuality: FilterQuality.high,
             ),
           ),
+          // decoration: const BoxDecoration(
+          //   image: DecorationImage(
+          //     image: AssetImage('assets/images/hospital__2.jpg'),
+          //     fit: BoxFit.cover,
+          //     filterQuality: FilterQuality.high,
+          //   ),
+          // ),
         ),
       ),
       body: SafeArea(
@@ -86,7 +95,7 @@ class _DonationCenterSearchProfileScreenState
                     Expanded(
                       child: CustomTextWidget(
                         text:
-                            '${widget.donationCenter.hospitalName}, we specialize in the treatment of complex medical conditions such as cancer, heart disease, and neurological disorders. Our team of experts utilizes the latest technology and research to provide personalized care and treatment plans for each patient. We also offer a variety of support services including counseling, nutrition, and pain management.',
+                            '${widget.donationCenter.hospitalName}, ${widget.donationCenter.hospitalProfile?.aboutHospital}',
                         size: 12.0.sp,
                         // weight: FontWeight.w500,
                       ),
@@ -120,7 +129,8 @@ class _DonationCenterSearchProfileScreenState
                     ),
                     Expanded(
                       child: CustomTextWidget(
-                        text: '+2349020029920',
+                        text:
+                            '${widget.donationCenter.hospitalProfile!.contactNumber}',
                         size: 12.0.sp,
                         // weight: FontWeight.w500,
                       ),
@@ -153,8 +163,8 @@ class _DonationCenterSearchProfileScreenState
                       width: 35.0.wp,
                       height: 6.0.hp,
                       onTapHandler: () async {
-                        final Uri contactNumberUrl =
-                            Uri.parse('tel:+2349020029920');
+                        final Uri contactNumberUrl = Uri.parse(
+                            'tel:${widget.donationCenter.hospitalProfile!.contactNumber}');
                         if (await canLaunchUrl(contactNumberUrl)) {
                           await launchUrl(contactNumberUrl);
                         } else {

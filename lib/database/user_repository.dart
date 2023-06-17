@@ -5,20 +5,22 @@ import 'package:medexer_donor/models/kyc_formdata_model.dart';
 import 'package:medexer_donor/models/user_model.dart';
 
 class UserRepository extends GetxController {
+  var googleSignin = false.obs;
+
   var userData = UserModel.fromJson({}).obs;
-  
+
   RxList<dynamic> _donationCenters = [].obs;
   RxList get donationCenters => _donationCenters;
-  
+
   RxList<dynamic> _searchResults = [].obs;
   RxList get searchResults => _searchResults;
-  
+
   RxList<dynamic> _donationCentersGeoData = [].obs;
   RxList get donationCentersGeoData => _donationCentersGeoData;
-  
+
   RxList<dynamic> _appointments = [].obs;
   RxList get appointments => _appointments;
-  
+
   RxList<dynamic> _notifications = [].obs;
   RxList get notifications => _notifications;
 

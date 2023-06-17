@@ -12,6 +12,7 @@ import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 import 'package:medexer_donor/widgets/text/cutom_formtext_field.dart';
 import '../../database/user_repository.dart';
 import '../../services/auth_services.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -27,6 +28,11 @@ class _LoginScreenState extends State<LoginScreen> {
   final UserRepository userRepository = Get.find();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  // Google Signin
+  Map dto = {};
+  var googleSignin = false.obs;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   Future<void> signinHandler() async {
     if (!emailController.text.trim().isNotEmpty ||
@@ -87,6 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Column(
                   children: [
@@ -101,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(height: 6.0.hp),
                     CustomFormTextField(
                       hintText: 'Email',
-                      maxLines: 2,
+                      maxLines: 1,
                       controller: emailController,
                       background: Colors.white.withOpacity(0.4),
                       hintColor: Colors.white,
@@ -147,7 +154,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                     SizedBox(height: 3.0.hp),
-                    authServices.authRequestStatus.value == 'PENDING'
+                    authServices.authLoading.value == true
                         ? CircularProgressIndicator()
                         : CustomButton(
                             text: 'Login',
@@ -186,6 +193,25 @@ class _LoginScreenState extends State<LoginScreen> {
                         GestureDetector(
                           onTap: () {
                             // OAUTH-GOOGLE: LOGIN
+                            debugPrint('[GOOGLE-SIGNIN]');
+                            _googleSignIn.signOut();
+                            _googleSignIn.signIn().then((value) {
+                              String email = value!.email;
+                              String fullName = '${value.displayName}';
+                              String profilePicture = '${value.photoUrl}';
+
+                              debugPrint('[EMAIL] :: ${email}');
+                              debugPrint('[USERNAME] :: ${fullName}');
+                              debugPrint(
+                                  '[PROFILE-PICTURE] :: ${profilePicture}');
+                              setState(() {
+                                dto['email'] = email;
+                                dto['password'] = email;
+                                dto['fullName'] = fullName;
+                              });
+
+                              authServices.googleSigninController(dto);
+                            });
                           },
                           child: Container(
                             width: 20.0.wp,
@@ -204,6 +230,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         GestureDetector(
                           onTap: () {
                             // OAUTH-APPLE: LOGIN
+                            Get.snackbar(
+                              'Message',
+                              'Coming soon!',
+                              colorText: Colors.white,
+                              backgroundColor:
+                                  AppStyles.bgBlue.withOpacity(0.4),
+                            );
                           },
                           child: Container(
                             width: 20.0.wp,
@@ -222,6 +255,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         GestureDetector(
                           onTap: () {
                             // OAUTH-FACEBOOK: LOGIN
+                            Get.snackbar(
+                              'Message',
+                              'Coming soon!',
+                              colorText: Colors.white,
+                              backgroundColor:
+                                  AppStyles.bgBlue.withOpacity(0.4),
+                            );
                           },
                           child: Container(
                             width: 20.0.wp,
@@ -240,7 +280,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ],
                 ),
-                SizedBox(height: 20.0.hp),
+                SizedBox(height: 5.0.hp),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

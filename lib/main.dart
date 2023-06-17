@@ -7,12 +7,11 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:medexer_donor/firebase_options.dart';
 import 'package:medexer_donor/database/root_repository.dart';
+import 'package:medexer_donor/screens/auth/splash_screen.dart';
 import 'package:medexer_donor/screens/home/sub_screens/home_screen.dart';
 import 'package:medexer_donor/screens/auth/login_screen.dart';
 import 'package:medexer_donor/screens/auth/onboarding_screen.dart';
 import 'package:medexer_donor/screens/auth/registration/signup_screen.dart';
-import 'package:medexer_donor/screens/auth/splash_screen.dart';
-import 'package:medexer_donor/screens/map/final_map.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -60,7 +59,7 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blue,
         fontFamily: 'Poppins',
       ),
-      home: authStorage.read('MDX-USER') != null ? HomeScreen() : LoginScreen(),
+      home: authStorage.read('MDX-USER') != null ? HomeScreen() : SplashScreen(),
       initialRoute: '/',
       getPages: [
         GetPage(name: '/', page: () => LoginScreen()),

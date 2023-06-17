@@ -148,117 +148,181 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        controller: emailController,
-                        decoration: InputDecoration(
-                          hintText: "Email",
-                          hintStyle: TextStyle(color: AppStyles.bgBlack),
-                          icon: Icon(Icons.email, color: AppStyles.bgGray),
-                        ),
-                      ),
-                      SizedBox(height: 2.0.hp),
-                      TextFormField(
-                        obscureText: true,
-                        controller: passwordController,
-                        decoration: InputDecoration(
-                          hintText: "Current Password",
-                          hintStyle: TextStyle(color: AppStyles.bgBlack),
-                          icon: Icon(Icons.lock, color: AppStyles.bgGray),
-                        ),
-                      ),
-                      SizedBox(height: 2.0.hp),
-                      TextFormField(
-                        obscureText: true,
-                        controller: newPasswordController,
-                        decoration: InputDecoration(
-                          hintText: "New Password",
-                          hintStyle: TextStyle(color: AppStyles.bgBlack),
-                          icon: Icon(Icons.lock, color: AppStyles.bgGray),
-                        ),
-                      ),
-                      SizedBox(height: 2.0.hp),
-                      TextFormField(
-                        obscureText: true,
-                        controller: confirmNewPasswordController,
-                        decoration: InputDecoration(
-                          hintText: "Confirm Password",
-                          hintStyle: TextStyle(color: AppStyles.bgBlack),
-                          icon: Icon(Icons.lock, color: AppStyles.bgGray),
-                        ),
-                      ),
-                      SizedBox(height: 5.0.hp),
-                      GestureDetector(
-                        onTap: () async {
-                          if (emailController.text.trim() == '') {
-                            Get.snackbar(
-                              'Error',
-                              'Email is required.',
-                              colorText: Colors.white,
-                              backgroundColor:
-                                  AppStyles.bgBlue.withOpacity(0.8),
-                            );
-                          }
-                          if (passwordController.text.trim() == '') {
-                            Get.snackbar(
-                              'Error',
-                              'Password is required.',
-                              colorText: Colors.white,
-                              backgroundColor:
-                                  AppStyles.bgBlue.withOpacity(0.8),
-                            );
-                          }
-                          if (newPasswordController.text.trim() != '' &&
-                              confirmNewPasswordController.text.trim() == '') {
-                            Get.snackbar(
-                              'Error',
-                              'Passwords do not match.',
-                              colorText: Colors.white,
-                              backgroundColor:
-                                  AppStyles.bgBlue.withOpacity(0.8),
-                            );
-                          }
+                  child: userRepository.userData.value.isEmailLogin == true
+                      ? Column(children: [
+                          TextFormField(
+                            controller: emailController,
+                            decoration: InputDecoration(
+                              hintText: "Email",
+                              hintStyle: TextStyle(color: AppStyles.bgBlack),
+                              icon: Icon(Icons.email, color: AppStyles.bgGray),
+                            ),
+                          ),
+                          SizedBox(height: 2.0.hp),
+                          GestureDetector(
+                            onTap: () async {
+                              if (emailController.text.trim() == '') {
+                                Get.snackbar(
+                                  'Error',
+                                  'Email is required.',
+                                  colorText: Colors.white,
+                                  backgroundColor:
+                                      AppStyles.bgBlue.withOpacity(0.8),
+                                );
+                              }
 
-                          Map formData = {
-                            'email': emailController.text.trim(),
-                            'password': passwordController.text.trim(),
-                            'new_password': newPasswordController.text.trim(),
-                            'avatar': newAvatar == true ? avatar : ''
-                          };
+                              Map formData = {
+                                'email': emailController.text.trim(),
+                                'avatar': newAvatar == true ? avatar : ''
+                              };
 
-                          // debugPrint('[PAYLOAD] :: $formData');
-                          await authServices.updateProfileController(formData);
-                          // Get.to(() => const EditProfileScreen());
-                        },
-                        child: Container(
-                          height: 45,
-                          width: 150,
-                          decoration: BoxDecoration(
-                              color: AppStyles.bgBlue,
-                              borderRadius:
-                                  BorderRadiusDirectional.circular(20)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: CustomTextWidget(
-                                  text: "Update Profile",
-                                  color: Colors.white,
-                                  size: 12.0.sp,
+                              // debugPrint('[PAYLOAD] :: $formData');
+                              await authServices
+                                  .updateProfileWithGoogleSigninController(
+                                      formData);
+                            },
+                            child: Container(
+                              height: 45,
+                              width: 150,
+                              decoration: BoxDecoration(
+                                  color: AppStyles.bgBlue,
+                                  borderRadius:
+                                      BorderRadiusDirectional.circular(20)),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: CustomTextWidget(
+                                      text: "Update Profile",
+                                      color: Colors.white,
+                                      size: 12.0.sp,
+                                    ),
+                                  ),
+                                  // const Icon(
+                                  //   Icons.edit,
+                                  //   color: Colors.white,
+                                  // )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ])
+                      : Column(
+                          children: [
+                            TextFormField(
+                              controller: emailController,
+                              decoration: InputDecoration(
+                                hintText: "Email",
+                                hintStyle: TextStyle(color: AppStyles.bgBlack),
+                                icon:
+                                    Icon(Icons.email, color: AppStyles.bgGray),
+                              ),
+                            ),
+                            SizedBox(height: 2.0.hp),
+                            TextFormField(
+                              obscureText: true,
+                              controller: passwordController,
+                              decoration: InputDecoration(
+                                hintText: "Current Password",
+                                hintStyle: TextStyle(color: AppStyles.bgBlack),
+                                icon: Icon(Icons.lock, color: AppStyles.bgGray),
+                              ),
+                            ),
+                            SizedBox(height: 2.0.hp),
+                            TextFormField(
+                              obscureText: true,
+                              controller: newPasswordController,
+                              decoration: InputDecoration(
+                                hintText: "New Password",
+                                hintStyle: TextStyle(color: AppStyles.bgBlack),
+                                icon: Icon(Icons.lock, color: AppStyles.bgGray),
+                              ),
+                            ),
+                            SizedBox(height: 2.0.hp),
+                            TextFormField(
+                              obscureText: true,
+                              controller: confirmNewPasswordController,
+                              decoration: InputDecoration(
+                                hintText: "Confirm Password",
+                                hintStyle: TextStyle(color: AppStyles.bgBlack),
+                                icon: Icon(Icons.lock, color: AppStyles.bgGray),
+                              ),
+                            ),
+                            SizedBox(height: 5.0.hp),
+                            GestureDetector(
+                              onTap: () async {
+                                if (emailController.text.trim() == '') {
+                                  Get.snackbar(
+                                    'Error',
+                                    'Email is required.',
+                                    colorText: Colors.white,
+                                    backgroundColor:
+                                        AppStyles.bgBlue.withOpacity(0.8),
+                                  );
+                                }
+
+                                if (passwordController.text.trim() == '') {
+                                  Get.snackbar(
+                                    'Error',
+                                    'Password is required.',
+                                    colorText: Colors.white,
+                                    backgroundColor:
+                                        AppStyles.bgBlue.withOpacity(0.8),
+                                  );
+                                }
+                                if (newPasswordController.text.trim() != '' &&
+                                    confirmNewPasswordController.text.trim() ==
+                                        '') {
+                                  Get.snackbar(
+                                    'Error',
+                                    'Passwords do not match.',
+                                    colorText: Colors.white,
+                                    backgroundColor:
+                                        AppStyles.bgBlue.withOpacity(0.8),
+                                  );
+                                }
+
+                                Map formData = {
+                                  'email': emailController.text.trim(),
+                                  'password': passwordController.text.trim(),
+                                  'new_password':
+                                      newPasswordController.text.trim(),
+                                  'avatar': newAvatar == true ? avatar : ''
+                                };
+
+                                // debugPrint('[PAYLOAD] :: $formData');
+                                await authServices
+                                    .updateProfileController(formData);
+                              },
+                              child: Container(
+                                height: 45,
+                                width: 150,
+                                decoration: BoxDecoration(
+                                    color: AppStyles.bgBlue,
+                                    borderRadius:
+                                        BorderRadiusDirectional.circular(20)),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: CustomTextWidget(
+                                        text: "Update Profile",
+                                        color: Colors.white,
+                                        size: 12.0.sp,
+                                      ),
+                                    ),
+                                    // const Icon(
+                                    //   Icons.edit,
+                                    //   color: Colors.white,
+                                    // )
+                                  ],
                                 ),
                               ),
-                              // const Icon(
-                              //   Icons.edit,
-                              //   color: Colors.white,
-                              // )
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
                 )
               ],
             ),

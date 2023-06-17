@@ -8,6 +8,7 @@ class DonationCenterModel {
   String? centerAddress;
   int? inventoryBalance;
   CenterGeoLocation? centerGeoLocation;
+  HospitalProfile? hospitalProfile;
 
   DonationCenterModel(
       {this.id,
@@ -18,7 +19,8 @@ class DonationCenterModel {
       this.isActive,
       this.centerAddress,
       this.inventoryBalance,
-      this.centerGeoLocation});
+      this.centerGeoLocation,
+      this.hospitalProfile});
 
   DonationCenterModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -31,6 +33,9 @@ class DonationCenterModel {
     inventoryBalance = json['inventoryBalance'];
     centerGeoLocation = json['centerGeoLocation'] != null
         ? new CenterGeoLocation.fromJson(json['centerGeoLocation'])
+        : null;
+    hospitalProfile = json['hospitalProfile'] != null
+        ? new HospitalProfile.fromJson(json['hospitalProfile'])
         : null;
   }
 
@@ -46,6 +51,9 @@ class DonationCenterModel {
     data['inventoryBalance'] = this.inventoryBalance;
     if (this.centerGeoLocation != null) {
       data['centerGeoLocation'] = this.centerGeoLocation!.toJson();
+    }
+    if (this.hospitalProfile != null) {
+      data['hospitalProfile'] = this.hospitalProfile!.toJson();
     }
     return data;
   }
@@ -66,6 +74,43 @@ class CenterGeoLocation {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['lat'] = this.lat;
     data['lng'] = this.lng;
+    return data;
+  }
+}
+
+class HospitalProfile {
+  String? address;
+  String? state;
+  String? aboutHospital;
+  String? cityProvince;
+  String? contactNumber;
+  String? hospitalImage;
+
+  HospitalProfile(
+      {this.address,
+      this.state,
+      this.aboutHospital,
+      this.cityProvince,
+      this.contactNumber,
+      this.hospitalImage});
+
+  HospitalProfile.fromJson(Map<String, dynamic> json) {
+    address = json['address'];
+    state = json['state'];
+    aboutHospital = json['about_hospital'];
+    cityProvince = json['city_province'];
+    contactNumber = json['contact_number'];
+    hospitalImage = json['hospitalImage'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['address'] = this.address;
+    data['state'] = this.state;
+    data['about_hospital'] = this.aboutHospital;
+    data['city_province'] = this.cityProvince;
+    data['contact_number'] = this.contactNumber;
+    data['hospitalImage'] = this.hospitalImage;
     return data;
   }
 }

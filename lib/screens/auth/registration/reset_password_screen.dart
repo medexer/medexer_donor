@@ -27,7 +27,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
   Future<void> resetPasswordHandler() async {
     if (!otpController.text.trim().isNotEmpty ||
-        !newpasswordController.text.trim().isNotEmpty||
+        !newpasswordController.text.trim().isNotEmpty ||
         !confirmNewPasswordController.text.trim().isNotEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -72,7 +72,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           ),
         );
       }
-      
+
       if (authServices.authRequestStatus.value == 'SUCCESS') {
         setState(() {
           authServices.authLoading.value = false;
@@ -83,7 +83,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         setState(() {
           newpasswordController.clear();
           confirmNewPasswordController.clear();
-         
         });
       }
     }
@@ -94,8 +93,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      body: Obx(()=>
-        SingleChildScrollView(
+      body: Obx(
+        () => SingleChildScrollView(
           child: Container(
             height: screenHeight,
             padding: EdgeInsets.symmetric(
@@ -140,11 +139,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       ),
                       SizedBox(height: 3.0.hp),
                       CustomFormTextField(
-                        maxLines: 2,
+                        maxLines: 1,
                         hintText: 'OTP',
                         controller: otpController,
                         background: Colors.white.withOpacity(0.4),
                         hintColor: Colors.white,
+                        keyboardType: TextInputType.number,
                       ),
                       SizedBox(height: 3.0.hp),
                       CustomFormPasswordField(
@@ -167,21 +167,21 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         background: Colors.white.withOpacity(0.4),
                       ),
                       SizedBox(height: 3.0.hp),
-                      authServices.authRequestStatus.value =='PENDING'?
-                      CircularProgressIndicator():
-                      CustomButton(
-                        text: 'Reset Password',
-                        width: double.maxFinite,
-                        height: 6.0.hp,
-                        onTapHandler: () {
-                          resetPasswordHandler();
-                        },
-                        fontSize: 12.0.sp,
-                        borderRadius: 5,
-                        fontColor: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        backgroundColor: AppStyles.bgPrimary,
-                      ),
+                      authServices.authRequestStatus.value == 'PENDING'
+                          ? CircularProgressIndicator()
+                          : CustomButton(
+                              text: 'Reset Password',
+                              width: double.maxFinite,
+                              height: 6.0.hp,
+                              onTapHandler: () {
+                                resetPasswordHandler();
+                              },
+                              fontSize: 12.0.sp,
+                              borderRadius: 5,
+                              fontColor: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              backgroundColor: AppStyles.bgPrimary,
+                            ),
                     ],
                   ),
                 ),

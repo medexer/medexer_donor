@@ -7,11 +7,11 @@ import 'package:get/get.dart';
 import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/database/user_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:medexer_donor/screens/auth/kyc/failed_kyc_info_screen.dart';
 import 'package:medexer_donor/screens/auth/kyc/kyc_screen.dart';
 import 'package:medexer_donor/screens/auth/login_screen.dart';
 import 'package:medexer_donor/screens/auth/registration/reset_password_screen.dart';
 import 'package:medexer_donor/screens/home/sub_screens/home_screen.dart';
-import 'package:medexer_donor/screens/auth/kyc/sub_screen/id_proof.dart';
 import '../config/api_client.dart';
 import '../config/api_config.dart';
 import '../models/user_model.dart';
@@ -26,17 +26,19 @@ class AuthServices extends GetxController {
   var authRequestError = ''.obs;
   var authRequestStatus = ''.obs;
 
-  Future<void> signinController(Map dto) async {
+  Future<void> googleSigninController(Map dto) async {
     try {
       authLoading.value = true;
       authRequestStatus.value = 'PENDING';
       debugPrint('[SIGNIN-PENDING]');
+      debugPrint('${APIConstants.backendServerUrl}auth/donor/google-signin');
 
       final response = await dio.post(
-        '${APIConstants.backendServerUrl}auth/donor/signin',
+        '${APIConstants.backendServerUrl}auth/donor/google-signin',
         data: dto,
       );
 
+      debugPrint('[RESPONSE] :: ${response}');
       if (response.statusCode == 200) {
         debugPrint('[SIGNIN-SUCCESS]');
 
@@ -78,11 +80,119 @@ class AuthServices extends GetxController {
       if (error is DioError) {
         authLoading.value = false;
         authRequestStatus.value = 'FAILED';
+        debugPrint('${error}');
         debugPrint('${error.response}');
         if (error.response?.data['message'] != null) {
           authRequestError.value = error.response!.data['message'];
         }
         debugPrint('[SIGNIN CATCH ERROR] ${error.response?.data}');
+      }
+    }
+  }
+
+  Future<void> signinController(Map dto) async {
+    try {
+      authLoading.value = true;
+      authRequestStatus.value = 'PENDING';
+      debugPrint('[SIGNIN-PENDING]');
+      debugPrint('${APIConstants.backendServerUrl}auth/donor/signin');
+
+      final response = await dio.post(
+        '${APIConstants.backendServerUrl}auth/donor/signin',
+        data: dto,
+      );
+
+      debugPrint('[RESPONSE] :: ${response}');
+      if (response.statusCode == 200) {
+        debugPrint('[SIGNIN-SUCCESS]');
+
+        authStorage.write('MDX-USER', response.data['data']['user']);
+        authStorage.write('MDX-ACCESSTOKEN', response.data['data']['access']);
+        authStorage.write('MDX-REFRESHTOKEN', response.data['data']['refresh']);
+
+        userRepository.userData.value =
+            UserModel.fromJson(response.data['data']['user']);
+
+        authLoading.value = false;
+        authRequestError.value = '';
+        authRequestStatus.value = 'SUCCESS';
+
+        if (userRepository.userData.value.isKycUpdated == false) {
+          Get.to(
+            transition: Transition.rightToLeftWithFade,
+            duration: const Duration(milliseconds: 500),
+            () => KycScreen(),
+          );
+        } else {
+          Get.snackbar(
+            'Success',
+            'Login successful!',
+            colorText: Colors.white,
+            backgroundColor: AppStyles.bgBlue.withOpacity(0.8),
+          );
+
+          Get.to(
+            transition: Transition.rightToLeftWithFade,
+            duration: const Duration(milliseconds: 500),
+            () => HomeScreen(),
+          );
+        }
+      } else {
+        debugPrint('[SIGNIN ERROR] ${response.data}');
+      }
+    } catch (error) {
+      if (error is DioError) {
+        authLoading.value = false;
+        authRequestStatus.value = 'FAILED';
+        debugPrint('${error}');
+        debugPrint('${error.response}');
+        if (error.response?.data['message'] != null) {
+          authRequestError.value = error.response!.data['message'];
+        }
+        debugPrint('[SIGNIN CATCH ERROR] ${error.response?.data}');
+      }
+    }
+  }
+
+  Future<void> signoutController() async {
+    try {
+      debugPrint('[SIGNOUT-PENDING]');
+
+      debugPrint('${APIConstants.backendServerUrl}auth/donor/signin');
+
+      final response = await dio.put(
+        '${APIConstants.backendServerUrl}auth/donor/signout',
+        data: {},
+        options: Options(
+          headers: {
+            'Authorization': authStorage.read('MDX-ACCESSTOKEN'),
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        debugPrint('[SIGNOUT-SUCCESS]');
+
+        await authStorage.remove('MDX-USER');
+
+        Get.to(
+          transition: Transition.rightToLeftWithFade,
+          duration: const Duration(milliseconds: 500),
+          () => LoginScreen(),
+        );
+      } else {
+        debugPrint('[SIGNOUT-ERROR] ${response.data}');
+      }
+    } catch (error) {
+      if (error is DioError) {
+        authLoading.value = false;
+        authRequestStatus.value = 'FAILED';
+        debugPrint('${error}');
+        debugPrint('${error.response}');
+        if (error.response?.data['message'] != null) {
+          authRequestError.value = error.response!.data['message'];
+        }
+        debugPrint('[SIGNOUT-CATCH-ERROR] ${error.response?.data}');
       }
     }
   }
@@ -216,16 +326,73 @@ class AuthServices extends GetxController {
       authLoading.value = true;
       authRequestStatus.value = 'PENDING';
 
+      debugPrint('[UPDATE-PROFILE-PENDING]');
       DioFormData.FormData formData = DioFormData.FormData.fromMap({
         ...dto,
         'avatar': await DioMultipartFile.MultipartFile.fromFile(
             dto['avatar'].path,
             filename: dto['avatar'].name)
       });
-      // print(formData['avatar']);
 
       final response = await dio.put(
         '${APIConstants.backendServerUrl}auth/donor/update-profile',
+        data: formData,
+        options: Options(
+          headers: {
+            'Authorization': authStorage.read('MDX-ACCESSTOKEN'),
+            'Content-Type': 'multipart/form-data'
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        authLoading.value = false;
+        authRequestError.value = '';
+        authRequestStatus.value = 'SUCCESS';
+
+        authStorage.write('MDX-USER', response.data['data']);
+        userRepository.userData.value =
+            UserModel.fromJson(response.data['data']);
+
+        Get.snackbar(
+          'Success',
+          'Profile updated successfully!',
+          colorText: Colors.white,
+          backgroundColor: AppStyles.bgBlue.withOpacity(0.8),
+        );
+
+        Get.to(
+          transition: Transition.fade,
+          duration: const Duration(milliseconds: 500),
+          () => HomeScreen(),
+        );
+        debugPrint('[UPDATE-PROFILE-SUCCESS] :: ${response.data}');
+      }
+    } catch (error) {
+      if (error is DioError) {
+        authLoading.value = false;
+        authRequestStatus.value = 'FAILED';
+        debugPrint('[RESETPASSSWORD CATCH ERROR] ${error.response!.data}');
+      }
+    }
+  }
+
+  Future<void> updateProfileWithGoogleSigninController(Map dto) async {
+    try {
+      authLoading.value = true;
+      authRequestStatus.value = 'PENDING';
+
+      debugPrint('[UPDATE-PROFILE-PENDING]');
+
+      DioFormData.FormData formData = DioFormData.FormData.fromMap({
+        ...dto,
+        // 'avatar': await DioMultipartFile.MultipartFile.fromFile(
+        //     dto['avatar'].path,
+        //     filename: dto['avatar'].name)
+      });
+
+      final response = await dio.put(
+        '${APIConstants.backendServerUrl}auth/donor/update-google-signin-profile',
         data: formData,
         options: Options(
           headers: {
@@ -284,41 +451,61 @@ class AuthServices extends GetxController {
           filename: dto['documentUploadRear'].name,
         )
       });
-      // print(formData['avatar']);
 
-      final response = await dio.post(
-        '${APIConstants.backendServerUrl}registration/donor/kyc-capture',
-        data: formData,
-        options: Options(
-          headers: {
-            'Authorization': authStorage.read('MDX-ACCESSTOKEN'),
-            'Content-Type': 'multipart/form-data',
-          },
-        ),
-      );
-
-      if (response.statusCode == 201) {
-        authLoading.value = false;
-        authRequestError.value = '';
-        authRequestStatus.value = 'SUCCESS';
-
-        authStorage.write('MDX-USER', response.data['data']['user']);
-        userRepository.userData.value =
-            UserModel.fromJson(response.data['data']['user']);
-
-        Get.snackbar(
-          'Success',
-          'KYC captured successfully!',
-          colorText: Colors.white,
-          backgroundColor: AppStyles.bgBlue.withOpacity(0.8),
+      debugPrint('[HAS-TATTOS] :: ${dto['hasTattos']}');
+      if (dto['hasTattos'] == true) {
+        final response = await dio.delete(
+          '${APIConstants.backendServerUrl}auth/donor/delete-account',
+          options: Options(
+            headers: {
+              'Authorization': authStorage.read('MDX-ACCESSTOKEN'),
+            },
+          ),
         );
 
-        Get.to(
-          transition: Transition.fade,
-          duration: const Duration(milliseconds: 500),
-          () => HomeScreen(),
+        if (response.statusCode == 200) {
+          authLoading.value = false;
+          authRequestError.value = '';
+          authRequestStatus.value = 'SUCCESS';
+
+          await authStorage.remove('MDX-USER');
+          Get.to(() => FailedKycInfoScreen());
+        }
+      } else {
+        final response = await dio.post(
+          '${APIConstants.backendServerUrl}registration/donor/kyc-capture',
+          data: formData,
+          options: Options(
+            headers: {
+              'Authorization': authStorage.read('MDX-ACCESSTOKEN'),
+              'Content-Type': 'multipart/form-data',
+            },
+          ),
         );
-        debugPrint('[KYC-CAPTURE-SUCCESS] :: ${response.data}');
+
+        if (response.statusCode == 201) {
+          authLoading.value = false;
+          authRequestError.value = '';
+          authRequestStatus.value = 'SUCCESS';
+
+          authStorage.write('MDX-USER', response.data['data']['user']);
+          userRepository.userData.value =
+              UserModel.fromJson(response.data['data']['user']);
+
+          Get.snackbar(
+            'Success',
+            'KYC captured successfully!',
+            colorText: Colors.white,
+            backgroundColor: AppStyles.bgBlue.withOpacity(0.8),
+          );
+
+          Get.to(
+            transition: Transition.fade,
+            duration: const Duration(milliseconds: 500),
+            () => HomeScreen(),
+          );
+          debugPrint('[KYC-CAPTURE-SUCCESS] :: ${response.data}');
+        }
       }
     } catch (error) {
       if (error is DioError) {

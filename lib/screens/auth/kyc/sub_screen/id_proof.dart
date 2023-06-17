@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace
+// ignore_for_file: sized_box_for_whitespace, prefer_const_constructors
 
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
@@ -126,55 +126,62 @@ class _IdProofScreenState extends State<IdProofScreen> {
       bottomNavigationBar: SizedBox(
         height: screenHeight * 0.14,
         // color: Colors.amber,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CustomButton(
-              text: 'Submit',
-              width: 50.0.wp,
-              height: 6.0.hp,
-              onTapHandler: () async {
-                if (!isDocumentCoverUploaded) {
-                  Get.snackbar(
-                    'Error',
-                    'Document cover is required',
-                    colorText: Colors.white,
-                    backgroundColor: AppStyles.bgBlue.withOpacity(0.8),
-                  );
-                }
-                if (!isDocumentRearUploaded) {
-                  Get.snackbar(
-                    'Error',
-                    'Document rear is required',
-                    colorText: Colors.white,
-                    backgroundColor: AppStyles.bgBlue.withOpacity(0.8),
-                  );
-                }
+        child: Obx(
+          () => Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              authServices.authRequestStatus.value == 'PENDING'
+                  ? CircularProgressIndicator()
+                  : CustomButton(
+                      text: 'Submit',
+                      width: 50.0.wp,
+                      height: 6.0.hp,
+                      onTapHandler: () async {
+                        if (!isDocumentCoverUploaded) {
+                          Get.snackbar(
+                            'Error',
+                            'Document cover is required',
+                            colorText: Colors.white,
+                            backgroundColor: AppStyles.bgBlue.withOpacity(0.8),
+                          );
+                        }
+                        if (!isDocumentRearUploaded) {
+                          Get.snackbar(
+                            'Error',
+                            'Document rear is required',
+                            colorText: Colors.white,
+                            backgroundColor: AppStyles.bgBlue.withOpacity(0.8),
+                          );
+                        }
 
-                Map formData = {
-                  'bloodGroup': userRepository.kycFormData.value.bloodGroup,
-                  'genotype': userRepository.kycFormData.value.genotype,
-                  'haveDonatedBlood':
-                      userRepository.kycFormData.value.haveDonatedBlood,
-                  'lastBloodDonationTime':
-                      userRepository.kycFormData.value.lastBloodDonationTime,
-                  'hasTattos': userRepository.kycFormData.value.hasTattos,
-                  'documentUploadRear': documentRear,
-                  'documentUploadCover': documentCover,
-                  'identificationType': identificationType == "Voter's Card"
-                      ? 'VOTERCARD'
-                      : 'NATIONALIDENTITYCARD',
-                };
+                        Map formData = {
+                          'bloodGroup':
+                              userRepository.kycFormData.value.bloodGroup,
+                          'genotype': userRepository.kycFormData.value.genotype,
+                          'haveDonatedBlood':
+                              userRepository.kycFormData.value.haveDonatedBlood,
+                          'lastBloodDonationTime': userRepository
+                              .kycFormData.value.lastBloodDonationTime,
+                          'hasTattos':
+                              userRepository.kycFormData.value.hasTattos,
+                          'documentUploadRear': documentRear,
+                          'documentUploadCover': documentCover,
+                          'identificationType':
+                              identificationType == "Voter's Card"
+                                  ? 'VOTERCARD'
+                                  : 'NATIONALIDENTITYCARD',
+                        };
 
-                await authServices.kycCaptureController(formData);
-              },
-              fontSize: 12.0.sp,
-              borderRadius: 10,
-              fontColor: AppStyles.bgWhite,
-              fontWeight: FontWeight.bold,
-              backgroundColor: AppStyles.bgBlue,
-            ),
-          ],
+                        await authServices.kycCaptureController(formData);
+                      },
+                      fontSize: 12.0.sp,
+                      borderRadius: 10,
+                      fontColor: AppStyles.bgWhite,
+                      fontWeight: FontWeight.bold,
+                      backgroundColor: AppStyles.bgBlue,
+                    ),
+            ],
+          ),
         ),
       ),
       body: SingleChildScrollView(

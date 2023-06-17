@@ -17,36 +17,35 @@ class ForgotPasswordScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
-    final AuthServices authServices = Get.find();
+  final AuthServices authServices = Get.find();
   final UserRepository userRepository = Get.find();
   bool showPassword = true;
   TextEditingController emailController = TextEditingController();
 
- Future<void> forgetPassordHandler() async {
-    if (!emailController.text.trim().isNotEmpty ) {
+  Future<void> forgetPassordHandler() async {
+    if (!emailController.text.trim().isNotEmpty) {
       Get.snackbar(
-        backgroundColor: AppStyles.bgPrimary,
-        'ERROR!', 
-        'Please ensure your fill in all fields in the form as the are required.'
-        ); 
+          backgroundColor: AppStyles.bgPrimary,
+          'ERROR!',
+          'Please ensure your fill in all fields in the form as the are required.');
     } else {
-      Map data = {"email": emailController.text.trim(),};
+      Map data = {
+        "email": emailController.text.trim(),
+      };
       debugPrint('[SIGNUP DTO] :: $data');
       await authServices.forgetPassworController(
-      data,
+        data,
       );
 
       debugPrint('[ERROR] :: ${authServices.authRequestError.value}');
 
       if (authServices.authRequestError.value == 'Invalid email address.') {
         Get.snackbar(
-        backgroundColor: AppStyles.bgPrimary,
-        'ERROR!', 
-        authServices.authRequestError.value
-
-        ); 
+            backgroundColor: AppStyles.bgPrimary,
+            'ERROR!',
+            authServices.authRequestError.value);
       }
-      
+
       if (authServices.authRequestStatus.value == 'SUCCESS') {
         setState(() {
           authServices.authLoading.value = false;
@@ -54,26 +53,31 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           authServices.authRequestStatus.value = '';
         });
 
-showDialog(context: context, 
-            builder: (BuildContext context){
-              return AlertDialog(
-                content: Text("OTP SENT TO EMAIL"),
-                actions: [
-                  CustomButton(text: 'OK', 
-                  width: 15.0.wp, 
-                  height:2.0.hp, 
-                  onTapHandler: (){
-                    Get.back();
-                  }, fontSize: 13.0.sp, 
-                  fontColor: Colors.white, 
-                  fontWeight: FontWeight.w300, 
-                  borderRadius: 10, 
-                  backgroundColor: AppStyles.bgBlue)
-                ],
-              );
-            });
+        // showDialog(
+        //     context: context,
+        //     builder: (BuildContext context) {
+        //       return AlertDialog(
+        //         content: Text("OTP SENT TO EMAIL"),
+        //         actions: [
+        //           CustomButton(
+        //               text: 'OK',
+        //               width: 15.0.wp,
+        //               height: 2.0.hp,
+        //               onTapHandler: () {
+        //                 Get.back();
+        //               },
+        //               fontSize: 13.0.sp,
+        //               fontColor: Colors.white,
+        //               fontWeight: FontWeight.w300,
+        //               borderRadius: 10,
+        //               backgroundColor: AppStyles.bgBlue)
+        //         ],
+        //       );
+        //     });
 
-        setState(() {emailController.clear();});
+        setState(() {
+          emailController.clear();
+        });
       }
     }
   }
@@ -83,8 +87,8 @@ showDialog(context: context,
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      body: Obx(()=>
-        SingleChildScrollView(
+      body: Obx(
+        () => SingleChildScrollView(
           child: Container(
             height: screenHeight,
             padding: EdgeInsets.symmetric(
@@ -142,27 +146,28 @@ showDialog(context: context,
                       ),
                       SizedBox(height: 6.0.hp),
                       CustomFormTextField(
-                        maxLines: 2,
+                        maxLines: 1,
                         hintText: 'Email address',
                         controller: emailController,
                         background: Colors.white.withOpacity(0.4),
                         hintColor: Colors.white,
                       ),
                       SizedBox(height: 3.0.hp),
-                      authServices.authRequestStatus.value == 'PENDING'?CircularProgressIndicator():
-                      CustomButton(
-                        text: 'Send OTP',
-                        width: double.maxFinite,
-                        height: 6.0.hp,
-                        onTapHandler: () {
-                          forgetPassordHandler();
-                        },
-                        fontSize: 12.0.sp,
-                        borderRadius: 5,
-                        fontColor: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        backgroundColor: AppStyles.bgPrimary,
-                      ),
+                      authServices.authRequestStatus.value == 'PENDING'
+                          ? CircularProgressIndicator()
+                          : CustomButton(
+                              text: 'Send OTP',
+                              width: double.maxFinite,
+                              height: 6.0.hp,
+                              onTapHandler: () {
+                                forgetPassordHandler();
+                              },
+                              fontSize: 12.0.sp,
+                              borderRadius: 5,
+                              fontColor: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              backgroundColor: AppStyles.bgPrimary,
+                            ),
                     ],
                   ),
                 ),

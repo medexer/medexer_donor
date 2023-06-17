@@ -10,6 +10,7 @@ import 'package:medexer_donor/widgets/text/custom_formpassword_field.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 import 'package:medexer_donor/widgets/text/cutom_formtext_field.dart';
 import '../../../services/auth_services.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -23,13 +24,16 @@ class _SignupScreenState extends State<SignupScreen> {
   bool showPassword = true;
   bool showConfirmPassword = true;
   final AuthServices authServices = Get.find();
-  TextEditingController usernameController = TextEditingController();
+  TextEditingController fullnameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
 
+  Map dto = {};
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+
   Future<void> signupHandler() async {
-    if (!usernameController.text.trim().isNotEmpty ||
+    if (!fullnameController.text.trim().isNotEmpty ||
         !emailController.text.trim().isNotEmpty ||
         !passwordController.text.trim().isNotEmpty ||
         !confirmPasswordController.text.trim().isNotEmpty) {
@@ -46,7 +50,7 @@ class _SignupScreenState extends State<SignupScreen> {
       );
     } else {
       Map data = {
-        "fullName": usernameController.text.trim(),
+        "fullName": fullnameController.text.trim(),
         "email": emailController.text.trim(),
         "password": passwordController.text.trim(),
       };
@@ -95,6 +99,7 @@ class _SignupScreenState extends State<SignupScreen> {
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Column(
                   children: [
@@ -108,15 +113,15 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                     SizedBox(height: 6.0.hp),
                     CustomFormTextField(
-                      maxLines: 2,
-                      hintText: 'Username',
-                      controller: usernameController,
+                      maxLines: 1,
+                      hintText: 'Fullname',
+                      controller: fullnameController,
                       background: Colors.white.withOpacity(0.4),
                       hintColor: Colors.white,
                     ),
                     SizedBox(height: 3.0.hp),
                     CustomFormTextField(
-                      maxLines: 2,
+                      maxLines: 1,
                       hintText: 'Email',
                       controller: emailController,
                       background: Colors.white.withOpacity(0.4),
@@ -182,6 +187,25 @@ class _SignupScreenState extends State<SignupScreen> {
                         GestureDetector(
                           onTap: () {
                             // OAUTH-GOOGLE: SIGNUP
+                            debugPrint('[GOOGLE-SIGNIN]');
+                            _googleSignIn.signOut();
+                            _googleSignIn.signIn().then((value) {
+                              String email = value!.email;
+                              String fullName = '${value.displayName}';
+                              String profilePicture = '${value.photoUrl}';
+
+                              debugPrint('[EMAIL] :: ${email}');
+                              debugPrint('[USERNAME] :: ${fullName}');
+                              debugPrint(
+                                  '[PROFILE-PICTURE] :: ${profilePicture}');
+                              setState(() {
+                                dto['email'] = email;
+                                dto['password'] = email;
+                                dto['fullName'] = fullName;
+                              });
+
+                              authServices.googleSigninController(dto);
+                            });
                           },
                           child: Container(
                             width: 20.0.wp,
@@ -200,6 +224,13 @@ class _SignupScreenState extends State<SignupScreen> {
                         GestureDetector(
                           onTap: () {
                             // OAUTH-APPLE: SIGNUP
+                            Get.snackbar(
+                              'Message',
+                              'Coming soon!',
+                              colorText: Colors.white,
+                              backgroundColor:
+                                  AppStyles.bgBlue.withOpacity(0.4),
+                            );
                           },
                           child: Container(
                             width: 20.0.wp,
@@ -218,6 +249,13 @@ class _SignupScreenState extends State<SignupScreen> {
                         GestureDetector(
                           onTap: () {
                             // OAUTH-FACEBOOK: SIGNUP
+                            Get.snackbar(
+                              'Message',
+                              'Coming soon!',
+                              colorText: Colors.white,
+                              backgroundColor:
+                                  AppStyles.bgBlue.withOpacity(0.4),
+                            );
                           },
                           child: Container(
                             width: 20.0.wp,
@@ -236,7 +274,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                   ],
                 ),
-                SizedBox(height: 10.0.hp),
+                SizedBox(height: 5.0.hp),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

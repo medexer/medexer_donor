@@ -7,6 +7,7 @@ class UserModel {
   bool? isActive;
   String? avatar;
   bool? isDonor;
+  bool? isEmailLogin;
   String? otp;
   bool? isKycUpdated;
 
@@ -19,6 +20,7 @@ class UserModel {
       this.isActive,
       this.avatar,
       this.isDonor,
+      this.isEmailLogin,
       this.otp,
       this.isKycUpdated});
 
@@ -31,6 +33,7 @@ class UserModel {
     isActive = json['is_active'];
     avatar = json['avatar'];
     isDonor = json['is_donor'];
+    isEmailLogin = json['is_email_login'];
     otp = json['otp'];
     isKycUpdated = json['is_kyc_updated'];
   }
@@ -45,6 +48,7 @@ class UserModel {
     data['is_active'] = this.isActive;
     data['avatar'] = this.avatar;
     data['is_donor'] = this.isDonor;
+    data['is_email_login'] = this.isEmailLogin;
     data['otp'] = this.otp;
     data['is_kyc_updated'] = this.isKycUpdated;
     return data;

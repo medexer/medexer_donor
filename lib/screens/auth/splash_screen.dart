@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(const Duration(seconds: 5));
     Get.off(
       transition: Transition.fade,
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 3000),
       () => const LoginScreen(),
     );
   }

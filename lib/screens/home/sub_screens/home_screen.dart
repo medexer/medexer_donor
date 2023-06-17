@@ -121,9 +121,11 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Stack(
             children: [
               SingleChildScrollView(
-                child: Container(
-                  height: screenHeight,
-                  child: FinalMap(),
+                child: InteractiveViewer(
+                  child: Container(
+                    height: screenHeight,
+                    child: FinalMap(),
+                  ),
                 ),
               ),
               Positioned(
