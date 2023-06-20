@@ -48,12 +48,18 @@ class _DonationCenterSearchProfileScreenState
         preferredSize: Size.fromHeight(screenHeight * 0.4),
         child: Container(
           decoration: BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage(
-                  '${APIConstants.backendServerRootUrl}${widget.donationCenter.hospitalProfile!.hospitalImage}'),
-              fit: BoxFit.cover,
-              filterQuality: FilterQuality.high,
-            ),
+            image: widget.donationCenter.hospitalProfile!.hospitalImage != null
+                ? DecorationImage(
+                    image: NetworkImage(
+                        '${APIConstants.backendServerRootUrl}${widget.donationCenter.hospitalProfile!.hospitalImage}'),
+                    fit: BoxFit.cover,
+                    filterQuality: FilterQuality.high,
+                  )
+                : const DecorationImage(
+                    image: AssetImage('assets/images/hospital__2.jpg'),
+                    fit: BoxFit.cover,
+                    filterQuality: FilterQuality.high,
+                  ),
           ),
           // decoration: const BoxDecoration(
           //   image: DecorationImage(
@@ -93,12 +99,16 @@ class _DonationCenterSearchProfileScreenState
                 Row(
                   children: [
                     Expanded(
-                      child: CustomTextWidget(
-                        text:
-                            '${widget.donationCenter.hospitalName}, ${widget.donationCenter.hospitalProfile?.aboutHospital}',
-                        size: 12.0.sp,
-                        // weight: FontWeight.w500,
-                      ),
+                      child: widget.donationCenter.hospitalProfile
+                                  ?.aboutHospital !=
+                              null
+                          ? CustomTextWidget(
+                              text:
+                                  '${widget.donationCenter.hospitalName}, ${widget.donationCenter.hospitalProfile?.aboutHospital}',
+                              size: 12.0.sp,
+                              // weight: FontWeight.w500,
+                            )
+                          : Container(),
                     ),
                   ],
                 ),
@@ -111,11 +121,11 @@ class _DonationCenterSearchProfileScreenState
                       weight: FontWeight.w500,
                     ),
                     Expanded(
-                      child: CustomTextWidget(
+                      child: widget.donationCenter.centerAddress!=null?CustomTextWidget(
                         text: '${widget.donationCenter.centerAddress}',
                         size: 12.0.sp,
                         // weight: FontWeight.w500,
-                      ),
+                      ): Container(),
                     ),
                   ],
                 ),
@@ -128,12 +138,16 @@ class _DonationCenterSearchProfileScreenState
                       weight: FontWeight.w500,
                     ),
                     Expanded(
-                      child: CustomTextWidget(
-                        text:
-                            '${widget.donationCenter.hospitalProfile!.contactNumber}',
-                        size: 12.0.sp,
-                        // weight: FontWeight.w500,
-                      ),
+                      child: widget.donationCenter.hospitalProfile!
+                                  .contactNumber !=
+                              null
+                          ? CustomTextWidget(
+                              text:
+                                  '${widget.donationCenter.hospitalProfile!.contactNumber}',
+                              size: 12.0.sp,
+                              // weight: FontWeight.w500,
+                            )
+                          : Container(),
                     ),
                   ],
                 ),

@@ -45,7 +45,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
-    authStorage.remove('MDX-USER');
+    // authStorage.remove('MDX-USER');
 
     rootRepository.initializeRepositories();
   }

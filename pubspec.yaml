@@ -43,6 +43,7 @@ dependencies:
   flutter_svg: ^1.1.6
   google_maps_flutter: ^2.2.5
   location: ^4.4.0
+  flutter_polyline_points: ^1.0.0
   geolocator: ^9.0.2
   permission_handler: ^10.2.0
   image_picker: ^0.8.7+3
@@ -55,7 +56,7 @@ dependencies:
   firebase_core: ^2.6.1
   flutter_launcher_icons: ^0.11.0
   google_sign_in: ^6.1.4
-  flutter_facebook_auth: ^6.0.0
+  # flutter_facebook_auth: ^6.0.0
 
 
 dev_dependencies:
