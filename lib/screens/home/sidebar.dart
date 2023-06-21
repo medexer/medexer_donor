@@ -223,17 +223,6 @@ class _SideBarState extends State<SideBar> {
               Icons.logout,
               color: AppStyles.bgPrimary,
             ),
-            title:Column(
-              children: [
-                
-              ],
-            ) 
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.logout,
-              color: AppStyles.bgPrimary,
-            ),
             title: Text(
               'Log out',
               style: TextStyle(color: AppStyles.bgPrimary),
