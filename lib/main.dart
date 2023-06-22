@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:medexer_donor/firebase_options.dart';
 import 'package:medexer_donor/database/root_repository.dart';
+import 'package:medexer_donor/networkBinding.dart';
 import 'package:medexer_donor/screens/auth/splash_screen.dart';
 import 'package:medexer_donor/screens/home/sub_screens/home_screen.dart';
 import 'package:medexer_donor/screens/auth/login_screen.dart';
@@ -45,7 +46,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
-    // authStorage.remove('MDX-USER');
+    authStorage.remove('MDX-USER');
 
     rootRepository.initializeRepositories();
   }
@@ -53,6 +54,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      initialBinding: NetworkBinding(),
       title: 'Medexer Donor',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

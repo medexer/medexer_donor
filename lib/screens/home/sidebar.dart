@@ -6,6 +6,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:medexer_donor/config/api_config.dart';
 import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/database/user_repository.dart';
+import 'package:medexer_donor/network_manager.dart';
 import 'package:medexer_donor/screens/auth/login_screen.dart';
 import 'package:medexer_donor/screens/home/sub_screens/about_us_screen.dart';
 import 'package:medexer_donor/screens/home/sub_screens/app_guide_screen.dart';
@@ -30,13 +31,16 @@ class _SideBarState extends State<SideBar> {
   final authStorage = GetStorage();
   final UserRepository userRepository = Get.find();
   final AuthServices authServices = Get.find();
-
+  final NetworkManageController _networkManageController =
+      Get.find<NetworkManageController>();
   @override
   Widget build(BuildContext context) {
+    debugPrint("['AVATAR] ${userRepository.userData.value.avatar}");
+
     return Drawer(
       width: MediaQuery.of(context).size.width * 0.65,
       child: ListView(
-        padding: EdgeInsets.only(top: 4.0.hp),
+        padding: EdgeInsets.only(top: 5.0.hp),
         children: [
           Obx(
             () => ListTile(
@@ -46,7 +50,27 @@ class _SideBarState extends State<SideBar> {
                     '${APIConstants.backendServerRootUrl}${userRepository.userData.value.avatar}'),
                 // backgroundImage: AssetImage('assets/images/avatar__1.jpg'),
               ),
-              title: Text('${userRepository.userData.value.fullName}'),
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('${userRepository.userData.value.fullName}'),
+                  Obx(() => Text(
+                        _networkManageController.connectionType.value == 1
+                            ? "online"
+                            : _networkManageController.connectionType.value == 2
+                                ? 'online'
+                                : 'offline',
+                        style: TextStyle(fontSize: 8, color: AppStyles.bgBlue),
+                      )),
+                  // GetBuilder(builder:(builder)=>Text('${_networkManageController.connectionType}'))
+                  // ?:Icon(Icons.online_prediction, color:Colors.green))
+                  // onTap: () async {
+                  //   debugPrint('[LOG OUT]');
+
+                  //   await authServices.signoutController();
+                  // },
+                ],
+              ),
               subtitle: Text('Profile'),
               onTap: () {
                 Get.to(() => ProfileScreen());
@@ -95,9 +119,24 @@ class _SideBarState extends State<SideBar> {
           ),
           ListTile(
             // leading: ImageIcon(
-            //   AssetImage('assets/icons/icon__wallet.png'),
+            //   AssetImage('assets/icons/icon__info.png'),
             //   color: AppStyles.bgBlue,
             // ),
+            leading: SvgPicture.asset(
+              'assets/icons/icon__file.svg',
+              color: AppStyles.bgBlue,
+              width: 18.0.sp,
+            ),
+            title: CustomTextWidget(
+              text: 'Guide',
+              size: 12.0.sp,
+            ),
+            onTap: () {
+              Get.to(() => AppGuideScreen());
+              debugPrint('[APP-GUIDE]');
+            },
+          ),
+          ListTile(
             leading: SvgPicture.asset(
               'assets/icons/icon__wallet.svg',
               color: AppStyles.bgBlue,
@@ -113,10 +152,6 @@ class _SideBarState extends State<SideBar> {
             },
           ),
           ListTile(
-            // leading: ImageIcon(
-            //   AssetImage('assets/icons/icon__call.png'),
-            //   color: AppStyles.bgBlue,
-            // ),
             leading: SvgPicture.asset(
               'assets/icons/icon__call.svg',
               color: AppStyles.bgBlue,
@@ -132,10 +167,6 @@ class _SideBarState extends State<SideBar> {
             },
           ),
           ListTile(
-            // leading: ImageIcon(
-            //   AssetImage('assets/icons/icon__notification.png'),
-            //   color: AppStyles.bgBlue,
-            // ),
             leading: SvgPicture.asset(
               'assets/icons/icon__message.svg',
               color: AppStyles.bgBlue,
@@ -172,10 +203,6 @@ class _SideBarState extends State<SideBar> {
             },
           ),
           ListTile(
-            // leading: ImageIcon(
-            //   AssetImage('assets/icons/icon__favourite.png'),
-            //   color: AppStyles.bgBlue,
-            // ),
             leading: SvgPicture.asset(
               'assets/icons/icon__heart.svg',
               color: AppStyles.bgBlue,
