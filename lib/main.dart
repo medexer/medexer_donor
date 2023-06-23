@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:medexer_donor/firebase_options.dart';
 import 'package:medexer_donor/database/root_repository.dart';
-import 'package:medexer_donor/networkBinding.dart';
+import 'package:medexer_donor/network_services/networkBinding.dart';
 import 'package:medexer_donor/screens/auth/splash_screen.dart';
 import 'package:medexer_donor/screens/home/sub_screens/home_screen.dart';
 import 'package:medexer_donor/screens/auth/login_screen.dart';

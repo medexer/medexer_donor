@@ -8,6 +8,9 @@ import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 import 'package:medexer_donor/database/user_repository.dart';
 import 'package:medexer_donor/services/donor_services.dart';
 
+import '../../../network_services/network_error_message.dart';
+import '../../../network_services/network_manager.dart';
+
 class Appointments extends StatefulWidget {
   final double height;
   const Appointments({super.key, required this.height});
@@ -19,6 +22,7 @@ class Appointments extends StatefulWidget {
 class _AppointmentsState extends State<Appointments> {
   final UserRepository userRepository = Get.find();
   final DonorServices donorServices = Get.put(DonorServices());
+  final NetworkManageController _networkManageController = Get.find<NetworkManageController>();
 
   @override
   void initState() {
@@ -33,7 +37,7 @@ class _AppointmentsState extends State<Appointments> {
 
     return Scaffold(
       body: Obx(
-        () => userRepository.appointments.isEmpty
+        () => (_networkManageController.connectionType.value == 0)?const NetworkErrorMessage():userRepository.appointments.isEmpty
             ? Container(
                 child: Lottie.asset('assets/animations/animation__2.json'),
               )

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:medexer_donor/network_manager.dart';
+import 'package:medexer_donor/network_services/network_manager.dart';
 class NetworkBinding extends Bindings{
 
   @override
