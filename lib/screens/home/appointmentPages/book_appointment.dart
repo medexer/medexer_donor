@@ -8,6 +8,9 @@ import 'package:medexer_donor/database/user_repository.dart';
 import 'package:medexer_donor/services/donor_services.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 
+import '../../../network_services/network_error_message.dart';
+import '../../../network_services/network_manager.dart';
+
 class BookAppointmentScreen extends StatefulWidget {
   final DonationCenterModel donationCenter;
   const BookAppointmentScreen({super.key, required this.donationCenter});
@@ -22,6 +25,8 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController messageController = TextEditingController();
   TextEditingController hospitalController = TextEditingController();
+
+    final NetworkManageController _networkManageController = Get.find<NetworkManageController>();
 
   Future<void> submitHandler() async {
     if (!messageController.text.trim().isNotEmpty) {
@@ -59,73 +64,75 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
               ),
               Padding(
                 padding: EdgeInsets.all(2.0.wp),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CustomTextWidget(
-                      text: 'Book Appointment',
-                      size: 15.0.sp,
-                      weight: FontWeight.w500,
-                    ),
-                    SizedBox(
-                      height: 3.0.hp,
-                    ),
-                    Form(
-                      child: Column(
+                child:Obx(()=>_networkManageController.connectionType.value == 0?const NetworkErrorMessage():
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomTextWidget(
+                        text: 'Book Appointment',
+                        size: 15.0.sp,
+                        weight: FontWeight.w500,
+                      ),
+                      SizedBox(
+                        height: 3.0.hp,
+                      ),
+                      Form(
+                        child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            CustomFormTextField(
-                              maxLines: 1,
-                              readOnly: true,
-                              borderRadius: 10,
-                              textColor: AppStyles.bgBlack,
-                              controller: TextEditingController(
+                            children: [
+                              CustomFormTextField(
+                                maxLines: 1,
+                                readOnly: true,
+                                borderRadius: 10,
+                                textColor: AppStyles.bgBlack,
+                                controller: TextEditingController(
                                   text:
                                       '${widget.donationCenter.hospitalName}'),
-                              background: Colors.white.withOpacity(0.4),
-                              hintColor: AppStyles.bgBlack,
-                            ),
-                            SizedBox(height: 2.0.hp),
-                            CustomFormTextField(
-                              maxLines: 1,
-                              readOnly: true,
-                              borderRadius: 10,
-                              textColor: AppStyles.bgBlack,
-                              controller: TextEditingController(
+                                background: Colors.white.withOpacity(0.4),
+                                hintColor: AppStyles.bgBlack,
+                              ),
+                              SizedBox(height: 2.0.hp),
+                              CustomFormTextField(
+                                maxLines: 1,
+                                readOnly: true,
+                                borderRadius: 10,
+                                textColor: AppStyles.bgBlack,
+                                controller: TextEditingController(
                                   text:
                                       '${widget.donationCenter.centerAddress}'),
-                              background: Colors.white.withOpacity(0.4),
-                              hintColor: AppStyles.bgBlack,
-                            ),
-                            SizedBox(height: 2.0.hp),
-                            CustomFormTextField(
-                              maxLines: 6,
-                              paddingLeft: 10,
-                              paddingRight: 10,
-                              height: 14.0.hp,
-                              borderRadius: 10,
-                              textColor: AppStyles.bgBlack,
-                              controller: messageController,
-                              background: Colors.white.withOpacity(0.4),
-                              hintColor: AppStyles.bgBlack,
-                            ),
-                            SizedBox(height: 2.0.hp),
-                            CustomButton(
+                                background: Colors.white.withOpacity(0.4),
+                                hintColor: AppStyles.bgBlack,
+                              ),
+                              SizedBox(height: 2.0.hp),
+                              CustomFormTextField(
+                                maxLines: 6,
+                                paddingLeft: 10,
+                                paddingRight: 10,
+                                height: 14.0.hp,
+                                borderRadius: 10,
+                                textColor: AppStyles.bgBlack,
+                                controller: messageController,
+                                background: Colors.white.withOpacity(0.4),
+                                hintColor: AppStyles.bgBlack,
+                              ),
+                              SizedBox(height: 2.0.hp),
+                              CustomButton(
                                 text: 'Book Appointment',
                                 height: 6.0.hp,
                                 width: 60.0.wp,
                                 onTapHandler: () {
                                   submitHandler();
                                 },
-                                fontSize: 10.0.sp,
-                                fontColor: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                borderRadius: 10,
-                                backgroundColor: AppStyles.bgBlue),
-                          ]),
-                    ),
-                  ],
-                ),
+                                 fontSize: 10.0.sp,
+                                  fontColor: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  borderRadius: 10,
+                                  backgroundColor: AppStyles.bgBlue),
+                            ]),
+                      ),
+                    ],
+                  )
+                ) 
               )
             ],
           ),

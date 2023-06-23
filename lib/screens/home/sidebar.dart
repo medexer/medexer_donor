@@ -6,7 +6,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:medexer_donor/config/api_config.dart';
 import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/database/user_repository.dart';
-import 'package:medexer_donor/network_manager.dart';
+import 'package:medexer_donor/network_services/network_manager.dart';
 import 'package:medexer_donor/screens/auth/login_screen.dart';
 import 'package:medexer_donor/screens/home/sub_screens/about_us_screen.dart';
 import 'package:medexer_donor/screens/home/sub_screens/app_guide_screen.dart';
