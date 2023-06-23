@@ -101,6 +101,7 @@ class _DonationCenterLocationScreenState
       result.points.forEach((PointLatLng point) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
       });
+      userRepository.hospitalRouteAdded.value = true;
       setState(() {});
     }
   }
@@ -210,58 +211,70 @@ class _DonationCenterLocationScreenState
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      key: scaffoldKey,
-      drawer: SideBar(),
-      body: SafeArea(
-        child: Stack(
-          children: [
-            SizedBox(height: 0),
-            GoogleMap(
-              polylines: {
-                Polyline(
-                    polylineId: PolylineId('route'),
-                    points: polylineCoordinates,
-                    color: AppStyles.bgBlue,
-                    width: 4),
-              },
-              scrollGesturesEnabled: true,
-              compassEnabled: true,
-              myLocationEnabled: true,
-              myLocationButtonEnabled: false,
-              mapType: MapType.normal,
-              onMapCreated: (GoogleMapController controller) {
-                _controller.complete(controller);
-                customInfoWindowcontroller.googleMapController = controller;
+    return WillPopScope(
+      onWillPop: () async {
+        userRepository.hospitalRouteAdded.value = false;
 
-                // initializeMarkerIcon();
-              },
-              // markers: _markers!,
-              markers: markers,
-              initialCameraPosition: CameraPosition(
-                target: LatLng(widget.donationCenter.centerGeoLocation!.lat!,
-                    widget.donationCenter.centerGeoLocation!.lng!),
-                zoom: 12,
-              ),
-              onTap: (Position) {
-                customInfoWindowcontroller.hideInfoWindow!();
-              },
-              onCameraMove: (Position) {
-                customInfoWindowcontroller.onCameraMove!();
-              },
+        return false;
+      },
+      child: Scaffold(
+        key: scaffoldKey,
+        drawer: SideBar(),
+        body: Obx(
+          () => SafeArea(
+            child: Stack(
+              children: [
+                userRepository.hospitalRouteAdded.value == true
+                    ? SizedBox(height: 0)
+                    : SizedBox(height: 0),
+                GoogleMap(
+                  polylines: {
+                    Polyline(
+                        polylineId: PolylineId('route'),
+                        points: polylineCoordinates,
+                        color: AppStyles.bgBlue,
+                        width: 4),
+                  },
+                  scrollGesturesEnabled: true,
+                  compassEnabled: true,
+                  myLocationEnabled: true,
+                  myLocationButtonEnabled: false,
+                  mapType: MapType.normal,
+                  onMapCreated: (GoogleMapController controller) {
+                    _controller.complete(controller);
+                    customInfoWindowcontroller.googleMapController = controller;
+
+                    // initializeMarkerIcon();
+                  },
+                  // markers: _markers!,
+                  markers: markers,
+                  initialCameraPosition: CameraPosition(
+                    target: LatLng(
+                        widget.donationCenter.centerGeoLocation!.lat!,
+                        widget.donationCenter.centerGeoLocation!.lng!),
+                    zoom: 12,
+                  ),
+                  onTap: (Position) {
+                    customInfoWindowcontroller.hideInfoWindow!();
+                  },
+                  onCameraMove: (Position) {
+                    customInfoWindowcontroller.onCameraMove!();
+                  },
+                ),
+                CustomInfoWindow(
+                  controller: customInfoWindowcontroller,
+                  height: 25.0.hp,
+                  width: 300,
+                  offset: 35,
+                ),
+                Positioned(
+                  top: 0,
+                  width: screenWidth,
+                  child: PageHeader(scaffoldKey: scaffoldKey),
+                ),
+              ],
             ),
-            CustomInfoWindow(
-              controller: customInfoWindowcontroller,
-              height: 25.0.hp,
-              width: 300,
-              offset: 35,
-            ),
-            Positioned(
-              top: 0,
-              width: screenWidth,
-              child: PageHeader(scaffoldKey: scaffoldKey),
-            ),
-          ],
+          ),
         ),
       ),
     );
