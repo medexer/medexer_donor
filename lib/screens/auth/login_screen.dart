@@ -79,9 +79,6 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
 
-    if (authStorage.read('MDX-USER') != null) {
-      Get.to(() => HomeScreen());
-    }
   }
 
   @override

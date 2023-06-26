@@ -31,9 +31,12 @@ class _SideBarState extends State<SideBar> {
   final authStorage = GetStorage();
   final UserRepository userRepository = Get.find();
   final AuthServices authServices = Get.find();
-  final NetworkManageController _networkManageController = Get.find<NetworkManageController>();
+  final NetworkManageController _networkManageController =
+      Get.find<NetworkManageController>();
   @override
   Widget build(BuildContext context) {
+    debugPrint("['AVATAR] ${userRepository.userData.value.avatar}");
+
     return Drawer(
       width: MediaQuery.of(context).size.width * 0.65,
       child: ListView(
@@ -51,21 +54,21 @@ class _SideBarState extends State<SideBar> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('${userRepository.userData.value.fullName}'),
-                   Obx(() => Text(
-                      _networkManageController.connectionType.value == 1
-                      ? "online"
-                      : _networkManageController.connectionType.value == 2
-                      ? 'online'
-                      : 'offline',
-                      style:  TextStyle(fontSize: 8,color: AppStyles.bgBlue),
-            )),
-                // GetBuilder(builder:(builder)=>Text('${_networkManageController.connectionType}'))
-                 // ?:Icon(Icons.online_prediction, color:Colors.green))
-            // onTap: () async {
-            //   debugPrint('[LOG OUT]');
+                  Obx(() => Text(
+                        _networkManageController.connectionType.value == 1
+                            ? "online"
+                            : _networkManageController.connectionType.value == 2
+                                ? 'online'
+                                : 'offline',
+                        style: TextStyle(fontSize: 8, color: AppStyles.bgBlue),
+                      )),
+                  // GetBuilder(builder:(builder)=>Text('${_networkManageController.connectionType}'))
+                  // ?:Icon(Icons.online_prediction, color:Colors.green))
+                  // onTap: () async {
+                  //   debugPrint('[LOG OUT]');
 
-            //   await authServices.signoutController();
-            // },
+                  //   await authServices.signoutController();
+                  // },
                 ],
               ),
               subtitle: Text('Profile'),
@@ -114,18 +117,16 @@ class _SideBarState extends State<SideBar> {
               debugPrint('[DONOR-CENTERS]');
             },
           ),
-
           ListTile(
-            leading: ImageIcon(
-              AssetImage('assets/icons/icon__info.png'),
-              color: AppStyles.bgBlue,
-            ),
-            //leading: 
-            // SvgPicture.asset(
-            //   'assets/icons/icon__location.svg',
+            // leading: ImageIcon(
+            //   AssetImage('assets/icons/icon__info.png'),
             //   color: AppStyles.bgBlue,
-            //   width: 18.0.sp,
             // ),
+            leading: SvgPicture.asset(
+              'assets/icons/icon__file.svg',
+              color: AppStyles.bgBlue,
+              width: 18.0.sp,
+            ),
             title: CustomTextWidget(
               text: 'Guide',
               size: 12.0.sp,
