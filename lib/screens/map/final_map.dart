@@ -82,16 +82,6 @@ class _FinalMapState extends State<FinalMap> {
     final Uint8List myMarkerIcon = await getBytesFromAsset(
         path: 'assets/icons/icon__marker__3.png', width: 60);
 
-    setState(() {
-      markers.add(Marker(
-        icon: BitmapDescriptor.fromBytes(myMarkerIcon),
-        markerId: MarkerId('${userRepository.userData.value.donorID}'),
-        position: currentLocation != null
-            ? LatLng(currentLocation!.latitude!, currentLocation!.longitude!)
-            : LatLng(9.906587499999999, 8.9547031),
-      ));
-    });
-
     await Future.delayed(const Duration(seconds: 3));
 
     final Uint8List markerIcon = await getBytesFromAsset(
@@ -184,6 +174,18 @@ class _FinalMapState extends State<FinalMap> {
               }),
         );
       }
+    });
+
+    await Future.delayed(const Duration(seconds: 5));
+    
+    setState(() {
+      markers.add(Marker(
+        icon: BitmapDescriptor.fromBytes(myMarkerIcon),
+        markerId: MarkerId('${userRepository.userData.value.donorID}'),
+        position: currentLocation != null
+            ? LatLng(currentLocation!.latitude!, currentLocation!.longitude!)
+            : LatLng(9.906587499999999, 8.9547031),
+      ));
     });
   }
 

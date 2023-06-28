@@ -171,15 +171,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 );
                               }
 
-                              Map formData = {
-                                'email': emailController.text.trim(),
-                                'avatar': newAvatar == true ? avatar : ''
-                              };
+                              if (newAvatar == false) {
+                                Get.snackbar(
+                                  'Error',
+                                  'Please upload your avatar.',
+                                  colorText: Colors.white,
+                                  backgroundColor:
+                                      AppStyles.bgBlue.withOpacity(0.8),
+                                );
+                              } else {
+                                Map formData = {
+                                  'email': emailController.text.trim(),
+                                  'avatar': avatar
+                                };
 
-                              // debugPrint('[PAYLOAD] :: $formData');
-                              await authServices
-                                  .updateProfileWithGoogleSigninController(
-                                      formData);
+                                debugPrint('[PAYLOAD] :: $formData');
+                                await authServices
+                                    .updateProfileWithGoogleSigninController(
+                                        formData);
+                              }
                             },
                             child: Container(
                               height: 45,
@@ -282,18 +292,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         AppStyles.bgBlue.withOpacity(0.8),
                                   );
                                 }
+                                if (newAvatar == false) {
+                                  Get.snackbar(
+                                    'Error',
+                                    'Please upload your avatar.',
+                                    colorText: Colors.white,
+                                    backgroundColor:
+                                        AppStyles.bgBlue.withOpacity(0.8),
+                                  );
+                                } else {
+                                  Map formData = {
+                                    'email': emailController.text.trim(),
+                                    'password': passwordController.text.trim(),
+                                    'new_password':
+                                        newPasswordController.text.trim(),
+                                    'avatar': newAvatar == true ? avatar : ''
+                                  };
 
-                                Map formData = {
-                                  'email': emailController.text.trim(),
-                                  'password': passwordController.text.trim(),
-                                  'new_password':
-                                      newPasswordController.text.trim(),
-                                  'avatar': newAvatar == true ? avatar : ''
-                                };
-
-                                // debugPrint('[PAYLOAD] :: $formData');
-                                await authServices
-                                    .updateProfileController(formData);
+                                  // debugPrint('[PAYLOAD] :: $formData');
+                                  await authServices
+                                      .updateProfileController(formData);
+                                }
                               },
                               child: Container(
                                 height: 45,

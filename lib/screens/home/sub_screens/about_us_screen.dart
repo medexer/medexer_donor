@@ -1,10 +1,14 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/screens/home/sidebar.dart';
 import 'package:medexer_donor/widgets/page_header.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
+
+import '../../../network_services/network_error_message.dart';
+import '../../../network_services/network_manager.dart';
 
 class AboutUsScreen extends StatefulWidget {
   const AboutUsScreen({super.key});
@@ -15,6 +19,7 @@ class AboutUsScreen extends StatefulWidget {
 
 class _AboutUsScreenState extends State<AboutUsScreen> {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+      final NetworkManageController _networkManageController = Get.find<NetworkManageController>();
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +33,8 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 2.0.wp),
             width: double.maxFinite,
-            child: Column(
+            child:Obx(() => (_networkManageController.connectionType.value == 0)?const NetworkErrorMessage():
+              Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 2.0.hp),
@@ -46,7 +52,6 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                   ),
                 ),
                 SizedBox(height: 2.0.hp),
-
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
@@ -102,12 +107,12 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                       ),
                     ],
                   ),
-                )
-              ],
-            ),
+                ) 
+              ]  
+            )
           ),
         ),
-      ),
+      ),)
     );
   }
 }

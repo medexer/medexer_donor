@@ -11,6 +11,9 @@ import 'package:medexer_donor/services/donor_services.dart';
 import 'package:medexer_donor/widgets/buttons/custom_button.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 
+import '../../../network_services/network_error_message.dart';
+import '../../../network_services/network_manager.dart';
+
 class DonationCenters extends StatefulWidget {
   final double height;
   const DonationCenters({super.key, required this.height});
@@ -23,14 +26,15 @@ class _DonationCentersState extends State<DonationCenters> {
   final DonorServices donorServices = Get.find();
   final UserRepository userRepository = Get.find();
   TextEditingController searchController = TextEditingController();
-
+  
+final NetworkManageController _networkManageController = Get.find<NetworkManageController>();
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     donorServices.fetchDonationCentersController();
 
     return Obx(
-      () => Column(
+            () =>(_networkManageController.connectionType.value == 0)?const NetworkErrorMessage(): Column(
         children: [
           userRepository.donationCenters.isEmpty
               ? Container(
