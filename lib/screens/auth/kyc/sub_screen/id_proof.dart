@@ -164,6 +164,10 @@ class _IdProofScreenState extends State<IdProofScreen> {
                               .kycFormData.value.lastBloodDonationTime,
                           'hasTattos':
                               userRepository.kycFormData.value.hasTattos,
+                          'tobaccoUsage':
+                              userRepository.kycFormData.value.tobaccoUsage,
+                          'isRecentVaccineRecipient': userRepository
+                              .kycFormData.value.isRecentVaccineRecipient,
                           'documentUploadRear': documentRear,
                           'documentUploadCover': documentCover,
                           'identificationType':

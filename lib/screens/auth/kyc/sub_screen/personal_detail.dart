@@ -22,6 +22,8 @@ class PersonalDetailScreen extends StatefulWidget {
 class _PersonalDetailScreenState extends State<PersonalDetailScreen> {
   String genotype = '';
   String hasTattos = '';
+  String tobaccoUsage = '';
+  String isRecentVaccineRecipient = '';
   String bloodGroup = '';
   String previouslyDonatedBlood = '';
   String previouslyDonatedBloodTimeline = '';
@@ -34,7 +36,7 @@ class _PersonalDetailScreenState extends State<PersonalDetailScreen> {
 
     return Scaffold(
       bottomNavigationBar: SizedBox(
-        height: screenHeight * 0.14,
+        height: screenHeight * 0.1,
         // color: Colors.amber,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -44,18 +46,18 @@ class _PersonalDetailScreenState extends State<PersonalDetailScreen> {
               width: 50.0.wp,
               height: 6.0.hp,
               onTapHandler: () async {
-                if (bloodGroup == '') {
+                if (tobaccoUsage == '') {
                   Get.snackbar(
                     'Error',
-                    'Blood group is required.',
+                    'Please affirm if you smoke or not.',
                     colorText: Colors.white,
                     backgroundColor: AppStyles.bgBlue.withOpacity(0.8),
                   );
                 }
-                if (genotype == '') {
+                if (isRecentVaccineRecipient == '') {
                   Get.snackbar(
                     'Error',
-                    'Genotype is required.',
+                    'Please affirm if you have been vaccinated recently or not.',
                     colorText: Colors.white,
                     backgroundColor: AppStyles.bgBlue.withOpacity(0.8),
                   );
@@ -84,6 +86,9 @@ class _PersonalDetailScreenState extends State<PersonalDetailScreen> {
                       previouslyDonatedBlood == 'YES' ? true : false,
                   'lastBloodDonationTime': previouslyDonatedBloodTimeline,
                   'hasTattos': hasTattos == 'YES' ? true : false,
+                  'tobaccoUsage': tobaccoUsage == 'YES' ? true : false,
+                  'isRecentVaccineRecipient':
+                      isRecentVaccineRecipient == 'YES' ? true : false,
                 };
 
                 userRepository.kycFormData.value =
@@ -182,6 +187,38 @@ class _PersonalDetailScreenState extends State<PersonalDetailScreen> {
                 onChangeHandler: (int index) {
                   setState(() {
                     hasTattos = appAfirmations[index]['name'];
+                  });
+                },
+              ),
+              SizedBox(height: 2.0.hp),
+              CustomTextWidget(
+                text: 'Have you been vaccinated in the last 3months?',
+                size: 10.0.sp,
+              ),
+              SizedBox(height: 0.5.hp),
+              CustomAffirmationButton(
+                title: 'Have you been vaccinated in the last 3months?',
+                items: appAfirmations,
+                currentItem: isRecentVaccineRecipient,
+                onChangeHandler: (int index) {
+                  setState(() {
+                    isRecentVaccineRecipient = appAfirmations[index]['name'];
+                  });
+                },
+              ),
+              SizedBox(height: 2.0.hp),
+              CustomTextWidget(
+                text: 'Do you smoke?',
+                size: 10.0.sp,
+              ),
+              SizedBox(height: 0.5.hp),
+              CustomAffirmationButton(
+                title: 'Do you smoke?',
+                items: appAfirmations,
+                currentItem: tobaccoUsage,
+                onChangeHandler: (int index) {
+                  setState(() {
+                    tobaccoUsage = appAfirmations[index]['name'];
                   });
                 },
               ),
