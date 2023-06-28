@@ -22,18 +22,25 @@ class _CustomSelectionTextFieldState extends State<CustomSelectionTextField> {
   TextEditingController donatedBloodController = TextEditingController();
    TextEditingController lastTimeController = TextEditingController();
   TextEditingController tattoosController = TextEditingController();
+  TextEditingController tobaccoUsageController = TextEditingController();
+  TextEditingController isRecentVaccineRecipientController = TextEditingController();
 
   List<String> booldGroup = ['A+','A-','B+','B-','O+','O-','AB+','AB-'];
   List<String> genotype = ['AA','AS','AC','SS','SC'];
   List<String> donateBlood = ['YES','NO'];
   List<String> lastTime = ['less than a year','A year','2 years','3 years','Over 3 years', 'Never'];
   List<String> tattoos = ['YES','NO'];
+  List<String> tobaccoUsage = ['YES', 'NO'];
+  List<String>  isRecentVaccineRecipient =  ['YES', 'NO'];
+
 
   bool monthsDisplay = false;
   bool daysDisplay = false;
   bool yearsDisplay = false;
   bool lastTimeDisplay = false;
   bool tattoosDisplay = false;
+  bool tobaccoUsageDisplay= false;
+  bool isRecentVaccineRecipientDisplay = false;
 
 
   Future<void> kycHandler() async {
@@ -41,21 +48,23 @@ class _CustomSelectionTextFieldState extends State<CustomSelectionTextField> {
         !genotypeController.text.trim().isNotEmpty ||
         !donatedBloodController.text.trim().isNotEmpty ||
         !lastTimeController.text.trim().isNotEmpty ||
-        !tattoosController.text.trim().isNotEmpty
+        !tattoosController.text.trim().isNotEmpty ||
+        !tobaccoUsageController.text.trim().isNotEmpty||
+        !isRecentVaccineRecipientController.text.trim().isNotEmpty
         ) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: CustomSnackbarContainer(
-            backgroundType: '',
-            title: 'Info',
-            description:
-                'Please ensure your fill in all fields\n in the form as the are required.',
-          ),
-          behavior: SnackBarBehavior.floating,
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-        ),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(
+      //     content: CustomSnackbarContainer(
+      //       backgroundType: '',
+      //       title: 'Info',
+      //       description:
+      //           'Please ensure your fill in all fields\n in the form as the are required.',
+      //     ),
+      //     behavior: SnackBarBehavior.floating,
+      //     elevation: 0,
+      //     backgroundColor: Colors.transparent,
+      //   ),
+      //);
     } else {
       Map data = {
         "bloodGroup": bloodGroupController.text.trim(),
@@ -63,6 +72,8 @@ class _CustomSelectionTextFieldState extends State<CustomSelectionTextField> {
         "haveDonatedBlood": donatedBloodController.text.trim(),
         "lastBloodDonationTime": lastTimeController.text.trim(),
         "hasTattos": tattoosController.text.trim(),
+        "isRecentVaccineRecipientController": isRecentVaccineRecipientController.text.trim(),
+        "tobaccoUsageController":tobaccoUsageController.text.trim(),
       };
 
       debugPrint('[SIGNUP DTO] :: $data');
@@ -101,6 +112,8 @@ class _CustomSelectionTextFieldState extends State<CustomSelectionTextField> {
           donatedBloodController.clear();
           lastTimeController.clear();
           tattoosController.clear();
+          tobaccoUsageController.clear();
+          isRecentVaccineRecipientController.clear();
       });
     }
   }
@@ -144,6 +157,14 @@ class _CustomSelectionTextFieldState extends State<CustomSelectionTextField> {
             inputField('tattoos',tattoosController),
             tattoosDisplay? selectionField('tattoos', tattoosController):const SizedBox(),  
                
+            const Text('Have you taken Tobacco of recent?'),
+            inputField('tobaccoUsage',tobaccoUsageController),
+            tattoosDisplay? selectionField('tobaccoUsage', tobaccoUsageController):const SizedBox(),
+
+            const Text('Have you been Vaccinated recently?'),
+            inputField('isRecentVaccineRecipient',isRecentVaccineRecipientController),
+            tattoosDisplay? selectionField('isRecentVaccineRecipient', isRecentVaccineRecipientController):const SizedBox(),
+
             SizedBox(height: 4.0.hp,),
             authServices.authRequestStatus.value == 'PENDING'? CircularProgressIndicator():   
             Center(
@@ -200,6 +221,12 @@ class _CustomSelectionTextFieldState extends State<CustomSelectionTextField> {
                       case 'tattoos': 
                         tattoosDisplay=!tattoosDisplay;
                         break;
+                      case 'tobaccoUsage':
+                        tobaccoUsageDisplay=!tobaccoUsageDisplay;
+                        break;
+                      case 'isRecentVaccineRecipient':
+                        isRecentVaccineRecipientDisplay=!isRecentVaccineRecipientDisplay;
+                        break;
                     }
                       });
                   },
@@ -228,7 +255,14 @@ class _CustomSelectionTextFieldState extends State<CustomSelectionTextField> {
                 ]
               ),
               child: ListView.builder(
-                itemCount: type=='booldGroup'?booldGroup.length:type=='lastTime'?lastTime.length:type=='genotype'?genotype.length:type=='tattoos'?tattoos.length:donateBlood.length,
+                itemCount: 
+                type=='booldGroup'?booldGroup.length:
+                type=='lastTime'?lastTime.length:
+                type=='genotype'?genotype.length:
+                type=='tattoos'?tattoos.length:
+                type=='tobaccoUsage'?tobaccoUsage.length:
+                type == 'isRecentVaccineRecipient'?isRecentVaccineRecipient.length:
+                donateBlood.length,
               itemBuilder: ((context,index){
                 return GestureDetector(
                   onTap: (){
@@ -250,12 +284,27 @@ class _CustomSelectionTextFieldState extends State<CustomSelectionTextField> {
                         case 'tattoos':
                           controller.text=tattoos[index];
                           break;
+                        case 'tobaccoUsage':
+                          controller.text = tobaccoUsage[index];
+                          break;
+                        case 'isRecentVaccineRecipient':
+                          controller.text = isRecentVaccineRecipient[index];
+                          break;
                       }
                     });
                     
                   },
                   child: ListTile(
-                    title: Text(type=='booldGroup'?booldGroup[index]:type=='genotype'?genotype[index]:type=='lastTime'?lastTime[index]:type=='tattoos'?tattoos[index]:donateBlood[index],),
+                    title: Text(
+                      type=='booldGroup'?booldGroup[index]:
+                      type=='genotype'?genotype[index]:
+                      type=='lastTime'?lastTime[index]:
+                      type=='tattoos'?tattoos[index]:
+                      type=='tobaccoUsage'?tobaccoUsage[index]:
+                      type=='isRecentVaccineRecipient'?isRecentVaccineRecipient[index]:
+                      donateBlood[index],
+                      
+                      ),
                   ),
                 );
               }),
