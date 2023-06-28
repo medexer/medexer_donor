@@ -23,8 +23,8 @@ class _NetworkErrorMessageState extends State<NetworkErrorMessage> {
           child: const Text("Can't connect to the internet. Please check your network or wi-fi sttings"),
         ),
         SizedBox(height: 7.0.hp,),
-        CustomButton(
-          text:'Try again', width: 40.0.wp, height: 6.0.hp, onTapHandler: (){}, fontSize: 17.0, backgroundColor:AppStyles.bgBlue,borderRadius: 20,fontWeight: FontWeight.normal, fontColor: AppStyles.bgWhite,)
+        // CustomButton(
+        //   text:'Try again', width: 40.0.wp, height: 6.0.hp, onTapHandler: (){}, fontSize: 17.0, backgroundColor:AppStyles.bgBlue,borderRadius: 20,fontWeight: FontWeight.normal, fontColor: AppStyles.bgWhite,)
         
       ],
     );

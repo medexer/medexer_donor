@@ -386,9 +386,9 @@ class AuthServices extends GetxController {
 
       DioFormData.FormData formData = DioFormData.FormData.fromMap({
         ...dto,
-        // 'avatar': await DioMultipartFile.MultipartFile.fromFile(
-        //     dto['avatar'].path,
-        //     filename: dto['avatar'].name)
+        'avatar': await DioMultipartFile.MultipartFile.fromFile(
+            dto['avatar'].path,
+            filename: dto['avatar'].name)
       });
 
       final response = await dio.put(

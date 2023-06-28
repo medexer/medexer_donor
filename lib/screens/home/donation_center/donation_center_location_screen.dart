@@ -72,6 +72,8 @@ class _DonationCenterLocationScreenState
     }
 
     currentLocation = await location.getLocation();
+    userRepository.currentUserLatitude.value = currentLocation!.latitude!;
+    userRepository.currentUserLongitude.value = currentLocation!.longitude!;
 
     GoogleMapController googleMapController = await _controller.future;
 
@@ -82,18 +84,21 @@ class _DonationCenterLocationScreenState
         //         zoom: 12,
         //         target: LatLng(newLoc.latitude!, newLoc.longitude!))));
         currentLocation = newLoc;
+        userRepository.currentUserLatitude.value = newLoc.latitude!;
+        userRepository.currentUserLongitude.value = newLoc.longitude!;
       });
     });
   }
 
   void getPolyPoints() async {
-    // await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 1));
 
     PolylinePoints polylinePoints = PolylinePoints();
 
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
         "AIzaSyDUtLQoVhaoIl0l6K_Cy1yfWWX1XkwaQCk",
-        PointLatLng(currentLocation!.latitude!, currentLocation!.longitude!),
+        PointLatLng(userRepository.currentUserLatitude.value,
+            userRepository.currentUserLongitude.value),
         PointLatLng(widget.donationCenter.centerGeoLocation!.lat!,
             widget.donationCenter.centerGeoLocation!.lng!));
 
@@ -103,23 +108,14 @@ class _DonationCenterLocationScreenState
       });
       userRepository.hospitalRouteAdded.value = true;
       setState(() {});
+
+      print('[ROUTE] :: $polylineCoordinates');
     }
   }
 
   void onMapCreated() async {
     final Uint8List myMarkerIcon =
         await getBytesFromAsset('assets/icons/icon__marker__3.png', 60);
-
-    setState(() {
-      markers.add(Marker(
-        icon: BitmapDescriptor.fromBytes(myMarkerIcon),
-        markerId: MarkerId('${userRepository.userData.value.donorID}'),
-        position: currentLocation != null
-            ? LatLng(currentLocation!.latitude!, currentLocation!.longitude!)
-            : LatLng(9.906587499999999, 8.9547031),
-      ));
-    });
-    await Future.delayed(const Duration(seconds: 3));
 
     final Uint8List markerIcon =
         await getBytesFromAsset('assets/icons/icon__marker__2.png', 60);
@@ -192,6 +188,19 @@ class _DonationCenterLocationScreenState
         ),
       );
     });
+    
+    await Future.delayed(const Duration(seconds: 5));
+
+    setState(() {
+      markers.add(Marker(
+        icon: BitmapDescriptor.fromBytes(myMarkerIcon),
+        markerId: MarkerId('${userRepository.userData.value.donorID}'),
+        position: currentLocation != null
+            ? LatLng(userRepository.currentUserLatitude.value,
+                userRepository.currentUserLongitude.value)
+            : LatLng(9.906587499999999, 8.9547031),
+      ));
+    });
   }
 
   @override
@@ -202,9 +211,9 @@ class _DonationCenterLocationScreenState
     initializeCurrentLocation();
     onMapCreated();
 
-    if (currentLocation != null) {
-      getPolyPoints();
-    }
+    // if (currentLocation != null) {
+    getPolyPoints();
+    // }
   }
 
   @override
@@ -222,57 +231,60 @@ class _DonationCenterLocationScreenState
         drawer: SideBar(),
         body: Obx(
           () => SafeArea(
-            child: Stack(
-              children: [
-                userRepository.hospitalRouteAdded.value == true
-                    ? SizedBox(height: 0)
-                    : SizedBox(height: 0),
-                GoogleMap(
-                  polylines: {
-                    Polyline(
-                        polylineId: PolylineId('route'),
-                        points: polylineCoordinates,
-                        color: AppStyles.bgBlue,
-                        width: 4),
-                  },
-                  scrollGesturesEnabled: true,
-                  compassEnabled: true,
-                  myLocationEnabled: true,
-                  myLocationButtonEnabled: false,
-                  mapType: MapType.normal,
-                  onMapCreated: (GoogleMapController controller) {
-                    _controller.complete(controller);
-                    customInfoWindowcontroller.googleMapController = controller;
-
-                    // initializeMarkerIcon();
-                  },
-                  // markers: _markers!,
-                  markers: markers,
-                  initialCameraPosition: CameraPosition(
-                    target: LatLng(
-                        widget.donationCenter.centerGeoLocation!.lat!,
-                        widget.donationCenter.centerGeoLocation!.lng!),
-                    zoom: 12,
+            child: SingleChildScrollView(
+              child: Stack(
+                children: [
+                  userRepository.hospitalRouteAdded.value == true
+                      ? SizedBox(height: 2.0.hp)
+                      : SizedBox(height: 2.0.hp),
+                  GoogleMap(
+                    polylines: {
+                      Polyline(
+                          polylineId: PolylineId('route'),
+                          points: polylineCoordinates,
+                          color: AppStyles.bgBlue,
+                          width: 4),
+                    },
+                    scrollGesturesEnabled: true,
+                    compassEnabled: true,
+                    myLocationEnabled: true,
+                    myLocationButtonEnabled: false,
+                    zoomControlsEnabled: false,
+                    mapType: MapType.normal,
+                    onMapCreated: (GoogleMapController controller) {
+                      _controller.complete(controller);
+                      customInfoWindowcontroller.googleMapController = controller;
+            
+                      // initializeMarkerIcon();
+                    },
+                    // markers: _markers!,
+                    markers: markers,
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(
+                          widget.donationCenter.centerGeoLocation!.lat!,
+                          widget.donationCenter.centerGeoLocation!.lng!),
+                      zoom: 12,
+                    ),
+                    onTap: (Position) {
+                      customInfoWindowcontroller.hideInfoWindow!();
+                    },
+                    onCameraMove: (Position) {
+                      customInfoWindowcontroller.onCameraMove!();
+                    },
                   ),
-                  onTap: (Position) {
-                    customInfoWindowcontroller.hideInfoWindow!();
-                  },
-                  onCameraMove: (Position) {
-                    customInfoWindowcontroller.onCameraMove!();
-                  },
-                ),
-                CustomInfoWindow(
-                  controller: customInfoWindowcontroller,
-                  height: 25.0.hp,
-                  width: 300,
-                  offset: 35,
-                ),
-                Positioned(
-                  top: 0,
-                  width: screenWidth,
-                  child: PageHeader(scaffoldKey: scaffoldKey),
-                ),
-              ],
+                  CustomInfoWindow(
+                    controller: customInfoWindowcontroller,
+                    height: 25.0.hp,
+                    width: 300,
+                    offset: 35,
+                  ),
+                  Positioned(
+                    top: 0,
+                    width: screenWidth,
+                    child: PageHeader(scaffoldKey: scaffoldKey),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

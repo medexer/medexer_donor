@@ -28,12 +28,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  final NetworkManageController _networkManageController = Get.find<NetworkManageController>();
+  final NetworkManageController _networkManageController = Get.find();
   final authStorage = GetStorage();
   final DonorServices donorServices = Get.find();
   final UserRepository userRepository = Get.find();
 
   void initializeState() async {
+    await Future.delayed(Duration(seconds: 2));
+    
     if (userRepository.userData.value.fullName == null) {
       userRepository.userData.value =
           UserModel.fromJson(authStorage.read('MDX-USER'));
@@ -118,29 +120,31 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      body: Obx(()=>(_networkManageController.connectionType.value == 0)?const NetworkErrorMessage():
-        SafeArea(
-          child: Container(
-            height: screenHeight,
-            child: Stack(
-              children: [
-                SingleChildScrollView(
-                  child: InteractiveViewer(
-                    child: Container(
-                      height: screenHeight,
-                      child: FinalMap(),
-                    ),
+      body: Obx(
+        () => _networkManageController.connectionType.value == 0
+            ? const NetworkErrorMessage()
+            : SafeArea(
+                child: Container(
+                  height: screenHeight,
+                  child: Stack(
+                    children: [
+                      SingleChildScrollView(
+                        child: InteractiveViewer(
+                          child: Container(
+                            height: screenHeight,
+                            child: FinalMap(),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 0,
+                        width: screenWidth,
+                        child: PageHeader(scaffoldKey: scaffoldKey),
+                      ),
+                    ],
                   ),
                 ),
-                Positioned(
-                  top: 0,
-                  width: screenWidth,
-                  child: PageHeader(scaffoldKey: scaffoldKey),
-                ),
-              ],
-            ),
-          ),
-        ),
+              ),
       ),
     );
   }

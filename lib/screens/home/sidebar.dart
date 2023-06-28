@@ -33,10 +33,9 @@ class _SideBarState extends State<SideBar> {
   final AuthServices authServices = Get.find();
   final NetworkManageController _networkManageController =
       Get.find<NetworkManageController>();
+      
   @override
   Widget build(BuildContext context) {
-    debugPrint("['AVATAR] ${userRepository.userData.value.avatar}");
-
     return Drawer(
       width: MediaQuery.of(context).size.width * 0.65,
       child: ListView(
@@ -143,7 +142,7 @@ class _SideBarState extends State<SideBar> {
               width: 16.0.sp,
             ),
             title: CustomTextWidget(
-              text: 'Rewards/Wallet',
+              text: 'Rewards',
               size: 12.0.sp,
             ),
             onTap: () {
