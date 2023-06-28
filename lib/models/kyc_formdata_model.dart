@@ -4,12 +4,16 @@ class KYCFormDataModel {
   bool? haveDonatedBlood;
   String? lastBloodDonationTime;
   bool? hasTattos;
+  bool? tobaccoUsage;
+  bool? isRecentVaccineRecipient;
 
   KYCFormDataModel(
       {this.bloodGroup,
       this.genotype,
       this.haveDonatedBlood,
       this.lastBloodDonationTime,
+      this.tobaccoUsage,
+      this.isRecentVaccineRecipient,
       this.hasTattos});
 
   KYCFormDataModel.fromJson(Map<String, dynamic> json) {
@@ -18,6 +22,8 @@ class KYCFormDataModel {
     haveDonatedBlood = json['haveDonatedBlood'];
     lastBloodDonationTime = json['lastBloodDonationTime'];
     hasTattos = json['hasTattos'];
+    tobaccoUsage = json['tobaccoUsage'];
+    isRecentVaccineRecipient = json['isRecentVaccineRecipient'];
   }
 
   Map<String, dynamic> toJson() {
@@ -27,6 +33,8 @@ class KYCFormDataModel {
     data['haveDonatedBlood'] = this.haveDonatedBlood;
     data['lastBloodDonationTime'] = this.lastBloodDonationTime;
     data['hasTattos'] = this.hasTattos;
+    data['tobaccoUsage'] = this.tobaccoUsage;
+    data['isRecentVaccineRecipient'] = this.isRecentVaccineRecipient;
     return data;
   }
 }
