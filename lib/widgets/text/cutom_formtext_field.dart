@@ -12,6 +12,7 @@ class CustomFormTextField extends StatelessWidget {
   Color? background;
   Color? hintColor;
   double? height;
+  double? paddingTop;
   double? paddingLeft;
   double? paddingRight;
   double? borderRadius;
@@ -24,6 +25,7 @@ class CustomFormTextField extends StatelessWidget {
     this.height,
     this.background,
     this.textColor,
+    this.paddingTop,
     this.paddingLeft,
     this.paddingRight,
     this.readOnly,
@@ -57,7 +59,10 @@ class CustomFormTextField extends StatelessWidget {
           border: InputBorder.none,
           hintText: hintText ?? '',
           contentPadding: EdgeInsets.only(
-              left: paddingLeft ?? 20, right: paddingRight ?? 0),
+            left: paddingLeft ?? 20,
+            right: paddingRight ?? 0,
+            top: paddingTop ?? 0,
+          ),
           // prefixIcon: prefixIcon ?? prefixIcon,
           hintStyle: TextStyle(
             color: hintColor,

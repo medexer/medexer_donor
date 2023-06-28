@@ -48,7 +48,7 @@ class _DonationCenterSearchProfileScreenState
         preferredSize: Size.fromHeight(screenHeight * 0.4),
         child: Container(
           decoration: BoxDecoration(
-            image: widget.donationCenter.hospitalProfile!.hospitalImage != null
+            image: widget.donationCenter.hospitalProfile!.hospitalImage != ""
                 ? DecorationImage(
                     image: NetworkImage(
                         '${APIConstants.backendServerRootUrl}${widget.donationCenter.hospitalProfile!.hospitalImage}'),
@@ -61,13 +61,6 @@ class _DonationCenterSearchProfileScreenState
                     filterQuality: FilterQuality.high,
                   ),
           ),
-          // decoration: const BoxDecoration(
-          //   image: DecorationImage(
-          //     image: AssetImage('assets/images/hospital__2.jpg'),
-          //     fit: BoxFit.cover,
-          //     filterQuality: FilterQuality.high,
-          //   ),
-          // ),
         ),
       ),
       body: SafeArea(

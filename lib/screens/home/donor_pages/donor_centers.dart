@@ -37,13 +37,17 @@ class _DonorCentersScreenState extends State<DonorCentersScreen>
                 PageHeader(scaffoldKey: scaffoldKey),
                 SizedBox(height: 2.0.hp),
                 TabBar(
-                  labelColor: AppStyles.bgBlack,
+                  labelColor: AppStyles.bgWhite,
                   unselectedLabelColor: AppStyles.bgBlack,
-                  // indicator: BoxDecoration(
-                  //   borderRadius: BorderRadius.circular(50),
-                  //   color: AppStyles.bgBlue,
-                  // ),
-                  indicatorPadding: EdgeInsets.symmetric(horizontal: 10),
+                  indicator: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    color: AppStyles.bgPrimary,
+                  ),
+                  indicatorPadding: EdgeInsets.symmetric(
+                    horizontal: 10,
+                    // vertical: 5,
+                  ),
+                  indicatorSize: TabBarIndicatorSize.tab,
                   // indicatorColor: AppStyles.bgBlue,
                   controller: tabController,
                   tabs: [
@@ -52,6 +56,7 @@ class _DonorCentersScreenState extends State<DonorCentersScreen>
                         borderRadius: BorderRadius.circular(50),
                         // border: Border.all(color: AppStyles.bgBlue, width: 1),
                       ),
+                      padding: EdgeInsets.symmetric(vertical: 1.0.hp),
                       child: Align(
                         alignment: Alignment.center,
                         child: CustomTextWidget(
@@ -66,6 +71,7 @@ class _DonorCentersScreenState extends State<DonorCentersScreen>
                         borderRadius: BorderRadius.circular(50),
                         // border: Border.all(color: AppStyles.bgBlue, width: 1),
                       ),
+                      padding: EdgeInsets.symmetric(vertical: 1.0.hp),
                       child: Align(
                         alignment: Alignment.center,
                         child: CustomTextWidget(

@@ -22,7 +22,8 @@ class Appointments extends StatefulWidget {
 class _AppointmentsState extends State<Appointments> {
   final UserRepository userRepository = Get.find();
   final DonorServices donorServices = Get.put(DonorServices());
-  final NetworkManageController _networkManageController = Get.find<NetworkManageController>();
+  final NetworkManageController _networkManageController =
+      Get.find<NetworkManageController>();
 
   @override
   void initState() {
@@ -37,39 +38,41 @@ class _AppointmentsState extends State<Appointments> {
 
     return Scaffold(
       body: Obx(
-        () => (_networkManageController.connectionType.value == 0)?const NetworkErrorMessage():userRepository.appointments.isEmpty
-            ? Container(
-                child: Lottie.asset('assets/animations/animation__2.json'),
-              )
-            : Container(
-                // height: widget.height,
-                height: screenHeight * 0.8,
-                child: ListView.builder(
-                  itemCount: userRepository.appointments.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      leading:
-                          CustomTextWidget(text: '${index + 1}', size: 8.0.sp),
-                      title: CustomTextWidget(
-                        text:
-                            '${userRepository.appointments[index].hospitalInfo.hospitalName}',
-                        size: 12.0.sp,
-                      ),
-                      subtitle: CustomTextWidget(
-                        text:
-                            '${userRepository.appointments[index].hospitalInfo.location}',
-                        size: 8.0.sp,
-                      ),
-                      trailing: CustomTextWidget(
-                        text:
-                            '${userRepository.appointments[index].date ?? ''}',
-                        color: Colors.green,
-                        size: 8.0.sp,
-                      ),
-                    );
-                  },
-                ),
-              ),
+        () => (_networkManageController.connectionType.value == 0)
+            ? const NetworkErrorMessage()
+            : userRepository.appointments.isEmpty
+                ? Container(
+                    child: Lottie.asset('assets/animations/animation__2.json'),
+                  )
+                : Container(
+                    // height: widget.height,
+                    height: screenHeight * 0.8,
+                    child: ListView.builder(
+                      itemCount: userRepository.appointments.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          leading: CustomTextWidget(
+                              text: '${index + 1}', size: 8.0.sp),
+                          title: CustomTextWidget(
+                            text:
+                                '${userRepository.appointments[index].hospitalInfo.hospitalName}',
+                            size: 12.0.sp,
+                          ),
+                          subtitle: CustomTextWidget(
+                            text:
+                                '${userRepository.appointments[index].hospitalInfo.location ?? ''}',
+                            size: 8.0.sp,
+                          ),
+                          trailing: CustomTextWidget(
+                            text:
+                                '${userRepository.appointments[index].date ?? ''}',
+                            color: Colors.green,
+                            size: 8.0.sp,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
       ),
     );
   }

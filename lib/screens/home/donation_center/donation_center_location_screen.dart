@@ -188,7 +188,7 @@ class _DonationCenterLocationScreenState
         ),
       );
     });
-    
+
     await Future.delayed(const Duration(seconds: 5));
 
     setState(() {
@@ -232,58 +232,61 @@ class _DonationCenterLocationScreenState
         body: Obx(
           () => SafeArea(
             child: SingleChildScrollView(
-              child: Stack(
-                children: [
-                  userRepository.hospitalRouteAdded.value == true
-                      ? SizedBox(height: 2.0.hp)
-                      : SizedBox(height: 2.0.hp),
-                  GoogleMap(
-                    polylines: {
-                      Polyline(
-                          polylineId: PolylineId('route'),
-                          points: polylineCoordinates,
-                          color: AppStyles.bgBlue,
-                          width: 4),
-                    },
-                    scrollGesturesEnabled: true,
-                    compassEnabled: true,
-                    myLocationEnabled: true,
-                    myLocationButtonEnabled: false,
-                    zoomControlsEnabled: false,
-                    mapType: MapType.normal,
-                    onMapCreated: (GoogleMapController controller) {
-                      _controller.complete(controller);
-                      customInfoWindowcontroller.googleMapController = controller;
-            
-                      // initializeMarkerIcon();
-                    },
-                    // markers: _markers!,
-                    markers: markers,
-                    initialCameraPosition: CameraPosition(
-                      target: LatLng(
-                          widget.donationCenter.centerGeoLocation!.lat!,
-                          widget.donationCenter.centerGeoLocation!.lng!),
-                      zoom: 12,
+              child: Container(
+                child: Stack(
+                  children: [
+                    userRepository.hospitalRouteAdded.value == true
+                        ? SizedBox(height: 2.0.hp)
+                        : SizedBox(height: 2.0.hp),
+                    GoogleMap(
+                      polylines: {
+                        Polyline(
+                            polylineId: PolylineId('route'),
+                            points: polylineCoordinates,
+                            color: AppStyles.bgBlue,
+                            width: 4),
+                      },
+                      scrollGesturesEnabled: true,
+                      compassEnabled: true,
+                      myLocationEnabled: true,
+                      myLocationButtonEnabled: false,
+                      zoomControlsEnabled: false,
+                      mapType: MapType.normal,
+                      onMapCreated: (GoogleMapController controller) {
+                        _controller.complete(controller);
+                        customInfoWindowcontroller.googleMapController =
+                            controller;
+
+                        // initializeMarkerIcon();
+                      },
+                      // markers: _markers!,
+                      markers: markers,
+                      initialCameraPosition: CameraPosition(
+                        target: LatLng(
+                            widget.donationCenter.centerGeoLocation!.lat!,
+                            widget.donationCenter.centerGeoLocation!.lng!),
+                        zoom: 12,
+                      ),
+                      onTap: (Position) {
+                        customInfoWindowcontroller.hideInfoWindow!();
+                      },
+                      onCameraMove: (Position) {
+                        customInfoWindowcontroller.onCameraMove!();
+                      },
                     ),
-                    onTap: (Position) {
-                      customInfoWindowcontroller.hideInfoWindow!();
-                    },
-                    onCameraMove: (Position) {
-                      customInfoWindowcontroller.onCameraMove!();
-                    },
-                  ),
-                  CustomInfoWindow(
-                    controller: customInfoWindowcontroller,
-                    height: 25.0.hp,
-                    width: 300,
-                    offset: 35,
-                  ),
-                  Positioned(
-                    top: 0,
-                    width: screenWidth,
-                    child: PageHeader(scaffoldKey: scaffoldKey),
-                  ),
-                ],
+                    CustomInfoWindow(
+                      controller: customInfoWindowcontroller,
+                      height: 25.0.hp,
+                      width: 300,
+                      offset: 35,
+                    ),
+                    Positioned(
+                      top: 0,
+                      width: screenWidth,
+                      child: PageHeader(scaffoldKey: scaffoldKey),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
