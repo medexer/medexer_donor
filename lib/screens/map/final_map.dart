@@ -221,7 +221,6 @@ class _FinalMapState extends State<FinalMap> {
           // markers: _markers!,
           markers: markers,
           initialCameraPosition: CameraPosition(
-            // target: LatLng(9.906587499999999, 8.9547031),
             target: currentLocation != null
                 ? LatLng(
                     currentLocation!.latitude!, currentLocation!.longitude!)
