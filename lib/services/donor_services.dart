@@ -81,6 +81,13 @@ class DonorServices extends GetxController {
         debugPrint('[BOOK APPOINTMENT SUCCESS]');
         debugPrint('[BOOK APPOINTMENT RESPONSE]:: ${response.data}');
 
+        Get.snackbar(
+          'Success',
+          'Appointment booking successful!',
+          colorText: Colors.white,
+          backgroundColor: AppStyles.bgBlue.withOpacity(0.8),
+        );
+
         Get.to(
           transition: Transition.rightToLeft,
           duration: const Duration(milliseconds: 500),

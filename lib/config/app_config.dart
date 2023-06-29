@@ -10,6 +10,7 @@ class AppStyles {
   static Color bgBlue = Color(0xFF5079FA);
   static Color bgPrimary = Color(0xFF001CF4);
   static Color bgWhite = Color(0xFFFFFFFF);
+  static Color bgBrightRed = Color(0xFFFF0000);
 }
 
 class AppLayout {

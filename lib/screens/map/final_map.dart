@@ -177,7 +177,7 @@ class _FinalMapState extends State<FinalMap> {
     });
 
     await Future.delayed(const Duration(seconds: 5));
-    
+
     setState(() {
       markers.add(Marker(
         icon: BitmapDescriptor.fromBytes(myMarkerIcon),
@@ -193,8 +193,9 @@ class _FinalMapState extends State<FinalMap> {
   void initState() {
     super.initState();
 
-    initializeCurrentLocation();
     onMapcreated();
+
+    initializeCurrentLocation();
   }
 
   @override
@@ -226,7 +227,7 @@ class _FinalMapState extends State<FinalMap> {
                     currentLocation!.latitude!, currentLocation!.longitude!)
                 : LatLng(9.906587499999999, 8.9547031),
             // zoom: 10,
-            zoom: 10,
+            zoom: 11,
           ),
           onTap: (Position) {
             customInfoWindowcontroller.hideInfoWindow!();

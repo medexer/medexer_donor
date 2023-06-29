@@ -5,6 +5,8 @@ import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/config/api_config.dart';
@@ -91,7 +93,7 @@ class _DonationCenterLocationScreenState
   }
 
   void getPolyPoints() async {
-    await Future.delayed(const Duration(seconds: 1));
+    // await Future.delayed(const Duration(seconds: 1));
 
     PolylinePoints polylinePoints = PolylinePoints();
 
@@ -208,12 +210,9 @@ class _DonationCenterLocationScreenState
     // TODO: implement initState
     super.initState();
 
-    initializeCurrentLocation();
     onMapCreated();
-
-    // if (currentLocation != null) {
+    initializeCurrentLocation();
     getPolyPoints();
-    // }
   }
 
   @override
@@ -233,6 +232,7 @@ class _DonationCenterLocationScreenState
           () => SafeArea(
             child: SingleChildScrollView(
               child: Container(
+                height: MediaQuery.of(context).size.height,
                 child: Stack(
                   children: [
                     userRepository.hospitalRouteAdded.value == true
@@ -246,6 +246,12 @@ class _DonationCenterLocationScreenState
                             color: AppStyles.bgBlue,
                             width: 4),
                       },
+                      gestureRecognizers:
+                          <Factory<OneSequenceGestureRecognizer>>[
+                        new Factory<OneSequenceGestureRecognizer>(
+                          () => new EagerGestureRecognizer(),
+                        ),
+                      ].toSet(),
                       scrollGesturesEnabled: true,
                       compassEnabled: true,
                       myLocationEnabled: true,
@@ -265,7 +271,7 @@ class _DonationCenterLocationScreenState
                         target: LatLng(
                             widget.donationCenter.centerGeoLocation!.lat!,
                             widget.donationCenter.centerGeoLocation!.lng!),
-                        zoom: 12,
+                        zoom: 13.5
                       ),
                       onTap: (Position) {
                         customInfoWindowcontroller.hideInfoWindow!();

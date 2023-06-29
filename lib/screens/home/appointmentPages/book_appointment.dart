@@ -43,8 +43,8 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
       Map formData = {
         'hospital': widget.donationCenter.pkid,
         'message': messageController.text.trim(),
-        'isForAdult':isForAdult,
-        'visitRecipient':visitRecipient,
+        'isForAdult': isForAdult,
+        'visitRecipient': visitRecipient,
       };
 
       debugPrint('[BOOK-APPOINTMENT-DTO] ::: $formData');
@@ -58,6 +58,59 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
+      appBar: PreferredSize(
+        preferredSize:
+            Size.fromHeight(MediaQuery.of(context).size.height * 0.35),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 4.0.wp),
+          color: AppStyles.bgPrimary,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomTextWidget(
+                text: 'Book Appointment',
+                size: 15.0.sp,
+                color: AppStyles.bgWhite,
+                weight: FontWeight.w600,
+              ),
+              CustomTextWidget(
+                text: '${widget.donationCenter.hospitalName}',
+                size: 12.0.sp,
+                color: AppStyles.bgWhite,
+                // weight: FontWeight.w600,
+              ),
+              CustomTextWidget(
+                text: '${widget.donationCenter.centerAddress}',
+                size: 11.0.sp,
+                color: AppStyles.bgWhite,
+                // weight: FontWeight.w600,
+              ),
+            ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.14,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CustomButton(
+              text: 'Book Appointment',
+              height: 6.0.hp,
+              width: MediaQuery.of(context).size.width * 0.8,
+              onTapHandler: () {
+                submitHandler();
+              },
+              fontSize: 10.0.sp,
+              fontColor: Colors.white,
+              fontWeight: FontWeight.bold,
+              borderRadius: 10,
+              backgroundColor: AppStyles.bgPrimary,
+            ),
+          ],
+        ),
+      ),
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 2.0.wp),
@@ -65,9 +118,9 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
             // crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 15.0.hp,
-              ),
+              // SizedBox(
+              //   height: 15.0.hp,
+              // ),
               Padding(
                   padding: EdgeInsets.all(2.0.wp),
                   child: Obx(() => _networkManageController
@@ -77,48 +130,48 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
                       : Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CustomTextWidget(
-                              text: 'Book Appointment',
-                              size: 15.0.sp,
-                              weight: FontWeight.w500,
-                            ),
+                            // CustomTextWidget(
+                            //   text: 'Book Appointment',
+                            //   size: 15.0.sp,
+                            //   weight: FontWeight.w500,
+                            // ),
                             SizedBox(
-                              height: 3.0.hp,
+                              height: 2.0.hp,
                             ),
                             Form(
                               child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
+                                    // CustomFormTextField(
+                                    //   maxLines: 1,
+                                    //   readOnly: true,
+                                    //   borderRadius: 10,
+                                    //   textColor: AppStyles.bgBlack,
+                                    //   controller: TextEditingController(
+                                    //       text:
+                                    //           '${widget.donationCenter.hospitalName}'),
+                                    //   background: Colors.white.withOpacity(0.4),
+                                    //   hintColor: AppStyles.bgBlack,
+                                    // ),
+                                    // SizedBox(height: 2.0.hp),
+                                    // CustomFormTextField(
+                                    //   maxLines: 1,
+                                    //   readOnly: true,
+                                    //   borderRadius: 10,
+                                    //   textColor: AppStyles.bgBlack,
+                                    //   controller: TextEditingController(
+                                    //       text:
+                                    //           '${widget.donationCenter.centerAddress}'),
+                                    //   background: Colors.white.withOpacity(0.4),
+                                    //   hintColor: AppStyles.bgBlack,
+                                    // ),
+                                    // SizedBox(height: 2.0.hp),
                                     CustomFormTextField(
-                                      maxLines: 1,
-                                      readOnly: true,
-                                      borderRadius: 10,
-                                      textColor: AppStyles.bgBlack,
-                                      controller: TextEditingController(
-                                          text:
-                                              '${widget.donationCenter.hospitalName}'),
-                                      background: Colors.white.withOpacity(0.4),
-                                      hintColor: AppStyles.bgBlack,
-                                    ),
-                                    SizedBox(height: 2.0.hp),
-                                    CustomFormTextField(
-                                      maxLines: 1,
-                                      readOnly: true,
-                                      borderRadius: 10,
-                                      textColor: AppStyles.bgBlack,
-                                      controller: TextEditingController(
-                                          text:
-                                              '${widget.donationCenter.centerAddress}'),
-                                      background: Colors.white.withOpacity(0.4),
-                                      hintColor: AppStyles.bgBlack,
-                                    ),
-                                    SizedBox(height: 2.0.hp),
-                                    CustomFormTextField(
-                                      maxLines: 6,
+                                      maxLines: 8,
                                       paddingLeft: 10,
                                       paddingTop: 5,
                                       paddingRight: 10,
-                                      height: 14.0.hp,
+                                      height: 20.0.hp,
                                       borderRadius: 10,
                                       hintText:
                                           'Write a short message to the hospial',
@@ -175,19 +228,20 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(height: 2.0.hp),
-                                    CustomButton(
-                                        text: 'Book Appointment',
-                                        height: 6.0.hp,
-                                        width: double.maxFinite,
-                                        onTapHandler: () {
-                                          submitHandler();
-                                        },
-                                        fontSize: 10.0.sp,
-                                        fontColor: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        borderRadius: 10,
-                                        backgroundColor: AppStyles.bgBlue),
+                                    // SizedBox(height: 2.0.hp),
+                                    // CustomButton(
+                                    //   text: 'Book Appointment',
+                                    //   height: 6.0.hp,
+                                    //   width: double.maxFinite,
+                                    //   onTapHandler: () {
+                                    //     submitHandler();
+                                    //   },
+                                    //   fontSize: 10.0.sp,
+                                    //   fontColor: Colors.white,
+                                    //   fontWeight: FontWeight.bold,
+                                    //   borderRadius: 10,
+                                    //   backgroundColor: AppStyles.bgPrimary,
+                                    // ),
                                   ]),
                             ),
                           ],

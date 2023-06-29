@@ -56,8 +56,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Container(
                       width: double.infinity,
                       height: 30.0.hp,
-                      decoration: const BoxDecoration(
-                        color: Color.fromARGB(221, 5, 60, 63),
+                      decoration: BoxDecoration(
+                        color: AppStyles.bgBrightRed.withOpacity(0.5),
                         // borderRadius: BorderRadius.only(
                         //   bottomRight: Radius.circular(25),
                         //   bottomLeft: Radius.circular(25),
