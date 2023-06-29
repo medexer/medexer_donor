@@ -1,12 +1,16 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/screens/home/sidebar.dart';
 import 'package:medexer_donor/screens/home/appointmentPages/appointments.dart';
 import 'package:medexer_donor/screens/home/donor_pages/donation_centers.dart';
 import 'package:medexer_donor/widgets/page_header.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
+import 'package:medexer_donor/database/user_repository.dart';
+import '../../../network_services/network_error_message.dart';
+import '../../../network_services/network_manager.dart';
 
 class DonorCentersScreen extends StatefulWidget {
   const DonorCentersScreen({super.key});
@@ -23,72 +27,77 @@ class _DonorCentersScreenState extends State<DonorCentersScreen>
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     TabController tabController = TabController(length: 2, vsync: this);
+      final UserRepository userRepository = Get.find();
+    final NetworkManageController _networkManageController = Get.find<NetworkManageController>();
+
 
     return Scaffold(
       key: scaffoldKey,
       drawer: SideBar(),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            width: double.maxFinite,
-            height: screenHeight,
-            child: Column(
-              children: [
-                PageHeader(scaffoldKey: scaffoldKey),
-                SizedBox(height: 2.0.hp),
-                TabBar(
-                  labelColor: AppStyles.bgBlack,
-                  unselectedLabelColor: AppStyles.bgBlack,
-                  // indicator: BoxDecoration(
-                  //   borderRadius: BorderRadius.circular(50),
-                  //   color: AppStyles.bgBlue,
-                  // ),
-                  indicatorPadding: EdgeInsets.symmetric(horizontal: 10),
-                  // indicatorColor: AppStyles.bgBlue,
-                  controller: tabController,
-                  tabs: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        // border: Border.all(color: AppStyles.bgBlue, width: 1),
-                      ),
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: CustomTextWidget(
-                          text: "Centers",
-                          // color: Colors.white,
-                          size: 12.0.sp,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        // border: Border.all(color: AppStyles.bgBlue, width: 1),
-                      ),
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: CustomTextWidget(
-                          text: "Appointments",
-                          // color: Colors.white,
-                          size: 12.0.sp,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                Container(
-                  height: screenHeight * 0.82,
-                  padding: EdgeInsets.only(top: 2.0.hp),
-                  child: TabBarView(
+      body: Obx(()=>(_networkManageController.connectionType.value == 0)?const NetworkErrorMessage():
+        SafeArea(
+          child: SingleChildScrollView(
+            child: Container(
+              width: double.maxFinite,
+              height: screenHeight,
+              child: Column(
+                children: [
+                  PageHeader(scaffoldKey: scaffoldKey),
+                  SizedBox(height: 2.0.hp),
+                  TabBar(
+                    labelColor: AppStyles.bgBlack,
+                    unselectedLabelColor: AppStyles.bgBlack,
+                    // indicator: BoxDecoration(
+                    //   borderRadius: BorderRadius.circular(50),
+                    //   color: AppStyles.bgBlue,
+                    // ),
+                    indicatorPadding: EdgeInsets.symmetric(horizontal: 10),
+                    // indicatorColor: AppStyles.bgBlue,
                     controller: tabController,
-                    children: [
-                      DonationCenters(height: screenHeight * 0.8),
-                      Appointments(height: screenHeight * 0.8),
+                    tabs: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          // border: Border.all(color: AppStyles.bgBlue, width: 1),
+                        ),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: CustomTextWidget(
+                            text: "Centers",
+                            // color: Colors.white,
+                            size: 12.0.sp,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          // border: Border.all(color: AppStyles.bgBlue, width: 1),
+                        ),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: CustomTextWidget(
+                            text: "Appointments",
+                            // color: Colors.white,
+                            size: 12.0.sp,
+                          ),
+                        ),
+                      )
                     ],
                   ),
-                )
-              ],
+                  Container(
+                    height: screenHeight * 0.82,
+                    padding: EdgeInsets.only(top: 2.0.hp),
+                    child: TabBarView(
+                      controller: tabController,
+                      children: [
+                        DonationCenters(height: screenHeight * 0.8),
+                        Appointments(height: screenHeight * 0.8),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),

@@ -8,6 +8,7 @@ import 'package:medexer_donor/screens/home/sidebar.dart';
 import 'package:medexer_donor/services/donor_services.dart';
 import 'package:medexer_donor/widgets/page_header.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../network_services/network_error_message.dart';
 import '../../../network_services/network_manager.dart';
 import '../../../widgets/buttons/custom_button.dart';
@@ -127,6 +128,19 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                               backgroundColor: AppStyles.bgBlue,
                             ),
                           ]),
+                          SizedBox(height: 3.0.hp,),
+                          CustomButton(text: 's', width: 100, height: 30, 
+                          onTapHandler: (){
+                            launchSocialMedia(url:'https://www.medexer.com.ng/' );
+                          },
+                          fontSize: 10, fontColor: AppStyles.bgWhite, fontWeight: FontWeight.bold, borderRadius: 30, backgroundColor: AppStyles.bgBlue),
+                          SizedBox(height: 3.0.hp,),
+                          CustomButton(text: 'linkedIn', width: 50, height: 30, 
+                          onTapHandler: (){
+                            launchSocialMedia(url:'https://www.bing.com/search?q=medexer+linkedin&cvid=73fd860f90534b04bbd25f3c2db3420f&aqs=edge..69i57j69i64.14909j0j4&FORM=ANWAB1&PC=U531' );
+                          },
+                          fontSize: 10, fontColor: AppStyles.bgWhite, fontWeight: FontWeight.bold, borderRadius: 30, backgroundColor: AppStyles.bgBlue),
+                        
                         ],
                       ),
                     ),
@@ -138,5 +152,10 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
         ),
       ),
     );
+  }
+  launchSocialMedia({required String url})async{
+    if(!await launchUrl(Uri.parse(url))){
+      throw 'could not';
+    }
   }
 }

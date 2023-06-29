@@ -34,7 +34,8 @@ final NetworkManageController _networkManageController = Get.find<NetworkManageC
     donorServices.fetchDonationCentersController();
 
     return Obx(
-            () =>(_networkManageController.connectionType.value == 0)?const NetworkErrorMessage(): Column(
+            () =>(_networkManageController.connectionType.value == 0)?const NetworkErrorMessage():
+       Column(
         children: [
           userRepository.donationCenters.isEmpty
               ? Container(

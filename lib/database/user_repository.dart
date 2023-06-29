@@ -26,6 +26,9 @@ class UserRepository extends GetxController {
 
   RxList<dynamic> _notifications = [].obs;
   RxList get notifications => _notifications;
+  
+  RxList<dynamic> _medicalHistory = [].obs;
+  RxList get medicalHistory => _medicalHistory;
 
   var kycFormData = KYCFormDataModel.fromJson({}).obs;
 }

@@ -34,10 +34,10 @@ class _AppGuideScreenState extends State<AppGuideScreen> {
               children: [
                 Column(
                   children: [
-                    SizedBox(height: 2.0.hp,),
+                    SizedBox(height: 4.5.hp,),
                     PageHeader(scaffoldKey: scaffoldKey),  
                     SizedBox(
-                      height: 2.0.hp,
+                      height: 2.5.hp,
                     ),
                     CustomTextWidget(
                       text: "Guide on how\nto use the app",
@@ -76,37 +76,39 @@ class _AppGuideScreenState extends State<AppGuideScreen> {
                               text: "You will have to wait for your KYC to be \napproved for you to fully use this app.",
                               size: 10.0.sp,
                               weight: FontWeight.w500,
-                            ),
-                        ],
-                      ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        CustomTextWidget(
-                          text: "ALWAYS MAKE SURE THE DONATION CENTER \nYOU WERE CONTRACTED BY IS VERIFIED ",
-                          size: 10.0.sp,
-                          weight: FontWeight.bold,
-                       ),
-                        CustomTextWidget(
-                          text: "To do so:" 
-                            "\n*\tNaviaget to Maun > Donation Centers \n*\tMake sure to see that it is a verified donation center or  DO NOT GO.\nGot question?\nNaviagte to > Menu > Contact Us and send us a message or you can connect with us through any of our social media platforms.",
-                          size: 10.0.sp,
-                        //weight: FontWeight.bold,
+                              ),
+                            ],
                           ),
-                      ]
-                    ),
-                  ),          
-                ],
-              )
-            )       
+                        ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            CustomTextWidget(
+                              text: "ALWAYS MAKE SURE THE DONATION CENTER \nYOU WERE CONTRACTED BY IS VERIFIED ",
+                              size: 10.0.sp,
+                              weight: FontWeight.bold,
+                            ),
+                            CustomTextWidget(
+                              text: "To do so:" 
+                              "\n*\tNaviaget to Maun > Donation Centers \n*\tMake sure to see that it is a verified donation center or  DO NOT GO.\nGot question?\nNaviagte to > Menu > Contact Us and send us a message or you can connect with us through any of our social media platforms.",
+                              size: 10.0.sp,
+                        //weight: FontWeight.bold,
+                            ),
+                          ]
+                        ),
+                      ),          
+                    ],
+                  )
+                )       
+              ],        
+            ),
           ],
-                  
         ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Row(
+      ),
+    ),
+    bottomNavigationBar: BottomAppBar(
+        child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -114,7 +116,7 @@ class _AppGuideScreenState extends State<AppGuideScreen> {
                   padding: const EdgeInsets.all(4.0),
                     child: CustomTextWidget(
                       text: 'Made with',
-                      size: 5.0.sp, 
+                      size: 10.0.sp, 
                       ),
                     ),
                     Icon(Icons.favorite_border_outlined, color: AppStyles.bgPrimary),
@@ -122,32 +124,28 @@ class _AppGuideScreenState extends State<AppGuideScreen> {
                       padding: const EdgeInsets.all(4.0),
                       child: CustomTextWidget(
                         text: 'in',
-                        size: 5.0.sp,),
+                        size: 10.0.sp,),
                     ),
                       
                     SizedBox(
-                      width: 8,
-                      height: 8,
+                      width: 10.0.wp,
+                      height: 10.0.wp,
                       child: Image.asset('assets/images/flagNigeria.png'),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                       child: CustomTextWidget(
-                        text: '&',
-                        size: 5.0.sp,),
-                    ),  
-                    SizedBox(
-                      width: 8,
-                      height: 8,
-                      child: Image.asset('assets/images/flagUs.png'),
-                    ),        
+                    // Padding(
+                    //   padding: const EdgeInsets.all(4.0),
+                    //    child: CustomTextWidget(
+                    //     text: '&',
+                    //     size: 5.0.sp,),
+                    // ),  
+                    // SizedBox(
+                    //   width: 8,
+                    //   height: 8,
+                    //   child: Image.asset('assets/images/flagUs.png'),
+                    // ),        
                   ],
-                ),
-              )
-              ],
-            ),
-          ),
-      ),
-    );
-  }
+                ),  
+              ),
+            );
+      }
 }

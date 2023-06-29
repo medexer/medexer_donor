@@ -11,9 +11,9 @@ class PageHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
-        top: 1.0.hp,
-        left: 2.0.wp,
-        right: 2.0.wp,
+        top: 2.0.hp,
+        left: 2.5.wp,
+        right: 2.5.wp,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

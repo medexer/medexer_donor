@@ -20,6 +20,8 @@ import 'package:medexer_donor/services/auth_services.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'sub_screens/medical_screen.dart';
+
 class SideBar extends StatefulWidget {
   const SideBar({super.key});
 
@@ -114,6 +116,25 @@ class _SideBarState extends State<SideBar> {
             onTap: () {
               Get.to(() => DonorCentersScreen());
               debugPrint('[DONOR-CENTERS]');
+            },
+          ),
+          ListTile(
+            // leading: ImageIcon(
+            //   AssetImage('assets/icons/icon__info.png'),
+            //   color: AppStyles.bgBlue,
+            // ),
+            leading: SvgPicture.asset(
+              'assets/icons/icon__file.svg',
+              color: AppStyles.bgBlue,
+              width: 18.0.sp,
+            ),
+            title: CustomTextWidget(
+              text: 'Medicals',
+              size: 12.0.sp,
+            ),
+            onTap: () {
+              Get.to(() => MedicalScreen());
+              debugPrint('[APP-GUIDE]');
             },
           ),
           ListTile(

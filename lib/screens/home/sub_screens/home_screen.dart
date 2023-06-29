@@ -67,9 +67,14 @@ class _HomeScreenState extends State<HomeScreen> {
       key: scaffoldKey,
       drawer: SideBar(),
       bottomNavigationBar: BottomAppBar(
+        color: Colors.transparent,
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 4.0.wp),
           height: 12.0.hp,
+          decoration: BoxDecoration(
+            borderRadius:BorderRadius.only(topRight: Radius.circular(20),topLeft: Radius.circular(20)),
+            color: Colors.white
+          ),
           child: Column(
             children: [
               SizedBox(height: 1.0.hp),
@@ -110,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       SizedBox(width: 2.0.wp),
                       CustomTextWidget(
                         text: 'Search for donation center(s)',
-                        size: 12.0.sp,
+                        size: 10.0.sp,
                       ),
                     ],
                   ),

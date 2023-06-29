@@ -7,6 +7,7 @@ import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/models/appointment_model.dart';
 import 'package:medexer_donor/models/donation_center_geodata_model.dart';
 import 'package:medexer_donor/models/donation_center_model.dart';
+import 'package:medexer_donor/models/medical_history_model.dart';
 import 'package:medexer_donor/models/notification_model.dart';
 import 'package:medexer_donor/config/api_client.dart';
 import 'package:medexer_donor/config/api_config.dart';
@@ -312,6 +313,42 @@ class DonorServices extends GetxController {
         donorRequestStatus.value = 'FAILED';
 
         debugPrint('[READ-NOTIFICATION-ERROR] ${error.response!.data}');
+      }
+    }
+  }
+
+  Future<void> fetchMedicalHistoryController() async {
+    try {
+      donorRequestLoading.value = true;
+      donorRequestStatus.value = 'PENDING';
+      debugPrint('[FETCH-NOTIFICATIONS-PENDING]');
+
+      final response = await dio.get(
+        '${APIConstants.backendServerUrl}medical-data/donor/medical-history/fetch-all',
+        options: Options(
+          headers: {
+            'Authorization': authStorage.read('MDX-ACCESSTOKEN'),
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        userRepository.medicalHistory.clear();
+
+        for (var item in response.data['data']) {
+          userRepository.medicalHistory.add(MedicalHistoryModel.fromJson(item));
+        }
+
+        donorRequestStatus.value = '';
+        donorRequestLoading.value = false;
+        debugPrint('[FETCH-NOTIFICATIONS-SUCCESS]');
+      }
+    } catch (error) {
+      if (error is DioError) {
+        donorRequestLoading.value = false;
+        donorRequestStatus.value = 'FAILED';
+
+        debugPrint('[FETCH-NOTIFICATIONS-ERROR] ${error.response!.data}');
       }
     }
   }
