@@ -134,6 +134,7 @@ class _ReschedulAppointmentScreenState
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
+                            // ignore: sized_box_for_whitespace
                             child: Container(
                               height: 12.0.hp,
                               child: TextFormField(

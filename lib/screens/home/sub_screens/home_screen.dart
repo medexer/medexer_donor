@@ -8,7 +8,9 @@ import 'package:get_storage/get_storage.dart';
 import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/database/user_repository.dart';
 import 'package:medexer_donor/models/user_model.dart';
+import 'package:medexer_donor/models/user_profile_model.dart';
 import 'package:medexer_donor/screens/auth/kyc/kyc_screen.dart';
+import 'package:medexer_donor/screens/auth/registration/update_profile_screen.dart';
 import 'package:medexer_donor/screens/home/search_donation_centers_screen.dart';
 import 'package:medexer_donor/screens/home/sidebar.dart';
 import 'package:medexer_donor/screens/map/final_map.dart';
@@ -35,10 +37,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void initializeState() async {
     await Future.delayed(Duration(seconds: 2));
-    
+
     if (userRepository.userData.value.fullName == null) {
       userRepository.userData.value =
           UserModel.fromJson(authStorage.read('MDX-USER'));
+          
+      userRepository.userProfile.value =
+          UserProfileModel.fromJson(authStorage.read('MDX-USER-PROFILE'));
     }
     await Future.delayed(Duration(seconds: 3));
 
@@ -47,6 +52,14 @@ class _HomeScreenState extends State<HomeScreen> {
         transition: Transition.rightToLeftWithFade,
         duration: const Duration(milliseconds: 500),
         () => KycScreen(),
+      );
+    }
+
+    if (userRepository.userProfile.value.isProfileUpdated == false) {
+      Get.to(
+        transition: Transition.rightToLeftWithFade,
+        duration: const Duration(milliseconds: 500),
+        () => UpdateProfileScreen(),
       );
     }
   }
@@ -67,9 +80,14 @@ class _HomeScreenState extends State<HomeScreen> {
       key: scaffoldKey,
       drawer: SideBar(),
       bottomNavigationBar: BottomAppBar(
+        color: Colors.transparent,
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 4.0.wp),
           height: 12.0.hp,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(20), topLeft: Radius.circular(20)),
+              color: Colors.white),
           child: Column(
             children: [
               SizedBox(height: 1.0.hp),
@@ -110,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       SizedBox(width: 2.0.wp),
                       CustomTextWidget(
                         text: 'Search for donation center(s)',
-                        size: 12.0.sp,
+                        size: 10.0.sp,
                       ),
                     ],
                   ),

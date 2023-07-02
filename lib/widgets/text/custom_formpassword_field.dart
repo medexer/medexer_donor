@@ -7,6 +7,8 @@ class CustomFormPasswordField extends StatefulWidget {
   final String hintText;
   bool showPassword;
   Color? background;
+  Color? fontColor;
+  double? borderRadius;
   ImageIcon? prefixIcon;
   final ImageIcon? suffixIcon;
   TextEditingController? controller;
@@ -14,6 +16,8 @@ class CustomFormPasswordField extends StatefulWidget {
     super.key,
     this.prefixIcon,
     this.background,
+    this.borderRadius,
+    this.fontColor,
     required this.suffixIcon,
     required this.showPassword,
     this.controller,
@@ -36,7 +40,7 @@ class _CustomFormPasswordFieldState extends State<CustomFormPasswordField> {
         border: Border.all(
           color: AppStyles.bgGray,
         ),
-        borderRadius: BorderRadius.circular(25),
+        borderRadius: BorderRadius.circular(widget.borderRadius?? 25),
       ),
       child: TextFormField(
         obscureText: widget.showPassword ? widget.showPassword : false,
@@ -60,11 +64,11 @@ class _CustomFormPasswordFieldState extends State<CustomFormPasswordField> {
             child: widget.suffixIcon,
           ),
           hintStyle: TextStyle(
-            color: Colors.white,
+            color: widget.fontColor ?? Colors.white,
           ),
         ),
         style: TextStyle(
-          color: Colors.white,
+          color: widget.fontColor ?? Colors.white,
         ),
       ),
     );

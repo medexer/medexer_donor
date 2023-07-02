@@ -228,6 +228,14 @@ class _DonationCenterLocationScreenState
       child: Scaffold(
         key: scaffoldKey,
         drawer: SideBar(),
+        appBar: AppBar(
+          // leading: Icon(Icons.arrow_back_ios),
+          backgroundColor: AppStyles.bgPrimary,
+          title: CustomTextWidget(
+            text: '${widget.donationCenter.hospitalName} Location',
+            size: 12.0.sp,
+          ),
+        ),
         body: Obx(
           () => SafeArea(
             child: SingleChildScrollView(
@@ -268,11 +276,10 @@ class _DonationCenterLocationScreenState
                       // markers: _markers!,
                       markers: markers,
                       initialCameraPosition: CameraPosition(
-                        target: LatLng(
-                            widget.donationCenter.centerGeoLocation!.lat!,
-                            widget.donationCenter.centerGeoLocation!.lng!),
-                        zoom: 13.5
-                      ),
+                          target: LatLng(
+                              widget.donationCenter.centerGeoLocation!.lat!,
+                              widget.donationCenter.centerGeoLocation!.lng!),
+                          zoom: 13.5),
                       onTap: (Position) {
                         customInfoWindowcontroller.hideInfoWindow!();
                       },
@@ -286,11 +293,11 @@ class _DonationCenterLocationScreenState
                       width: 300,
                       offset: 35,
                     ),
-                    Positioned(
-                      top: 0,
-                      width: screenWidth,
-                      child: PageHeader(scaffoldKey: scaffoldKey),
-                    ),
+                    // Positioned(
+                    //   top: 0,
+                    //   width: screenWidth,
+                    //   child: PageHeader(scaffoldKey: scaffoldKey),
+                    // ),
                   ],
                 ),
               ),

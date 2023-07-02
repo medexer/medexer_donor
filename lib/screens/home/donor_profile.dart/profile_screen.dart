@@ -1,16 +1,22 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medexer_donor/config/app_config.dart';
+import 'package:medexer_donor/data/index.dart';
 import 'package:medexer_donor/database/user_repository.dart';
-import 'package:medexer_donor/screens/home/donor_profile.dart/edit_profile.dart';
 import 'package:medexer_donor/screens/home/sidebar.dart';
 import 'package:medexer_donor/services/auth_services.dart';
+import 'package:medexer_donor/widgets/buttons/custom_button.dart';
+import 'package:medexer_donor/widgets/buttons/custom_select_button.dart';
 import 'package:medexer_donor/widgets/page_header.dart';
 import 'package:medexer_donor/config/api_config.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:medexer_donor/widgets/text/custom_formpassword_field.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
+import 'package:medexer_donor/widgets/text/cutom_formtext_field.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -22,11 +28,24 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController emailController = TextEditingController();
+  TextEditingController nationalityController =
+      TextEditingController(text: "Nationality");
+  TextEditingController genderController =
+      TextEditingController(text: 'Gender');
+  TextEditingController religionController =
+      TextEditingController(text: 'Religion');
+  TextEditingController addressController = TextEditingController();
+  TextEditingController stateController = TextEditingController(text: 'State');
+  TextEditingController cityProvinceController = TextEditingController();
+  TextEditingController contactNumberController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController newPasswordController = TextEditingController();
   TextEditingController confirmNewPasswordController = TextEditingController();
 
   bool newAvatar = false;
+  bool showPassword = true;
+  bool showConfirmPassword = true;
+  bool showConfirmNewPassword = true;
   late PlatformFile avatar;
   final AuthServices authServices = Get.find();
   final UserRepository userRepository = Get.find();
@@ -37,6 +56,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     setState(() {
       emailController.text = "${userRepository.userData.value.email}";
+      nationalityController.text =
+          "${userRepository.userProfile.value.nationality}";
+      genderController.text = "${userRepository.userProfile.value.gender}";
+      religionController.text = "${userRepository.userProfile.value.religion}";
+      addressController.text = "${userRepository.userProfile.value.address}";
+      stateController.text = "${userRepository.userProfile.value.state}";
+      cityProvinceController.text =
+          "${userRepository.userProfile.value.cityProvince}";
+      contactNumberController.text =
+          "${userRepository.userProfile.value.contactNumber}";
     });
   }
 
@@ -45,6 +74,136 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       key: scaffoldKey,
       drawer: SideBar(),
+      bottomNavigationBar: Container(
+        height: MediaQuery.of(context).size.height * 0.1,
+        width: double.maxFinite,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            authServices.authRequestStatus.value == 'PENDING'
+                ? const CircularProgressIndicator()
+                : CustomButton(
+                    text: 'Submit',
+                    width: MediaQuery.of(context).size.width * 0.85,
+                    height: 6.0.hp,
+                    onTapHandler: () async {
+                      if (userRepository.userData.value.isEmailLogin == true) {
+                        if (!emailController.text.trim().isNotEmpty ||
+                            !nationalityController.text.trim().isNotEmpty ||
+                            !genderController.text.trim().isNotEmpty ||
+                            !religionController.text.trim().isNotEmpty ||
+                            !stateController.text.trim().isNotEmpty ||
+                            !cityProvinceController.text.trim().isNotEmpty ||
+                            !addressController.text.trim().isNotEmpty ||
+                            !contactNumberController.text.trim().isNotEmpty) {
+                          Get.snackbar(
+                              colorText: AppStyles.bgWhite,
+                              backgroundColor: AppStyles.bgBlue,
+                              'ERROR',
+                              'All fields are required.');
+                        } else {
+                          if (newAvatar == false) {
+                            Get.snackbar(
+                              'Error',
+                              'Please upload your avatar.',
+                              colorText: Colors.white,
+                              backgroundColor:
+                                  AppStyles.bgBlue.withOpacity(0.8),
+                            );
+                          } else {
+                            Map formData = {
+                              "nationality": nationalityController.text.trim(),
+                              "gender": genderController.text.trim(),
+                              "religion": religionController.text.trim(),
+                              "address": addressController.text.trim(),
+                              "state": stateController.text.trim(),
+                              "city_province":
+                                  cityProvinceController.text.trim(),
+                              "contact_number":
+                                  contactNumberController.text.trim(),
+                              'email': emailController.text.trim(),
+                              'avatar': avatar
+                            };
+
+                            debugPrint('[PAYLOAD] :: $formData');
+
+                            await authServices
+                                .updateProfileWithGoogleSigninController(
+                              formData,
+                            );
+                          }
+                        }
+                      } else {
+                        if (!emailController.text.trim().isNotEmpty ||
+                            !passwordController.text.trim().isNotEmpty ||
+                            !nationalityController.text.trim().isNotEmpty ||
+                            !genderController.text.trim().isNotEmpty ||
+                            !religionController.text.trim().isNotEmpty ||
+                            !stateController.text.trim().isNotEmpty ||
+                            !cityProvinceController.text.trim().isNotEmpty ||
+                            !addressController.text.trim().isNotEmpty ||
+                            !contactNumberController.text.trim().isNotEmpty) {
+                          Get.snackbar(
+                            colorText: AppStyles.bgWhite,
+                            backgroundColor: AppStyles.bgBlue,
+                            'ERROR',
+                            'All fields are required.',
+                          );
+                        } else {
+                          if (newPasswordController.text.trim().isNotEmpty &&
+                              confirmNewPasswordController.text
+                                  .trim()
+                                  .isNotEmpty &&
+                              newPasswordController.text.trim() ==
+                                  confirmNewPasswordController.text.trim()) {
+                            Get.snackbar(
+                              colorText: AppStyles.bgWhite,
+                              backgroundColor: AppStyles.bgBlue,
+                              'ERROR',
+                              'Passwords do not match.',
+                            );
+                          } else if (newAvatar == false) {
+                            Get.snackbar(
+                              'Error',
+                              'Please upload your avatar.',
+                              colorText: Colors.white,
+                              backgroundColor: AppStyles.bgBlue,
+                            );
+                          } else {
+                            Map formData = {
+                              "nationality": nationalityController.text.trim(),
+                              "gender": genderController.text.trim(),
+                              "religion": religionController.text.trim(),
+                              "address": addressController.text.trim(),
+                              "state": stateController.text.trim(),
+                              "city_province":
+                                  cityProvinceController.text.trim(),
+                              "contact_number":
+                                  contactNumberController.text.trim(),
+                              'new_password': newPasswordController.text.trim(),
+                              'password': passwordController.text.trim(),
+                              'email': emailController.text.trim(),
+                              'avatar': avatar
+                            };
+
+                            debugPrint('[PAYLOAD] :: $formData');
+
+                            await authServices.updateProfileController(
+                              formData,
+                            );
+                          }
+                        }
+                      }
+                    },
+                    fontSize: 12.0.sp,
+                    borderRadius: 5,
+                    fontColor: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    backgroundColor: AppStyles.bgBlue,
+                  ),
+          ],
+        ),
+      ),
       body: SingleChildScrollView(
         child: Obx(
           () => SafeArea(
@@ -69,80 +228,92 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 25.0.wp, top: 14.0.hp),
-                      child: Column(children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10.0),
-                          child: CustomTextWidget(
-                            text: '${userRepository.userData.value.fullName}',
-                            color: Colors.white,
-                            size: 20.0.sp,
-                            // weight: FontWeight.bold,
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      // padding: EdgeInsets.only(left: 25.0.wp, top: 14.0.hp),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(left: 10.0, top: 15.0.hp),
+                            child: CustomTextWidget(
+                              text: '${userRepository.userData.value.fullName}',
+                              color: Colors.white,
+                              size: 20.0.sp,
+                              // weight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 2.0.hp),
-                        Stack(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 2.0.hp),
-                              child: CircleAvatar(
-                                backgroundColor: Colors.white,
-                                radius: 70,
-                                child: ClipOval(
-                                  child: SizedBox(
-                                    width: 40.0.hp,
-                                    height: 40.0.hp,
-                                    child: Image.network(
-                                      '${APIConstants.backendServerRootUrl}${userRepository.userData.value.avatar}',
-                                      fit: BoxFit.cover,
+                          SizedBox(height: 2.0.hp),
+                          Stack(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(left: 2.0.hp),
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.white,
+                                  radius: 70,
+                                  child: ClipOval(
+                                    child: SizedBox(
+                                        width: 40.0.hp,
+                                        height: 40.0.hp,
+                                        child: Image.network(
+                                          '${APIConstants.backendServerRootUrl}${userRepository.userData.value.avatar}',
+                                          fit: BoxFit.cover,
+                                        )),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    left: 14.0.hp, top: 12.0.hp),
+                                child: GestureDetector(
+                                  onTap: () async {
+                                    debugPrint('[UPLOAD-AVATAR]');
+
+                                    FilePickerResult? result =
+                                        await FilePicker.platform.pickFiles(
+                                      type: FileType.custom,
+                                      allowedExtensions: [
+                                        'jpg',
+                                        'jpeg',
+                                      ],
+                                    );
+
+                                    if (result!.files.isEmpty) return;
+
+                                    debugPrint(
+                                        "${result.files[0].path} :: file path ");
+                                    debugPrint(
+                                        "[FILE-SIZE] ${result.files[0].size}");
+                                    if (result.files[0].size >= 250000) {
+                                      Get.snackbar(
+                                        'Error',
+                                        'File upload should be less than 250kb.',
+                                        colorText: Colors.white,
+                                        backgroundColor: AppStyles.bgBlue,
+                                      );
+                                    } else {
+                                      setState(() {
+                                        newAvatar = true;
+                                        avatar = result.files[0];
+                                      });
+                                    }
+                                  },
+                                  child: CircleAvatar(
+                                    radius: 15,
+                                    backgroundColor: newAvatar
+                                        ? AppStyles.bgBlack
+                                        : AppStyles.bgBlue,
+                                    child: Icon(
+                                      Icons.add_a_photo,
+                                      size: 12.0.sp,
+                                      color: Colors.white,
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                            Padding(
-                              padding:
-                                  EdgeInsets.only(left: 14.0.hp, top: 12.0.hp),
-                              child: GestureDetector(
-                                onTap: () async {
-                                  debugPrint('[UPLOAD-AVATAR]');
-
-                                  FilePickerResult? result =
-                                      await FilePicker.platform.pickFiles(
-                                    type: FileType.custom,
-                                    allowedExtensions: [
-                                      'jpg',
-                                      'jpeg',
-                                    ],
-                                  );
-
-                                  if (result!.files.isEmpty) return;
-
-                                  debugPrint(
-                                      "${result.files[0].path} :: file path ");
-
-                                  setState(() {
-                                    newAvatar = true;
-                                    avatar = result.files[0];
-                                  });
-                                },
-                                child: CircleAvatar(
-                                  radius: 15,
-                                  backgroundColor: newAvatar
-                                      ? AppStyles.bgBlack
-                                      : AppStyles.bgBlue,
-                                  child: Icon(
-                                    Icons.add_a_photo,
-                                    size: 12.0.sp,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ]),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -150,195 +321,245 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   padding: const EdgeInsets.all(20.0),
                   child: userRepository.userData.value.isEmailLogin == true
                       ? Column(children: [
-                          TextFormField(
+                          CustomFormTextField(
+                            maxLines: 1,
+                            borderRadius: 15,
+                            hintText: 'Email',
                             controller: emailController,
-                            decoration: InputDecoration(
-                              hintText: "Email",
-                              hintStyle: TextStyle(color: AppStyles.bgBlack),
-                              icon: Icon(Icons.email, color: AppStyles.bgGray),
-                            ),
+                            textColor: AppStyles.bgBlack,
+                            background: Colors.white.withOpacity(0.4),
+                            hintColor: Colors.black,
                           ),
                           SizedBox(height: 2.0.hp),
-                          GestureDetector(
-                            onTap: () async {
-                              if (emailController.text.trim() == '') {
-                                Get.snackbar(
-                                  'Error',
-                                  'Email is required.',
-                                  colorText: Colors.white,
-                                  backgroundColor:
-                                      AppStyles.bgBlue.withOpacity(0.8),
-                                );
-                              }
-
-                              if (newAvatar == false) {
-                                Get.snackbar(
-                                  'Error',
-                                  'Please upload your avatar.',
-                                  colorText: Colors.white,
-                                  backgroundColor:
-                                      AppStyles.bgBlue.withOpacity(0.8),
-                                );
-                              } else {
-                                Map formData = {
-                                  'email': emailController.text.trim(),
-                                  'avatar': avatar
-                                };
-
-                                debugPrint('[PAYLOAD] :: $formData');
-                                await authServices
-                                    .updateProfileWithGoogleSigninController(
-                                        formData);
-                              }
+                          CustomSelectButton(
+                            title: 'Nationality',
+                            height: 65.0.hp,
+                            borderRadius: 15,
+                            textColor: AppStyles.bgBlack,
+                            items: appCountries,
+                            currentItem: nationalityController.text.toString(),
+                            onChangeHandler: (int index) {
+                              setState(() {
+                                nationalityController.text =
+                                    appCountries[index]['name'];
+                              });
                             },
-                            child: Container(
-                              height: 45,
-                              width: 150,
-                              decoration: BoxDecoration(
-                                  color: AppStyles.bgBlue,
-                                  borderRadius:
-                                      BorderRadiusDirectional.circular(20)),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: CustomTextWidget(
-                                      text: "Update Profile",
-                                      color: Colors.white,
-                                      size: 12.0.sp,
-                                    ),
-                                  ),
-                                  // const Icon(
-                                  //   Icons.edit,
-                                  //   color: Colors.white,
-                                  // )
-                                ],
-                              ),
-                            ),
+                          ),
+                          SizedBox(height: 2.0.hp),
+                          CustomSelectButton(
+                            title: 'Gender',
+                            height: 65.0.hp,
+                            borderRadius: 15,
+                            textColor: AppStyles.bgBlack,
+                            items: appGenders,
+                            currentItem: genderController.text.toString(),
+                            onChangeHandler: (int index) {
+                              setState(() {
+                                genderController.text =
+                                    appGenders[index]['name'];
+                              });
+                            },
+                          ),
+                          SizedBox(height: 2.0.hp),
+                          CustomSelectButton(
+                            title: 'Religion',
+                            height: 65.0.hp,
+                            borderRadius: 15,
+                            textColor: AppStyles.bgBlack,
+                            items: appReligions,
+                            currentItem: religionController.text.toString(),
+                            onChangeHandler: (int index) {
+                              setState(() {
+                                religionController.text =
+                                    appReligions[index]['name'];
+                              });
+                            },
+                          ),
+                          SizedBox(height: 2.0.hp),
+                          CustomFormTextField(
+                            maxLines: 1,
+                            borderRadius: 15,
+                            hintText: 'Address',
+                            controller: addressController,
+                            textColor: AppStyles.bgBlack,
+                            background: Colors.white.withOpacity(0.4),
+                            hintColor: Colors.black,
+                          ),
+                          SizedBox(height: 2.0.hp),
+                          CustomSelectButton(
+                            title: 'State',
+                            height: 65.0.hp,
+                            borderRadius: 15,
+                            textColor: AppStyles.bgBlack,
+                            items: appStates,
+                            currentItem: stateController.text.toString(),
+                            onChangeHandler: (int index) {
+                              setState(() {
+                                stateController.text = appStates[index]['name'];
+                              });
+                            },
+                          ),
+                          SizedBox(height: 2.0.hp),
+                          CustomFormTextField(
+                            maxLines: 1,
+                            borderRadius: 15,
+                            hintText: 'City/Province',
+                            controller: cityProvinceController,
+                            textColor: AppStyles.bgBlack,
+                            background: Colors.white.withOpacity(0.4),
+                            hintColor: Colors.black,
+                          ),
+                          SizedBox(height: 2.0.hp),
+                          CustomFormTextField(
+                            maxLines: 1,
+                            borderRadius: 15,
+                            hintText: 'Phone number',
+                            controller: contactNumberController,
+                            textColor: AppStyles.bgBlack,
+                            background: Colors.white.withOpacity(0.4),
+                            hintColor: Colors.black,
                           ),
                         ])
                       : Column(
                           children: [
-                            TextFormField(
+                            CustomFormTextField(
+                              maxLines: 1,
+                              borderRadius: 15,
+                              hintText: 'Email',
                               controller: emailController,
-                              decoration: InputDecoration(
-                                hintText: "Email",
-                                hintStyle: TextStyle(color: AppStyles.bgBlack),
-                                icon:
-                                    Icon(Icons.email, color: AppStyles.bgGray),
-                              ),
+                              textColor: AppStyles.bgBlack,
+                              background: Colors.white.withOpacity(0.4),
+                              hintColor: Colors.black,
                             ),
                             SizedBox(height: 2.0.hp),
-                            TextFormField(
-                              obscureText: true,
+                            CustomFormPasswordField(
+                              borderRadius: 15,
                               controller: passwordController,
-                              decoration: InputDecoration(
-                                hintText: "Current Password",
-                                hintStyle: TextStyle(color: AppStyles.bgBlack),
-                                icon: Icon(Icons.lock, color: AppStyles.bgGray),
+                              fontColor: AppStyles.bgBlack,
+                              hintText: 'Current password',
+                              suffixIcon: ImageIcon(
+                                AssetImage('assets/icons/icon__eye.png'),
+                                color: Colors.white,
                               ),
+                              showPassword: showPassword,
+                              background: Colors.white.withOpacity(0.4),
                             ),
                             SizedBox(height: 2.0.hp),
-                            TextFormField(
-                              obscureText: true,
+                            CustomFormPasswordField(
+                              borderRadius: 15,
                               controller: newPasswordController,
-                              decoration: InputDecoration(
-                                hintText: "New Password",
-                                hintStyle: TextStyle(color: AppStyles.bgBlack),
-                                icon: Icon(Icons.lock, color: AppStyles.bgGray),
+                              fontColor: AppStyles.bgBlack,
+                              hintText: 'New password',
+                              suffixIcon: ImageIcon(
+                                AssetImage('assets/icons/icon__eye.png'),
+                                color: Colors.white,
                               ),
+                              showPassword: showConfirmPassword,
+                              background: Colors.white.withOpacity(0.4),
                             ),
                             SizedBox(height: 2.0.hp),
-                            TextFormField(
-                              obscureText: true,
+                            CustomFormPasswordField(
+                              borderRadius: 15,
                               controller: confirmNewPasswordController,
-                              decoration: InputDecoration(
-                                hintText: "Confirm Password",
-                                hintStyle: TextStyle(color: AppStyles.bgBlack),
-                                icon: Icon(Icons.lock, color: AppStyles.bgGray),
+                              fontColor: AppStyles.bgBlack,
+                              hintText: 'Confirm new password',
+                              suffixIcon: ImageIcon(
+                                AssetImage('assets/icons/icon__eye.png'),
+                                color: Colors.white,
                               ),
+                              showPassword: showConfirmNewPassword,
+                              background: Colors.white.withOpacity(0.4),
                             ),
-                            SizedBox(height: 5.0.hp),
-                            GestureDetector(
-                              onTap: () async {
-                                if (emailController.text.trim() == '') {
-                                  Get.snackbar(
-                                    'Error',
-                                    'Email is required.',
-                                    colorText: Colors.white,
-                                    backgroundColor:
-                                        AppStyles.bgBlue.withOpacity(0.8),
-                                  );
-                                }
-
-                                if (passwordController.text.trim() == '') {
-                                  Get.snackbar(
-                                    'Error',
-                                    'Password is required.',
-                                    colorText: Colors.white,
-                                    backgroundColor:
-                                        AppStyles.bgBlue.withOpacity(0.8),
-                                  );
-                                }
-                                if (newPasswordController.text.trim() != '' &&
-                                    confirmNewPasswordController.text.trim() ==
-                                        '') {
-                                  Get.snackbar(
-                                    'Error',
-                                    'Passwords do not match.',
-                                    colorText: Colors.white,
-                                    backgroundColor:
-                                        AppStyles.bgBlue.withOpacity(0.8),
-                                  );
-                                }
-                                if (newAvatar == false) {
-                                  Get.snackbar(
-                                    'Error',
-                                    'Please upload your avatar.',
-                                    colorText: Colors.white,
-                                    backgroundColor:
-                                        AppStyles.bgBlue.withOpacity(0.8),
-                                  );
-                                } else {
-                                  Map formData = {
-                                    'email': emailController.text.trim(),
-                                    'password': passwordController.text.trim(),
-                                    'new_password':
-                                        newPasswordController.text.trim(),
-                                    'avatar': newAvatar == true ? avatar : ''
-                                  };
-
-                                  // debugPrint('[PAYLOAD] :: $formData');
-                                  await authServices
-                                      .updateProfileController(formData);
-                                }
+                            SizedBox(height: 2.0.hp),
+                            CustomSelectButton(
+                              title: 'Nationality',
+                              height: 65.0.hp,
+                              borderRadius: 15,
+                              textColor: AppStyles.bgBlack,
+                              items: appCountries,
+                              currentItem:
+                                  nationalityController.text.toString(),
+                              onChangeHandler: (int index) {
+                                setState(() {
+                                  nationalityController.text =
+                                      appCountries[index]['name'];
+                                });
                               },
-                              child: Container(
-                                height: 45,
-                                width: 150,
-                                decoration: BoxDecoration(
-                                    color: AppStyles.bgBlue,
-                                    borderRadius:
-                                        BorderRadiusDirectional.circular(20)),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: CustomTextWidget(
-                                        text: "Update Profile",
-                                        color: Colors.white,
-                                        size: 12.0.sp,
-                                      ),
-                                    ),
-                                    // const Icon(
-                                    //   Icons.edit,
-                                    //   color: Colors.white,
-                                    // )
-                                  ],
-                                ),
-                              ),
+                            ),
+                            SizedBox(height: 2.0.hp),
+                            CustomSelectButton(
+                              title: 'Gender',
+                              height: 65.0.hp,
+                              borderRadius: 15,
+                              textColor: AppStyles.bgBlack,
+                              items: appGenders,
+                              currentItem: genderController.text.toString(),
+                              onChangeHandler: (int index) {
+                                setState(() {
+                                  genderController.text =
+                                      appGenders[index]['name'];
+                                });
+                              },
+                            ),
+                            SizedBox(height: 2.0.hp),
+                            CustomSelectButton(
+                              title: 'Religion',
+                              height: 65.0.hp,
+                              borderRadius: 15,
+                              textColor: AppStyles.bgBlack,
+                              items: appReligions,
+                              currentItem: religionController.text.toString(),
+                              onChangeHandler: (int index) {
+                                setState(() {
+                                  religionController.text =
+                                      appReligions[index]['name'];
+                                });
+                              },
+                            ),
+                            SizedBox(height: 2.0.hp),
+                            CustomFormTextField(
+                              maxLines: 1,
+                              borderRadius: 15,
+                              hintText: 'Address',
+                              controller: addressController,
+                              textColor: AppStyles.bgBlack,
+                              background: Colors.white.withOpacity(0.4),
+                              hintColor: Colors.black,
+                            ),
+                            SizedBox(height: 2.0.hp),
+                            CustomSelectButton(
+                              title: 'State',
+                              height: 65.0.hp,
+                              borderRadius: 15,
+                              textColor: AppStyles.bgBlack,
+                              items: appStates,
+                              currentItem: stateController.text.toString(),
+                              onChangeHandler: (int index) {
+                                setState(() {
+                                  stateController.text =
+                                      appStates[index]['name'];
+                                });
+                              },
+                            ),
+                            SizedBox(height: 2.0.hp),
+                            CustomFormTextField(
+                              maxLines: 1,
+                              borderRadius: 15,
+                              hintText: 'City/Province',
+                              controller: cityProvinceController,
+                              textColor: AppStyles.bgBlack,
+                              background: Colors.white.withOpacity(0.4),
+                              hintColor: Colors.black,
+                            ),
+                            SizedBox(height: 2.0.hp),
+                            CustomFormTextField(
+                              maxLines: 1,
+                              borderRadius: 15,
+                              hintText: 'Phone number',
+                              controller: contactNumberController,
+                              textColor: AppStyles.bgBlack,
+                              background: Colors.white.withOpacity(0.4),
+                              hintColor: Colors.black,
                             ),
                           ],
                         ),

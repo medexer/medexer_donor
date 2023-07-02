@@ -11,16 +11,16 @@ class PageHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
-        top: 1.0.hp,
-        left: 2.0.wp,
-        right: 2.0.wp,
+        top: 2.0.hp,
+        left: 2.5.wp,
+        right: 2.5.wp,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            width: 45,
-            height: 45,
+            width: 40,
+            height: 40,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(100),
@@ -32,22 +32,24 @@ class PageHeader extends StatelessWidget {
                 )
               ],
             ),
-            child: IconButton(
-              onPressed: () {
-                // Scaffold.of(context).openDrawer();
-                // SideBar();
-                scaffoldKey.currentState!.openDrawer();
-              },
-              icon: Icon(
-                Icons.menu,
-                color: AppStyles.bgBlack,
+            child: Center(
+              child: IconButton(
+                onPressed: () {
+                  // Scaffold.of(context).openDrawer();
+                  // SideBar();
+                  scaffoldKey.currentState!.openDrawer();
+                },
+                icon: Icon(
+                  Icons.menu,
+                  color: AppStyles.bgBlack,
+                ),
               ),
             ),
           ),
           Container(
             width: 40,
             height: 40,
-            child: Image.asset('assets/images/logo__1.png'),
+            child: Image.asset('assets/images/logo__3.png'),
           )
         ],
       ),

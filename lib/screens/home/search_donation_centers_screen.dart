@@ -12,6 +12,9 @@ import 'package:medexer_donor/services/donor_services.dart';
 import 'package:medexer_donor/widgets/text/custom_search_widget.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 
+import '../../network_services/network_error_message.dart';
+import '../../network_services/network_manager.dart';
+
 class SearchDonationCentersScreen extends StatefulWidget {
   const SearchDonationCentersScreen({super.key});
 
@@ -27,6 +30,7 @@ class _SearchDonationCentersScreenState
   final UserRepository userRepository = Get.find();
   TextEditingController locationController = TextEditingController();
   TextEditingController destinationController = TextEditingController();
+  final NetworkManageController _networkManageController = Get.find<NetworkManageController>();
 
   @override
   void initState() {
@@ -44,7 +48,8 @@ class _SearchDonationCentersScreenState
     return Scaffold(
       body: SafeArea(
         child: Obx(
-          () => SingleChildScrollView(
+          () => (_networkManageController.connectionType.value == 0)?const NetworkErrorMessage():
+          SingleChildScrollView(
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 2.0.wp),
               height: screenHeight,

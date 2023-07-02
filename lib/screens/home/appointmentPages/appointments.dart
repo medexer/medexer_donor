@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:medexer_donor/config/app_config.dart';
+import 'package:medexer_donor/screens/home/appointmentPages/view_appointment.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 import 'package:medexer_donor/database/user_repository.dart';
 import 'package:medexer_donor/services/donor_services.dart';
@@ -44,13 +45,20 @@ class _AppointmentsState extends State<Appointments> {
                 ? Container(
                     child: Lottie.asset('assets/animations/animation__2.json'),
                   )
-                : Container(
+                : SizedBox(
                     // height: widget.height,
                     height: screenHeight * 0.8,
                     child: ListView.builder(
                       itemCount: userRepository.appointments.length,
                       itemBuilder: (context, index) {
                         return ListTile(
+                          onTap: () {
+                            Get.to(
+                              () => ViewAppointmentScreen(
+                                appointment: userRepository.appointments[index],
+                              ),
+                            );
+                          },
                           leading: CustomTextWidget(
                               text: '${index + 1}', size: 8.0.sp),
                           title: CustomTextWidget(
@@ -66,8 +74,12 @@ class _AppointmentsState extends State<Appointments> {
                           trailing: CustomTextWidget(
                             text:
                                 '${userRepository.appointments[index].date ?? ''}',
-                            color: Colors.green,
-                            size: 8.0.sp,
+                            color:
+                                userRepository.appointments[index].isDonated ==
+                                        true
+                                    ? Colors.green.shade600
+                                    : AppStyles.bgPrimary,
+                            size: 12.0.sp,
                           ),
                         );
                       },

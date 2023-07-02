@@ -4,11 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:medexer_donor/config/app_config.dart';
+import 'package:medexer_donor/models/signup_formdata_model.dart';
 import 'package:medexer_donor/screens/auth/login_screen.dart';
+import 'package:medexer_donor/screens/auth/registration/signup_steptwo_screen.dart';
 import 'package:medexer_donor/widgets/buttons/custom_button.dart';
 import 'package:medexer_donor/widgets/text/custom_formpassword_field.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 import 'package:medexer_donor/widgets/text/cutom_formtext_field.dart';
+import 'package:medexer_donor/database/user_repository.dart';
 import '../../../services/auth_services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -30,6 +33,7 @@ class _SignupScreenState extends State<SignupScreen> {
   TextEditingController confirmPasswordController = TextEditingController();
 
   Map dto = {};
+  final UserRepository userRepository = Get.find();
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   Future<void> signupHandler() async {
@@ -49,32 +53,35 @@ class _SignupScreenState extends State<SignupScreen> {
         'Passwords do not match',
       );
     } else {
-      Map data = {
+      Map<String, dynamic> data = {
         "fullName": fullnameController.text.trim(),
         "email": emailController.text.trim(),
         "password": passwordController.text.trim(),
       };
 
       debugPrint('[SIGNUP DTO] :: $data');
-      await authServices.signupController(
-        data,
-      );
+      userRepository.signupFormData.value = SignupFormDataModel.fromJson(data);
 
-      debugPrint('[ERROR] :: ${authServices.authRequestError.value}');
+      Get.to(() => SignupStepTwoScreen());
+      // await authServices.signupController(
+      //   data,
+      // );
 
-      if (authServices.authRequestError.value == 'Invalid email address.') {
-        Get.snackbar(
-            backgroundColor: AppStyles.bgPrimary,
-            'ERROR!',
-            authServices.authRequestError.value);
-      }
-      if (authServices.authRequestError.value ==
-          'User with this Email Address already exists.') {
-        Get.snackbar(
-            backgroundColor: AppStyles.bgPrimary,
-            'ERROR!',
-            authServices.authRequestError.value);
-      }
+      //   debugPrint('[ERROR] :: ${authServices.authRequestError.value}');
+
+      //   if (authServices.authRequestError.value == 'Invalid email address.') {
+      //     Get.snackbar(
+      //         backgroundColor: AppStyles.bgPrimary,
+      //         'ERROR!',
+      //         authServices.authRequestError.value);
+      //   }
+      //   if (authServices.authRequestError.value ==
+      //       'User with this Email Address already exists.') {
+      //     Get.snackbar(
+      //         backgroundColor: AppStyles.bgPrimary,
+      //         'ERROR!',
+      //         authServices.authRequestError.value);
+      //   }
     }
   }
 
@@ -151,7 +158,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     authServices.authRequestStatus.value == 'PENDING'
                         ? CircularProgressIndicator()
                         : CustomButton(
-                            text: 'Signup',
+                            text: 'Next',
                             width: double.maxFinite,
                             height: 6.0.hp,
                             onTapHandler: () {
@@ -295,7 +302,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       child: CustomTextWidget(
                         text: 'Login',
                         size: 12.0.sp,
-                        color: AppStyles.bgPrimary,
+                        color: AppStyles.bgBlue,
                       ),
                     ),
                   ],

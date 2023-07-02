@@ -78,7 +78,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-
   }
 
   @override
@@ -315,7 +314,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: CustomTextWidget(
                           text: 'Signup',
                           size: 12.0.sp,
-                          color: AppStyles.bgPrimary,
+                          color: AppStyles.bgBlue,
                         ),
                       ),
                     ],

@@ -2,7 +2,9 @@
 
 import 'package:get/get.dart';
 import 'package:medexer_donor/models/kyc_formdata_model.dart';
+import 'package:medexer_donor/models/signup_formdata_model.dart';
 import 'package:medexer_donor/models/user_model.dart';
+import 'package:medexer_donor/models/user_profile_model.dart';
 
 class UserRepository extends GetxController {
   var googleSignin = false.obs;
@@ -11,6 +13,7 @@ class UserRepository extends GetxController {
   var hospitalRouteAdded = false.obs;
 
   var userData = UserModel.fromJson({}).obs;
+  var userProfile = UserProfileModel.fromJson({}).obs;
 
   RxList<dynamic> _donationCenters = [].obs;
   RxList get donationCenters => _donationCenters;
@@ -26,6 +29,11 @@ class UserRepository extends GetxController {
 
   RxList<dynamic> _notifications = [].obs;
   RxList get notifications => _notifications;
+  
+  RxList<dynamic> _medicalHistory = [].obs;
+  RxList get medicalHistory => _medicalHistory;
 
   var kycFormData = KYCFormDataModel.fromJson({}).obs;
+
+  var signupFormData = SignupFormDataModel.fromJson({}).obs;
 }

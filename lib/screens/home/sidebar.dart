@@ -20,6 +20,8 @@ import 'package:medexer_donor/services/auth_services.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'sub_screens/medical_history_screen.dart';
+
 class SideBar extends StatefulWidget {
   const SideBar({super.key});
 
@@ -33,7 +35,7 @@ class _SideBarState extends State<SideBar> {
   final AuthServices authServices = Get.find();
   final NetworkManageController _networkManageController =
       Get.find<NetworkManageController>();
-      
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -122,6 +124,25 @@ class _SideBarState extends State<SideBar> {
             //   color: AppStyles.bgBlue,
             // ),
             leading: SvgPicture.asset(
+              'assets/icons/icon__virus.svg',
+              color: AppStyles.bgBlue,
+              width: 18.0.sp,
+            ),
+            title: CustomTextWidget(
+              text: 'Medical History',
+              size: 12.0.sp,
+            ),
+            onTap: () {
+              Get.to(() => MedicalHistoryScreen());
+              debugPrint('[MEDICAL-HISTORY]');
+            },
+          ),
+          ListTile(
+            // leading: ImageIcon(
+            //   AssetImage('assets/icons/icon__info.png'),
+            //   color: AppStyles.bgBlue,
+            // ),
+            leading: SvgPicture.asset(
               'assets/icons/icon__file.svg',
               color: AppStyles.bgBlue,
               width: 18.0.sp,
@@ -179,21 +200,21 @@ class _SideBarState extends State<SideBar> {
                   size: 12.0.sp,
                 ),
                 SizedBox(width: 1.0.wp),
-                ClipOval(
-                  child: Container(
-                    padding: EdgeInsets.all(3),
-                    decoration: BoxDecoration(
-                      color: AppStyles.bgPrimary,
-                    ),
-                    child: Center(
-                      child: CustomTextWidget(
-                        text: 'New',
-                        size: 8.0.sp,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
+                // ClipOval(
+                //   child: Container(
+                //     padding: EdgeInsets.all(3),
+                //     decoration: BoxDecoration(
+                //       color: AppStyles.bgPrimary,
+                //     ),
+                //     child: Center(
+                //       child: CustomTextWidget(
+                //         text: 'New',
+                //         size: 8.0.sp,
+                //         color: Colors.white,
+                //       ),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
             onTap: () {

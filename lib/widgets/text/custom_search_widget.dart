@@ -64,6 +64,7 @@ class CustomSearchField extends StatelessWidget {
                 //contentPadding: EdgeInsets.all(15),
                 // prefixIcon: prefixIcon ?? prefixIcon,
                 hintStyle: TextStyle(
+                  fontSize: 12.0.sp,
                   color: AppStyles.bgGray,
                 ),
               ),
