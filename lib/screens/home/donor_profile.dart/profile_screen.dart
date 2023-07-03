@@ -599,13 +599,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
       Container(
         height: 400,
         child: CupertinoDatePicker(
+          mode: CupertinoDatePickerMode.date,
           dateOrder: DatePickerDateOrder.ymd,
             //dateOrder: DatePickerDateOrder.dmy,
-
-            initialDateTime: DateTime(1961,1,1),
-            onDateTimeChanged: (val) {
-              setState(() {
-                _chosenDateTime = val;
+          use24hFormat: false,
+          initialDateTime: DateTime(1961,1,1),
+          onDateTimeChanged: (val) {
+            setState(() {
+              _chosenDateTime = val;
               });
             }),
         ),
