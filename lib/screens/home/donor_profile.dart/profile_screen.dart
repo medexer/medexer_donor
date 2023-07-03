@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:io';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medexer_donor/config/app_config.dart';
@@ -26,6 +26,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  DateTime? _chosenDateTime;
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController nationalityController =
@@ -41,7 +42,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController newPasswordController = TextEditingController();
   TextEditingController confirmNewPasswordController = TextEditingController();
-
+ 
   bool newAvatar = false;
   bool showPassword = true;
   bool showConfirmPassword = true;
@@ -561,6 +562,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               background: Colors.white.withOpacity(0.4),
                               hintColor: Colors.black,
                             ),
+
+                            CupertinoButton(
+                              padding: EdgeInsetsDirectional.zero,
+                              child: const Text('Enter Date of Birth'),
+                              onPressed: () => _showDatePicker(context),
+                            ),
+                            SafeArea(
+                            child: Center(
+                              child: Text(_chosenDateTime != null
+                                ? _chosenDateTime.toString()
+                                : 'No date time picked!'),
+                            ),
+                          ),
                           ],
                         ),
                 )
@@ -571,4 +585,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
-}
+
+   void _showDatePicker(context) {
+    // showCupertinoModalPopup is a built-in function of the cupertino library
+   showCupertinoModalPopup(
+   context: context,
+   builder: (_) => Container(
+  height: 500,
+  color: Color.fromARGB(255, 255, 255, 255),
+  child: Column(
+    children: [
+      Container(
+        height: 400,
+        child: CupertinoDatePicker(
+            initialDateTime: DateTime(1961,1,1),
+            onDateTimeChanged: (val) {
+              setState(() {
+                _chosenDateTime = val;
+              });
+            }),
+        ),
+       ],
+     ),
+  ));
+   }}
