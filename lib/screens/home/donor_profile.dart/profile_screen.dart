@@ -565,6 +565,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                             CupertinoButton(
                               padding: EdgeInsetsDirectional.zero,
+
                               child: const Text('Enter Date of Birth'),
                               onPressed: () => _showDatePicker(context),
                             ),
@@ -572,7 +573,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             child: Center(
                               child: Text(_chosenDateTime != null
                                 ? _chosenDateTime.toString()
-                                : 'No date time picked!'),
+                                : 'Enter date of birth!'),
                             ),
                           ),
                           ],
@@ -598,6 +599,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       Container(
         height: 400,
         child: CupertinoDatePicker(
+          dateOrder: DatePickerDateOrder.ymd,
+            //dateOrder: DatePickerDateOrder.dmy,
+
             initialDateTime: DateTime(1961,1,1),
             onDateTimeChanged: (val) {
               setState(() {
