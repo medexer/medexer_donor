@@ -17,6 +17,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:medexer_donor/widgets/text/custom_formpassword_field.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 import 'package:medexer_donor/widgets/text/cutom_formtext_field.dart';
+import 'package:medexer_donor/widgets/buttons/custom_date_picker_button.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -38,12 +39,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
   TextEditingController addressController = TextEditingController();
   TextEditingController stateController = TextEditingController(text: 'State');
   TextEditingController cityProvinceController = TextEditingController();
+  TextEditingController dateOfBirthController = TextEditingController();
   TextEditingController contactNumberController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController newPasswordController = TextEditingController();
   TextEditingController confirmNewPasswordController = TextEditingController();
- 
+
   bool newAvatar = false;
+  DateTime initialDate = DateTime(1980);
   bool showPassword = true;
   bool showConfirmPassword = true;
   bool showConfirmNewPassword = true;
@@ -67,6 +70,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
           "${userRepository.userProfile.value.cityProvince}";
       contactNumberController.text =
           "${userRepository.userProfile.value.contactNumber}";
+      dateOfBirthController.text =
+          "${userRepository.userProfile.value.dateOfBirth}";
+
+      if (userRepository.userProfile.value.dateOfBirth != null) {
+        initialDate = DateTime.parse(
+          "${userRepository.userProfile.value.dateOfBirth}",
+        );
+      }
     });
   }
 
@@ -75,6 +86,124 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       key: scaffoldKey,
       drawer: SideBar(),
+      appBar: PreferredSize(
+        preferredSize:
+            Size.fromHeight(MediaQuery.of(context).size.height * 0.35),
+        child: Container(
+          // padding: EdgeInsets.symmetric(horizontal: 4.0.wp),
+          // color: AppStyles.bgPrimary,
+          child: Stack(
+            children: [
+              Container(
+                width: double.infinity,
+                height: 30.0.hp,
+                padding: EdgeInsets.only(top: 2.0.hp),
+                decoration: BoxDecoration(
+                  color: AppStyles.bgBrightRed.withOpacity(0.5),
+                ),
+                child: Column(
+                  children: [
+                    PageHeader(scaffoldKey: scaffoldKey),
+                  ],
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                // padding: EdgeInsets.only(left: 25.0.wp, top: 14.0.hp),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 10.0, top: 15.0.hp),
+                      child: CustomTextWidget(
+                        text: '${userRepository.userData.value.fullName}',
+                        color: Colors.white,
+                        size: 20.0.sp,
+                        // weight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 2.0.hp),
+                    Stack(
+                      children: [
+                        Positioned(
+                          // top: 5,
+                          // padding: EdgeInsets.only(left: 2.0.hp),
+                          child: CircleAvatar(
+                            backgroundColor: Colors.white,
+                            radius: 70,
+                            child: ClipOval(
+                              child: SizedBox(
+                                  width: 40.0.hp,
+                                  height: 40.0.hp,
+                                  child: Image.network(
+                                    '${APIConstants.backendServerRootUrl}${userRepository.userData.value.avatar}',
+                                    fit: BoxFit.cover,
+                                  )),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 14.0.hp, top: 12.0.hp),
+                          child: GestureDetector(
+                            onTap: () async {
+                              debugPrint('[UPLOAD-AVATAR]');
+
+                              FilePickerResult? result =
+                                  await FilePicker.platform.pickFiles(
+                                type: FileType.custom,
+                                allowedExtensions: [
+                                  'jpg',
+                                  'jpeg',
+                                ],
+                              );
+
+                              if (result!.files.isEmpty) return;
+
+                              debugPrint(
+                                  "${result.files[0].path} :: file path ");
+                              debugPrint("[FILE-SIZE] ${result.files[0].size}");
+                              if (result.files[0].size >= 250000) {
+                                Get.snackbar(
+                                  'Error',
+                                  'File upload should be less than 250kb.',
+                                  colorText: Colors.white,
+                                  backgroundColor: AppStyles.bgBlue,
+                                );
+                              } else {
+                                setState(() {
+                                  newAvatar = true;
+                                  avatar = result.files[0];
+                                });
+
+                                Map formData = {
+                                  "avatar": avatar,
+                                };
+
+                                await authServices
+                                    .updateProfileAvatarController(formData);
+                              }
+                            },
+                            child: CircleAvatar(
+                              radius: 15,
+                              backgroundColor: newAvatar
+                                  ? AppStyles.bgBlack
+                                  : AppStyles.bgBlue,
+                              child: Icon(
+                                Icons.add_a_photo,
+                                size: 12.0.sp,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
       bottomNavigationBar: Container(
         height: MediaQuery.of(context).size.height * 0.1,
         width: double.maxFinite,
@@ -96,6 +225,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             !stateController.text.trim().isNotEmpty ||
                             !cityProvinceController.text.trim().isNotEmpty ||
                             !addressController.text.trim().isNotEmpty ||
+                            !dateOfBirthController.text.trim().isNotEmpty ||
                             !contactNumberController.text.trim().isNotEmpty) {
                           Get.snackbar(
                               colorText: AppStyles.bgWhite,
@@ -103,36 +233,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               'ERROR',
                               'All fields are required.');
                         } else {
-                          if (newAvatar == false) {
-                            Get.snackbar(
-                              'Error',
-                              'Please upload your avatar.',
-                              colorText: Colors.white,
-                              backgroundColor:
-                                  AppStyles.bgBlue.withOpacity(0.8),
-                            );
-                          } else {
-                            Map formData = {
-                              "nationality": nationalityController.text.trim(),
-                              "gender": genderController.text.trim(),
-                              "religion": religionController.text.trim(),
-                              "address": addressController.text.trim(),
-                              "state": stateController.text.trim(),
-                              "city_province":
-                                  cityProvinceController.text.trim(),
-                              "contact_number":
-                                  contactNumberController.text.trim(),
-                              'email': emailController.text.trim(),
-                              'avatar': avatar
-                            };
+                          Map formData = {
+                            "nationality": nationalityController.text.trim(),
+                            "gender": genderController.text.trim(),
+                            "religion": religionController.text.trim(),
+                            "address": addressController.text.trim(),
+                            "state": stateController.text.trim(),
+                            "city_province": cityProvinceController.text.trim(),
+                            "contact_number":
+                                contactNumberController.text.trim(),
+                            "dateOfBirth": dateOfBirthController.text
+                                .trim()
+                                .substring(0, 10),
+                            'email': emailController.text.trim(),
+                            // 'avatar': avatar
+                          };
 
-                            debugPrint('[PAYLOAD] :: $formData');
+                          debugPrint('[PAYLOAD] :: $formData');
 
-                            await authServices
-                                .updateProfileWithGoogleSigninController(
-                              formData,
-                            );
-                          }
+                          await authServices
+                              .updateProfileWithGoogleSigninController(
+                            formData,
+                          );
                         }
                       } else {
                         if (!emailController.text.trim().isNotEmpty ||
@@ -143,6 +265,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             !stateController.text.trim().isNotEmpty ||
                             !cityProvinceController.text.trim().isNotEmpty ||
                             !addressController.text.trim().isNotEmpty ||
+                            !dateOfBirthController.text.trim().isNotEmpty ||
                             !contactNumberController.text.trim().isNotEmpty) {
                           Get.snackbar(
                             colorText: AppStyles.bgWhite,
@@ -163,13 +286,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               'ERROR',
                               'Passwords do not match.',
                             );
-                          } else if (newAvatar == false) {
-                            Get.snackbar(
-                              'Error',
-                              'Please upload your avatar.',
-                              colorText: Colors.white,
-                              backgroundColor: AppStyles.bgBlue,
-                            );
                           } else {
                             Map formData = {
                               "nationality": nationalityController.text.trim(),
@@ -181,10 +297,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   cityProvinceController.text.trim(),
                               "contact_number":
                                   contactNumberController.text.trim(),
+                              "dateOfBirth": dateOfBirthController.text
+                                  .trim()
+                                  .substring(0, 10),
                               'new_password': newPasswordController.text.trim(),
                               'password': passwordController.text.trim(),
                               'email': emailController.text.trim(),
-                              'avatar': avatar
+                              // 'avatar': avatar
                             };
 
                             debugPrint('[PAYLOAD] :: $formData');
@@ -197,7 +316,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       }
                     },
                     fontSize: 12.0.sp,
-                    borderRadius: 5,
+                    borderRadius: 15,
                     fontColor: Colors.white,
                     fontWeight: FontWeight.bold,
                     backgroundColor: AppStyles.bgBlue,
@@ -211,113 +330,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Stack(
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      height: 30.0.hp,
-                      decoration: BoxDecoration(
-                        color: AppStyles.bgBrightRed.withOpacity(0.5),
-                        // borderRadius: BorderRadius.only(
-                        //   bottomRight: Radius.circular(25),
-                        //   bottomLeft: Radius.circular(25),
-                        // ),
-                      ),
-                      child: Column(
-                        children: [
-                          PageHeader(scaffoldKey: scaffoldKey),
-                        ],
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      // padding: EdgeInsets.only(left: 25.0.wp, top: 14.0.hp),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: 10.0, top: 15.0.hp),
-                            child: CustomTextWidget(
-                              text: '${userRepository.userData.value.fullName}',
-                              color: Colors.white,
-                              size: 20.0.sp,
-                              // weight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 2.0.hp),
-                          Stack(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(left: 2.0.hp),
-                                child: CircleAvatar(
-                                  backgroundColor: Colors.white,
-                                  radius: 70,
-                                  child: ClipOval(
-                                    child: SizedBox(
-                                        width: 40.0.hp,
-                                        height: 40.0.hp,
-                                        child: Image.network(
-                                          '${APIConstants.backendServerRootUrl}${userRepository.userData.value.avatar}',
-                                          fit: BoxFit.cover,
-                                        )),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    left: 14.0.hp, top: 12.0.hp),
-                                child: GestureDetector(
-                                  onTap: () async {
-                                    debugPrint('[UPLOAD-AVATAR]');
-
-                                    FilePickerResult? result =
-                                        await FilePicker.platform.pickFiles(
-                                      type: FileType.custom,
-                                      allowedExtensions: [
-                                        'jpg',
-                                        'jpeg',
-                                      ],
-                                    );
-
-                                    if (result!.files.isEmpty) return;
-
-                                    debugPrint(
-                                        "${result.files[0].path} :: file path ");
-                                    debugPrint(
-                                        "[FILE-SIZE] ${result.files[0].size}");
-                                    if (result.files[0].size >= 250000) {
-                                      Get.snackbar(
-                                        'Error',
-                                        'File upload should be less than 250kb.',
-                                        colorText: Colors.white,
-                                        backgroundColor: AppStyles.bgBlue,
-                                      );
-                                    } else {
-                                      setState(() {
-                                        newAvatar = true;
-                                        avatar = result.files[0];
-                                      });
-                                    }
-                                  },
-                                  child: CircleAvatar(
-                                    radius: 15,
-                                    backgroundColor: newAvatar
-                                        ? AppStyles.bgBlack
-                                        : AppStyles.bgBlue,
-                                    child: Icon(
-                                      Icons.add_a_photo,
-                                      size: 12.0.sp,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: userRepository.userData.value.isEmailLogin == true
@@ -415,10 +427,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             maxLines: 1,
                             borderRadius: 15,
                             hintText: 'Phone number',
+                            keyboardType: TextInputType.number,
                             controller: contactNumberController,
                             textColor: AppStyles.bgBlack,
                             background: Colors.white.withOpacity(0.4),
                             hintColor: Colors.black,
+                          ),
+                          SizedBox(height: 2.0.hp),
+                          CustomDatePickerButton(
+                            date: initialDate,
+                            controller: dateOfBirthController,
                           ),
                         ])
                       : Column(
@@ -557,25 +575,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               maxLines: 1,
                               borderRadius: 15,
                               hintText: 'Phone number',
+                              keyboardType: TextInputType.number,
                               controller: contactNumberController,
                               textColor: AppStyles.bgBlack,
                               background: Colors.white.withOpacity(0.4),
                               hintColor: Colors.black,
                             ),
-
-                            CupertinoButton(
-                              padding: EdgeInsetsDirectional.zero,
-
-                              child: const Text('Enter Date of Birth'),
-                              onPressed: () => _showDatePicker(context),
+                            SizedBox(height: 2.0.hp),
+                            CustomDatePickerButton(
+                              date: initialDate,
+                              controller: dateOfBirthController,
                             ),
-                            SafeArea(
-                            child: Center(
-                              child: Text(_chosenDateTime != null
-                                ? _chosenDateTime.toString()
-                                : 'Enter date of birth!'),
-                            ),
-                          ),
                           ],
                         ),
                 )
@@ -587,30 +597,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-   void _showDatePicker(context) {
+  void _showDatePicker(context) {
     // showCupertinoModalPopup is a built-in function of the cupertino library
-   showCupertinoModalPopup(
-   context: context,
-   builder: (_) => Container(
-  height: 500,
-  color: Color.fromARGB(255, 255, 255, 255),
-  child: Column(
-    children: [
-      Container(
-        height: 400,
-        child: CupertinoDatePicker(
-          mode: CupertinoDatePickerMode.date,
-          dateOrder: DatePickerDateOrder.ymd,
-            //dateOrder: DatePickerDateOrder.dmy,
-          use24hFormat: false,
-          initialDateTime: DateTime(1961,1,1),
-          onDateTimeChanged: (val) {
-            setState(() {
-              _chosenDateTime = val;
-              });
-            }),
-        ),
-       ],
-     ),
-  ));
-   }}
+    showCupertinoModalPopup(
+        context: context,
+        builder: (_) => Container(
+              height: 500,
+              color: Color.fromARGB(255, 255, 255, 255),
+              child: Column(
+                children: [
+                  Container(
+                    height: 400,
+                    child: CupertinoDatePicker(
+                        mode: CupertinoDatePickerMode.date,
+                        dateOrder: DatePickerDateOrder.ymd,
+                        //dateOrder: DatePickerDateOrder.dmy,
+                        use24hFormat: false,
+                        initialDateTime: DateTime(1961, 1, 1),
+                        onDateTimeChanged: (val) {
+                          setState(() {
+                            _chosenDateTime = val;
+                          });
+                        }),
+                  ),
+                ],
+              ),
+            ));
+  }
+}

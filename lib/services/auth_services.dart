@@ -27,6 +27,35 @@ class AuthServices extends GetxController {
   var authRequestError = ''.obs;
   var authRequestStatus = ''.obs;
 
+  Future<void> updateProfileLocationController(Map dto) async {
+    try {
+      debugPrint('[UPDATE-LOCATION-PENDING]');
+      debugPrint(
+          '${APIConstants.backendServerUrl}profile/donor/update-location');
+
+      final response = await dio.put(
+        '${APIConstants.backendServerUrl}profile/donor/update-location',
+        data: dto,
+        options: Options(
+          headers: {
+            'Authorization': authStorage.read('MDX-ACCESSTOKEN'),
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        debugPrint('[UPDATE-LOCATION-SUCCESS]');
+      }
+    } catch (error) {
+      if (error is DioError) {
+        authLoading.value = false;
+        authRequestStatus.value = 'FAILED';
+        debugPrint('${error}');
+        debugPrint('${error.response}');
+      }
+    }
+  }
+
   Future<void> googleSigninController(Map dto) async {
     try {
       authLoading.value = true;
@@ -331,20 +360,20 @@ class AuthServices extends GetxController {
       authRequestStatus.value = 'PENDING';
 
       debugPrint('[UPDATE-PROFILE-PENDING]');
-      DioFormData.FormData formData = DioFormData.FormData.fromMap({
-        ...dto,
-        'avatar': await DioMultipartFile.MultipartFile.fromFile(
-            dto['avatar'].path,
-            filename: dto['avatar'].name)
-      });
+      // DioFormData.FormData formData = DioFormData.FormData.fromMap({
+      //   ...dto,
+      //   'avatar': await DioMultipartFile.MultipartFile.fromFile(
+      //       dto['avatar'].path,
+      //       filename: dto['avatar'].name)
+      // });
 
       final response = await dio.put(
         '${APIConstants.backendServerUrl}auth/donor/update-profile',
-        data: formData,
+        data: dto,
         options: Options(
           headers: {
             'Authorization': authStorage.read('MDX-ACCESSTOKEN'),
-            'Content-Type': 'multipart/form-data'
+            // 'Content-Type': 'multipart/form-data'
           },
         ),
       );
@@ -443,20 +472,20 @@ class AuthServices extends GetxController {
 
       debugPrint('[UPDATE-PROFILE-PENDING]');
 
-      DioFormData.FormData formData = DioFormData.FormData.fromMap({
-        ...dto,
-        'avatar': await DioMultipartFile.MultipartFile.fromFile(
-            dto['avatar'].path,
-            filename: dto['avatar'].name)
-      });
+      // DioFormData.FormData formData = DioFormData.FormData.fromMap({
+      //   ...dto,
+      //   'avatar': await DioMultipartFile.MultipartFile.fromFile(
+      //       dto['avatar'].path,
+      //       filename: dto['avatar'].name)
+      // });
 
       final response = await dio.put(
         '${APIConstants.backendServerUrl}auth/donor/update-google-signin-profile',
-        data: formData,
+        data: dto,
         options: Options(
           headers: {
             'Authorization': authStorage.read('MDX-ACCESSTOKEN'),
-            'Content-Type': 'multipart/form-data'
+            // 'Content-Type': 'multipart/form-data'
           },
         ),
       );
@@ -495,6 +524,64 @@ class AuthServices extends GetxController {
         authLoading.value = false;
         authRequestStatus.value = 'FAILED';
         debugPrint('[RESETPASSSWORD CATCH ERROR] ${error.response!.data}');
+      }
+    }
+  }
+
+  Future<void> updateProfileAvatarController(Map dto) async {
+    try {
+      authLoading.value = true;
+      authRequestStatus.value = 'PENDING';
+
+      debugPrint('[UPDATE-PROFILE-AVATAR-PENDING]');
+
+      DioFormData.FormData formData = DioFormData.FormData.fromMap({
+        'avatar': await DioMultipartFile.MultipartFile.fromFile(
+            dto['avatar'].path,
+            filename: dto['avatar'].name)
+      });
+
+      final response = await dio.put(
+        '${APIConstants.backendServerUrl}auth/donor/update-profile-avatar',
+        data: formData,
+        options: Options(
+          headers: {
+            'Authorization': authStorage.read('MDX-ACCESSTOKEN'),
+            'Content-Type': 'multipart/form-data'
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        authLoading.value = false;
+        authRequestError.value = '';
+        authRequestStatus.value = 'SUCCESS';
+
+        debugPrint("[DATA] :: ${response.data['data']}");
+
+        authStorage.write('MDX-USER', response.data['data']);
+        userRepository.userData.value =
+            UserModel.fromJson(response.data['data']);
+
+        Get.snackbar(
+          'Success',
+          'Avatar updated successfully!',
+          colorText: Colors.white,
+          backgroundColor: AppStyles.bgBlue.withOpacity(0.8),
+        );
+
+        Get.to(
+          transition: Transition.fade,
+          duration: const Duration(milliseconds: 500),
+          () => HomeScreen(),
+        );
+        debugPrint('[UPDATE-PROFILE-AVATAR-SUCCESS] :: ${response.data}');
+      }
+    } catch (error) {
+      if (error is DioError) {
+        authLoading.value = false;
+        authRequestStatus.value = 'FAILED';
+        debugPrint('[UPDATE-PROFILE-AVATAR-ERROR] ${error.response!.data}');
       }
     }
   }

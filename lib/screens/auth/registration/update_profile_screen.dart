@@ -7,6 +7,7 @@ import 'package:medexer_donor/widgets/buttons/custom_button.dart';
 import 'package:medexer_donor/widgets/buttons/custom_select_button.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 import 'package:medexer_donor/widgets/text/cutom_formtext_field.dart';
+import 'package:medexer_donor/widgets/buttons/custom_date_picker_button.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
   const UpdateProfileScreen({super.key});
@@ -23,10 +24,13 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       TextEditingController(text: 'Gender');
   TextEditingController religionController =
       TextEditingController(text: 'Religion');
+  TextEditingController dateOfBirthController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController stateController = TextEditingController(text: 'State');
   TextEditingController cityProvinceController = TextEditingController();
   TextEditingController contactNumberController = TextEditingController();
+
+  DateTime initialDate = DateTime(1980);
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +67,9 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                           "religion": religionController.text.trim(),
                           "address": addressController.text.trim(),
                           "state": stateController.text.trim(),
+                          "dateOfBirth": dateOfBirthController.text
+                              .trim()
+                              .substring(0, 10),
                           "city_province": cityProvinceController.text.trim(),
                           "contact_number": contactNumberController.text.trim(),
                         };
@@ -180,6 +187,10 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   hintColor: Colors.black,
                 ),
                 SizedBox(height: 2.0.hp),
+                CustomDatePickerButton(
+                  date: initialDate,
+                  controller: dateOfBirthController,
+                ),
               ],
             ),
           ),

@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/database/user_repository.dart';
+import 'package:medexer_donor/services/auth_services.dart';
 import 'package:medexer_donor/models/donation_center_geodata_model.dart';
 import 'package:medexer_donor/screens/home/donation_center/hospital_map_donation_center_profile_screen.dart';
 import 'package:medexer_donor/services/donor_services.dart';
@@ -28,6 +29,7 @@ class _FinalMapState extends State<FinalMap> {
   Set<Marker> markers = {};
   final Set<Polyline> _polyLines = {};
   final DonorServices donorServices = Get.find();
+  final AuthServices authServices = Get.find();
   final UserRepository userRepository = Get.find();
   CustomInfoWindowController customInfoWindowcontroller =
       CustomInfoWindowController();
@@ -55,10 +57,19 @@ class _FinalMapState extends State<FinalMap> {
     }
 
     currentLocation = await location.getLocation();
+    await authServices.updateProfileLocationController({
+      "latitude": currentLocation!.latitude,
+      "longitude": currentLocation!.longitude,
+    });
 
     location.onLocationChanged.listen((newLoc) {
       setState(() {
         currentLocation = newLoc;
+      });
+
+      authServices.updateProfileLocationController({
+        "latitude": newLoc.latitude,
+        "longitude": newLoc.longitude,
       });
     });
   }
@@ -77,7 +88,7 @@ class _FinalMapState extends State<FinalMap> {
   }
 
   Future onMapcreated() async {
-    donorServices.fetchDontationCentersGeoDataController();
+    await donorServices.fetchDontationCentersGeoDataController();
 
     final Uint8List myMarkerIcon = await getBytesFromAsset(
         path: 'assets/icons/icon__marker__3.png', width: 60);

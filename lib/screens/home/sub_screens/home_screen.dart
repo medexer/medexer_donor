@@ -18,8 +18,8 @@ import 'package:medexer_donor/services/donor_services.dart';
 import 'package:medexer_donor/widgets/page_header.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 
-import '../../../network_services/network_error_message.dart';
-import '../../../network_services/network_manager.dart';
+import 'package:medexer_donor/network_services/network_error_message.dart';
+import 'package:medexer_donor/network_services/network_manager.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

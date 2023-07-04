@@ -1,6 +1,7 @@
 class UserProfileModel {
   String? id;
   int? pkid;
+  String? dateOfBirth;
   String? nationality;
   String? gender;
   String? religion;
@@ -14,6 +15,7 @@ class UserProfileModel {
   UserProfileModel(
       {this.id,
       this.pkid,
+      this.dateOfBirth,
       this.nationality,
       this.gender,
       this.religion,
@@ -27,6 +29,7 @@ class UserProfileModel {
   UserProfileModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     pkid = json['pkid'];
+    dateOfBirth = json['dateOfBirth'];
     nationality = json['nationality'];
     gender = json['gender'];
     religion = json['religion'];
@@ -42,6 +45,7 @@ class UserProfileModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['pkid'] = this.pkid;
+    data['dateOfBirth'] = this.dateOfBirth;
     data['nationality'] = this.nationality;
     data['gender'] = this.gender;
     data['religion'] = this.religion;

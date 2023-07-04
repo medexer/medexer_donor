@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:medexer_donor/firebase_options.dart';
+import 'package:medexer_donor/config/color_generator_config.dart';
 import 'package:medexer_donor/database/root_repository.dart';
 import 'package:medexer_donor/network_services/networkBinding.dart';
 import 'package:medexer_donor/screens/auth/splash_screen.dart';
@@ -59,7 +60,7 @@ class _MyAppState extends State<MyApp> {
       title: 'Medexer Donor',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: ColorGenerator.createMaterialColor(Color(0xFF001CF4)),
         fontFamily: 'Poppins',
       ),
       home:
