@@ -10,10 +10,11 @@ import 'package:medexer_donor/services/donor_services.dart';
 import 'package:medexer_donor/widgets/page_header.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../../network_services/network_error_message.dart';
-import '../../../network_services/network_manager.dart';
-import '../../../widgets/buttons/custom_button.dart';
-import '../../../widgets/text/cutom_formtext_field.dart';
+import 'package:medexer_donor/network_services/network_error_message.dart';
+import 'package:medexer_donor/network_services/network_manager.dart';
+import 'package:medexer_donor/widgets/buttons/custom_button.dart';
+import 'package:medexer_donor/widgets/text/cutom_formtext_field.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class ContactUsScreen extends StatefulWidget {
   const ContactUsScreen({super.key});
@@ -31,6 +32,8 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
   TextEditingController subjectController = TextEditingController();
   TextEditingController messageController = TextEditingController();
 
+  late final WebViewController controller;
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -41,7 +44,8 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
       appBar: PreferredSize(
         preferredSize:
             Size.fromHeight(MediaQuery.of(context).size.height * 0.08),
-        child: SizedBox(
+        child: Container(
+          margin: EdgeInsets.only(top: 2.0.hp),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             // crossAxisAlignment: CrossAxisAlignment.center,
@@ -71,7 +75,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                             (index) => GestureDetector(
                               onTap: () {
                                 launchSocialMedia(
-                                    url: appSocials[index]['url']);
+                                    url: "${appSocials[index]['url']}");
                               },
                               child: Container(
                                   height: 6.0.hp,
@@ -179,15 +183,12 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
   }
 
   launchSocialMedia({required String url}) async {
-    // if (!await launchUrl(Uri.parse(url))) {
-    //   throw 'could not';
-    // }
-
     var urllaunchable = await canLaunchUrl(
         Uri.parse(url)); //canLaunch is from url_launcher package
     if (urllaunchable) {
       await launchUrl(
-          Uri.parse(url)); //launch is from url_launcher package to launch URL
+        Uri.parse(url),
+      ); //launch is from url_launcher package to launch URL
     } else {
       debugPrint("URL can't be launched.");
     }

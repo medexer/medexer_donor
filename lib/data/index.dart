@@ -1,7 +1,7 @@
 List<Map> appSocials = [
   {
     "type": "FACEBOOK",
-    "url": "https://www.web.facebook.com/medexerlimited",
+    "url": "https://www.facebook.com/medexerlimited",
     "icon": "assets/icons/icon__facebook.svg"
   },
   {

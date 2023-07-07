@@ -27,7 +27,7 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
   TextEditingController messageController = TextEditingController();
   TextEditingController hospitalController = TextEditingController();
 
-  bool visitRecipient = false;
+  bool isForAdult = false;
   bool getNotifiedOnBloodUse = false;
 
   final NetworkManageController _networkManageController =
@@ -37,15 +37,15 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
     if (!messageController.text.trim().isNotEmpty) {
       Get.snackbar(
         'ERROR',
-        backgroundColor: AppStyles.bgPrimary,
-        'Message field is required.',
+        backgroundColor: AppStyles.bgBrightRed.withOpacity(0.5),
+        'Message is required.',
       );
     } else {
       Map formData = {
         'hospital': widget.donationCenter.pkid,
         'message': messageController.text.trim(),
         'getNotifiedOnBloodUse': getNotifiedOnBloodUse,
-        'visitRecipient': visitRecipient,
+        'isForAdult': isForAdult,
       };
 
       debugPrint('[BOOK-APPOINTMENT-DTO] ::: $formData');
@@ -186,11 +186,10 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
                                               Colors.grey.shade400,
                                           splashRadius: 50.0,
                                           // boolean variable value
-                                          value: getNotifiedOnBloodUse,
+                                          value: isForAdult,
                                           // changes the state of the switch
                                           onChanged: (bool value) => setState(
-                                              () => getNotifiedOnBloodUse =
-                                                  value),
+                                              () => isForAdult = value),
                                         ),
                                       ],
                                     ),
@@ -212,10 +211,11 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
                                               Colors.grey.shade400,
                                           splashRadius: 50.0,
                                           // boolean variable value
-                                          value: visitRecipient,
+                                          value: getNotifiedOnBloodUse,
                                           // changes the state of the switch
                                           onChanged: (bool value) => setState(
-                                              () => visitRecipient = value),
+                                              () => getNotifiedOnBloodUse =
+                                                  value),
                                         ),
                                       ],
                                     ),

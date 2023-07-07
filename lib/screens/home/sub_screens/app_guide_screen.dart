@@ -32,7 +32,8 @@ class _AppGuideScreenState extends State<AppGuideScreen> {
       appBar: PreferredSize(
         preferredSize:
             Size.fromHeight(MediaQuery.of(context).size.height * 0.08),
-        child: SizedBox(
+        child: Container(
+          margin: EdgeInsets.only(top: 2.0.hp),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             // crossAxisAlignment: CrossAxisAlignment.center,

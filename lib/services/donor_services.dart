@@ -102,7 +102,7 @@ class DonorServices extends GetxController {
           donorRequestStatus.value = error.response!.data['message'];
           Get.snackbar(
             'Book Appointment Error',
-            '${error.response!.data['message']}',
+            '${error.response!.data['status']}',
             colorText: Colors.white,
             backgroundColor: AppStyles.bgBrightRed.withOpacity(0.5),
           );
