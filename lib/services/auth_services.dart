@@ -559,9 +559,9 @@ class AuthServices extends GetxController {
 
         debugPrint("[DATA] :: ${response.data['data']}");
 
-        authStorage.write('MDX-USER', response.data['data']);
-        userRepository.userData.value =
-            UserModel.fromJson(response.data['data']);
+        authStorage.write('MDX-USER-PROFILE', response.data['data']);
+        userRepository.userProfile.value =
+            UserProfileModel.fromJson(response.data['data']);
 
         Get.snackbar(
           'Success',

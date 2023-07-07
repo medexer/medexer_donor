@@ -37,7 +37,7 @@ class _FinalMapState extends State<FinalMap> {
   late bool _serviceEnabled;
   late GeoLocation.PermissionStatus _permissionGranted;
 
-  void initializeCurrentLocation() async {
+  Future<void> initializeCurrentLocation() async {
     GeoLocation.Location location = GeoLocation.Location();
     _serviceEnabled = await location.serviceEnabled();
     if (!_serviceEnabled) {
@@ -67,10 +67,12 @@ class _FinalMapState extends State<FinalMap> {
         currentLocation = newLoc;
       });
 
-      authServices.updateProfileLocationController({
-        "latitude": newLoc.latitude,
-        "longitude": newLoc.longitude,
-      });
+      if (currentLocation!.latitude != newLoc.latitude) {
+        authServices.updateProfileLocationController({
+          "latitude": newLoc.latitude,
+          "longitude": newLoc.longitude,
+        });
+      }
     });
   }
 
@@ -200,13 +202,16 @@ class _FinalMapState extends State<FinalMap> {
     });
   }
 
+  void initializeMapFunctions() async {
+    await initializeCurrentLocation();
+    await onMapcreated();
+  }
+
   @override
   void initState() {
     super.initState();
 
-    onMapcreated();
-
-    initializeCurrentLocation();
+    initializeMapFunctions();
   }
 
   @override

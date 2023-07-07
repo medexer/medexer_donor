@@ -32,18 +32,20 @@ class _PersonalDetailScreenState extends State<PersonalDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      bottomNavigationBar: SizedBox(
-        height: screenHeight * 0.1,
-        // color: Colors.amber,
+      bottomNavigationBar: Container(
+        height: screenHeight * 0.12,
+        color: AppStyles.bgWhite,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CustomButton(
               text: 'Next',
-              width: 50.0.wp,
+              width: screenWidth * 0.9,
               height: 6.0.hp,
               onTapHandler: () async {
                 if (tobaccoUsage == '') {
@@ -53,54 +55,51 @@ class _PersonalDetailScreenState extends State<PersonalDetailScreen> {
                     colorText: Colors.white,
                     backgroundColor: AppStyles.bgBlue.withOpacity(0.8),
                   );
-                }
-                if (isRecentVaccineRecipient == '') {
+                } else if (isRecentVaccineRecipient == '') {
                   Get.snackbar(
                     'Error',
                     'Please affirm if you have been vaccinated recently or not.',
                     colorText: Colors.white,
                     backgroundColor: AppStyles.bgBlue.withOpacity(0.8),
                   );
-                }
-                if (previouslyDonatedBlood == '') {
+                } else if (previouslyDonatedBlood == '') {
                   Get.snackbar(
                     'Error',
                     'Blood donation history is required.',
                     colorText: Colors.white,
                     backgroundColor: AppStyles.bgBlue.withOpacity(0.8),
                   );
-                }
-                if (hasTattos == '') {
+                } else if (hasTattos == '') {
                   Get.snackbar(
                     'Error',
                     'Please validation is you have tattoos.',
                     colorText: Colors.white,
                     backgroundColor: AppStyles.bgBlue.withOpacity(0.8),
                   );
+                } else {
+                  Map<String, dynamic> formData = {
+                    'bloodGroup': bloodGroup,
+                    'genotype': genotype,
+                    'haveDonatedBlood':
+                        previouslyDonatedBlood == 'YES' ? true : false,
+                    'lastBloodDonationTime': previouslyDonatedBloodTimeline,
+                    'hasTattos': hasTattos == 'YES' ? true : false,
+                    'tobaccoUsage': tobaccoUsage == 'YES' ? true : false,
+                    'isRecentVaccineRecipient':
+                        isRecentVaccineRecipient == 'YES' ? true : false,
+                  };
+
+                  userRepository.kycFormData.value =
+                      KYCFormDataModel.fromJson(formData);
+
+                  widget.tabController.animateTo(1);
                 }
-
-                Map<String, dynamic> formData = {
-                  'bloodGroup': bloodGroup,
-                  'genotype': genotype,
-                  'haveDonatedBlood':
-                      previouslyDonatedBlood == 'YES' ? true : false,
-                  'lastBloodDonationTime': previouslyDonatedBloodTimeline,
-                  'hasTattos': hasTattos == 'YES' ? true : false,
-                  'tobaccoUsage': tobaccoUsage == 'YES' ? true : false,
-                  'isRecentVaccineRecipient':
-                      isRecentVaccineRecipient == 'YES' ? true : false,
-                };
-
-                userRepository.kycFormData.value =
-                    KYCFormDataModel.fromJson(formData);
-
-                widget.tabController.animateTo(1);
               },
               fontSize: 12.0.sp,
-              borderRadius: 10,
+              borderRadius: 15,
               fontColor: AppStyles.bgWhite,
               fontWeight: FontWeight.bold,
-              backgroundColor: AppStyles.bgBlue,
+              backgroundColor: AppStyles.bgPrimary,
             ),
           ],
         ),
@@ -114,7 +113,7 @@ class _PersonalDetailScreenState extends State<PersonalDetailScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomTextWidget(
-                text: 'What is your blood group?',
+                text: 'What is your blood group? (Optional)',
                 size: 10.0.sp,
               ),
               SizedBox(height: 0.5.hp),
@@ -129,7 +128,7 @@ class _PersonalDetailScreenState extends State<PersonalDetailScreen> {
               ),
               SizedBox(height: 2.0.hp),
               CustomTextWidget(
-                text: 'What is your genotype?',
+                text: 'What is your genotype? (Optional)',
                 size: 10.0.sp,
               ),
               SizedBox(height: 0.5.hp),

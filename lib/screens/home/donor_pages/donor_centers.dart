@@ -27,6 +27,19 @@ class _DonorCentersScreenState extends State<DonorCentersScreen>
     return Scaffold(
       key: scaffoldKey,
       drawer: SideBar(),
+      appBar: PreferredSize(
+        preferredSize:
+            Size.fromHeight(MediaQuery.of(context).size.height * 0.08),
+        child: SizedBox(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            // crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              PageHeader(scaffoldKey: scaffoldKey),
+            ],
+          ),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
@@ -34,8 +47,8 @@ class _DonorCentersScreenState extends State<DonorCentersScreen>
             height: screenHeight,
             child: Column(
               children: [
-                PageHeader(scaffoldKey: scaffoldKey),
-                SizedBox(height: 2.0.hp),
+                // PageHeader(scaffoldKey: scaffoldKey),
+                // SizedBox(height: 2.0.hp),
                 TabBar(
                   labelColor: AppStyles.bgWhite,
                   unselectedLabelColor: AppStyles.bgBlack,

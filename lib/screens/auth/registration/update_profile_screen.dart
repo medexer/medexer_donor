@@ -19,107 +19,138 @@ class UpdateProfileScreen extends StatefulWidget {
 class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   final AuthServices authServices = Get.find();
   TextEditingController nationalityController =
-      TextEditingController(text: "Nationality");
+      TextEditingController(text: "Nigerian");
   TextEditingController genderController =
       TextEditingController(text: 'Gender');
   TextEditingController religionController =
       TextEditingController(text: 'Religion');
-  TextEditingController dateOfBirthController = TextEditingController();
+  TextEditingController dateOfBirthController =
+      TextEditingController(text: "${DateTime(1985)}");
   TextEditingController addressController = TextEditingController();
   TextEditingController stateController = TextEditingController(text: 'State');
   TextEditingController cityProvinceController = TextEditingController();
   TextEditingController contactNumberController = TextEditingController();
 
-  DateTime initialDate = DateTime(1980);
+  DateTime initialDate = DateTime(1985);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: Container(
-        height: MediaQuery.of(context).size.height * 0.1,
-        width: double.maxFinite,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            authServices.authRequestStatus.value == 'PENDING'
-                ? const CircularProgressIndicator()
-                : CustomButton(
-                    text: 'Submit',
-                    width: MediaQuery.of(context).size.width * 0.85,
-                    height: 6.0.hp,
-                    onTapHandler: () async {
-                      if (!nationalityController.text.trim().isNotEmpty ||
-                          !genderController.text.trim().isNotEmpty ||
-                          !religionController.text.trim().isNotEmpty ||
-                          !stateController.text.trim().isNotEmpty ||
-                          !cityProvinceController.text.trim().isNotEmpty ||
-                          !addressController.text.trim().isNotEmpty ||
-                          !contactNumberController.text.trim().isNotEmpty) {
-                        Get.snackbar(
-                            colorText: AppStyles.bgWhite,
-                            backgroundColor: AppStyles.bgBlue,
-                            'ERROR',
-                            'All fields are required.');
-                      } else {
-                        Map data = {
-                          "nationality": nationalityController.text.trim(),
-                          "gender": genderController.text.trim(),
-                          "religion": religionController.text.trim(),
-                          "address": addressController.text.trim(),
-                          "state": stateController.text.trim(),
-                          "dateOfBirth": dateOfBirthController.text
-                              .trim()
-                              .substring(0, 10),
-                          "city_province": cityProvinceController.text.trim(),
-                          "contact_number": contactNumberController.text.trim(),
-                        };
+      backgroundColor: AppStyles.bgWhite,
+      appBar: PreferredSize(
+        preferredSize:
+            Size.fromHeight(MediaQuery.of(context).size.height * 0.08),
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 4.0.hp),
+          color: AppStyles.bgWhite,
+          child: Center(
+            child: CustomTextWidget(
+              text: 'Update Profile',
+              size: 15.0.sp,
+              color: AppStyles.bgBlack,
+              weight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ),
+      bottomNavigationBar: Obx(
+        () => SizedBox(
+          height: MediaQuery.of(context).size.height * 0.1,
+          width: double.maxFinite,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              authServices.authRequestStatus.value == 'PENDING'
+                  ? const CircularProgressIndicator()
+                  : CustomButton(
+                      text: 'Submit',
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      height: 6.0.hp,
+                      onTapHandler: () async {
+                        if (!nationalityController.text.trim().isNotEmpty ||
+                            !genderController.text.trim().isNotEmpty ||
+                            !religionController.text.trim().isNotEmpty ||
+                            !stateController.text.trim().isNotEmpty ||
+                            !cityProvinceController.text.trim().isNotEmpty ||
+                            !addressController.text.trim().isNotEmpty ||
+                            !contactNumberController.text.trim().isNotEmpty) {
+                          Get.snackbar(
+                              colorText: AppStyles.bgWhite,
+                              backgroundColor: AppStyles.bgBlue,
+                              'ERROR',
+                              'All fields are required.');
+                        } else {
+                          Map data = {
+                            "nationality": nationalityController.text.trim(),
+                            "gender": genderController.text.trim(),
+                            "religion": religionController.text.trim(),
+                            "address": addressController.text.trim(),
+                            "state": stateController.text.trim(),
+                            "dateOfBirth": dateOfBirthController.text
+                                .trim()
+                                .substring(0, 10),
+                            "city_province": cityProvinceController.text.trim(),
+                            "contact_number":
+                                contactNumberController.text.trim(),
+                          };
 
-                        debugPrint('[UPDATE-PROFILE-DTO] :: $data');
-                        await authServices.updateSignupProfileController(
-                          data,
-                        );
-                      }
-                    },
-                    fontSize: 12.0.sp,
-                    borderRadius: 5,
-                    fontColor: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    backgroundColor: AppStyles.bgPrimary,
-                  ),
-          ],
+                          debugPrint('[UPDATE-PROFILE-DTO] :: $data');
+                          await authServices.updateSignupProfileController(
+                            data,
+                          );
+                        }
+                      },
+                      fontSize: 12.0.sp,
+                      borderRadius: 15,
+                      fontColor: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      backgroundColor: AppStyles.bgPrimary,
+                    ),
+            ],
+          ),
         ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.symmetric(
-              vertical: AppLayout.getHeight(50),
-              horizontal: AppLayout.getWidth(40),
+              // vertical: 2.0.hp,
+              horizontal: 6.0.wp,
             ),
             height: MediaQuery.of(context).size.height,
-            child: ListView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(
-                  child: CustomTextWidget(
-                    text: 'Update Profile',
-                    // size: 20.0.sp,
-                    weight: FontWeight.w500,
-                  ),
+                CustomTextWidget(
+                  text: 'Nationality',
+                  size: 12.0.sp,
                 ),
-                SizedBox(height: 6.0.hp),
-                CustomSelectButton(
-                  title: 'Nationality',
-                  height: 65.0.hp,
+                CustomFormTextField(
+                  maxLines: 1,
+                  readOnly: true,
+                  hintText: nationalityController.text,
+                  controller: nationalityController,
                   textColor: AppStyles.bgBlack,
-                  items: appCountries,
-                  currentItem: nationalityController.text.toString(),
-                  onChangeHandler: (int index) {
-                    setState(() {
-                      nationalityController.text = appCountries[index]['name'];
-                    });
-                  },
+                  background: Colors.white.withOpacity(0.4),
+                  hintColor: Colors.black,
                 ),
-                SizedBox(height: 1.0.hp),
+                // CustomSelectButton(
+                //   title: 'Nationality',
+                //   height: 65.0.hp,
+                //   textColor: AppStyles.bgBlack,
+                //   items: appCountries,
+                //   currentItem: nationalityController.text.toString(),
+                //   onChangeHandler: (int index) {
+                //     setState(() {
+                //       nationalityController.text = appCountries[index]['name'];
+                //     });
+                //   },
+                // ),
+                SizedBox(height: 2.0.hp),
+                CustomTextWidget(
+                  text: 'Gender',
+                  size: 12.0.sp,
+                ),
                 CustomSelectButton(
                   title: 'Gender',
                   height: 30.0.hp,
@@ -132,7 +163,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                     });
                   },
                 ),
-                SizedBox(height: 1.0.hp),
+                SizedBox(height: 2.0.hp),
+                CustomTextWidget(
+                  text: 'Religion',
+                  size: 12.0.sp,
+                ),
                 CustomSelectButton(
                   title: 'Religion',
                   height: 30.0.hp,
@@ -145,7 +180,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                     });
                   },
                 ),
-                SizedBox(height: 1.0.hp),
+                SizedBox(height: 2.0.hp),
+                CustomTextWidget(
+                  text: 'Address',
+                  size: 12.0.sp,
+                ),
                 CustomFormTextField(
                   maxLines: 1,
                   hintText: 'Address',
@@ -154,7 +193,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   background: Colors.white.withOpacity(0.4),
                   hintColor: Colors.black,
                 ),
-                SizedBox(height: 1.0.hp),
+                SizedBox(height: 2.0.hp),
+                CustomTextWidget(
+                  text: 'State',
+                  size: 12.0.sp,
+                ),
                 CustomSelectButton(
                   title: 'State',
                   height: 65.0.hp,
@@ -167,7 +210,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                     });
                   },
                 ),
-                SizedBox(height: 1.0.hp),
+                SizedBox(height: 2.0.hp),
+                CustomTextWidget(
+                  text: 'City/Province',
+                  size: 12.0.sp,
+                ),
                 CustomFormTextField(
                   maxLines: 1,
                   hintText: 'City/Province',
@@ -176,9 +223,14 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   background: Colors.white.withOpacity(0.4),
                   hintColor: Colors.black,
                 ),
-                SizedBox(height: 1.0.hp),
+                SizedBox(height: 2.0.hp),
+                CustomTextWidget(
+                  text: 'Phone Number',
+                  size: 12.0.sp,
+                ),
                 CustomFormTextField(
                   maxLines: 1,
+                  maxLength: 11,
                   keyboardType: TextInputType.number,
                   hintText: 'Phone number',
                   textColor: AppStyles.bgBlack,
@@ -187,8 +239,13 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   hintColor: Colors.black,
                 ),
                 SizedBox(height: 2.0.hp),
+                CustomTextWidget(
+                  text: 'Date of Birth',
+                  size: 12.0.sp,
+                ),
                 CustomDatePickerButton(
                   date: initialDate,
+                  borderRadius: 25,
                   controller: dateOfBirthController,
                 ),
               ],

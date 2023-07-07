@@ -1,93 +1,15 @@
-// class AppointmentModel {
-//   int? pkid;
-//   String? id;
-//   String? date;
-//   int? donor;
-//   String? message;
-//   int? hospital;
-//   bool? isDonated;
-//   HospitalInfo? hospitalInfo;
-//   String? createdAt;
-
-//   AppointmentModel(
-//       {this.pkid,
-//       this.id,
-//       this.date,
-//       this.donor,
-//       this.message,
-//       this.hospital,
-//       this.isDonated,
-//       this.hospitalInfo,
-//       this.createdAt});
-
-//   AppointmentModel.fromJson(Map<String, dynamic> json) {
-//     pkid = json['pkid'];
-//     id = json['id'];
-//     date = json['date'];
-//     donor = json['donor'];
-//     message = json['message'];
-//     hospital = json['hospital'];
-//     isDonated = json['isDonated'];
-//     hospitalInfo = json['hospitalInfo'] != null
-//         ? new HospitalInfo.fromJson(json['hospitalInfo'])
-//         : null;
-//     createdAt = json['created_at'];
-//   }
-
-//   Map<String, dynamic> toJson() {
-//     final Map<String, dynamic> data = new Map<String, dynamic>();
-//     data['pkid'] = this.pkid;
-//     data['id'] = this.id;
-//     data['date'] = this.date;
-//     data['donor'] = this.donor;
-//     data['message'] = this.message;
-//     data['hospital'] = this.hospital;
-//     data['isDonated'] = this.isDonated;
-//     if (this.hospitalInfo != null) {
-//       data['hospitalInfo'] = this.hospitalInfo!.toJson();
-//     }
-//     data['created_at'] = this.createdAt;
-//     return data;
-//   }
-// }
-
-// class HospitalInfo {
-//   int? pkid;
-//   String? hospitalName;
-//   String? location;
-//   String? email;
-
-//   HospitalInfo({this.pkid, this.hospitalName, this.location, this.email});
-
-//   HospitalInfo.fromJson(Map<String, dynamic> json) {
-//     pkid = json['pkid'];
-//     hospitalName = json['hospitalName'];
-//     location = json['location'];
-//     email = json['email'];
-//   }
-
-//   Map<String, dynamic> toJson() {
-//     final Map<String, dynamic> data = new Map<String, dynamic>();
-//     data['pkid'] = this.pkid;
-//     data['hospitalName'] = this.hospitalName;
-//     data['location'] = this.location;
-//     data['email'] = this.email;
-//     return data;
-//   }
-// }
-
 class AppointmentModel {
   int? pkid;
   String? id;
   String? appointmentID;
   String? date;
   int? donor;
-  String? donationDate;
   String? message;
   int? hospital;
+  String? donationDate;
   bool? isDonated;
   bool? isForAdult;
-  bool? visitRecipient;
+  bool? getNotifiedOnBloodUse;
   HospitalInfo? hospitalInfo;
   HospitalProfile? hospitalProfile;
   CenterGeoLocation? centerGeoLocation;
@@ -99,12 +21,12 @@ class AppointmentModel {
       this.appointmentID,
       this.date,
       this.donor,
-      this.donationDate,
       this.message,
       this.hospital,
+      this.donationDate,
       this.isDonated,
       this.isForAdult,
-      this.visitRecipient,
+      this.getNotifiedOnBloodUse,
       this.hospitalInfo,
       this.hospitalProfile,
       this.centerGeoLocation,
@@ -116,12 +38,12 @@ class AppointmentModel {
     appointmentID = json['appointmentID'];
     date = json['date'];
     donor = json['donor'];
-    donationDate = json['donationDate'];
     message = json['message'];
     hospital = json['hospital'];
+    donationDate = json['donationDate'];
     isDonated = json['isDonated'];
     isForAdult = json['isForAdult'];
-    visitRecipient = json['visitRecipient'];
+    getNotifiedOnBloodUse = json['getNotifiedOnBloodUse'];
     hospitalInfo = json['hospitalInfo'] != null
         ? new HospitalInfo.fromJson(json['hospitalInfo'])
         : null;
@@ -141,12 +63,12 @@ class AppointmentModel {
     data['appointmentID'] = this.appointmentID;
     data['date'] = this.date;
     data['donor'] = this.donor;
-    data['donationDate'] = this.donationDate;
     data['message'] = this.message;
     data['hospital'] = this.hospital;
+    data['donationDate'] = this.donationDate;
     data['isDonated'] = this.isDonated;
     data['isForAdult'] = this.isForAdult;
-    data['visitRecipient'] = this.visitRecipient;
+    data['getNotifiedOnBloodUse'] = this.getNotifiedOnBloodUse;
     if (this.hospitalInfo != null) {
       data['hospitalInfo'] = this.hospitalInfo!.toJson();
     }
@@ -189,6 +111,7 @@ class HospitalInfo {
 class HospitalProfile {
   String? address;
   String? state;
+  String? hospitalLogo;
   String? aboutHospital;
   String? cityProvince;
   String? contactNumber;
@@ -197,6 +120,7 @@ class HospitalProfile {
   HospitalProfile(
       {this.address,
       this.state,
+      this.hospitalLogo,
       this.aboutHospital,
       this.cityProvince,
       this.contactNumber,
@@ -205,6 +129,7 @@ class HospitalProfile {
   HospitalProfile.fromJson(Map<String, dynamic> json) {
     address = json['address'];
     state = json['state'];
+    hospitalLogo = json['hospitalLogo'];
     aboutHospital = json['about_hospital'];
     cityProvince = json['city_province'];
     contactNumber = json['contact_number'];
@@ -215,6 +140,7 @@ class HospitalProfile {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['address'] = this.address;
     data['state'] = this.state;
+    data['hospitalLogo'] = this.hospitalLogo;
     data['about_hospital'] = this.aboutHospital;
     data['city_province'] = this.cityProvince;
     data['contact_number'] = this.contactNumber;

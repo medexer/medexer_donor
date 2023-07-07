@@ -7,10 +7,12 @@ import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 class CustomDatePickerButton extends StatefulWidget {
   double? height;
   DateTime date;
+  double? borderRadius;
   final TextEditingController controller;
   CustomDatePickerButton({
     super.key,
     this.height,
+    this.borderRadius,
     required this.date,
     required this.controller,
   });
@@ -31,7 +33,7 @@ class _CustomDatePickerButtonState extends State<CustomDatePickerButton> {
       ),
       decoration: BoxDecoration(
         color: AppStyles.bgWhite,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(widget.borderRadius ?? 10),
         border: Border.all(
           color: AppStyles.bgBlack.withOpacity(0.5),
         ),
@@ -41,7 +43,7 @@ class _CustomDatePickerButtonState extends State<CustomDatePickerButton> {
           DateTime? newDate = await showDatePicker(
             context: context,
             initialDate: widget.date,
-            firstDate: DateTime(1900),
+            firstDate: DateTime(1985),
             lastDate: DateTime.now(),
           );
 
@@ -64,8 +66,7 @@ class _CustomDatePickerButtonState extends State<CustomDatePickerButton> {
                 left: 2.0.wp,
               ),
               child: CustomTextWidget(
-                text:
-                    '${widget.date.year}/${widget.date.month}/${widget.date.day}',
+                text: widget.controller.text.substring(0, 10),
                 size: 12.0.sp,
               ),
             ),

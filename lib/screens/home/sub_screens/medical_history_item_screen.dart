@@ -23,16 +23,28 @@ class _MedicalHistoryItemScreenState extends State<MedicalHistoryItemScreen> {
       key: scaffoldKey,
       appBar: PreferredSize(
         preferredSize:
-            Size.fromHeight(MediaQuery.of(context).size.height * 0.25),
+            Size.fromHeight(MediaQuery.of(context).size.height * 0.35),
         child: Container(
           decoration: BoxDecoration(
-            color: AppStyles.bgPrimary,
+            color: AppStyles.bgPurpleDark,
           ),
           padding: EdgeInsets.symmetric(horizontal: 4.0.wp),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  CircleAvatar(
+                    radius: 25,
+                    backgroundColor: AppStyles.bgWhite,
+                    backgroundImage: NetworkImage(
+                      '${widget.medicalHistoryItem.hospitalProfile!.hospitalLogo}',
+                    ),
+                  ),
+                ],
+              ),
               CustomTextWidget(
                 text: 'Medical History',
                 size: 15.0.sp,
@@ -324,7 +336,7 @@ class _MedicalHistoryItemScreenState extends State<MedicalHistoryItemScreen> {
                   size: 10.0.sp,
                 ),
                 title: CustomTextWidget(
-                  text: 'Weight',
+                  text: 'Height',
                   size: 13.0.sp,
                   weight: FontWeight.w500,
                 ),

@@ -23,7 +23,8 @@ class NotificationsScreen extends StatefulWidget {
 
 class _NotificationsScreenState extends State<NotificationsScreen> {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  final NetworkManageController _networkManageController = Get.find<NetworkManageController>();
+  final NetworkManageController _networkManageController =
+      Get.find<NetworkManageController>();
 
   final DonorServices donorServices = Get.find();
   final UserRepository userRepository = Get.find();
@@ -37,50 +38,65 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    donorServices.fetchNotificationsController();
+
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       key: scaffoldKey,
       drawer: SideBar(),
-      body: Obx(() => (_networkManageController.connectionType.value == 0)?const NetworkErrorMessage():
-         SafeArea(
-          child: SingleChildScrollView(
-            child: Obx(
-              () => Container(
-                // height: screenHeight,
-                padding: EdgeInsets.symmetric(horizontal: 2.0.wp),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 2.5.hp,
-                    ),
-                    PageHeader(scaffoldKey: scaffoldKey),
-                    CustomTextWidget(
-                      text: 'Notifications',
-                      size: 16.0.sp,
-                      weight: FontWeight.w600,
-                    ),
-                    userRepository.notifications.isEmpty
-                        ? Container(
-                            child: Lottie.asset(
-                                'assets/animations/animation__1.json'),
-                          )
-                        : Container(
-                            height: screenHeight * 0.85,
-                            child: ListView.builder(
-                                itemCount: userRepository.notifications.length,
-                                itemBuilder: (context, index) {
-                                  return NotificationCard(
-                                      notification:
-                                          userRepository.notifications[index]);
-                                }),
-                          ),
-                  ],
-                ),
-              ),
-            ),
+      appBar: PreferredSize(
+        preferredSize:
+            Size.fromHeight(MediaQuery.of(context).size.height * 0.08),
+        child: SizedBox(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            // crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              PageHeader(scaffoldKey: scaffoldKey),
+            ],
           ),
         ),
+      ),
+      body: Obx(
+        () => (_networkManageController.connectionType.value == 0)
+            ? const NetworkErrorMessage()
+            : SafeArea(
+                child: SingleChildScrollView(
+                  child: Obx(
+                    () => Container(
+                      // height: screenHeight,
+                      padding: EdgeInsets.symmetric(horizontal: 2.0.wp),
+                      child: Column(
+                        children: [
+                          // PageHeader(scaffoldKey: scaffoldKey),
+                          CustomTextWidget(
+                            text: 'Notifications',
+                            size: 16.0.sp,
+                            weight: FontWeight.w600,
+                          ),
+                          userRepository.notifications.isEmpty
+                              ? Container(
+                                  child: Lottie.asset(
+                                      'assets/animations/animation__1.json'),
+                                )
+                              : Container(
+                                  height: screenHeight * 0.85,
+                                  child: ListView.builder(
+                                      itemCount:
+                                          userRepository.notifications.length,
+                                      itemBuilder: (context, index) {
+                                        return NotificationCard(
+                                            notification: userRepository
+                                                .notifications[index]);
+                                      }),
+                                ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
       ),
     );
   }

@@ -22,14 +22,14 @@ class _ViewAppointmentScreenState extends State<ViewAppointmentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.14,
+        height: MediaQuery.of(context).size.height * 0.08,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CustomButton(
               text: 'Center Location',
               height: 6.0.hp,
-              width: MediaQuery.of(context).size.width * 0.8,
+              width: MediaQuery.of(context).size.width * 0.9,
               onTapHandler: () {
                 Get.to(
                   () => AppointmentCenterLocationScreen(
@@ -61,25 +61,36 @@ class _ViewAppointmentScreenState extends State<ViewAppointmentScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  CustomTextWidget(
-                    text: 'Appointment',
-                    size: 15.0.sp,
-                    color: AppStyles.bgWhite,
-                    weight: FontWeight.w600,
-                  ),
-                  CustomTextWidget(
-                    text: '${widget.appointment.appointmentID}',
-                    size: 12.0.sp,
-                    color: AppStyles.bgWhite,
-                    // weight: FontWeight.w600,
+                  CircleAvatar(
+                    radius: 25,
+                    backgroundColor: AppStyles.bgWhite,
+                    backgroundImage: NetworkImage(
+                      '${widget.appointment.hospitalProfile!.hospitalLogo}',
+                    ),
                   ),
                 ],
               ),
               CustomTextWidget(
-                text:
-                    'Center: ${widget.appointment.hospitalInfo!.hospitalName}',
+                text: 'Appointment',
+                size: 15.0.sp,
+                color: AppStyles.bgWhite,
+                weight: FontWeight.w600,
+              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     CustomTextWidget(
+              //       text: '${widget.appointment.appointmentID}',
+              //       size: 12.0.sp,
+              //       color: AppStyles.bgWhite,
+              //       // weight: FontWeight.w600,
+              //     ),
+              //   ],
+              // ),
+              CustomTextWidget(
+                text: 'Appointment ID: ${widget.appointment.appointmentID}',
                 size: 12.0.sp,
                 color: AppStyles.bgWhite,
                 // weight: FontWeight.w600,
@@ -148,14 +159,14 @@ class _ViewAppointmentScreenState extends State<ViewAppointmentScreen> {
                     size: 10.0.sp,
                   ),
                   title: CustomTextWidget(
-                    text: 'Visit Recipient',
+                    text: 'Receive Notification',
                     size: 13.0.sp,
                     weight: FontWeight.w500,
                   ),
                   trailing: CustomTextWidget(
-                    text: widget.appointment.visitRecipient == true
-                        ? 'YES'
-                        : 'NO',
+                    text: widget.appointment.getNotifiedOnBloodUse == true
+                        ? 'ENABLED'
+                        : 'DISABLED',
                     size: 11.0.sp,
                   ),
                 ),

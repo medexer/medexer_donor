@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/models/donation_center_model.dart';
 import 'package:medexer_donor/widgets/buttons/custom_button.dart';
+import 'package:medexer_donor/widgets/page_header.dart';
 import 'package:medexer_donor/widgets/text/cutom_formtext_field.dart';
 import 'package:medexer_donor/database/user_repository.dart';
 import 'package:medexer_donor/services/donor_services.dart';
@@ -26,8 +27,8 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
   TextEditingController messageController = TextEditingController();
   TextEditingController hospitalController = TextEditingController();
 
-  bool isForAdult = false;
   bool visitRecipient = false;
+  bool getNotifiedOnBloodUse = false;
 
   final NetworkManageController _networkManageController =
       Get.find<NetworkManageController>();
@@ -43,7 +44,7 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
       Map formData = {
         'hospital': widget.donationCenter.pkid,
         'message': messageController.text.trim(),
-        'isForAdult': isForAdult,
+        'getNotifiedOnBloodUse': getNotifiedOnBloodUse,
         'visitRecipient': visitRecipient,
       };
 
@@ -68,6 +69,18 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  CircleAvatar(
+                    radius: 25,
+                    backgroundColor: AppStyles.bgWhite,
+                    backgroundImage: NetworkImage(
+                      '${widget.donationCenter.hospitalProfile!.hospitalLogo}',
+                    ),
+                  ),
+                ],
+              ),
               CustomTextWidget(
                 text: 'Book Appointment',
                 size: 15.0.sp,
@@ -90,25 +103,30 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.14,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CustomButton(
-              text: 'Book Appointment',
-              height: 6.0.hp,
-              width: MediaQuery.of(context).size.width * 0.8,
-              onTapHandler: () {
-                submitHandler();
-              },
-              fontSize: 10.0.sp,
-              fontColor: Colors.white,
-              fontWeight: FontWeight.bold,
-              borderRadius: 10,
-              backgroundColor: AppStyles.bgPrimary,
-            ),
-          ],
+      bottomNavigationBar: Obx(
+        () => SizedBox(
+          height: MediaQuery.of(context).size.height * 0.08,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              donorServices.donorRequestStatus.value == 'PENDING'
+                  ? const CircularProgressIndicator()
+                  : CustomButton(
+                      text: 'Submit',
+                      height: 6.0.hp,
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      onTapHandler: () {
+                        submitHandler();
+                      },
+                      fontSize: 10.0.sp,
+                      fontColor: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      borderRadius: 10,
+                      backgroundColor: AppStyles.bgPrimary,
+                    ),
+            ],
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -130,42 +148,13 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
                       : Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // CustomTextWidget(
-                            //   text: 'Book Appointment',
-                            //   size: 15.0.sp,
-                            //   weight: FontWeight.w500,
-                            // ),
                             SizedBox(
-                              height: 2.0.hp,
+                              height: 4.0.hp,
                             ),
                             Form(
                               child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    // CustomFormTextField(
-                                    //   maxLines: 1,
-                                    //   readOnly: true,
-                                    //   borderRadius: 10,
-                                    //   textColor: AppStyles.bgBlack,
-                                    //   controller: TextEditingController(
-                                    //       text:
-                                    //           '${widget.donationCenter.hospitalName}'),
-                                    //   background: Colors.white.withOpacity(0.4),
-                                    //   hintColor: AppStyles.bgBlack,
-                                    // ),
-                                    // SizedBox(height: 2.0.hp),
-                                    // CustomFormTextField(
-                                    //   maxLines: 1,
-                                    //   readOnly: true,
-                                    //   borderRadius: 10,
-                                    //   textColor: AppStyles.bgBlack,
-                                    //   controller: TextEditingController(
-                                    //       text:
-                                    //           '${widget.donationCenter.centerAddress}'),
-                                    //   background: Colors.white.withOpacity(0.4),
-                                    //   hintColor: AppStyles.bgBlack,
-                                    // ),
-                                    // SizedBox(height: 2.0.hp),
                                     CustomFormTextField(
                                       maxLines: 8,
                                       paddingLeft: 10,
@@ -197,10 +186,11 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
                                               Colors.grey.shade400,
                                           splashRadius: 50.0,
                                           // boolean variable value
-                                          value: isForAdult,
+                                          value: getNotifiedOnBloodUse,
                                           // changes the state of the switch
                                           onChanged: (bool value) => setState(
-                                              () => isForAdult = value),
+                                              () => getNotifiedOnBloodUse =
+                                                  value),
                                         ),
                                       ],
                                     ),
@@ -208,7 +198,8 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
                                     Row(
                                       children: [
                                         CustomTextWidget(
-                                          text: 'Visit Donation Recipient?',
+                                          text:
+                                              'Get notification when blood is used?',
                                           size: 12.0.sp,
                                         ),
                                         Switch(

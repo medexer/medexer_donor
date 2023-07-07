@@ -38,55 +38,90 @@ class _KycScreenState extends State<KycScreen> with TickerProviderStateMixin {
       },
       child: Scaffold(
         key: scaffoldKey,
-        body: SingleChildScrollView(
+        backgroundColor: AppStyles.bgWhite,
+        appBar: PreferredSize(
+          preferredSize:
+              Size.fromHeight(MediaQuery.of(context).size.height * 0.07),
           child: Container(
-            height: screenHeight,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 2.0.hp),
-                Padding(
-                  padding: EdgeInsets.all(2.0.hp),
-                  child: CustomTextWidget(
-                    text: 'Upload KYC',
-                    size: 20.0.sp,
-                    // weight: FontWeight.bold,
-                  ),
-                ),
-                // SizedBox(height: 2.0.hp),
-                TabBar(
-                  indicatorPadding: const EdgeInsets.symmetric(horizontal: 10),
-                  indicatorColor: AppStyles.bgBlue,
-                  controller: tabController,
-                  tabs: [
-                    CustomTextWidget(
-                      text: "Personal Details",
-                      color: AppStyles.bgBlack,
-                      size: 14.0.sp,
-                    ),
-                    CustomTextWidget(
-                      text: "ID Proof",
-                      color: AppStyles.bgBlack,
-                      size: 14.0.sp,
-                    )
-                  ],
-                ),
-                Container(
-                  height: screenHeight * 0.85,
-                  padding: EdgeInsets.only(top: 2.0.hp),
-                  child: TabBarView(
-                    controller: tabController,
-                    children: [
-                      PersonalDetailScreen(tabController: tabController),
-                      IdProofScreen(),
-                    ],
-                  ),
-                )
-              ],
+            padding: EdgeInsets.only(top: 2.0.hp),
+            color: AppStyles.bgWhite,
+            child: Center(
+              child: CustomTextWidget(
+                text: 'Upload KYC',
+                size: 15.0.sp,
+                color: AppStyles.bgBlack,
+                weight: FontWeight.w600,
+              ),
             ),
           ),
-          //   ),
+        ),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Container(
+              height: screenHeight,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 1.0.hp),
+                  TabBar(
+                    labelColor: AppStyles.bgWhite,
+                    unselectedLabelColor: AppStyles.bgBlack,
+                    indicatorPadding:
+                        const EdgeInsets.symmetric(horizontal: 10),
+                    indicator: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: AppStyles.bgPrimary,
+                    ),
+                    indicatorColor: AppStyles.bgPrimary,
+                    controller: tabController,
+                    isScrollable: false,
+                    tabs: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          // border: Border.all(color: AppStyles.bgBlue, width: 1),
+                        ),
+                        padding: EdgeInsets.symmetric(vertical: 1.0.hp),
+                        child: CustomTextWidget(
+                          text: "Personal Details",
+                          // color: AppStyles.bgWhite,
+                          size: 12.0.sp,
+                          weight: FontWeight.w500,
+                        ),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          // border: Border.all(color: AppStyles.bgBlue, width: 1),
+                        ),
+                        padding: EdgeInsets.symmetric(vertical: 1.0.hp),
+                        child: CustomTextWidget(
+                          text: "ID Proof",
+                          // color: AppStyles.bgWhite,
+                          size: 12.0.sp,
+                          weight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    height: screenHeight * 0.85,
+                    padding: EdgeInsets.only(top: 2.0.hp),
+                    child: TabBarView(
+                      physics: NeverScrollableScrollPhysics(),
+                      controller: tabController,
+                      children: [
+                        PersonalDetailScreen(tabController: tabController),
+                        IdProofScreen(tabController: tabController),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+            //   ),
+          ),
         ),
       ),
     );

@@ -35,6 +35,19 @@ class _MedicalHistoryScreenState extends State<MedicalHistoryScreen> {
     return Scaffold(
       key: scaffoldKey,
       drawer: const SideBar(),
+      appBar: PreferredSize(
+        preferredSize:
+            Size.fromHeight(MediaQuery.of(context).size.height * 0.08),
+        child: SizedBox(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            // crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              PageHeader(scaffoldKey: scaffoldKey),
+            ],
+          ),
+        ),
+      ),
       body: Obx(
         () => (_networkManageController.connectionType.value == 0)
             ? const NetworkErrorMessage()
@@ -47,7 +60,7 @@ class _MedicalHistoryScreenState extends State<MedicalHistoryScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           // SizedBox(height: 2.0.hp),
-                          PageHeader(scaffoldKey: scaffoldKey),
+                          // PageHeader(scaffoldKey: scaffoldKey),
                           Container(
                             width: double.maxFinite,
                             // padding: EdgeInsets.symmetric(horizontal: 4.0.wp),

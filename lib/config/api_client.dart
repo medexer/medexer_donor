@@ -24,8 +24,8 @@ class DioConfig {
       onError: (DioError error, handler) async {
         final refreshtoken = await authStorage.read('MDX-REFRESHTOKEN');
 
-        // debugPrint('${error.response?.data['detail']} :::++ error');
-  
+        print('[DIO-ERROR]  ::  ${error.response}');
+
         if (error.response?.statusCode == 401) {
           if (!JwtDecoder.isExpired(refreshtoken)) {
             await refreshToken();

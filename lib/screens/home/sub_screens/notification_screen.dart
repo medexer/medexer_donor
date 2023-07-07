@@ -23,7 +23,8 @@ class NotificationScreen extends StatefulWidget {
 class _NotificationState extends State<NotificationScreen> {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final DonorServices donorServices = Get.find();
-   final NetworkManageController _networkManageController = Get.find<NetworkManageController>();
+  final NetworkManageController _networkManageController =
+      Get.find<NetworkManageController>();
 
   @override
   void initState() {
@@ -37,42 +38,63 @@ class _NotificationState extends State<NotificationScreen> {
     return Scaffold(
       key: scaffoldKey,
       drawer: SideBar(),
-      body: Obx(()=>(_networkManageController.connectionType.value == 0)?const NetworkErrorMessage():
-        SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 2.5.hp,
-                ),
-                PageHeader(scaffoldKey: scaffoldKey),
-                Container(
-                  // height: screenHeight,
-                  padding: EdgeInsets.symmetric(horizontal: 4.0.wp),
+      appBar: PreferredSize(
+        preferredSize:
+            Size.fromHeight(MediaQuery.of(context).size.height * 0.08),
+        child: SizedBox(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            // crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              PageHeader(scaffoldKey: scaffoldKey),
+            ],
+          ),
+        ),
+      ),
+      body: Obx(
+        () => (_networkManageController.connectionType.value == 0)
+            ? const NetworkErrorMessage()
+            : SafeArea(
+                child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      SizedBox(
-                        height: 0.5.hp,
-                      ),
-                      CustomTextWidget(
-                        text: '${widget.notification.title}',
-                        size: 12.0.sp,
-                        weight: FontWeight.w500,
-                      ),
-                      SizedBox(
-                        height: 2.0.hp,
-                      ),
-                      CustomTextWidget(
-                        text: '${widget.notification.message}',
-                        size: 11.0.sp,
+                      // PageHeader(scaffoldKey: scaffoldKey),
+                      SizedBox(height: 1.5.hp),
+                      Container(
+                        // height: screenHeight,
+                        padding: EdgeInsets.symmetric(horizontal: 4.0.wp),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 0.5.hp,
+                            ),
+                            Container(
+                              width: double.maxFinite,
+                              child: Center(
+                                child: Expanded(
+                                  child: CustomTextWidget(
+                                    text: '${widget.notification.title}',
+                                    size: 12.0.sp,
+                                    weight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 2.0.hp,
+                            ),
+                            CustomTextWidget(
+                              text: '${widget.notification.message}',
+                              size: 12.0.sp,
+                              lineHeight: 2.5,
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
                 ),
-              ],
-            ),
-          ),
-        ),
+              ),
       ),
     );
   }

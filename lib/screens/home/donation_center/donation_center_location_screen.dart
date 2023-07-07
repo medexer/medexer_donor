@@ -54,7 +54,7 @@ class _DonationCenterLocationScreenState
         .asUint8List();
   }
 
-  void initializeCurrentLocation() async {
+  Future<void> initializeCurrentLocation() async {
     GeoLocation.Location location = GeoLocation.Location();
     _serviceEnabled = await location.serviceEnabled();
     if (!_serviceEnabled) {
@@ -92,7 +92,7 @@ class _DonationCenterLocationScreenState
     });
   }
 
-  void getPolyPoints() async {
+  Future<void> getPolyPoints() async {
     // await Future.delayed(const Duration(seconds: 1));
 
     PolylinePoints polylinePoints = PolylinePoints();
@@ -108,14 +108,15 @@ class _DonationCenterLocationScreenState
       result.points.forEach((PointLatLng point) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
       });
-      userRepository.hospitalRouteAdded.value = true;
-      setState(() {});
+      setState(() {
+        userRepository.hospitalRouteAdded.value = true;
+      });
 
       print('[ROUTE] :: $polylineCoordinates');
     }
   }
 
-  void onMapCreated() async {
+  Future<void> onMapCreated() async {
     final Uint8List myMarkerIcon =
         await getBytesFromAsset('assets/icons/icon__marker__3.png', 60);
 
@@ -205,14 +206,18 @@ class _DonationCenterLocationScreenState
     });
   }
 
+  void initializeMapFunctions() async {
+    await initializeCurrentLocation();
+    await getPolyPoints();
+    await onMapCreated();
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
-    onMapCreated();
-    initializeCurrentLocation();
-    getPolyPoints();
+    initializeMapFunctions();
   }
 
   @override

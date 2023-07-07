@@ -11,7 +11,11 @@ import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 import 'package:medexer_donor/widgets/snackbars/custom_snackbar_container.dart';
 
 class IdProofScreen extends StatefulWidget {
-  const IdProofScreen({super.key});
+  final TabController tabController;
+  const IdProofScreen({
+    super.key,
+    required this.tabController,
+  });
 
   @override
   State<IdProofScreen> createState() => _IdProofScreenState();
@@ -40,17 +44,25 @@ class _IdProofScreenState extends State<IdProofScreen> {
     if (result!.files.isEmpty) return;
 
     debugPrint("${result.files[0].path} :: file path ");
-
-    if (position == 'COVER') {
-      setState(() {
-        isDocumentCoverUploaded = true;
-        documentCover = result.files[0];
-      });
+    if (result.files[0].size >= 500000) {
+      Get.snackbar(
+        'Error',
+        'File uploaded should be less than 500kb.',
+        colorText: Colors.white,
+        backgroundColor: AppStyles.bgBlue,
+      );
     } else {
-      setState(() {
-        isDocumentRearUploaded = true;
-        documentRear = result.files[0];
-      });
+      if (position == 'COVER') {
+        setState(() {
+          isDocumentCoverUploaded = true;
+          documentCover = result.files[0];
+        });
+      } else {
+        setState(() {
+          isDocumentRearUploaded = true;
+          documentRear = result.files[0];
+        });
+      }
     }
   }
 
@@ -120,21 +132,23 @@ class _IdProofScreenState extends State<IdProofScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       bottomNavigationBar: SizedBox(
-        height: screenHeight * 0.14,
+        height: screenHeight * 0.12,
         // color: Colors.amber,
         child: Obx(
           () => Row(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               authServices.authRequestStatus.value == 'PENDING'
                   ? CircularProgressIndicator()
                   : CustomButton(
                       text: 'Submit',
-                      width: 50.0.wp,
+                      width: screenWidth * 0.9,
                       height: 6.0.hp,
                       onTapHandler: () async {
                         if (!isDocumentCoverUploaded) {
@@ -179,10 +193,10 @@ class _IdProofScreenState extends State<IdProofScreen> {
                         await authServices.kycCaptureController(formData);
                       },
                       fontSize: 12.0.sp,
-                      borderRadius: 10,
+                      borderRadius: 15,
                       fontColor: AppStyles.bgWhite,
                       fontWeight: FontWeight.bold,
-                      backgroundColor: AppStyles.bgBlue,
+                      backgroundColor: AppStyles.bgPrimary,
                     ),
             ],
           ),
@@ -256,7 +270,7 @@ class _IdProofScreenState extends State<IdProofScreen> {
                   padding: EdgeInsets.symmetric(horizontal: 4.0.wp),
                   child: CustomTextWidget(
                     text:
-                        'Upload or take a picture of your identity card preferrable on a plain background. Make sure the edge are visible',
+                        'Upload or take a picture of your identity card preferrable on a plain background. Make sure the edge are visible and file is less than 500kb.',
                     size: 12.0.sp,
                     color: AppStyles.bgBlack.withOpacity(0.8),
                   ),

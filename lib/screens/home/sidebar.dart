@@ -15,6 +15,7 @@ import 'package:medexer_donor/screens/home/donor_pages/donor_centers.dart';
 import 'package:medexer_donor/screens/home/sub_screens/home_screen.dart';
 import 'package:medexer_donor/screens/home/sub_screens/notifications_screen.dart';
 import 'package:medexer_donor/screens/home/donor_profile.dart/profile_screen.dart';
+import 'package:medexer_donor/screens/home/sub_screens/pending_reward_screen.dart';
 import 'package:medexer_donor/screens/home/sub_screens/rewards_wallet_screen.dart';
 import 'package:medexer_donor/services/auth_services.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
@@ -48,7 +49,8 @@ class _SideBarState extends State<SideBar> {
               leading: CircleAvatar(
                 radius: 30,
                 backgroundImage: NetworkImage(
-                    '${APIConstants.backendServerRootUrl}${userRepository.userData.value.avatar}'),
+                    '${userRepository.userProfile.value.userAvatar}'),
+                    // '${APIConstants.backendServerRootUrl}${userRepository.userData.value.avatar}'),
                 // backgroundImage: AssetImage('assets/images/avatar__1.jpg'),
               ),
               title: Row(
@@ -61,7 +63,8 @@ class _SideBarState extends State<SideBar> {
                             : _networkManageController.connectionType.value == 2
                                 ? 'online'
                                 : 'offline',
-                        style: TextStyle(fontSize: 8, color: AppStyles.bgBlue),
+                        style:
+                            TextStyle(fontSize: 8, color: AppStyles.bgPrimary),
                       )),
                   // GetBuilder(builder:(builder)=>Text('${_networkManageController.connectionType}'))
                   // ?:Icon(Icons.online_prediction, color:Colors.green))
@@ -83,11 +86,11 @@ class _SideBarState extends State<SideBar> {
           ListTile(
             // leading: ImageIcon(
             //   AssetImage('assets/icons/icon__home.png'),
-            //   color: AppStyles.bgBlue,
+            //   color: AppStyles.bgPrimary,
             // ),
             leading: SvgPicture.asset(
               'assets/icons/icon__home.svg',
-              color: AppStyles.bgBlue,
+              color: AppStyles.bgPrimary,
               width: 16.0.sp,
             ),
             title: CustomTextWidget(
@@ -102,11 +105,11 @@ class _SideBarState extends State<SideBar> {
           ListTile(
             // leading: ImageIcon(
             //   AssetImage('assets/icons/icon__location.png'),
-            //   color: AppStyles.bgBlue,
+            //   color: AppStyles.bgPrimary,
             // ),
             leading: SvgPicture.asset(
               'assets/icons/icon__location.svg',
-              color: AppStyles.bgBlue,
+              color: AppStyles.bgPrimary,
               width: 18.0.sp,
             ),
             title: CustomTextWidget(
@@ -121,11 +124,11 @@ class _SideBarState extends State<SideBar> {
           ListTile(
             // leading: ImageIcon(
             //   AssetImage('assets/icons/icon__info.png'),
-            //   color: AppStyles.bgBlue,
+            //   color: AppStyles.bgPrimary,
             // ),
             leading: SvgPicture.asset(
               'assets/icons/icon__virus.svg',
-              color: AppStyles.bgBlue,
+              color: AppStyles.bgPrimary,
               width: 18.0.sp,
             ),
             title: CustomTextWidget(
@@ -140,11 +143,11 @@ class _SideBarState extends State<SideBar> {
           ListTile(
             // leading: ImageIcon(
             //   AssetImage('assets/icons/icon__info.png'),
-            //   color: AppStyles.bgBlue,
+            //   color: AppStyles.bgPrimary,
             // ),
             leading: SvgPicture.asset(
               'assets/icons/icon__file.svg',
-              color: AppStyles.bgBlue,
+              color: AppStyles.bgPrimary,
               width: 18.0.sp,
             ),
             title: CustomTextWidget(
@@ -159,7 +162,7 @@ class _SideBarState extends State<SideBar> {
           ListTile(
             leading: SvgPicture.asset(
               'assets/icons/icon__wallet.svg',
-              color: AppStyles.bgBlue,
+              color: AppStyles.bgPrimary,
               width: 16.0.sp,
             ),
             title: CustomTextWidget(
@@ -167,14 +170,15 @@ class _SideBarState extends State<SideBar> {
               size: 12.0.sp,
             ),
             onTap: () {
-              Get.to(() => RewardsWalletScreen());
+              Get.to(() => PendingRewardScreen());
+              // Get.to(() => RewardsWalletScreen());
               debugPrint('[REWARDS-WALLET]');
             },
           ),
           ListTile(
             leading: SvgPicture.asset(
               'assets/icons/icon__call.svg',
-              color: AppStyles.bgBlue,
+              color: AppStyles.bgPrimary,
               width: 18.0.sp,
             ),
             title: CustomTextWidget(
@@ -189,7 +193,7 @@ class _SideBarState extends State<SideBar> {
           ListTile(
             leading: SvgPicture.asset(
               'assets/icons/icon__message.svg',
-              color: AppStyles.bgBlue,
+              color: AppStyles.bgPrimary,
               width: 18.0.sp,
             ),
             title: Row(
@@ -225,7 +229,7 @@ class _SideBarState extends State<SideBar> {
           ListTile(
             leading: SvgPicture.asset(
               'assets/icons/icon__heart.svg',
-              color: AppStyles.bgBlue,
+              color: AppStyles.bgPrimary,
               width: 18.0.sp,
             ),
             title: CustomTextWidget(
@@ -242,11 +246,11 @@ class _SideBarState extends State<SideBar> {
           ListTile(
             leading: Icon(
               Icons.logout,
-              color: AppStyles.bgPrimary,
+              color: AppStyles.bgBrightRed,
             ),
             title: Text(
               'Log out',
-              style: TextStyle(color: AppStyles.bgPrimary),
+              style: TextStyle(color: AppStyles.bgBrightRed),
             ),
             onTap: () async {
               debugPrint('[LOG OUT]');

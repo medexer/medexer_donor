@@ -13,6 +13,7 @@ class CustomFormTextField extends StatelessWidget {
   Color? hintColor;
   double? height;
   double? paddingTop;
+  int? maxLength;
   double? paddingLeft;
   double? paddingRight;
   double? borderRadius;
@@ -26,6 +27,7 @@ class CustomFormTextField extends StatelessWidget {
     this.background,
     this.textColor,
     this.paddingTop,
+    this.maxLength,
     this.paddingLeft,
     this.paddingRight,
     this.readOnly,
@@ -52,6 +54,7 @@ class CustomFormTextField extends StatelessWidget {
       child: TextFormField(
         readOnly: readOnly ?? false,
         maxLines: maxLines,
+        maxLength: maxLength ?? 255,
         controller: controller ?? controller,
         keyboardType: keyboardType ?? TextInputType.multiline,
         textInputAction: TextInputAction.next,
@@ -63,6 +66,7 @@ class CustomFormTextField extends StatelessWidget {
             right: paddingRight ?? 0,
             top: paddingTop ?? 0,
           ),
+          counterText: "",
           // prefixIcon: prefixIcon ?? prefixIcon,
           hintStyle: TextStyle(
             color: hintColor,

@@ -85,6 +85,7 @@ class HospitalProfile {
   String? cityProvince;
   String? contactNumber;
   String? hospitalImage;
+  String? hospitalLogo;
 
   HospitalProfile(
       {this.address,
@@ -92,7 +93,8 @@ class HospitalProfile {
       this.aboutHospital,
       this.cityProvince,
       this.contactNumber,
-      this.hospitalImage});
+      this.hospitalImage,
+      this.hospitalLogo});
 
   HospitalProfile.fromJson(Map<String, dynamic> json) {
     address = json['address'];
@@ -101,6 +103,7 @@ class HospitalProfile {
     cityProvince = json['city_province'];
     contactNumber = json['contact_number'];
     hospitalImage = json['hospitalImage'];
+    hospitalLogo = json['hospitalLogo'];
   }
 
   Map<String, dynamic> toJson() {
@@ -111,6 +114,7 @@ class HospitalProfile {
     data['city_province'] = this.cityProvince;
     data['contact_number'] = this.contactNumber;
     data['hospitalImage'] = this.hospitalImage;
+    data['hospitalLogo'] = this.hospitalLogo;
     return data;
   }
 }

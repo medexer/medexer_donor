@@ -7,16 +7,18 @@ class CustomTextWidget extends StatelessWidget {
   final String text;
   Color? color;
   double? size;
+  double? lineHeight;
   FontWeight? weight;
   TextAlign? alignment;
 
-  CustomTextWidget( {
+  CustomTextWidget({
     super.key,
     this.color,
     this.size,
     this.weight,
+    this.lineHeight,
     this.alignment,
-    required this.text, 
+    required this.text,
   });
 
   @override
@@ -26,6 +28,7 @@ class CustomTextWidget extends StatelessWidget {
       textAlign: alignment ?? TextAlign.left,
       style: TextStyle(
         color: color,
+        height: lineHeight ?? 0,
         fontSize: size ?? 16.0.sp,
         fontWeight: weight ?? FontWeight.normal,
       ),

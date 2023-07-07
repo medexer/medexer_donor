@@ -25,9 +25,6 @@ class DonorServices extends GetxController {
 
   Future<void> fetchDontationCentersGeoDataController() async {
     try {
-      donorRequestLoading.value = true;
-      donorRequestStatus.value = 'PENDING';
-
       final response = await dio.get(
         '${APIConstants.backendServerUrl}donor/donation-centers/geo-data/fetch-all',
         options: Options(
@@ -38,10 +35,6 @@ class DonorServices extends GetxController {
       );
 
       if (response.statusCode == 200) {
-        donorRequestLoading.value = false;
-        donorRequestError.value = '';
-        donorRequestStatus.value = 'SUCCESS';
-
         userRepository.donationCentersGeoData.clear();
 
         debugPrint('[FETCH-DONATION-CENTERS-GEODATA-SUCCESS]');
@@ -72,6 +65,11 @@ class DonorServices extends GetxController {
       final response = await dio.post(
         '${APIConstants.backendServerUrl}donor/appointments/create',
         data: dto,
+        options: Options(
+          headers: {
+            'Authorization': authStorage.read('MDX-ACCESSTOKEN'),
+          },
+        ),
       );
 
       if (response.statusCode == 200) {
@@ -100,14 +98,21 @@ class DonorServices extends GetxController {
         donorRequestLoading.value = false;
         donorRequestStatus.value = 'FAILED';
         debugPrint('[BOOK AN APPOINTMENT CATCH ERROR] ${error.response!.data}');
+        if (error.response?.data['message'] != null) {
+          donorRequestStatus.value = error.response!.data['message'];
+          Get.snackbar(
+            'Book Appointment Error',
+            '${error.response!.data['message']}',
+            colorText: Colors.white,
+            backgroundColor: AppStyles.bgBrightRed.withOpacity(0.5),
+          );
+        }
       }
     }
   }
 
   Future<void> fetchAppointmentsController() async {
     try {
-      donorRequestLoading.value = true;
-      donorRequestStatus.value = 'PENDING';
       debugPrint('[FETCH-APPOINTMENTS-PENDING]');
 
       final response = await dio.get(
@@ -127,8 +132,6 @@ class DonorServices extends GetxController {
           userRepository.appointments.add(AppointmentModel.fromJson(item));
         }
 
-        donorRequestStatus.value = '';
-        donorRequestLoading.value = false;
         debugPrint('[FETCH-APPOINTMENTS-SUCCESS]');
       }
     } catch (error) {
@@ -142,8 +145,6 @@ class DonorServices extends GetxController {
 
   Future<void> fetchDonationCentersController() async {
     try {
-      donorRequestLoading.value = true;
-      donorRequestStatus.value = 'PENDING';
       debugPrint('[FETCH-DONATION-CENTERS-PENDING]');
 
       final response = await dio.get(
@@ -163,8 +164,6 @@ class DonorServices extends GetxController {
               .add(DonationCenterModel.fromJson(item));
         }
 
-        donorRequestStatus.value = '';
-        donorRequestLoading.value = false;
         debugPrint('[FETCH-DONATION-CENTERS-SUCCESS] :: -2');
       }
     } catch (error) {
@@ -179,8 +178,6 @@ class DonorServices extends GetxController {
 
   Future<void> searchDonationCentersController(String query) async {
     try {
-      donorRequestLoading.value = true;
-      donorRequestStatus.value = 'PENDING';
       debugPrint('[SEARCH-DONATION-CENTERS-PENDING]');
 
       final response = await dio.get(
@@ -199,8 +196,6 @@ class DonorServices extends GetxController {
           userRepository.searchResults.add(DonationCenterModel.fromJson(item));
         }
 
-        donorRequestStatus.value = '';
-        donorRequestLoading.value = false;
         debugPrint('[SEARCH-DONATION-CENTERS-SUCCESS]');
       }
     } catch (error) {
@@ -259,8 +254,6 @@ class DonorServices extends GetxController {
 
   Future<void> fetchNotificationsController() async {
     try {
-      donorRequestLoading.value = true;
-      donorRequestStatus.value = 'PENDING';
       debugPrint('[FETCH-NOTIFICATIONS-PENDING]');
 
       final response = await dio.get(
@@ -279,8 +272,6 @@ class DonorServices extends GetxController {
           userRepository.notifications.add(NotificationModel.fromJson(item));
         }
 
-        donorRequestStatus.value = '';
-        donorRequestLoading.value = false;
         debugPrint('[FETCH-NOTIFICATIONS-SUCCESS]');
       }
     } catch (error) {
@@ -326,8 +317,6 @@ class DonorServices extends GetxController {
 
   Future<void> fetchMedicalHistoryController() async {
     try {
-      donorRequestLoading.value = true;
-      donorRequestStatus.value = 'PENDING';
       debugPrint('[FETCH-NOTIFICATIONS-PENDING]');
 
       final response = await dio.get(
@@ -346,8 +335,6 @@ class DonorServices extends GetxController {
           userRepository.medicalHistory.add(MedicalHistoryModel.fromJson(item));
         }
 
-        donorRequestStatus.value = '';
-        donorRequestLoading.value = false;
         debugPrint('[FETCH-NOTIFICATIONS-SUCCESS]');
       }
     } catch (error) {

@@ -99,7 +99,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 height: 30.0.hp,
                 padding: EdgeInsets.only(top: 2.0.hp),
                 decoration: BoxDecoration(
-                  color: AppStyles.bgBrightRed.withOpacity(0.5),
+                  color: AppStyles.bgPurpleDark,
                 ),
                 child: Column(
                   children: [
@@ -135,7 +135,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   width: 40.0.hp,
                                   height: 40.0.hp,
                                   child: Image.network(
-                                    '${APIConstants.backendServerRootUrl}${userRepository.userData.value.avatar}',
+                                    '${userRepository.userProfile.value.userAvatar}',
+                                    // '${APIConstants.backendServerRootUrl}${userRepository.userData.value.avatar}',
                                     fit: BoxFit.cover,
                                   )),
                             ),
@@ -161,10 +162,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               debugPrint(
                                   "${result.files[0].path} :: file path ");
                               debugPrint("[FILE-SIZE] ${result.files[0].size}");
-                              if (result.files[0].size >= 250000) {
+                              if (result.files[0].size >= 500000) {
                                 Get.snackbar(
                                   'Error',
-                                  'File upload should be less than 250kb.',
+                                  'File uploaded should be less than 500kb.',
                                   colorText: Colors.white,
                                   backgroundColor: AppStyles.bgBlue,
                                 );
@@ -319,7 +320,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     borderRadius: 15,
                     fontColor: Colors.white,
                     fontWeight: FontWeight.bold,
-                    backgroundColor: AppStyles.bgBlue,
+                    backgroundColor: AppStyles.bgPurpleDark,
                   ),
           ],
         ),
@@ -333,112 +334,171 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: userRepository.userData.value.isEmailLogin == true
-                      ? Column(children: [
-                          CustomFormTextField(
-                            maxLines: 1,
-                            borderRadius: 15,
-                            hintText: 'Email',
-                            controller: emailController,
-                            textColor: AppStyles.bgBlack,
-                            background: Colors.white.withOpacity(0.4),
-                            hintColor: Colors.black,
-                          ),
-                          SizedBox(height: 2.0.hp),
-                          CustomSelectButton(
-                            title: 'Nationality',
-                            height: 65.0.hp,
-                            borderRadius: 15,
-                            textColor: AppStyles.bgBlack,
-                            items: appCountries,
-                            currentItem: nationalityController.text.toString(),
-                            onChangeHandler: (int index) {
-                              setState(() {
-                                nationalityController.text =
-                                    appCountries[index]['name'];
-                              });
-                            },
-                          ),
-                          SizedBox(height: 2.0.hp),
-                          CustomSelectButton(
-                            title: 'Gender',
-                            height: 65.0.hp,
-                            borderRadius: 15,
-                            textColor: AppStyles.bgBlack,
-                            items: appGenders,
-                            currentItem: genderController.text.toString(),
-                            onChangeHandler: (int index) {
-                              setState(() {
-                                genderController.text =
-                                    appGenders[index]['name'];
-                              });
-                            },
-                          ),
-                          SizedBox(height: 2.0.hp),
-                          CustomSelectButton(
-                            title: 'Religion',
-                            height: 65.0.hp,
-                            borderRadius: 15,
-                            textColor: AppStyles.bgBlack,
-                            items: appReligions,
-                            currentItem: religionController.text.toString(),
-                            onChangeHandler: (int index) {
-                              setState(() {
-                                religionController.text =
-                                    appReligions[index]['name'];
-                              });
-                            },
-                          ),
-                          SizedBox(height: 2.0.hp),
-                          CustomFormTextField(
-                            maxLines: 1,
-                            borderRadius: 15,
-                            hintText: 'Address',
-                            controller: addressController,
-                            textColor: AppStyles.bgBlack,
-                            background: Colors.white.withOpacity(0.4),
-                            hintColor: Colors.black,
-                          ),
-                          SizedBox(height: 2.0.hp),
-                          CustomSelectButton(
-                            title: 'State',
-                            height: 65.0.hp,
-                            borderRadius: 15,
-                            textColor: AppStyles.bgBlack,
-                            items: appStates,
-                            currentItem: stateController.text.toString(),
-                            onChangeHandler: (int index) {
-                              setState(() {
-                                stateController.text = appStates[index]['name'];
-                              });
-                            },
-                          ),
-                          SizedBox(height: 2.0.hp),
-                          CustomFormTextField(
-                            maxLines: 1,
-                            borderRadius: 15,
-                            hintText: 'City/Province',
-                            controller: cityProvinceController,
-                            textColor: AppStyles.bgBlack,
-                            background: Colors.white.withOpacity(0.4),
-                            hintColor: Colors.black,
-                          ),
-                          SizedBox(height: 2.0.hp),
-                          CustomFormTextField(
-                            maxLines: 1,
-                            borderRadius: 15,
-                            hintText: 'Phone number',
-                            keyboardType: TextInputType.number,
-                            controller: contactNumberController,
-                            textColor: AppStyles.bgBlack,
-                            background: Colors.white.withOpacity(0.4),
-                            hintColor: Colors.black,
-                          ),
-                          SizedBox(height: 2.0.hp),
-                          CustomDatePickerButton(
-                            date: initialDate,
-                            controller: dateOfBirthController,
-                          ),
-                        ])
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomTextWidget(
+                              text: 'Email',
+                              size: 12.0.sp,
+                              weight: FontWeight.w500,
+                            ),
+                            CustomFormTextField(
+                              maxLines: 1,
+                              borderRadius: 15,
+                              hintText: 'Email',
+                              controller: emailController,
+                              textColor: AppStyles.bgBlack,
+                              background: Colors.white.withOpacity(0.4),
+                              hintColor: Colors.black,
+                            ),
+                            SizedBox(height: 2.0.hp),
+                            CustomTextWidget(
+                              text: 'Nationality',
+                              size: 12.0.sp,
+                              weight: FontWeight.w500,
+                            ),
+                            CustomFormTextField(
+                              maxLines: 1,
+                              readOnly: true,
+                              hintText: nationalityController.text,
+                              controller: nationalityController,
+                              textColor: AppStyles.bgBlack,
+                              background: Colors.white.withOpacity(0.4),
+                              hintColor: Colors.black,
+                            ),
+                            // CustomSelectButton(
+                            //   title: 'Nationality',
+                            //   height: 65.0.hp,
+                            //   borderRadius: 15,
+                            //   textColor: AppStyles.bgBlack,
+                            //   items: appCountries,
+                            //   currentItem:
+                            //       nationalityController.text.toString(),
+                            //   onChangeHandler: (int index) {
+                            //     setState(() {
+                            //       nationalityController.text =
+                            //           appCountries[index]['name'];
+                            //     });
+                            //   },
+                            // ),
+                            SizedBox(height: 2.0.hp),
+                            CustomTextWidget(
+                              text: 'Gender',
+                              size: 12.0.sp,
+                              weight: FontWeight.w500,
+                            ),
+                            CustomSelectButton(
+                              title: 'Gender',
+                              height: 65.0.hp,
+                              borderRadius: 15,
+                              textColor: AppStyles.bgBlack,
+                              items: appGenders,
+                              currentItem: genderController.text.toString(),
+                              onChangeHandler: (int index) {
+                                setState(() {
+                                  genderController.text =
+                                      appGenders[index]['name'];
+                                });
+                              },
+                            ),
+                            SizedBox(height: 2.0.hp),
+                            CustomTextWidget(
+                              text: 'Religion',
+                              size: 12.0.sp,
+                              weight: FontWeight.w500,
+                            ),
+                            CustomSelectButton(
+                              title: 'Religion',
+                              height: 65.0.hp,
+                              borderRadius: 15,
+                              textColor: AppStyles.bgBlack,
+                              items: appReligions,
+                              currentItem: religionController.text.toString(),
+                              onChangeHandler: (int index) {
+                                setState(() {
+                                  religionController.text =
+                                      appReligions[index]['name'];
+                                });
+                              },
+                            ),
+                            SizedBox(height: 2.0.hp),
+                            CustomTextWidget(
+                              text: 'Address',
+                              size: 12.0.sp,
+                              weight: FontWeight.w500,
+                            ),
+                            CustomFormTextField(
+                              maxLines: 1,
+                              borderRadius: 15,
+                              hintText: 'Address',
+                              controller: addressController,
+                              textColor: AppStyles.bgBlack,
+                              background: Colors.white.withOpacity(0.4),
+                              hintColor: Colors.black,
+                            ),
+                            SizedBox(height: 2.0.hp),
+                            CustomTextWidget(
+                              text: 'State',
+                              size: 12.0.sp,
+                              weight: FontWeight.w500,
+                            ),
+                            CustomSelectButton(
+                              title: 'State',
+                              height: 65.0.hp,
+                              borderRadius: 15,
+                              textColor: AppStyles.bgBlack,
+                              items: appStates,
+                              currentItem: stateController.text.toString(),
+                              onChangeHandler: (int index) {
+                                setState(() {
+                                  stateController.text =
+                                      appStates[index]['name'];
+                                });
+                              },
+                            ),
+                            SizedBox(height: 2.0.hp),
+                            CustomTextWidget(
+                              text: 'City/Province',
+                              size: 12.0.sp,
+                              weight: FontWeight.w500,
+                            ),
+                            CustomFormTextField(
+                              maxLines: 1,
+                              borderRadius: 15,
+                              hintText: 'City/Province',
+                              controller: cityProvinceController,
+                              textColor: AppStyles.bgBlack,
+                              background: Colors.white.withOpacity(0.4),
+                              hintColor: Colors.black,
+                            ),
+                            SizedBox(height: 2.0.hp),
+                            CustomTextWidget(
+                              text: 'Phone number',
+                              size: 12.0.sp,
+                              weight: FontWeight.w500,
+                            ),
+                            CustomFormTextField(
+                              maxLines: 1,
+                              borderRadius: 15,
+                              hintText: 'Phone number',
+                              keyboardType: TextInputType.number,
+                              controller: contactNumberController,
+                              textColor: AppStyles.bgBlack,
+                              background: Colors.white.withOpacity(0.4),
+                              hintColor: Colors.black,
+                            ),
+                            SizedBox(height: 2.0.hp),
+                            CustomTextWidget(
+                              text: 'Date of birth',
+                              size: 12.0.sp,
+                              weight: FontWeight.w500,
+                            ),
+                            CustomDatePickerButton(
+                              date: initialDate,
+                              controller: dateOfBirthController,
+                            ),
+                          ],
+                        )
                       : Column(
                           children: [
                             CustomFormTextField(

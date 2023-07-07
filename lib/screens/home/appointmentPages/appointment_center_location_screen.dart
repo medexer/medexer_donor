@@ -56,7 +56,7 @@ class _AppointmentCenterLocationScreenState
         .asUint8List();
   }
 
-  void initializeCurrentLocation() async {
+  Future<void> initializeCurrentLocation() async {
     GeoLocation.Location location = GeoLocation.Location();
     _serviceEnabled = await location.serviceEnabled();
     if (!_serviceEnabled) {
@@ -94,7 +94,7 @@ class _AppointmentCenterLocationScreenState
     });
   }
 
-  void getPolyPoints() async {
+  Future<void> getPolyPoints() async {
     // await Future.delayed(const Duration(seconds: 1));
 
     PolylinePoints polylinePoints = PolylinePoints();
@@ -117,7 +117,7 @@ class _AppointmentCenterLocationScreenState
     }
   }
 
-  void onMapCreated() async {
+  Future<void> onMapCreated() async {
     final Uint8List myMarkerIcon =
         await getBytesFromAsset('assets/icons/icon__marker__3.png', 60);
 
@@ -209,19 +209,23 @@ class _AppointmentCenterLocationScreenState
     });
   }
 
+  void initializeMapFunctions() async {
+    await initializeCurrentLocation();
+    await getPolyPoints();
+    await onMapCreated();
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
-    onMapCreated();
-    initializeCurrentLocation();
-    getPolyPoints();
+    initializeMapFunctions();
   }
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
+    // final screenWidth = MediaQuery.of(context).size.width;
 
     return WillPopScope(
       onWillPop: () async {

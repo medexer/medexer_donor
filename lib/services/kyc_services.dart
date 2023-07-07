@@ -34,10 +34,10 @@ class KycServices extends GetxController {
         debugPrint('[KYC SUCCESS]');
         debugPrint('[KYC RESPONSE]:: ${response.data}');
 
-        Get.to(
-            transition: Transition.rightToLeft,
-            duration: const Duration(milliseconds: 500),
-            () => IdProofScreen());
+        // Get.to(
+        //     transition: Transition.rightToLeft,
+        //     duration: const Duration(milliseconds: 500),
+        //     () => IdProofScreen());
       }
     } catch (error) {
       if (error is DioError) {
