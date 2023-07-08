@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/data/index.dart';
 import 'package:medexer_donor/screens/home/sidebar.dart';
+import 'package:medexer_donor/screens/home/sub_screens/web_view.dart';
 import 'package:medexer_donor/services/donor_services.dart';
 import 'package:medexer_donor/widgets/page_header.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
@@ -15,6 +16,8 @@ import 'package:medexer_donor/network_services/network_manager.dart';
 import 'package:medexer_donor/widgets/buttons/custom_button.dart';
 import 'package:medexer_donor/widgets/text/cutom_formtext_field.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
+import '../../../data/social_media_Index.dart';
 
 class ContactUsScreen extends StatefulWidget {
   const ContactUsScreen({super.key});
@@ -71,11 +74,12 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: List.generate(
-                            appSocials.length,
+                            socialMedia.length,
                             (index) => GestureDetector(
                               onTap: () {
-                                launchSocialMedia(
-                                    url: "${appSocials[index]['url']}");
+                                Get.to(WebViewPage(socialmedia:socialMedia[index]));
+                                // launchSocialMedia(
+                                //     url: "${appSocials[index]['url']}");
                               },
                               child: Container(
                                   height: 6.0.hp,
@@ -91,12 +95,14 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                                   ),
                                   child: Center(
                                     child: SvgPicture.asset(
-                                      appSocials[index]['icon'],
+                                      socialMedia[index].icon,
                                       color: AppStyles.bgBlue,
-                                      width: appSocials[index]['type'] ==
+                                      width: socialMedia[index].type==
+                                      //appSocials[index]['type'] ==
                                               'LINKEDIN'
                                           ? 22.0.sp
-                                          : appSocials[index]['type'] ==
+                                          : socialMedia[index].type==
+                                          //appSocials[index]['type'] ==
                                                   'TWITTER'
                                               ? 22.0.sp
                                               : 12.0.sp,
