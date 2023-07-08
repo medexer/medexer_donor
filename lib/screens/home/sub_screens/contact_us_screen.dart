@@ -77,7 +77,8 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                             socialMedia.length,
                             (index) => GestureDetector(
                               onTap: () {
-                                Get.to(WebViewPage(socialmedia:socialMedia[index]));
+                                Get.to(WebViewPage(
+                                    socialmedia: socialMedia[index]));
                                 // launchSocialMedia(
                                 //     url: "${appSocials[index]['url']}");
                               },
@@ -97,12 +98,12 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                                     child: SvgPicture.asset(
                                       socialMedia[index].icon,
                                       color: AppStyles.bgBlue,
-                                      width: socialMedia[index].type==
-                                      //appSocials[index]['type'] ==
+                                      width: socialMedia[index].type ==
+                                              //appSocials[index]['type'] ==
                                               'LINKEDIN'
                                           ? 22.0.sp
-                                          : socialMedia[index].type==
-                                          //appSocials[index]['type'] ==
+                                          : socialMedia[index].type ==
+                                                  //appSocials[index]['type'] ==
                                                   'TWITTER'
                                               ? 22.0.sp
                                               : 12.0.sp,

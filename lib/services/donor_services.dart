@@ -104,6 +104,7 @@ class DonorServices extends GetxController {
             'Book Appointment Error',
             '${error.response!.data['status']}',
             colorText: Colors.white,
+            duration: Duration(seconds: 5),
             backgroundColor: AppStyles.bgBrightRed.withOpacity(0.5),
           );
         }

@@ -98,24 +98,24 @@ class _DonationCentersState extends State<DonationCenters> {
                                     size: 8.0.sp,
                                   ),
                                 ),
-                                trailing: CustomButton(
-                                  text: 'Book Appointment',
-                                  borderRadius: 10,
-                                  fontColor: Colors.white,
-                                  backgroundColor: AppStyles.bgPrimary,
-                                  fontSize: 8.0.sp,
-                                  onTapHandler: () {
-                                    Get.to(
-                                      BookAppointmentScreen(
-                                        donationCenter: userRepository
-                                            .donationCenters[index],
-                                      ),
-                                    );
-                                  },
-                                  fontWeight: FontWeight.w500,
-                                  height: 4.0.hp,
-                                  width: 25.0.wp,
-                                ),
+                                // trailing: CustomButton(
+                                //   text: 'Book Appointment',
+                                //   borderRadius: 10,
+                                //   fontColor: Colors.white,
+                                //   backgroundColor: AppStyles.bgPrimary,
+                                //   fontSize: 8.0.sp,
+                                //   onTapHandler: () {
+                                //     Get.to(
+                                //       BookAppointmentScreen(
+                                //         donationCenter: userRepository
+                                //             .donationCenters[index],
+                                //       ),
+                                //     );
+                                //   },
+                                //   fontWeight: FontWeight.w500,
+                                //   height: 4.0.hp,
+                                //   width: 25.0.wp,
+                                // ),
                               );
                             }),
                       ),

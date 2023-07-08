@@ -6,6 +6,7 @@ import 'package:medexer_donor/config/api_config.dart';
 import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/database/user_repository.dart';
 import 'package:medexer_donor/models/donation_center_model.dart';
+import 'package:medexer_donor/screens/home/appointmentPages/book_appointment.dart';
 import 'package:medexer_donor/screens/home/donation_center/donation_center_location_screen.dart';
 import 'package:medexer_donor/screens/home/sidebar.dart';
 import 'package:medexer_donor/services/donor_services.dart';
@@ -50,12 +51,12 @@ class _DonationCenterSearchProfileScreenState
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CustomButton(
-              text: 'Center Location',
+              text: 'Book Appointment',
               height: 6.0.hp,
               width: MediaQuery.of(context).size.width * 0.9,
               onTapHandler: () {
                 Get.to(
-                  () => DonationCenterLocationScreen(
+                  BookAppointmentScreen(
                     donationCenter: widget.donationCenter,
                   ),
                 );
@@ -63,8 +64,8 @@ class _DonationCenterSearchProfileScreenState
               fontSize: 10.0.sp,
               fontColor: Colors.white,
               fontWeight: FontWeight.bold,
-              borderRadius: 10,
-              backgroundColor: AppStyles.bgPrimary,
+              borderRadius: 15,
+              backgroundColor: AppStyles.bgPurpleDark,
             ),
           ],
         ),
@@ -122,6 +123,7 @@ class _DonationCenterSearchProfileScreenState
                                   ?.aboutHospital !=
                               null
                           ? CustomTextWidget(
+                              maxLines: 100,
                               text:
                                   '${widget.donationCenter.hospitalName}, ${widget.donationCenter.hospitalProfile?.aboutHospital}',
                               size: 12.0.sp,
@@ -204,46 +206,65 @@ class _DonationCenterSearchProfileScreenState
                 SizedBox(height: 2.0.hp),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CustomButton(
-                      text: 'Call',
-                      width: 35.0.wp,
-                      height: 4.5.hp,
-                      onTapHandler: () async {
-                        final Uri contactNumberUrl = Uri.parse(
-                            'tel:${widget.donationCenter.hospitalProfile!.contactNumber}');
-                        if (await canLaunchUrl(contactNumberUrl)) {
-                          await launchUrl(contactNumberUrl);
-                        } else {
-                          throw 'Could not launch $contactNumberUrl';
-                        }
-                      },
-                      fontSize: 10.0.sp,
-                      borderRadius: 5,
-                      fontColor: Colors.white,
-                      fontWeight: FontWeight.w500,
-                      backgroundColor: AppStyles.bgBlue,
-                    ),
-                    CustomButton(
-                      text: 'Message',
-                      width: 35.0.wp,
-                      height: 4.5.hp,
-                      onTapHandler: () async {
-                        final Uri contactNumberUrl =
-                            Uri.parse('sms:+2349020029920');
-                        if (await canLaunchUrl(contactNumberUrl)) {
-                          await launchUrl(contactNumberUrl);
-                        } else {
-                          throw 'Could not launch $contactNumberUrl';
-                        }
-                      },
-                      fontSize: 10.0.sp,
-                      borderRadius: 5,
-                      fontColor: Colors.white,
-                      fontWeight: FontWeight.w500,
-                      backgroundColor: Colors.deepPurple,
-                    ),
-                  ],
+                  children: [],
+                ),
+                SizedBox(height: 4.0.hp),
+                CustomButton(
+                  text: 'Call',
+                  width: double.maxFinite,
+                  height: 6.0.hp,
+                  onTapHandler: () async {
+                    final Uri contactNumberUrl = Uri.parse(
+                        'tel:${widget.donationCenter.hospitalProfile!.contactNumber}');
+                    if (await canLaunchUrl(contactNumberUrl)) {
+                      await launchUrl(contactNumberUrl);
+                    } else {
+                      throw 'Could not launch $contactNumberUrl';
+                    }
+                  },
+                  fontSize: 10.0.sp,
+                  borderRadius: 5,
+                  fontColor: Colors.white,
+                  fontWeight: FontWeight.w500,
+                  backgroundColor: AppStyles.bgBlue,
+                ),
+                SizedBox(height: 2.0.hp),
+                CustomButton(
+                  text: 'Message',
+                  width: double.maxFinite,
+                  height: 6.0.hp,
+                  onTapHandler: () async {
+                    final Uri contactNumberUrl =
+                        Uri.parse('sms:+2349020029920');
+                    if (await canLaunchUrl(contactNumberUrl)) {
+                      await launchUrl(contactNumberUrl);
+                    } else {
+                      throw 'Could not launch $contactNumberUrl';
+                    }
+                  },
+                  fontSize: 10.0.sp,
+                  borderRadius: 5,
+                  fontColor: Colors.white,
+                  fontWeight: FontWeight.w500,
+                  backgroundColor: Colors.deepPurple,
+                ),
+                SizedBox(height: 2.0.hp),
+                CustomButton(
+                  text: 'Center Location',
+                  width: double.maxFinite,
+                  height: 6.0.hp,
+                  onTapHandler: () {
+                    Get.to(
+                      () => DonationCenterLocationScreen(
+                        donationCenter: widget.donationCenter,
+                      ),
+                    );
+                  },
+                  fontSize: 10.0.sp,
+                  borderRadius: 5,
+                  fontColor: Colors.white,
+                  fontWeight: FontWeight.w500,
+                  backgroundColor: AppStyles.bgPrimary,
                 ),
                 // SizedBox(height: 2.0.hp),
                 // CustomButton(

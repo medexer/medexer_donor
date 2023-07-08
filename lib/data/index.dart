@@ -1,17 +1,20 @@
 List<Map> appSocials = [
   {
     "type": "FACEBOOK",
-    "url": "https://www.facebook.com/medexerlimited",
+    "url": "fb://page/medexerlimited",
+    "weburl": "https://www.facebook.com/medexerlimited",
     "icon": "assets/icons/icon__facebook.svg"
   },
   {
     "type": "LINKEDIN",
-    "url": "https://www.linkedin.com/company/medexer-limited",
+    "url": "linkedin://company/medexer-limited",
+    "weburl": "https://www.linkedin.com/company/medexer-limited",
     "icon": "assets/icons/icon__linkedin.svg"
   },
   {
     "type": "TWITTER",
-    "url": "https://www.twitter.com/MedexerLTD",
+    "url": "twitter://user?screen_name=MedexerLTD",
+    "weburl": "https://twitter.com/MedexerLTD",
     "icon": "assets/icons/icon__twitter.svg"
   },
 ];
