@@ -191,7 +191,7 @@ class AuthServices extends GetxController {
     try {
       debugPrint('[SIGNOUT-PENDING]');
 
-      debugPrint('${APIConstants.backendServerUrl}auth/donor/signin');
+      debugPrint('${APIConstants.backendServerUrl}auth/donor/signout');
 
       final response = await dio.put(
         '${APIConstants.backendServerUrl}auth/donor/signout',

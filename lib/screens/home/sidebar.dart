@@ -50,23 +50,31 @@ class _SideBarState extends State<SideBar> {
                 radius: 30,
                 backgroundImage: NetworkImage(
                     '${userRepository.userProfile.value.userAvatar}'),
-                    // '${APIConstants.backendServerRootUrl}${userRepository.userData.value.avatar}'),
+                // '${APIConstants.backendServerRootUrl}${userRepository.userData.value.avatar}'),
                 // backgroundImage: AssetImage('assets/images/avatar__1.jpg'),
               ),
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('${userRepository.userData.value.fullName}'),
-                  Obx(() => Text(
-                        _networkManageController.connectionType.value == 1
-                            ? "online"
-                            : _networkManageController.connectionType.value == 2
-                                ? 'online'
-                                : 'offline',
-                        style:
-                            TextStyle(fontSize: 8, color: AppStyles.bgPrimary),
-                      )),
-                  // GetBuilder(builder:(builder)=>Text('${_networkManageController.connectionType}'))
+                  Flexible(
+                    child: CustomTextWidget(
+                      maxLines: 2,
+                      text: '${userRepository.userData.value.fullName}',
+                      // size: 12.0.sp,
+                      size: MediaQuery.of(context).size.width * 0.034,
+                    ),
+                  ),
+                  // CustomTextWidget(
+                  //   text: _networkManageController.connectionType.value == 1
+                  //       ? "online"
+                  //       : _networkManageController.connectionType.value == 2
+                  //           ? 'online'
+                  //           : 'offline',
+                  //   size: 8.0.sp,
+                  //   // style: TextStyle(
+                  //   //     fontSize: 8, color: AppStyles.bgPrimary),
+                  // ),
+                  // GetBuilder(builder:(builder)=>CustomTextWidget(text:'${_networkManageController.connectionType}'))
                   // ?:Icon(Icons.online_prediction, color:Colors.green))
                   // onTap: () async {
                   //   debugPrint('[LOG OUT]');
@@ -75,7 +83,11 @@ class _SideBarState extends State<SideBar> {
                   // },
                 ],
               ),
-              subtitle: Text('Profile'),
+              subtitle: CustomTextWidget(
+                text: 'Profile',
+                // size: 12.0.sp,
+                size: MediaQuery.of(context).size.width * 0.034,
+              ),
               onTap: () {
                 Get.to(() => ProfileScreen());
                 debugPrint('[PROFILE]');
@@ -241,16 +253,19 @@ class _SideBarState extends State<SideBar> {
               debugPrint('[ABOUT-US]');
             },
           ),
-          ListTile(),
-          ListTile(),
+          // ListTile(),
+          // ListTile(),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.035),
           ListTile(
             leading: Icon(
               Icons.logout,
               color: AppStyles.bgBrightRed,
             ),
-            title: Text(
-              'Log out',
-              style: TextStyle(color: AppStyles.bgBrightRed),
+            title: CustomTextWidget(
+              text: 'Log out',
+              size: 12.0.sp,
+              color: AppStyles.bgBrightRed,
+              // style: TextStyle(color: AppStyles.bgBrightRed),
             ),
             onTap: () async {
               debugPrint('[LOG OUT]');

@@ -7,6 +7,7 @@ class CustomTextWidget extends StatelessWidget {
   final String text;
   Color? color;
   double? size;
+  int? maxLines;
   double? lineHeight;
   FontWeight? weight;
   TextAlign? alignment;
@@ -15,6 +16,7 @@ class CustomTextWidget extends StatelessWidget {
     super.key,
     this.color,
     this.size,
+    this.maxLines,
     this.weight,
     this.lineHeight,
     this.alignment,
@@ -25,6 +27,7 @@ class CustomTextWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
+      maxLines: maxLines ?? 1,
       textAlign: alignment ?? TextAlign.left,
       style: TextStyle(
         color: color,

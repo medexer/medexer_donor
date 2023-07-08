@@ -43,6 +43,41 @@ class _AppGuideScreenState extends State<AppGuideScreen> {
           ),
         ),
       ),
+      bottomNavigationBar: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.06,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CustomTextWidget(
+              maxLines: 10,
+              text: 'Made with',
+              size: 12.0.sp,
+            ),
+            SizedBox(width: 2.0.wp),
+            Icon(
+              Icons.favorite_border_outlined,
+              color: AppStyles.bgBrightRed.withOpacity(0.4),
+            ),
+            SizedBox(width: 2.0.wp),
+            CustomTextWidget(
+              maxLines: 10,
+              text: 'in',
+              size: 12.0.sp,
+            ),
+            SizedBox(width: 2.0.wp),
+            Container(
+              width: 6.0.wp,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/flagNigeria.png'),
+                ),
+              ),
+              // child: Image.asset(),
+            ),
+          ],
+        ),
+      ),
       body: Obx(
         () => (_networkManageController.connectionType.value == 0)
             ? const NetworkErrorMessage()
@@ -58,9 +93,10 @@ class _AppGuideScreenState extends State<AppGuideScreen> {
                             height: 2.5.hp,
                           ),
                           CustomTextWidget(
-                            text: "Guide on how\nto use the app",
-                            size: 20.0.sp,
-                            weight: FontWeight.w500,
+                            maxLines: 10,
+                            text: "Guide on how to use the app",
+                            // size: 20.0.sp,
+                            weight: FontWeight.w600,
                           ),
                           Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -74,33 +110,36 @@ class _AppGuideScreenState extends State<AppGuideScreen> {
                                         top: .0.hp,
                                         right: 3.0.wp),
                                     child: CustomTextWidget(
+                                      maxLines: 10,
                                       text:
-                                          "Medexer seeks to increase the ease with which hospitals have access to blood and saves lives by connecting hospitals directly to blood donors\n\nYou find and book appointments with blood donation centers by doing the following:"
+                                          "Medexer seeks to increase the ease with which hospitals have access to blood and saves lives by connecting hospitals directly to blood donors.\n\nYou find and book appointments with blood donation centers by doing the following:"
                                           "\n*\tNavigate to Menu > Home\n*\tEnter the name of the hospital or donation centre on the search bar.\n*\tClick on the correct result that pops up. \n*\tMake a call or send SMS to the hospital or donation centre to book an appointment.\n*\tLocate the donation centre by following the map directions\n\nYour request to book an appointment will have to be approved by the donation centre before you can donate blood."
                                           "\n Your request to book an appointment will have to be approved by the donation center before you can donate blood",
-                                      size: 10.0.sp,
+                                      size: 12.0.sp,
                                     ),
                                   ),
                                   SizedBox(
                                     height: 2.0.hp,
                                   ),
-                                  Padding(
+                                  Container(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                    child: Wrap(
+                                      // mainAxisAlignment:
+                                      //     MainAxisAlignment.start,
+                                      // crossAxisAlignment:
+                                      //     CrossAxisAlignment.start,
                                       children: [
                                         CustomTextWidget(
+                                          maxLines: 10,
                                           text: "Note: ",
-                                          size: 8.0.sp,
+                                          size: 12.0.sp,
                                           weight: FontWeight.bold,
                                         ),
                                         CustomTextWidget(
+                                          maxLines: 10,
                                           text:
-                                              "You will have to wait for your KYC to be \napproved for you to fully use this app.",
-                                          size: 10.0.sp,
+                                              "You will have to wait for your KYC to be approved for you to fully use this app.",
+                                          size: 12.0.sp,
                                           weight: FontWeight.w500,
                                         ),
                                       ],
@@ -110,15 +149,17 @@ class _AppGuideScreenState extends State<AppGuideScreen> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: Column(children: [
                                       CustomTextWidget(
+                                        maxLines: 10,
                                         text:
-                                            "ALWAYS MAKE SURE THE DONATION CENTER \nYOU WERE CONTRACTED BY IS VERIFIED ",
-                                        size: 10.0.sp,
-                                        weight: FontWeight.bold,
+                                            "ALWAYS MAKE SURE THE DONATION CENTER YOU WERE CONTRACTED BY IS VERIFIED",
+                                        size: 12.0.sp,
+                                        weight: FontWeight.w600,
                                       ),
                                       CustomTextWidget(
-                                        text: "To do so:"
-                                            "\n*\tNaviaget to Maun > Donation Centers \n*\tMake sure to see that it is a verified donation center or  DO NOT GO.\nGot question?\nNaviagte to > Menu > Contact Us and send us a message or you can connect with us through any of our social media platforms.",
-                                        size: 10.0.sp,
+                                        maxLines: 10,
+                                        text: "To do so: "
+                                            "Navigate to Main > Donation Centers \n*\tMake sure to see that it is a verified donation center or  DO NOT GO.\n \nGot questions?\nNaviagte to > Menu > Contact Us and send us a message or you can connect with us through any of our social media platforms.",
+                                        size: 12.0.sp,
                                         //weight: FontWeight.bold,
                                       ),
                                     ]),
@@ -131,44 +172,6 @@ class _AppGuideScreenState extends State<AppGuideScreen> {
                   ),
                 ),
               ),
-      ),
-      bottomNavigationBar: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: CustomTextWidget(
-              text: 'Made with',
-              size: 10.0.sp,
-            ),
-          ),
-          Icon(Icons.favorite_border_outlined, color: AppStyles.bgPrimary),
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: CustomTextWidget(
-              text: 'in',
-              size: 10.0.sp,
-            ),
-          ),
-
-          SizedBox(
-            width: 10.0.wp,
-            height: 10.0.wp,
-            child: Image.asset('assets/images/flagNigeria.png'),
-          ),
-          // Padding(
-          //   padding: const EdgeInsets.all(4.0),
-          //    child: CustomTextWidget(
-          //     text: '&',
-          //     size: 5.0.sp,),
-          // ),
-          // SizedBox(
-          //   width: 8,
-          //   height: 8,
-          //   child: Image.asset('assets/images/flagUs.png'),
-          // ),
-        ],
       ),
     );
   }
