@@ -3,11 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:medexer_donor/config/api_config.dart';
 import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/database/user_repository.dart';
 import 'package:medexer_donor/network_services/network_manager.dart';
-import 'package:medexer_donor/screens/auth/login_screen.dart';
 import 'package:medexer_donor/screens/home/sub_screens/about_us_screen.dart';
 import 'package:medexer_donor/screens/home/sub_screens/app_guide_screen.dart';
 import 'package:medexer_donor/screens/home/sub_screens/contact_us_screen.dart';
@@ -16,7 +14,6 @@ import 'package:medexer_donor/screens/home/sub_screens/home_screen.dart';
 import 'package:medexer_donor/screens/home/sub_screens/notifications_screen.dart';
 import 'package:medexer_donor/screens/home/donor_profile.dart/profile_screen.dart';
 import 'package:medexer_donor/screens/home/sub_screens/pending_reward_screen.dart';
-import 'package:medexer_donor/screens/home/sub_screens/rewards_wallet_screen.dart';
 import 'package:medexer_donor/services/auth_services.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -48,6 +45,7 @@ class _SideBarState extends State<SideBar> {
             () => ListTile(
               leading: CircleAvatar(
                 radius: 30,
+                backgroundColor: AppStyles.bgWhite,
                 backgroundImage: NetworkImage(
                     '${userRepository.userProfile.value.userAvatar}'),
                 // '${APIConstants.backendServerRootUrl}${userRepository.userData.value.avatar}'),

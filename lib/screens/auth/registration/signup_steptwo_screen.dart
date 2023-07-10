@@ -1,21 +1,16 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/data/index.dart';
-import 'package:medexer_donor/models/signup_formdata_model.dart';
 import 'package:medexer_donor/screens/auth/login_screen.dart';
-import 'package:medexer_donor/widgets/buttons/custom_affirmation_button.dart';
 import 'package:medexer_donor/widgets/buttons/custom_button.dart';
 import 'package:medexer_donor/widgets/buttons/custom_select_button.dart';
-import 'package:medexer_donor/widgets/text/custom_formpassword_field.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 import 'package:medexer_donor/widgets/text/cutom_formtext_field.dart';
 import 'package:medexer_donor/database/user_repository.dart';
 import '../../../services/auth_services.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class SignupStepTwoScreen extends StatefulWidget {
   const SignupStepTwoScreen({super.key});
@@ -30,7 +25,7 @@ class _SignupStepTwoScreenState extends State<SignupStepTwoScreen> {
   bool showConfirmPassword = true;
   final AuthServices authServices = Get.find();
   TextEditingController nationalityController =
-      TextEditingController(text: "Nationality");
+      TextEditingController(text: "Nigerian");
   TextEditingController genderController =
       TextEditingController(text: 'Gender');
   TextEditingController religionController =
@@ -126,18 +121,27 @@ class _SignupStepTwoScreenState extends State<SignupStepTwoScreen> {
                       ),
                     ),
                     SizedBox(height: 6.0.hp),
-                    CustomSelectButton(
-                      title: 'Nationality',
-                      height: 65.0.hp,
-                      items: appCountries,
-                      currentItem: nationalityController.text.toString(),
-                      onChangeHandler: (int index) {
-                        setState(() {
-                          nationalityController.text =
-                              appCountries[index]['name'];
-                        });
-                      },
+                    CustomFormTextField(
+                      maxLines: 1,
+                      readOnly: true,
+                      hintText: nationalityController.text,
+                      controller: nationalityController,
+                      textColor: AppStyles.bgWhite,
+                      background: Colors.white.withOpacity(0.4),
+                      hintColor: Colors.black,
                     ),
+                    // CustomSelectButton(
+                    //   title: 'Nationality',
+                    //   height: 65.0.hp,
+                    //   items: appCountries,
+                    //   currentItem: nationalityController.text.toString(),
+                    //   onChangeHandler: (int index) {
+                    //     setState(() {
+                    //       nationalityController.text =
+                    //           appCountries[index]['name'];
+                    //     });
+                    //   },
+                    // ),
                     SizedBox(height: 1.0.hp),
                     CustomSelectButton(
                       title: 'Gender',

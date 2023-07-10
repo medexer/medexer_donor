@@ -1,5 +1,5 @@
 // ignore_for_file: prefer_const_constructors
-
+import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -26,6 +26,9 @@ class _SignupScreenState extends State<SignupScreen> {
   bool rememberMe = false;
   bool showPassword = true;
   bool showConfirmPassword = true;
+  RegExp emailPattern = RegExp(r"[a-z0-9]+@[a-z]+\.[a-z]{2,3}");
+  RegExp passwordPattern =
+      RegExp(r"(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,60}$");
   final AuthServices authServices = Get.find();
   TextEditingController fullnameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -42,15 +45,44 @@ class _SignupScreenState extends State<SignupScreen> {
         !passwordController.text.trim().isNotEmpty ||
         !confirmPasswordController.text.trim().isNotEmpty) {
       Get.snackbar(
-          backgroundColor: AppStyles.bgPrimary,
-          'ERROR!',
-          'Please ensure your fill in all fields in the form as the are required.');
+        'ERROR!',
+        'Please ensure your fill in all fields in the form as the are required.',
+        colorText: Colors.white,
+        duration: Duration(seconds: 5),
+        backgroundColor: AppStyles.bgBrightRed.withOpacity(0.5),
+      );
+    } else if (!emailPattern.hasMatch(emailController.text.trim())) {
+      Get.snackbar(
+        'ERROR!',
+        'Invalid email address',
+        colorText: Colors.white,
+        duration: Duration(seconds: 5),
+        backgroundColor: AppStyles.bgBrightRed.withOpacity(0.5),
+      );
     } else if (confirmPasswordController.text.trim() !=
         passwordController.text.trim()) {
       Get.snackbar(
-        backgroundColor: AppStyles.bgPrimary,
         'ERROR!',
         'Passwords do not match',
+        colorText: Colors.white,
+        duration: Duration(seconds: 5),
+        backgroundColor: AppStyles.bgBrightRed.withOpacity(0.5),
+      );
+    } else if (!passwordPattern.hasMatch(passwordController.text.trim())) {
+      Get.snackbar(
+        'ERROR!',
+        'Password must include a number, uppercase and lowercase alphabet',
+        colorText: Colors.white,
+        duration: Duration(seconds: 5),
+        backgroundColor: AppStyles.bgBrightRed.withOpacity(0.5),
+      );
+    } else if (passwordController.text.trim().length <= 7) {
+      Get.snackbar(
+        'ERROR!',
+        'Password must be at least 8 characters',
+        colorText: Colors.white,
+        duration: Duration(seconds: 5),
+        backgroundColor: AppStyles.bgBrightRed.withOpacity(0.5),
       );
     } else {
       Map<String, dynamic> data = {

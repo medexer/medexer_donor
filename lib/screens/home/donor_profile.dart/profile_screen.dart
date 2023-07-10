@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:io';
+import 'dart:core';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,7 +12,6 @@ import 'package:medexer_donor/services/auth_services.dart';
 import 'package:medexer_donor/widgets/buttons/custom_button.dart';
 import 'package:medexer_donor/widgets/buttons/custom_select_button.dart';
 import 'package:medexer_donor/widgets/page_header.dart';
-import 'package:medexer_donor/config/api_config.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:medexer_donor/widgets/text/custom_formpassword_field.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
@@ -27,11 +26,12 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  DateTime? _chosenDateTime;
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+  DateTime? _chosenDateTime;
   TextEditingController emailController = TextEditingController();
   TextEditingController nationalityController =
-      TextEditingController(text: "Nationality");
+      TextEditingController(text: "Nigerian");
   TextEditingController genderController =
       TextEditingController(text: 'Gender');
   TextEditingController religionController =
@@ -50,6 +50,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool showPassword = true;
   bool showConfirmPassword = true;
   bool showConfirmNewPassword = true;
+  RegExp emailPattern = RegExp(r"[a-z0-9]+@[a-z]+\.[a-z]{2,3}");
+  RegExp passwordPattern =
+      RegExp(r"(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,60}$");
   late PlatformFile avatar;
   final AuthServices authServices = Get.find();
   final UserRepository userRepository = Get.find();
@@ -229,10 +232,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             !dateOfBirthController.text.trim().isNotEmpty ||
                             !contactNumberController.text.trim().isNotEmpty) {
                           Get.snackbar(
-                              colorText: AppStyles.bgWhite,
-                              backgroundColor: AppStyles.bgBlue,
-                              'ERROR',
-                              'All fields are required.');
+                            'ERROR',
+                            'All fields are required.',
+                            colorText: Colors.white,
+                            duration: Duration(seconds: 5),
+                            backgroundColor:
+                                AppStyles.bgBrightRed.withOpacity(0.5),
+                          );
+                        } else if (!emailPattern
+                            .hasMatch(emailController.text.trim())) {
+                          Get.snackbar(
+                            'ERROR!',
+                            'Invalid email address',
+                            colorText: Colors.white,
+                            duration: Duration(seconds: 5),
+                            backgroundColor:
+                                AppStyles.bgBrightRed.withOpacity(0.5),
+                          );
                         } else {
                           Map formData = {
                             "nationality": nationalityController.text.trim(),
@@ -286,6 +302,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               backgroundColor: AppStyles.bgBlue,
                               'ERROR',
                               'Passwords do not match.',
+                            );
+                          } else if (newPasswordController.text
+                                  .trim()
+                                  .isNotEmpty &&
+                              !passwordPattern.hasMatch(
+                                  newPasswordController.text.trim())) {
+                            Get.snackbar(
+                              'ERROR!',
+                              'Password must include a number, uppercase and lowercase alphabet',
+                              colorText: Colors.white,
+                              duration: Duration(seconds: 5),
+                              backgroundColor:
+                                  AppStyles.bgBrightRed.withOpacity(0.5),
                             );
                           } else {
                             Map formData = {

@@ -41,9 +41,12 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!emailController.text.trim().isNotEmpty ||
         !passwordController.text.trim().isNotEmpty) {
       Get.snackbar(
-          backgroundColor: AppStyles.bgPrimary,
-          'ERROR!',
-          'Please ensure your fill in all fields in the form as the are required.');
+        'ERROR!',
+        'Please ensure your fill in all fields in the form as the are required.',
+        colorText: Colors.white,
+        duration: Duration(seconds: 5),
+        backgroundColor: AppStyles.bgBrightRed.withOpacity(0.5),
+      );
     } else {
       Map data = {
         "email": emailController.text.trim(),
@@ -55,22 +58,31 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (authServices.authRequestError.value == 'Incorrect password') {
         Get.snackbar(
-            backgroundColor: AppStyles.bgPrimary,
-            'ERROR!',
-            authServices.authRequestError.value);
+          'ERROR!',
+          authServices.authRequestError.value,
+          colorText: Colors.white,
+          duration: Duration(seconds: 5),
+          backgroundColor: AppStyles.bgBrightRed.withOpacity(0.5),
+        );
       }
       if (authServices.authRequestError.value == 'Email is not registered!') {
         Get.snackbar(
-            backgroundColor: AppStyles.bgPrimary,
-            'ERROR!',
-            authServices.authRequestError.value);
+          'ERROR!',
+          authServices.authRequestError.value,
+          colorText: Colors.white,
+          duration: Duration(seconds: 5),
+          backgroundColor: AppStyles.bgBrightRed.withOpacity(0.5),
+        );
       }
 
       if (authServices.authRequestError.value == 'ACCOUNT UNVERIFIED') {
         Get.snackbar(
-            backgroundColor: AppStyles.bgPrimary,
-            'ERROR!',
-            'Please check your mail for an activation token to activate your account.');
+          'ERROR!',
+          'Please check your mail for an activation token to activate your account.',
+          colorText: Colors.white,
+          duration: Duration(seconds: 5),
+          backgroundColor: AppStyles.bgBrightRed.withOpacity(0.5),
+        );
       }
     }
   }
