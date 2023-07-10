@@ -2,6 +2,7 @@ class DonationCenterGeoDataModel {
   String? centerName;
   String? email;
   String? address;
+  String? hospitalImage;
   Location? location;
 
   DonationCenterGeoDataModel(
@@ -11,6 +12,7 @@ class DonationCenterGeoDataModel {
     centerName = json['centerName'];
     email = json['email'];
     address = json['address'];
+    hospitalImage = json['hospitalImage'];
     location = json['location'] != null
         ? new Location.fromJson(json['location'])
         : null;
@@ -21,6 +23,7 @@ class DonationCenterGeoDataModel {
     data['centerName'] = this.centerName;
     data['email'] = this.email;
     data['address'] = this.address;
+    data['hospitalImage'] = this.hospitalImage;
     if (this.location != null) {
       data['location'] = this.location!.toJson();
     }

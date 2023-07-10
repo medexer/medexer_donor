@@ -1,5 +1,6 @@
 // ignore_for_file: unnecessary_new, prefer_collection_literals, prefer_const_constructors
 import 'dart:ui' as ui;
+import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'dart:async';
 import 'package:custom_info_window/custom_info_window.dart';
@@ -123,14 +124,24 @@ class _FinalMapState extends State<FinalMap> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          height: 12.0.hp,
-                          decoration: const BoxDecoration(
+                          height: 20.0.hp,
+                          // width: double.maxFinite,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10),
+                              topRight: Radius.circular(10),
+                            ),
                             image: DecorationImage(
-                              image:
-                                  AssetImage('assets/images/hospital__1.jpg'),
+                              image: NetworkImage('${location.hospitalImage}'),
                               fit: BoxFit.cover,
                               filterQuality: FilterQuality.high,
                             ),
+                            // image: DecorationImage(
+                            //   image:
+                            //       AssetImage('assets/images/hospital__1.jpg'),
+                            //   fit: BoxFit.cover,
+                            //   filterQuality: FilterQuality.high,
+                            // ),
                           ),
                         ),
                         Container(
@@ -151,31 +162,31 @@ class _FinalMapState extends State<FinalMap> {
                                 size: 10.0.sp,
                               ),
                               SizedBox(height: 1.0.hp),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  CustomButton(
-                                    text: 'Profile',
-                                    width: 30.0.wp,
-                                    height: 4.0.hp,
-                                    onTapHandler: () {
-                                      Get.to(
-                                        () =>
-                                            HospitalMapDonationCenterProfileScreen(
-                                                donationCenter: location),
-                                      );
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.end,
+                              //   children: [
+                              //     CustomButton(
+                              //       text: 'Profile',
+                              //       width: 30.0.wp,
+                              //       height: 4.0.hp,
+                              //       onTapHandler: () {
+                              //         Get.to(
+                              //           () =>
+                              //               HospitalMapDonationCenterProfileScreen(
+                              //                   donationCenter: location),
+                              //         );
 
-                                      customInfoWindowcontroller
-                                          .hideInfoWindow!();
-                                    },
-                                    fontSize: 10.0.sp,
-                                    borderRadius: 5,
-                                    fontColor: Colors.white,
-                                    fontWeight: FontWeight.w500,
-                                    backgroundColor: AppStyles.bgBlue,
-                                  ),
-                                ],
-                              ),
+                              //         customInfoWindowcontroller
+                              //             .hideInfoWindow!();
+                              //       },
+                              //       fontSize: 10.0.sp,
+                              //       borderRadius: 5,
+                              //       fontColor: Colors.white,
+                              //       fontWeight: FontWeight.w500,
+                              //       backgroundColor: AppStyles.bgBlue,
+                              //     ),
+                              //   ],
+                              // ),
                             ],
                           ),
                         ),
@@ -200,6 +211,23 @@ class _FinalMapState extends State<FinalMap> {
             : LatLng(9.906587499999999, 8.9547031),
       ));
     });
+  }
+
+  void changeMapMode(GoogleMapController mapController) {
+    getJsonFile("assets/json/map_style_1.json")
+        .then((value) => setMapStyle(value, mapController));
+  }
+
+  //helper function
+  void setMapStyle(String mapStyle, GoogleMapController mapController) {
+    mapController.setMapStyle(mapStyle);
+  }
+
+  //helper function
+  Future<String> getJsonFile(String path) async {
+    ByteData byte = await rootBundle.load(path);
+    var list = byte.buffer.asUint8List(byte.offsetInBytes, byte.lengthInBytes);
+    return utf8.decode(list);
   }
 
   void initializeMapFunctions() async {
@@ -232,7 +260,7 @@ class _FinalMapState extends State<FinalMap> {
           mapType: MapType.normal,
           onMapCreated: (GoogleMapController controller) {
             customInfoWindowcontroller.googleMapController = controller;
-
+            changeMapMode(controller);
             // onMapcreated();
           },
           // markers: _markers!,

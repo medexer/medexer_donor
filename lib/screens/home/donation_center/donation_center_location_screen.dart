@@ -1,5 +1,6 @@
 // ignore_for_file: non_constant_identifier_names, prefer_const_constructors
 import 'dart:async';
+import 'dart:convert';
 import 'dart:ui' as ui;
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
@@ -206,6 +207,23 @@ class _DonationCenterLocationScreenState
     });
   }
 
+  void changeMapMode(GoogleMapController mapController) {
+    getJsonFile("assets/json/map_style_1.json")
+        .then((value) => setMapStyle(value, mapController));
+  }
+
+  //helper function
+  void setMapStyle(String mapStyle, GoogleMapController mapController) {
+    mapController.setMapStyle(mapStyle);
+  }
+
+  //helper function
+  Future<String> getJsonFile(String path) async {
+    ByteData byte = await rootBundle.load(path);
+    var list = byte.buffer.asUint8List(byte.offsetInBytes, byte.lengthInBytes);
+    return utf8.decode(list);
+  }
+
   void initializeMapFunctions() async {
     await initializeCurrentLocation();
     await getPolyPoints();
@@ -275,6 +293,7 @@ class _DonationCenterLocationScreenState
                         _controller.complete(controller);
                         customInfoWindowcontroller.googleMapController =
                             controller;
+                        changeMapMode(controller);
 
                         // initializeMarkerIcon();
                       },
