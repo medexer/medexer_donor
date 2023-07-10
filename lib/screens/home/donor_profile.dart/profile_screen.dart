@@ -120,7 +120,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: CustomTextWidget(
                         text: '${userRepository.userData.value.fullName}',
                         color: Colors.white,
-                        size: 20.0.sp,
+                        //size: 20.0.sp,
                         // weight: FontWeight.bold,
                       ),
                     ),
@@ -132,7 +132,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           // padding: EdgeInsets.only(left: 2.0.hp),
                           child: CircleAvatar(
                             backgroundColor: Colors.white,
-                            radius: 70,
+                            radius: 60,
                             child: ClipOval(
                               child: SizedBox(
                                   width: 40.0.hp,
@@ -146,7 +146,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 14.0.hp, top: 12.0.hp),
+                          padding: EdgeInsets.only(left: 10.5.hp, top: 12.0.hp),
                           child: GestureDetector(
                             onTap: () async {
                               debugPrint('[UPLOAD-AVATAR]');

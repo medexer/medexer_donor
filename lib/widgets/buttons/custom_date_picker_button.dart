@@ -44,7 +44,7 @@ class _CustomDatePickerButtonState extends State<CustomDatePickerButton> {
             context: context,
             initialDate: widget.date,
             firstDate: DateTime(1985),
-            lastDate: DateTime.now(),
+            lastDate: DateTime(2030),
           );
 
           if (newDate == null) return;

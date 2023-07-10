@@ -70,7 +70,13 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                       children: [
                         // SizedBox(height: 2.0.hp),
                         // PageHeader(scaffoldKey: scaffoldKey),
-                        SizedBox(height: 10.0.hp),
+                        SizedBox(height: 8.0.hp),
+                        CustomTextWidget(
+                          text: 'Reach out to us. We\'re always happy to help!',
+                          size: 14.0.sp,
+                          weight: FontWeight.w500,
+                          alignment: TextAlign.center,
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: List.generate(
@@ -112,12 +118,28 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                             ),
                           ),
                         ),
+                        
                         SizedBox(height: 2.0.hp),
-                        CustomTextWidget(
-                          text: 'Reach out to us. We\'re always happy to help!',
-                          size: 14.0.sp,
-                          weight: FontWeight.w500,
-                          alignment: TextAlign.center,
+                        Column(
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Divider(color: AppStyles.bgPrimary),
+                                ),
+                                SizedBox(width: 4.0.wp),
+                                CustomTextWidget(
+                                  text: 'Or fill the form below\n to send us an email),',
+                                  size: 12.0.sp,
+                                  color: AppStyles.bgGray4,
+                                ),
+                                SizedBox(width: 4.0.wp),
+                                Expanded(
+                                  child: Divider(color: AppStyles.bgPrimary),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                         SizedBox(height: 6.0.hp),
                         CustomFormTextField(
