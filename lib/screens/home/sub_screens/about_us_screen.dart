@@ -121,7 +121,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                                   ),
                                   CustomTextWidget(
                                     text:
-                                        'Navigate to Menu > Contact Us and send us a message or \nyou can connect with us through any of our social media platforms.',
+                                        'Navigate to Menu > Contact Us and send us a message or \nyou can connect with us through any of \nour social media platforms.',
                                     size: 12.0.sp,
                                   ),
                                   CustomTextWidget(

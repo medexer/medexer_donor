@@ -27,7 +27,7 @@ class CustomTextWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      maxLines: maxLines ?? 3,
+      maxLines: maxLines ?? 6,
       textAlign: alignment ?? TextAlign.left,
       style: TextStyle(
         color: color,

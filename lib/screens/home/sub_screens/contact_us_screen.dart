@@ -131,7 +131,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                                 CustomTextWidget(
                                   text: 'Or fill the form below\n to send us an email),',
                                   size: 12.0.sp,
-                                  color: AppStyles.bgGray4,
+                                  color: AppStyles.bgBlack,
                                 ),
                                 SizedBox(width: 4.0.wp),
                                 Expanded(
