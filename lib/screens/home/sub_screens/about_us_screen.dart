@@ -77,7 +77,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                                 children: [
                                   CustomTextWidget(
                                     text:
-                                        'Medexer seeks to increase the ease with which hospitals have access to blood and save lives by connecting hospitals directly to blood donors.',
+                                        'Medexer seeks to increase the ease with which hospitals have access \n to blood and save lives by connecting hospitals directly to blood donors.',
                                     size: 12.0.sp,
                                   ),
                                   CustomTextWidget(
@@ -121,7 +121,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                                   ),
                                   CustomTextWidget(
                                     text:
-                                        'Navigate to Menu > Contact Us and send us a message or you can connect with us through any of our social media platforms.',
+                                        'Navigate to Menu > Contact Us and send us a message or \nyou can connect with us through any of our social media platforms.',
                                     size: 12.0.sp,
                                   ),
                                   CustomTextWidget(
