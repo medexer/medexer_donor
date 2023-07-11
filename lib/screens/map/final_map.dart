@@ -37,6 +37,7 @@ class _FinalMapState extends State<FinalMap> {
   GeoLocation.LocationData? currentLocation;
   late bool _serviceEnabled;
   late GeoLocation.PermissionStatus _permissionGranted;
+  final Completer<GoogleMapController> _controller = Completer();
 
   Future<void> initializeCurrentLocation() async {
     GeoLocation.Location location = GeoLocation.Location();
@@ -62,6 +63,17 @@ class _FinalMapState extends State<FinalMap> {
       "latitude": currentLocation!.latitude,
       "longitude": currentLocation!.longitude,
     });
+    GoogleMapController googleMapController = await _controller.future;
+
+    googleMapController.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          zoom: 13,
+          target:
+              LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
+        ),
+      ),
+    );
 
     location.onLocationChanged.listen((newLoc) {
       setState(() {
@@ -73,6 +85,15 @@ class _FinalMapState extends State<FinalMap> {
           "latitude": newLoc.latitude,
           "longitude": newLoc.longitude,
         });
+
+        googleMapController.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(
+              zoom: 13,
+              target: LatLng(newLoc.latitude!, newLoc.longitude!),
+            ),
+          ),
+        );
       }
     });
   }
@@ -114,7 +135,8 @@ class _FinalMapState extends State<FinalMap> {
               onTap: () {
                 customInfoWindowcontroller.addInfoWindow!(
                   Container(
-                    height: 25.0.hp,
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    // height: 25.0.hp,
                     decoration: BoxDecoration(
                       color: AppStyles.bgWhite,
                       borderRadius: BorderRadius.circular(10),
@@ -124,7 +146,8 @@ class _FinalMapState extends State<FinalMap> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          height: 20.0.hp,
+                          // height: 18.0.hp,
+                          height: MediaQuery.of(context).size.height * 0.18,
                           // width: double.maxFinite,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.only(
@@ -146,16 +169,18 @@ class _FinalMapState extends State<FinalMap> {
                         ),
                         Container(
                           // height: 15.0.hp,
-                          padding: EdgeInsets.symmetric(
-                            vertical: 1.0.hp,
-                            horizontal: 2.0.wp,
+                          height: MediaQuery.of(context).size.height * 0.12,
+                          padding: EdgeInsets.only(
+                            top: 1.0.hp,
+                            left: 2.0.wp,
+                            right: 2.0.wp,
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CustomTextWidget(
                                 text: '${location.centerName}',
-                                size: 14.0.sp,
+                                size: 12.0.sp,
                               ),
                               CustomTextWidget(
                                 text: '${location.address}',
@@ -259,6 +284,7 @@ class _FinalMapState extends State<FinalMap> {
           myLocationButtonEnabled: false,
           mapType: MapType.normal,
           onMapCreated: (GoogleMapController controller) {
+            _controller.complete(controller);
             customInfoWindowcontroller.googleMapController = controller;
             changeMapMode(controller);
             // onMapcreated();
@@ -271,7 +297,7 @@ class _FinalMapState extends State<FinalMap> {
                     currentLocation!.latitude!, currentLocation!.longitude!)
                 : LatLng(9.906587499999999, 8.9547031),
             // zoom: 10,
-            zoom: 11,
+            zoom: 13,
           ),
           onTap: (Position) {
             customInfoWindowcontroller.hideInfoWindow!();
@@ -282,7 +308,8 @@ class _FinalMapState extends State<FinalMap> {
         ),
         CustomInfoWindow(
           controller: customInfoWindowcontroller,
-          height: 28.0.hp,
+          // height: 28.0.hp,
+          height: MediaQuery.of(context).size.height * 0.3,
           width: 300,
           offset: 35,
         )

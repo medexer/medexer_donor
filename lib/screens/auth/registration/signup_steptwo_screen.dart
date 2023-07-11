@@ -197,6 +197,7 @@ class _SignupStepTwoScreenState extends State<SignupStepTwoScreen> {
                     SizedBox(height: 1.0.hp),
                     CustomFormTextField(
                       maxLines: 1,
+                      maxLength: 11,
                       keyboardType: TextInputType.number,
                       hintText: 'Phone number',
                       controller: contactNumberController,

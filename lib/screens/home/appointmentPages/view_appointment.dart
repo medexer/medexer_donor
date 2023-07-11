@@ -130,7 +130,7 @@ class _ViewAppointmentScreenState extends State<ViewAppointmentScreen> {
                     weight: FontWeight.w500,
                   ),
                   trailing: CustomTextWidget(
-                    text: '${widget.appointment.date ?? ''}',
+                    text: '${widget.appointment.date ?? 'PENDING'}',
                     size: 11.0.sp,
                   ),
                 ),
@@ -198,7 +198,7 @@ class _ViewAppointmentScreenState extends State<ViewAppointmentScreen> {
                     weight: FontWeight.w500,
                   ),
                   trailing: CustomTextWidget(
-                    text: widget.appointment.donationDate ?? 'PENDING',
+                    text: widget.appointment.donationDate ?? '-',
                     size: 11.0.sp,
                   ),
                 ),

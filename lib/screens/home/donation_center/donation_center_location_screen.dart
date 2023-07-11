@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, prefer_const_constructors
+// ignore_for_file: non_constant_identifier_names, prefer_const_constructors, prefer_collection_literals
 import 'dart:async';
 import 'dart:convert';
 import 'dart:ui' as ui;
@@ -134,7 +134,8 @@ class _DonationCenterLocationScreenState
           onTap: () {
             customInfoWindowcontroller.addInfoWindow!(
               Container(
-                height: 25.0.hp,
+                height: MediaQuery.of(context).size.height * 0.3,
+                // height: 25.0.hp,
                 decoration: BoxDecoration(
                   color: AppStyles.bgWhite,
                   borderRadius: BorderRadius.circular(10),
@@ -143,14 +144,19 @@ class _DonationCenterLocationScreenState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      height: 12.0.hp,
+                      height: MediaQuery.of(context).size.height * 0.18,
                       decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10),
+                        ),
                         image: widget.donationCenter.hospitalProfile!
                                     .hospitalImage !=
                                 null
                             ? DecorationImage(
                                 image: NetworkImage(
-                                    '${APIConstants.backendServerRootUrl}${widget.donationCenter.hospitalProfile!.hospitalImage}'),
+                                    '${widget.donationCenter.hospitalProfile!.hospitalImage}'),
+                                // '${APIConstants.backendServerRootUrl}${widget.donationCenter.hospitalProfile!.hospitalImage}'),
                                 fit: BoxFit.cover,
                                 filterQuality: FilterQuality.high,
                               )
@@ -164,6 +170,7 @@ class _DonationCenterLocationScreenState
                     ),
                     Container(
                       // height: 15.0.hp,
+                      height: MediaQuery.of(context).size.height * 0.12,
                       padding: EdgeInsets.symmetric(
                         vertical: 1.0.hp,
                         horizontal: 2.0.wp,
@@ -279,8 +286,8 @@ class _DonationCenterLocationScreenState
                       },
                       gestureRecognizers:
                           <Factory<OneSequenceGestureRecognizer>>[
-                        new Factory<OneSequenceGestureRecognizer>(
-                          () => new EagerGestureRecognizer(),
+                        Factory<OneSequenceGestureRecognizer>(
+                          () => EagerGestureRecognizer(),
                         ),
                       ].toSet(),
                       scrollGesturesEnabled: true,
@@ -313,7 +320,8 @@ class _DonationCenterLocationScreenState
                     ),
                     CustomInfoWindow(
                       controller: customInfoWindowcontroller,
-                      height: 25.0.hp,
+                      // height: 25.0.hp,
+                      height: MediaQuery.of(context).size.height * 0.3,
                       width: 300,
                       offset: 35,
                     ),

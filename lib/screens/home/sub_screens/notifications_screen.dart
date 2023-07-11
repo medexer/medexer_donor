@@ -47,7 +47,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       drawer: SideBar(),
       appBar: PreferredSize(
         preferredSize:
-            Size.fromHeight(MediaQuery.of(context).size.height * 0.08),
+            Size.fromHeight(MediaQuery.of(context).size.height * 0.09),
         child: Container(
           margin: EdgeInsets.only(top: 2.0.hp),
           child: Column(
@@ -55,6 +55,11 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               PageHeader(scaffoldKey: scaffoldKey),
+              CustomTextWidget(
+                text: 'Notifications',
+                size: 16.0.sp,
+                weight: FontWeight.w600,
+              ),
             ],
           ),
         ),
@@ -71,11 +76,11 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                       child: Column(
                         children: [
                           // PageHeader(scaffoldKey: scaffoldKey),
-                          CustomTextWidget(
-                            text: 'Notifications',
-                            size: 16.0.sp,
-                            weight: FontWeight.w600,
-                          ),
+                          // CustomTextWidget(
+                          //   text: 'Notifications',
+                          //   size: 16.0.sp,
+                          //   weight: FontWeight.w600,
+                          // ),
                           userRepository.notifications.isEmpty
                               ? Container(
                                   child: Lottie.asset(
