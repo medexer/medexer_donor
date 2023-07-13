@@ -300,7 +300,8 @@ class _DonationCenterLocationScreenState
                         _controller.complete(controller);
                         customInfoWindowcontroller.googleMapController =
                             controller;
-                        changeMapMode(controller);
+
+                        // changeMapMode(controller);
 
                         // initializeMarkerIcon();
                       },

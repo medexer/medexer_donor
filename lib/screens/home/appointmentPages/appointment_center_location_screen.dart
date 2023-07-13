@@ -307,7 +307,8 @@ class _AppointmentCenterLocationScreenState
                         _controller.complete(controller);
                         customInfoWindowcontroller.googleMapController =
                             controller;
-                        changeMapMode(controller);
+
+                        // changeMapMode(controller);
                         // initializeMarkerIcon();
                       },
                       // markers: _markers!,

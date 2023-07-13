@@ -286,7 +286,8 @@ class _FinalMapState extends State<FinalMap> {
           onMapCreated: (GoogleMapController controller) {
             _controller.complete(controller);
             customInfoWindowcontroller.googleMapController = controller;
-            changeMapMode(controller);
+
+            // changeMapMode(controller);
             // onMapcreated();
           },
           // markers: _markers!,
