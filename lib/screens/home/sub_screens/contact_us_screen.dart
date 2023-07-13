@@ -105,7 +105,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                                       socialMedia[index].icon,
                                       color: AppStyles.bgBlue,
                                       width: socialMedia[index].type ==
-                                              //appSocials[index]['type'] ==
+                                              //appSocials[index]['type'] =
                                               'LINKEDIN'
                                           ? 22.0.sp
                                           : socialMedia[index].type ==
