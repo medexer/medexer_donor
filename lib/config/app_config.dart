@@ -48,3 +48,21 @@ extension PercentSized on double {
 extension ResponsiveText on double {
   double get sp => Get.width / 100 * (this / 3);
 }
+
+double constructFontSize(BuildContext context, double baseFontSize) {
+  final screenWidth = MediaQuery.of(context).size.width;
+  double scaleFactor;
+
+  if (screenWidth < 400) {
+    scaleFactor = 0.002;
+  } else if (screenWidth >= 400 && screenWidth < 600) {
+    scaleFactor = 0.003;
+  } else {
+    scaleFactor = 0.004;
+  }
+
+  // Calculate the scaled font size
+  final scaledFontSize = screenWidth * scaleFactor + baseFontSize;
+
+  return scaledFontSize;
+}

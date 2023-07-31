@@ -125,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Center(
                         child: CustomTextWidget(
                           text: 'Login',
-                          size: 30.0.sp,
+                          size: 35.0,
                           color: Colors.white,
                           weight: FontWeight.bold,
                         ),
@@ -172,7 +172,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             },
                             child: CustomTextWidget(
                               text: 'Forgot password?',
-                              size: 12.0.sp,
+                              size: 16.0,
                               color: AppStyles.bgGray4,
                             ),
                           ),
@@ -188,7 +188,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               onTapHandler: () {
                                 signinHandler();
                               },
-                              fontSize: 12.0.sp,
+                              fontSize: 16.0,
                               borderRadius: 5,
                               fontColor: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -203,7 +203,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           SizedBox(width: 4.0.wp),
                           CustomTextWidget(
                             text: 'Or login with',
-                            size: 12.0.sp,
+                            size: 16.0,
                             color: AppStyles.bgGray4,
                           ),
                           SizedBox(width: 4.0.wp),
@@ -311,7 +311,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       CustomTextWidget(
                         text: 'Don\'t have an account? ',
-                        size: 12.0.sp,
+                        size: 16.0,
                         color: AppStyles.bgGray4,
                       ),
                       GestureDetector(
@@ -325,7 +325,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         child: CustomTextWidget(
                           text: 'Signup',
-                          size: 12.0.sp,
+                          size: 16.0,
                           color: AppStyles.bgBlue,
                         ),
                       ),

@@ -96,7 +96,7 @@ class _FinalMapState extends State<FinalMap> {
         );
       }
     });
-  }
+  } 
 
   Future<Uint8List> getBytesFromAsset(
       {required String path, required int width}) async {
