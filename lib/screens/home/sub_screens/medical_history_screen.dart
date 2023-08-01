@@ -78,12 +78,16 @@ class _MedicalHistoryScreenState extends State<MedicalHistoryScreen> {
                                             'assets/animations/animation__5.json'),
                                       )
                                     : Container(
+                                        margin: EdgeInsets.only(
+                                            top: screenHeight * 0.01),
                                         height: screenHeight * 0.8,
                                         child: ListView.builder(
                                             itemCount: userRepository
                                                 .medicalHistory.length,
                                             itemBuilder: (_, index) {
                                               return ListTile(
+                                                tileColor: AppStyles.bgPrimary
+                                                    .withOpacity(0.05),
                                                 onTap: () {
                                                   Get.to(
                                                     () =>
@@ -97,24 +101,24 @@ class _MedicalHistoryScreenState extends State<MedicalHistoryScreen> {
                                                 },
                                                 leading: CustomTextWidget(
                                                   text: '${index + 1}',
-                                                  size: 12.0.sp,
+                                                  size: 12.0,
                                                 ),
                                                 title: CustomTextWidget(
                                                   text:
                                                       '${userRepository.medicalHistory[index].appointmentInfo!.appointmentID}',
-                                                  size: 12.0.sp,
+                                                  size: 16.0,
                                                   color: AppStyles.bgPrimary,
                                                 ),
                                                 subtitle: CustomTextWidget(
                                                   text:
                                                       '${userRepository.medicalHistory[index].hospitalProfile!.hospitalName}',
-                                                  size: 8.0.sp,
+                                                  size: 12.0,
                                                   color: AppStyles.bgBrightRed,
                                                 ),
                                                 trailing: CustomTextWidget(
                                                   text:
                                                       '${userRepository.medicalHistory[index].appointmentInfo!.donationDate}',
-                                                  size: 8.0.sp,
+                                                  size: 10.0,
                                                 ),
                                               );
                                             }),

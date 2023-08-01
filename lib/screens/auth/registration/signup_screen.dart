@@ -40,6 +40,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   Future<void> signupHandler() async {
+    // Get.to(() => SignupStepTwoScreen());
     if (!fullnameController.text.trim().isNotEmpty ||
         !emailController.text.trim().isNotEmpty ||
         !passwordController.text.trim().isNotEmpty ||
@@ -119,6 +120,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
@@ -145,7 +147,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     Center(
                       child: CustomTextWidget(
                         text: 'Sign Up',
-                        size: 30.0.sp,
+                        size: 35.0,
                         color: Colors.white,
                         weight: FontWeight.bold,
                       ),
@@ -192,11 +194,11 @@ class _SignupScreenState extends State<SignupScreen> {
                         : CustomButton(
                             text: 'Next',
                             width: double.maxFinite,
-                            height: 6.0.hp,
+                            height: screenHeight * 0.06,
                             onTapHandler: () {
                               signupHandler();
                             },
-                            fontSize: 12.0.sp,
+                            fontSize: 16.0,
                             borderRadius: 5,
                             fontColor: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -211,7 +213,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         SizedBox(width: 4.0.wp),
                         CustomTextWidget(
                           text: 'Or signup with',
-                          size: 12.0.sp,
+                          size: 16.0,
                           color: AppStyles.bgGray4,
                         ),
                         SizedBox(width: 4.0.wp),
@@ -247,8 +249,8 @@ class _SignupScreenState extends State<SignupScreen> {
                             });
                           },
                           child: Container(
-                            width: 20.0.wp,
-                            height: 6.0.hp,
+                            width: screenWidth * 0.20,
+                            height: screenHeight * 0.06,
                             decoration: BoxDecoration(
                               color: AppStyles.bgGray.withOpacity(0.8),
                               borderRadius: BorderRadius.circular(5),
@@ -272,8 +274,8 @@ class _SignupScreenState extends State<SignupScreen> {
                             );
                           },
                           child: Container(
-                            width: 20.0.wp,
-                            height: 6.0.hp,
+                            width: screenWidth * 0.20,
+                            height: screenHeight * 0.06,
                             decoration: BoxDecoration(
                               color: AppStyles.bgGray.withOpacity(0.8),
                               borderRadius: BorderRadius.circular(5),
@@ -297,8 +299,8 @@ class _SignupScreenState extends State<SignupScreen> {
                             );
                           },
                           child: Container(
-                            width: 20.0.wp,
-                            height: 6.0.hp,
+                            width: screenWidth * 0.20,
+                            height: screenHeight * 0.06,
                             decoration: BoxDecoration(
                               color: AppStyles.bgGray.withOpacity(0.8),
                               borderRadius: BorderRadius.circular(5),
@@ -319,7 +321,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   children: [
                     CustomTextWidget(
                       text: 'Already have an account? ',
-                      size: 12.0.sp,
+                      size: 16.0,
                       color: AppStyles.bgGray4,
                     ),
                     GestureDetector(
@@ -333,7 +335,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       },
                       child: CustomTextWidget(
                         text: 'Login',
-                        size: 12.0.sp,
+                        size: 16.0,
                         color: AppStyles.bgBlue,
                       ),
                     ),

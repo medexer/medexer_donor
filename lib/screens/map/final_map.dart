@@ -96,7 +96,7 @@ class _FinalMapState extends State<FinalMap> {
         );
       }
     });
-  } 
+  }
 
   Future<Uint8List> getBytesFromAsset(
       {required String path, required int width}) async {
@@ -180,38 +180,12 @@ class _FinalMapState extends State<FinalMap> {
                             children: [
                               CustomTextWidget(
                                 text: '${location.centerName}',
-                                size: 12.0.sp,
+                                size: 16.0,
                               ),
                               CustomTextWidget(
                                 text: '${location.address}',
-                                size: 10.0.sp,
+                                size: 14.0,
                               ),
-                              SizedBox(height: 1.0.hp),
-                              // Row(
-                              //   mainAxisAlignment: MainAxisAlignment.end,
-                              //   children: [
-                              //     CustomButton(
-                              //       text: 'Profile',
-                              //       width: 30.0.wp,
-                              //       height: 4.0.hp,
-                              //       onTapHandler: () {
-                              //         Get.to(
-                              //           () =>
-                              //               HospitalMapDonationCenterProfileScreen(
-                              //                   donationCenter: location),
-                              //         );
-
-                              //         customInfoWindowcontroller
-                              //             .hideInfoWindow!();
-                              //       },
-                              //       fontSize: 10.0.sp,
-                              //       borderRadius: 5,
-                              //       fontColor: Colors.white,
-                              //       fontWeight: FontWeight.w500,
-                              //       backgroundColor: AppStyles.bgBlue,
-                              //     ),
-                              //   ],
-                              // ),
                             ],
                           ),
                         ),

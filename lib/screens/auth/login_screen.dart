@@ -94,6 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
     return WillPopScope(
@@ -172,7 +173,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             },
                             child: CustomTextWidget(
                               text: 'Forgot password?',
-                              size: 16.0,
+                              size: 14.0,
                               color: AppStyles.bgGray4,
                             ),
                           ),
@@ -184,7 +185,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           : CustomButton(
                               text: 'Login',
                               width: double.maxFinite,
-                              height: 6.0.hp,
+                              height: screenHeight * 0.06,
                               onTapHandler: () {
                                 signinHandler();
                               },
@@ -239,8 +240,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               });
                             },
                             child: Container(
-                              width: 20.0.wp,
-                              height: 6.0.hp,
+                              width: screenWidth * 0.20,
+                              height: screenHeight * 0.06,
+                              // width: 20.0.wp,
+                              // height: 6.0.hp,
                               decoration: BoxDecoration(
                                 color: AppStyles.bgGray.withOpacity(0.8),
                                 borderRadius: BorderRadius.circular(5),
@@ -264,8 +267,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               );
                             },
                             child: Container(
-                              width: 20.0.wp,
-                              height: 6.0.hp,
+                              width: screenWidth * 0.20,
+                              // width: 20.0.wp,
+                              height: screenHeight * 0.06,
+                              // height: 6.0.hp,
                               decoration: BoxDecoration(
                                 color: AppStyles.bgGray.withOpacity(0.8),
                                 borderRadius: BorderRadius.circular(5),
@@ -289,8 +294,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               );
                             },
                             child: Container(
-                              width: 20.0.wp,
-                              height: 6.0.hp,
+                              width: screenWidth * 0.20,
+                              // width: 20.0.wp,
+                              height: screenHeight * 0.06,
+                              // height: 6.0.hp,
                               decoration: BoxDecoration(
                                 color: AppStyles.bgGray.withOpacity(0.8),
                                 borderRadius: BorderRadius.circular(5),

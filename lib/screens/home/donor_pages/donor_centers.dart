@@ -21,6 +21,7 @@ class _DonorCentersScreenState extends State<DonorCentersScreen>
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     TabController tabController = TabController(length: 2, vsync: this);
 
@@ -76,7 +77,7 @@ class _DonorCentersScreenState extends State<DonorCentersScreen>
                         child: CustomTextWidget(
                           text: "Centers",
                           // color: Colors.white,
-                          size: 12.0.sp,
+                          size: 14.0,
                         ),
                       ),
                     ),
@@ -91,7 +92,7 @@ class _DonorCentersScreenState extends State<DonorCentersScreen>
                         child: CustomTextWidget(
                           text: "Appointments",
                           // color: Colors.white,
-                          size: 12.0.sp,
+                          size: 14.0,
                         ),
                       ),
                     )

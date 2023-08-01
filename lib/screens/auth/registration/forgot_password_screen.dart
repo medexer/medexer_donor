@@ -66,7 +66,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         //               onTapHandler: () {
         //                 Get.back();
         //               },
-        //               fontSize: 13.0.sp,
+        //               fontSize: 13.0,
         //               fontColor: Colors.white,
         //               fontWeight: FontWeight.w300,
         //               borderRadius: 10,
@@ -128,7 +128,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       Center(
                         child: CustomTextWidget(
                           text: 'Forgot Password',
-                          size: 25.0.sp,
+                          size: 25.0,
                           color: Colors.white,
                           weight: FontWeight.bold,
                         ),
@@ -138,7 +138,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         child: CustomTextWidget(
                           text:
                               'Enter your email to recover your password. An OTP would be sent to you valid email',
-                          size: 12.0.sp,
+                          size: 16.0,
                           alignment: TextAlign.center,
                           color: Colors.white,
                           // weight: FontWeight.bold,
@@ -158,11 +158,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           : CustomButton(
                               text: 'Send OTP',
                               width: double.maxFinite,
-                              height: 6.0.hp,
+                              height: screenHeight * 0.06,
                               onTapHandler: () {
                                 forgetPassordHandler();
                               },
-                              fontSize: 12.0.sp,
+                              fontSize: 16.0,
                               borderRadius: 5,
                               fontColor: Colors.white,
                               fontWeight: FontWeight.bold,

@@ -64,12 +64,12 @@ class _AppointmentsState extends State<Appointments> {
                           title: CustomTextWidget(
                             text:
                                 '${userRepository.appointments[index].hospitalInfo.hospitalName}',
-                            size: 12.0.sp,
+                            size: 14.0,
                           ),
                           subtitle: CustomTextWidget(
                             text:
                                 '${userRepository.appointments[index].hospitalInfo.location ?? ''}',
-                            size: 8.0.sp,
+                            size: 10.0,
                           ),
                           trailing: CustomTextWidget(
                             text:
@@ -79,7 +79,7 @@ class _AppointmentsState extends State<Appointments> {
                                         true
                                     ? Colors.green.shade600
                                     : AppStyles.bgPrimary,
-                            size: 12.0.sp,
+                            size: 12.0,
                           ),
                         );
                       },

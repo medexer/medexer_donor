@@ -41,9 +41,12 @@ class CustomFormTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Container(
       width: double.maxFinite,
-      height: height ?? 6.0.hp,
+      height: height ?? screenHeight * 0.06,
+      // height: height ?? 6.0.hp,
       decoration: BoxDecoration(
         color: background ?? background,
         border: Border.all(

@@ -52,7 +52,7 @@ class _DonationCenterSearchProfileScreenState
           children: [
             CustomButton(
               text: 'Book Appointment',
-              height: 6.0.hp,
+              height: screenHeight * 0.06,
               width: MediaQuery.of(context).size.width * 0.9,
               onTapHandler: () {
                 Get.to(
@@ -61,7 +61,7 @@ class _DonationCenterSearchProfileScreenState
                   ),
                 );
               },
-              fontSize: 10.0.sp,
+              fontSize: 16.0,
               fontColor: Colors.white,
               fontWeight: FontWeight.bold,
               borderRadius: 15,
@@ -103,7 +103,7 @@ class _DonationCenterSearchProfileScreenState
                 // PageHeader(scaffoldKey: scaffoldKey),
                 CustomTextWidget(
                   text: '${widget.donationCenter.hospitalName}',
-                  size: 14.0.sp,
+                  size: 18.0,
                   weight: FontWeight.w500,
                 ),
                 SizedBox(height: 1.0.hp),
@@ -111,7 +111,7 @@ class _DonationCenterSearchProfileScreenState
                   children: [
                     CustomTextWidget(
                       text: 'About',
-                      size: 12.0.sp,
+                      size: 16.0,
                       weight: FontWeight.w500,
                     ),
                   ],
@@ -126,7 +126,7 @@ class _DonationCenterSearchProfileScreenState
                               maxLines: 100,
                               text:
                                   '${widget.donationCenter.hospitalName}, ${widget.donationCenter.hospitalProfile?.aboutHospital}',
-                              size: 12.0.sp,
+                              size: 16.0,
                               // weight: FontWeight.w500,
                             )
                           : Container(),
@@ -138,7 +138,7 @@ class _DonationCenterSearchProfileScreenState
                   children: [
                     CustomTextWidget(
                       text: 'Address: ',
-                      size: 12.0.sp,
+                      size: 16.0,
                       weight: FontWeight.w500,
                     ),
                   ],
@@ -149,7 +149,7 @@ class _DonationCenterSearchProfileScreenState
                       child: widget.donationCenter.centerAddress != null
                           ? CustomTextWidget(
                               text: '${widget.donationCenter.centerAddress}',
-                              size: 12.0.sp,
+                              size: 16.0,
                               // weight: FontWeight.w500,
                             )
                           : Container(),
@@ -161,7 +161,7 @@ class _DonationCenterSearchProfileScreenState
                   children: [
                     CustomTextWidget(
                       text: 'Contact number: ',
-                      size: 12.0.sp,
+                      size: 16.0,
                       weight: FontWeight.w500,
                     ),
                   ],
@@ -175,7 +175,7 @@ class _DonationCenterSearchProfileScreenState
                           ? CustomTextWidget(
                               text:
                                   '${widget.donationCenter.hospitalProfile!.contactNumber}',
-                              size: 12.0.sp,
+                              size: 16.0,
                               // weight: FontWeight.w500,
                             )
                           : Container(),
@@ -187,7 +187,7 @@ class _DonationCenterSearchProfileScreenState
                   children: [
                     CustomTextWidget(
                       text: 'Email: ',
-                      size: 12.0.sp,
+                      size: 16.0,
                       weight: FontWeight.w500,
                     ),
                   ],
@@ -197,7 +197,7 @@ class _DonationCenterSearchProfileScreenState
                     Expanded(
                       child: CustomTextWidget(
                         text: '${widget.donationCenter.email}',
-                        size: 12.0.sp,
+                        size: 16.0,
                         // weight: FontWeight.w500,
                       ),
                     ),
@@ -212,7 +212,7 @@ class _DonationCenterSearchProfileScreenState
                 CustomButton(
                   text: 'Call',
                   width: double.maxFinite,
-                  height: 6.0.hp,
+                  height: screenHeight * 0.06,
                   onTapHandler: () async {
                     final Uri contactNumberUrl = Uri.parse(
                         'tel:${widget.donationCenter.hospitalProfile!.contactNumber}');
@@ -222,7 +222,7 @@ class _DonationCenterSearchProfileScreenState
                       throw 'Could not launch $contactNumberUrl';
                     }
                   },
-                  fontSize: 10.0.sp,
+                  fontSize: 16.0,
                   borderRadius: 5,
                   fontColor: Colors.white,
                   fontWeight: FontWeight.w500,
@@ -232,7 +232,7 @@ class _DonationCenterSearchProfileScreenState
                 CustomButton(
                   text: 'Message',
                   width: double.maxFinite,
-                  height: 6.0.hp,
+                  height: screenHeight * 0.06,
                   onTapHandler: () async {
                     final Uri contactNumberUrl =
                         Uri.parse('sms:+2349020029920');
@@ -242,7 +242,7 @@ class _DonationCenterSearchProfileScreenState
                       throw 'Could not launch $contactNumberUrl';
                     }
                   },
-                  fontSize: 10.0.sp,
+                  fontSize: 16.0,
                   borderRadius: 5,
                   fontColor: Colors.white,
                   fontWeight: FontWeight.w500,
@@ -252,7 +252,7 @@ class _DonationCenterSearchProfileScreenState
                 CustomButton(
                   text: 'Center Location',
                   width: double.maxFinite,
-                  height: 6.0.hp,
+                  height: screenHeight * 0.06,
                   onTapHandler: () {
                     Get.to(
                       () => DonationCenterLocationScreen(
@@ -260,7 +260,7 @@ class _DonationCenterSearchProfileScreenState
                       ),
                     );
                   },
-                  fontSize: 10.0.sp,
+                  fontSize: 16.0,
                   borderRadius: 5,
                   fontColor: Colors.white,
                   fontWeight: FontWeight.w500,
@@ -279,7 +279,7 @@ class _DonationCenterSearchProfileScreenState
                 //       ),
                 //     );
                 //   },
-                //   fontSize: 10.0.sp,
+                //   fontSize: 16.0,
                 //   borderRadius: 5,
                 //   fontColor: Colors.white,
                 //   fontWeight: FontWeight.w500,

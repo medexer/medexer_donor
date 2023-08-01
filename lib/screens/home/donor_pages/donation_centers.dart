@@ -51,37 +51,25 @@ class _DonationCentersState extends State<DonationCenters> {
                             itemCount: userRepository.donationCenters.length,
                             itemBuilder: (_, index) {
                               return ListTile(
-                                leading: GestureDetector(
-                                  onTap: () {
-                                    Get.to(
-                                      () => DonationCenterSearchProfileScreen(
-                                        donationCenter: userRepository
-                                            .donationCenters[index],
-                                      ),
-                                    );
-                                  },
-                                  child: CircleAvatar(
-                                    backgroundColor: AppStyles.bgPrimary,
-                                    child: SvgPicture.asset(
-                                      'assets/icons/icon__medical.svg',
-                                      color: AppStyles.bgWhite,
+                                onTap: () {
+                                  Get.to(
+                                    () => DonationCenterSearchProfileScreen(
+                                      donationCenter:
+                                          userRepository.donationCenters[index],
                                     ),
+                                  );
+                                },
+                                leading: CircleAvatar(
+                                  backgroundColor: AppStyles.bgPrimary,
+                                  child: SvgPicture.asset(
+                                    'assets/icons/icon__medical.svg',
+                                    color: AppStyles.bgWhite,
                                   ),
                                 ),
-                                title: GestureDetector(
-                                  onTap: () {
-                                    Get.to(
-                                      () => DonationCenterSearchProfileScreen(
-                                        donationCenter: userRepository
-                                            .donationCenters[index],
-                                      ),
-                                    );
-                                  },
-                                  child: CustomTextWidget(
-                                    text:
-                                        '${userRepository.donationCenters[index].hospitalName}',
-                                    size: 12.0.sp,
-                                  ),
+                                title: CustomTextWidget(
+                                  text:
+                                      '${userRepository.donationCenters[index].hospitalName}',
+                                  size: 14.0,
                                 ),
                                 subtitle: GestureDetector(
                                   onTap: () {
@@ -95,7 +83,7 @@ class _DonationCentersState extends State<DonationCenters> {
                                   child: CustomTextWidget(
                                     text:
                                         '${userRepository.donationCenters[index].centerAddress}',
-                                    size: 8.0.sp,
+                                    size: 10.0,
                                   ),
                                 ),
                                 // trailing: CustomButton(

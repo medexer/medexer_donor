@@ -115,7 +115,7 @@ class _SignupStepTwoScreenState extends State<SignupStepTwoScreen> {
                     Center(
                       child: CustomTextWidget(
                         text: 'Sign Up',
-                        size: 30.0.sp,
+                        size: 35.0,
                         color: Colors.white,
                         weight: FontWeight.bold,
                       ),
@@ -130,18 +130,6 @@ class _SignupStepTwoScreenState extends State<SignupStepTwoScreen> {
                       background: Colors.white.withOpacity(0.4),
                       hintColor: Colors.black,
                     ),
-                    // CustomSelectButton(
-                    //   title: 'Nationality',
-                    //   height: 65.0.hp,
-                    //   items: appCountries,
-                    //   currentItem: nationalityController.text.toString(),
-                    //   onChangeHandler: (int index) {
-                    //     setState(() {
-                    //       nationalityController.text =
-                    //           appCountries[index]['name'];
-                    //     });
-                    //   },
-                    // ),
                     SizedBox(height: 1.0.hp),
                     CustomSelectButton(
                       title: 'Gender',
@@ -210,11 +198,11 @@ class _SignupStepTwoScreenState extends State<SignupStepTwoScreen> {
                         : CustomButton(
                             text: 'Signup',
                             width: double.maxFinite,
-                            height: 6.0.hp,
+                            height: screenHeight * 0.06,
                             onTapHandler: () {
                               signupHandler();
                             },
-                            fontSize: 12.0.sp,
+                            fontSize: 16.0,
                             borderRadius: 5,
                             fontColor: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -229,7 +217,7 @@ class _SignupStepTwoScreenState extends State<SignupStepTwoScreen> {
                   children: [
                     CustomTextWidget(
                       text: 'Already have an account? ',
-                      size: 12.0.sp,
+                      size: 16.0,
                       color: AppStyles.bgGray4,
                     ),
                     GestureDetector(
@@ -243,7 +231,7 @@ class _SignupStepTwoScreenState extends State<SignupStepTwoScreen> {
                       },
                       child: CustomTextWidget(
                         text: 'Login',
-                        size: 12.0.sp,
+                        size: 16.0,
                         color: AppStyles.bgBlue,
                       ),
                     ),

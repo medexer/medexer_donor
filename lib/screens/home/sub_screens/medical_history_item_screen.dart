@@ -47,27 +47,27 @@ class _MedicalHistoryItemScreenState extends State<MedicalHistoryItemScreen> {
               ),
               CustomTextWidget(
                 text: 'Medical History',
-                size: 15.0.sp,
+                size: 16.0,
                 color: AppStyles.bgWhite,
                 weight: FontWeight.w600,
               ),
               CustomTextWidget(
                 text:
                     'Appointment ID: ${widget.medicalHistoryItem.appointmentInfo!.appointmentID}',
-                size: 11.0.sp,
+                size: 14.0,
                 color: AppStyles.bgWhite,
                 // weight: FontWeight.w600,
               ),
               CustomTextWidget(
                 text:
                     'Centre Name: ${widget.medicalHistoryItem.hospitalProfile!.hospitalName}',
-                size: 11.0.sp,
+                size: 14.0,
                 color: AppStyles.bgWhite,
                 // weight: FontWeight.w600,
               ),
               CustomTextWidget(
                 text: 'Uploaded On: ${widget.medicalHistoryItem.createdAt}',
-                size: 10.0.sp,
+                size: 12.0,
                 color: AppStyles.bgWhite,
                 // weight: FontWeight.w600,
               ),
@@ -83,23 +83,23 @@ class _MedicalHistoryItemScreenState extends State<MedicalHistoryItemScreen> {
               ListTile(
                 leading: CustomTextWidget(
                   text: '1',
-                  size: 10.0.sp,
+                  size: 12.0,
                 ),
                 title: CustomTextWidget(
                   text: 'HIV 1/2',
-                  size: 13.0.sp,
+                  size: 14.0,
                   weight: FontWeight.w500,
                 ),
                 subtitle: Row(
                   children: [
                     CustomTextWidget(
                       text: 'Status: ',
-                      size: 11.0.sp,
+                      size: 12.0,
                     ),
                     // SizedBox(width: 2.0.wp),
                     CustomTextWidget(
                       text: '${widget.medicalHistoryItem.hiv}',
-                      size: 11.0.sp,
+                      size: 12.0,
                     ),
                   ],
                 ),
@@ -108,23 +108,23 @@ class _MedicalHistoryItemScreenState extends State<MedicalHistoryItemScreen> {
               ListTile(
                 leading: CustomTextWidget(
                   text: '2',
-                  size: 10.0.sp,
+                  size: 12.0,
                 ),
                 title: CustomTextWidget(
                   text: 'Hepatitis B',
-                  size: 13.0.sp,
+                  size: 14.0,
                   weight: FontWeight.w500,
                 ),
                 subtitle: Row(
                   children: [
                     CustomTextWidget(
                       text: 'Status: ',
-                      size: 11.0.sp,
+                      size: 12.0,
                     ),
                     // SizedBox(width: 2.0.wp),
                     CustomTextWidget(
                       text: '${widget.medicalHistoryItem.hepatitisB}',
-                      size: 11.0.sp,
+                      size: 12.0,
                     ),
                   ],
                 ),
@@ -133,23 +133,23 @@ class _MedicalHistoryItemScreenState extends State<MedicalHistoryItemScreen> {
               ListTile(
                 leading: CustomTextWidget(
                   text: '3',
-                  size: 10.0.sp,
+                  size: 12.0,
                 ),
                 title: CustomTextWidget(
                   text: 'Hepatitis C',
-                  size: 13.0.sp,
+                  size: 14.0,
                   weight: FontWeight.w500,
                 ),
                 subtitle: Row(
                   children: [
                     CustomTextWidget(
                       text: 'Status: ',
-                      size: 11.0.sp,
+                      size: 12.0,
                     ),
                     // SizedBox(width: 2.0.wp),
                     CustomTextWidget(
                       text: '${widget.medicalHistoryItem.hepatitisC}',
-                      size: 11.0.sp,
+                      size: 12.0,
                     ),
                   ],
                 ),
@@ -158,23 +158,23 @@ class _MedicalHistoryItemScreenState extends State<MedicalHistoryItemScreen> {
               ListTile(
                 leading: CustomTextWidget(
                   text: '4',
-                  size: 10.0.sp,
+                  size: 12.0,
                 ),
                 title: CustomTextWidget(
                   text: 'VDRL (Venereal Disease Research Laboratory)',
-                  size: 13.0.sp,
+                  size: 14.0,
                   weight: FontWeight.w500,
                 ),
                 subtitle: Row(
                   children: [
                     CustomTextWidget(
                       text: 'Status: ',
-                      size: 11.0.sp,
+                      size: 12.0,
                     ),
                     // SizedBox(width: 2.0.wp),
                     CustomTextWidget(
                       text: '${widget.medicalHistoryItem.vdrl}',
-                      size: 11.0.sp,
+                      size: 12.0,
                     ),
                   ],
                 ),
@@ -183,23 +183,23 @@ class _MedicalHistoryItemScreenState extends State<MedicalHistoryItemScreen> {
               ListTile(
                 leading: CustomTextWidget(
                   text: '5',
-                  size: 10.0.sp,
+                  size: 12.0,
                 ),
                 title: CustomTextWidget(
                   text: 'Blood Pressure',
-                  size: 13.0.sp,
+                  size: 14.0,
                   weight: FontWeight.w500,
                 ),
                 subtitle: Row(
                   children: [
                     CustomTextWidget(
                       text: 'Status: ',
-                      size: 11.0.sp,
+                      size: 12.0,
                     ),
                     // SizedBox(width: 2.0.wp),
                     CustomTextWidget(
                       text: '${widget.medicalHistoryItem.bloodPressure}',
-                      size: 11.0.sp,
+                      size: 12.0,
                     ),
                   ],
                 ),
@@ -208,23 +208,23 @@ class _MedicalHistoryItemScreenState extends State<MedicalHistoryItemScreen> {
               ListTile(
                 leading: CustomTextWidget(
                   text: '6',
-                  size: 10.0.sp,
+                  size: 12.0,
                 ),
                 title: CustomTextWidget(
                   text: 'Body Temperature',
-                  size: 13.0.sp,
+                  size: 14.0,
                   weight: FontWeight.w500,
                 ),
                 subtitle: Row(
                   children: [
                     CustomTextWidget(
                       text: 'Status: ',
-                      size: 11.0.sp,
+                      size: 12.0,
                     ),
                     // SizedBox(width: 2.0.wp),
                     CustomTextWidget(
                       text: '${widget.medicalHistoryItem.bodyTemperature}',
-                      size: 11.0.sp,
+                      size: 12.0,
                     ),
                   ],
                 ),
@@ -233,23 +233,23 @@ class _MedicalHistoryItemScreenState extends State<MedicalHistoryItemScreen> {
               ListTile(
                 leading: CustomTextWidget(
                   text: '7',
-                  size: 10.0.sp,
+                  size: 12.0,
                 ),
                 title: CustomTextWidget(
                   text: 'Genotype',
-                  size: 13.0.sp,
+                  size: 14.0,
                   weight: FontWeight.w500,
                 ),
                 subtitle: Row(
                   children: [
                     CustomTextWidget(
                       text: 'Status: ',
-                      size: 11.0.sp,
+                      size: 12.0,
                     ),
                     // SizedBox(width: 2.0.wp),
                     CustomTextWidget(
                       text: '${widget.medicalHistoryItem.genotype}',
-                      size: 11.0.sp,
+                      size: 12.0,
                     ),
                   ],
                 ),
@@ -258,23 +258,23 @@ class _MedicalHistoryItemScreenState extends State<MedicalHistoryItemScreen> {
               ListTile(
                 leading: CustomTextWidget(
                   text: '8',
-                  size: 10.0.sp,
+                  size: 12.0,
                 ),
                 title: CustomTextWidget(
                   text: 'Blood Group',
-                  size: 13.0.sp,
+                  size: 14.0,
                   weight: FontWeight.w500,
                 ),
                 subtitle: Row(
                   children: [
                     CustomTextWidget(
                       text: 'Status: ',
-                      size: 11.0.sp,
+                      size: 12.0,
                     ),
                     // SizedBox(width: 2.0.wp),
                     CustomTextWidget(
                       text: '${widget.medicalHistoryItem.bloodGroup}',
-                      size: 11.0.sp,
+                      size: 12.0,
                     ),
                   ],
                 ),
@@ -283,23 +283,23 @@ class _MedicalHistoryItemScreenState extends State<MedicalHistoryItemScreen> {
               ListTile(
                 leading: CustomTextWidget(
                   text: '9',
-                  size: 10.0.sp,
+                  size: 12.0,
                 ),
                 title: CustomTextWidget(
                   text: 'PCV (Packed Cell Volume)',
-                  size: 13.0.sp,
+                  size: 14.0,
                   weight: FontWeight.w500,
                 ),
                 subtitle: Row(
                   children: [
                     CustomTextWidget(
                       text: 'Status: ',
-                      size: 11.0.sp,
+                      size: 12.0,
                     ),
                     // SizedBox(width: 2.0.wp),
                     CustomTextWidget(
                       text: '${widget.medicalHistoryItem.pcv}',
-                      size: 11.0.sp,
+                      size: 12.0,
                     ),
                   ],
                 ),
@@ -308,23 +308,23 @@ class _MedicalHistoryItemScreenState extends State<MedicalHistoryItemScreen> {
               ListTile(
                 leading: CustomTextWidget(
                   text: '10',
-                  size: 10.0.sp,
+                  size: 12.0,
                 ),
                 title: CustomTextWidget(
                   text: 'Weight',
-                  size: 13.0.sp,
+                  size: 14.0,
                   weight: FontWeight.w500,
                 ),
                 subtitle: Row(
                   children: [
                     CustomTextWidget(
                       text: 'Status: ',
-                      size: 11.0.sp,
+                      size: 12.0,
                     ),
                     // SizedBox(width: 2.0.wp),
                     CustomTextWidget(
                       text: '${widget.medicalHistoryItem.weight}',
-                      size: 11.0.sp,
+                      size: 12.0,
                     ),
                   ],
                 ),
@@ -333,23 +333,23 @@ class _MedicalHistoryItemScreenState extends State<MedicalHistoryItemScreen> {
               ListTile(
                 leading: CustomTextWidget(
                   text: '11',
-                  size: 10.0.sp,
+                  size: 12.0,
                 ),
                 title: CustomTextWidget(
                   text: 'Height',
-                  size: 13.0.sp,
+                  size: 14.0,
                   weight: FontWeight.w500,
                 ),
                 subtitle: Row(
                   children: [
                     CustomTextWidget(
                       text: 'Status: ',
-                      size: 11.0.sp,
+                      size: 12.0,
                     ),
                     // SizedBox(width: 2.0.wp),
                     CustomTextWidget(
                       text: '${widget.medicalHistoryItem.height}',
-                      size: 11.0.sp,
+                      size: 12.0,
                     ),
                   ],
                 ),

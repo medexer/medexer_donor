@@ -57,6 +57,8 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       key: scaffoldKey,
       appBar: PreferredSize(
@@ -83,19 +85,19 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
               ),
               CustomTextWidget(
                 text: 'Book Appointment',
-                size: 15.0.sp,
+                size: 16.0,
                 color: AppStyles.bgWhite,
                 weight: FontWeight.w600,
               ),
               CustomTextWidget(
                 text: '${widget.donationCenter.hospitalName}',
-                size: 12.0.sp,
+                size: 14.0,
                 color: AppStyles.bgWhite,
                 // weight: FontWeight.w600,
               ),
               CustomTextWidget(
                 text: '${widget.donationCenter.centerAddress}',
-                size: 11.0.sp,
+                size: 14.0,
                 color: AppStyles.bgWhite,
                 // weight: FontWeight.w600,
               ),
@@ -114,12 +116,12 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
                   ? const CircularProgressIndicator()
                   : CustomButton(
                       text: 'Submit',
-                      height: 6.0.hp,
+                      height: screenHeight * 0.06,
                       width: MediaQuery.of(context).size.width * 0.9,
                       onTapHandler: () {
                         submitHandler();
                       },
-                      fontSize: 10.0.sp,
+                      fontSize: 14.0,
                       fontColor: Colors.white,
                       fontWeight: FontWeight.bold,
                       borderRadius: 10,
@@ -160,10 +162,10 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
                                       paddingLeft: 10,
                                       paddingTop: 5,
                                       paddingRight: 10,
-                                      height: 20.0.hp,
+                                      height: screenHeight * 0.25,
                                       borderRadius: 10,
                                       hintText:
-                                          'Write a short message to the hospial',
+                                          'Write a short message to the hospital',
                                       textColor: AppStyles.bgBlack,
                                       controller: messageController,
                                       background: Colors.white.withOpacity(0.4),
@@ -174,7 +176,7 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
                                         CustomTextWidget(
                                           text:
                                               'Are you donating for an adult?',
-                                          size: 12.0.sp,
+                                          size: 14.0,
                                         ),
                                         Switch(
                                           // thumb color (round icon)
@@ -199,7 +201,7 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
                                         CustomTextWidget(
                                           text:
                                               'Get notification when blood is used?',
-                                          size: 12.0.sp,
+                                          size: 14.0,
                                         ),
                                         Switch(
                                           // thumb color (round icon)

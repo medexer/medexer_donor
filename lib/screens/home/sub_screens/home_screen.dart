@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (userRepository.userData.value.fullName == null) {
       userRepository.userData.value =
           UserModel.fromJson(authStorage.read('MDX-USER'));
-          
+
       userRepository.userProfile.value =
           UserProfileModel.fromJson(authStorage.read('MDX-USER-PROFILE'));
     }
@@ -83,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
         color: Colors.transparent,
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 4.0.wp),
-          height: 12.0.hp,
+          height: screenHeight * 0.1,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                   topRight: Radius.circular(20), topLeft: Radius.circular(20)),
@@ -94,14 +94,14 @@ class _HomeScreenState extends State<HomeScreen> {
               Center(
                 child: Container(
                   width: 40,
-                  height: 0.6.hp,
+                  height: screenHeight * 0.005,
                   decoration: BoxDecoration(
                     color: AppStyles.bgBlack,
                     borderRadius: BorderRadius.circular(50),
                   ),
                 ),
               ),
-              SizedBox(height: 2.0.hp),
+              SizedBox(height: screenHeight * 0.01),
               GestureDetector(
                 onTap: () {
                   Get.to(
@@ -111,8 +111,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 },
                 child: Container(
+                  height: screenHeight * 0.06,
                   padding: EdgeInsets.symmetric(
-                    vertical: 1.2.hp,
+                    vertical: screenHeight * 0.008,
                     horizontal: 4.0.wp,
                   ),
                   decoration: BoxDecoration(
@@ -128,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       SizedBox(width: 2.0.wp),
                       CustomTextWidget(
                         text: 'Search for donation center(s)',
-                        size: 10.0.sp,
+                        size: 14.0,
                       ),
                     ],
                   ),

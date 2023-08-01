@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, must_be_immutable
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, must_be_immutable, unused_field
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -48,8 +48,6 @@ class _SideBarState extends State<SideBar> {
                 backgroundColor: AppStyles.bgWhite,
                 backgroundImage: NetworkImage(
                     '${userRepository.userProfile.value.userAvatar}'),
-                // '${APIConstants.backendServerRootUrl}${userRepository.userData.value.avatar}'),
-                // backgroundImage: AssetImage('assets/images/avatar__1.jpg'),
               ),
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -58,8 +56,8 @@ class _SideBarState extends State<SideBar> {
                     child: CustomTextWidget(
                       maxLines: 2,
                       text: '${userRepository.userData.value.fullName}',
-                      // size: 12.0.sp,
-                      size: MediaQuery.of(context).size.width * 0.034,
+                      // size: 14.0,
+                      size: 14,
                     ),
                   ),
                   // CustomTextWidget(
@@ -83,8 +81,9 @@ class _SideBarState extends State<SideBar> {
               ),
               subtitle: CustomTextWidget(
                 text: 'Profile',
-                // size: 12.0.sp,
-                size: MediaQuery.of(context).size.width * 0.034,
+                // size: 14.0,
+                size: 14,
+                // size: MediaQuery.of(context).size.width * 0.034,
               ),
               onTap: () {
                 Get.to(() => ProfileScreen());
@@ -105,7 +104,7 @@ class _SideBarState extends State<SideBar> {
             ),
             title: CustomTextWidget(
               text: 'Home',
-              size: 12.0.sp,
+              size: 14.0,
             ),
             onTap: () {
               Get.to(() => HomeScreen());
@@ -124,7 +123,7 @@ class _SideBarState extends State<SideBar> {
             ),
             title: CustomTextWidget(
               text: 'Donation Centers',
-              size: 12.0.sp,
+              size: 14.0,
             ),
             onTap: () {
               Get.to(() => DonorCentersScreen());
@@ -143,7 +142,7 @@ class _SideBarState extends State<SideBar> {
             ),
             title: CustomTextWidget(
               text: 'Medical History',
-              size: 12.0.sp,
+              size: 14.0,
             ),
             onTap: () {
               Get.to(() => MedicalHistoryScreen());
@@ -162,7 +161,7 @@ class _SideBarState extends State<SideBar> {
             ),
             title: CustomTextWidget(
               text: 'Guide',
-              size: 12.0.sp,
+              size: 14.0,
             ),
             onTap: () {
               Get.to(() => AppGuideScreen());
@@ -177,7 +176,7 @@ class _SideBarState extends State<SideBar> {
             ),
             title: CustomTextWidget(
               text: 'Rewards',
-              size: 12.0.sp,
+              size: 14.0,
             ),
             onTap: () {
               Get.to(() => PendingRewardScreen());
@@ -193,7 +192,7 @@ class _SideBarState extends State<SideBar> {
             ),
             title: CustomTextWidget(
               text: 'Contact Us',
-              size: 12.0.sp,
+              size: 14.0,
             ),
             onTap: () {
               Get.to(() => ContactUsScreen());
@@ -211,7 +210,7 @@ class _SideBarState extends State<SideBar> {
               children: [
                 CustomTextWidget(
                   text: 'Notification',
-                  size: 12.0.sp,
+                  size: 14.0,
                 ),
                 SizedBox(width: 1.0.wp),
                 // ClipOval(
@@ -244,7 +243,7 @@ class _SideBarState extends State<SideBar> {
             ),
             title: CustomTextWidget(
               text: 'About Us',
-              size: 12.0.sp,
+              size: 14.0,
             ),
             onTap: () {
               Get.to(() => AboutUsScreen());
@@ -261,7 +260,7 @@ class _SideBarState extends State<SideBar> {
             ),
             title: CustomTextWidget(
               text: 'Log out',
-              size: 12.0.sp,
+              size: 14.0,
               color: AppStyles.bgBrightRed,
               // style: TextStyle(color: AppStyles.bgBrightRed),
             ),

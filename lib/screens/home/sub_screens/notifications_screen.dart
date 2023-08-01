@@ -57,7 +57,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
               PageHeader(scaffoldKey: scaffoldKey),
               CustomTextWidget(
                 text: 'Notifications',
-                size: 16.0.sp,
+                size: 20.0,
                 weight: FontWeight.w600,
               ),
             ],
@@ -71,7 +71,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 child: SingleChildScrollView(
                   child: Obx(
                     () => Container(
-                      // height: screenHeight,
+                      height: screenHeight * 0.9,
                       padding: EdgeInsets.symmetric(horizontal: 2.0.wp),
                       child: Column(
                         children: [
@@ -88,6 +88,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                 )
                               : Container(
                                   height: screenHeight * 0.85,
+                                  margin:
+                                      EdgeInsets.only(top: screenHeight * 0.02),
                                   child: ListView.builder(
                                       itemCount:
                                           userRepository.notifications.length,

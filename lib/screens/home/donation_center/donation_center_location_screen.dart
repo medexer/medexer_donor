@@ -180,11 +180,11 @@ class _DonationCenterLocationScreenState
                         children: [
                           CustomTextWidget(
                             text: '${widget.donationCenter.hospitalName}',
-                            size: 14.0.sp,
+                            size: 16.0,
                           ),
                           CustomTextWidget(
                             text: '${widget.donationCenter.centerAddress}',
-                            size: 10.0.sp,
+                            size: 14.0,
                           ),
                         ],
                       ),
@@ -263,7 +263,7 @@ class _DonationCenterLocationScreenState
           backgroundColor: AppStyles.bgPrimary,
           title: CustomTextWidget(
             text: '${widget.donationCenter.hospitalName} Location',
-            size: 12.0.sp,
+            size: 16.0,
           ),
         ),
         body: Obx(
