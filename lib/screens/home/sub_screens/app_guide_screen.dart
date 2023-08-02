@@ -24,6 +24,7 @@ class _AppGuideScreenState extends State<AppGuideScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
@@ -52,7 +53,7 @@ class _AppGuideScreenState extends State<AppGuideScreen> {
             CustomTextWidget(
               maxLines: 10,
               text: 'Made with',
-              size: 12.0.sp,
+              size:16,
             ),
             SizedBox(width: 2.0.wp),
             Icon(
@@ -63,7 +64,7 @@ class _AppGuideScreenState extends State<AppGuideScreen> {
             CustomTextWidget(
               maxLines: 10,
               text: 'in',
-              size: 12.0.sp,
+              size: 16,
             ),
             SizedBox(width: 2.0.wp),
             Container(
@@ -87,8 +88,6 @@ class _AppGuideScreenState extends State<AppGuideScreen> {
                     children: [
                       Column(
                         children: [
-                          // SizedBox(height: 2.0.hp),
-                          // PageHeader(scaffoldKey: scaffoldKey),
                           SizedBox(
                             height: 2.5.hp,
                           ),
@@ -115,7 +114,7 @@ class _AppGuideScreenState extends State<AppGuideScreen> {
                                           "Medexer seeks to increase the ease with which hospitals have access to blood and saves lives by connecting hospitals directly to blood donors.\n\nYou find and book appointments with blood donation centers by doing the following:"
                                           "\n*\tNavigate to Menu > Home\n*\tEnter the name of the hospital or donation centre on the search bar.\n*\tClick on the correct result that pops up. \n*\tMake a call or send SMS to the hospital or donation centre to book an appointment.\n*\tLocate the donation centre by following the map directions\n\nYour request to book an appointment will have to be approved by the donation centre before you can donate blood."
                                           "\n Your request to book an appointment will have to be approved by the donation center before you can donate blood",
-                                      size: 12.0.sp,
+                                      size: 16,
                                     ),
                                   ),
                                   SizedBox(
@@ -124,22 +123,18 @@ class _AppGuideScreenState extends State<AppGuideScreen> {
                                   Container(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Wrap(
-                                      // mainAxisAlignment:
-                                      //     MainAxisAlignment.start,
-                                      // crossAxisAlignment:
-                                      //     CrossAxisAlignment.start,
                                       children: [
                                         CustomTextWidget(
                                           maxLines: 10,
                                           text: "Note: ",
-                                          size: 12.0.sp,
+                                          size: 16,
                                           weight: FontWeight.bold,
                                         ),
                                         CustomTextWidget(
                                           maxLines: 10,
                                           text:
                                               "You will have to wait for your KYC to be approved for you to fully use this app.",
-                                          size: 12.0.sp,
+                                          size:16,
                                           weight: FontWeight.w500,
                                         ),
                                       ],
@@ -152,14 +147,14 @@ class _AppGuideScreenState extends State<AppGuideScreen> {
                                         maxLines: 10,
                                         text:
                                             "ALWAYS MAKE SURE THE DONATION CENTER YOU WERE CONTRACTED BY IS VERIFIED",
-                                        size: 12.0.sp,
+                                        size: 16,
                                         weight: FontWeight.w600,
                                       ),
                                       CustomTextWidget(
                                         maxLines: 10,
                                         text: "To do so: "
                                             "Navigate to Main > Donation Centers \n*\tMake sure to see that it is a verified donation center or  DO NOT GO.\n \nGot questions?\nNaviagte to > Menu > Contact Us and send us a message or you can connect with us through any of our social media platforms.",
-                                        size: 12.0.sp,
+                                        size:16,
                                         //weight: FontWeight.bold,
                                       ),
                                     ]),

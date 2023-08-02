@@ -27,7 +27,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       drawer: SideBar(),
       body: SingleChildScrollView(
         child: Container(
-          height: screenHeight,
+          height: screenHeight*0.3,
           child: Column(
             children: [
               PageHeader(scaffoldKey: scaffoldKey),

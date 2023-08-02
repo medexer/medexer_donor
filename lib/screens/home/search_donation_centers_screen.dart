@@ -72,7 +72,7 @@ class _SearchDonationCentersScreenState
                             child: Center(
                               child: CustomTextWidget(
                                 text: 'x',
-                                size: 12.0.sp,
+                                size: 14,
                               ),
                             ),
                           ),
@@ -81,7 +81,7 @@ class _SearchDonationCentersScreenState
                       SizedBox(width: 4.0.wp),
                       CustomTextWidget(
                         text: 'Search',
-                        size: 14.0.sp,
+                        size: 16,
                         weight: FontWeight.w500,
                       ),
                     ],
@@ -132,12 +132,12 @@ class _SearchDonationCentersScreenState
                                     title: CustomTextWidget(
                                       text:
                                           '${userRepository.searchResults[index].hospitalName}',
-                                      size: 12.0.sp,
+                                      size: 114,
                                     ),
                                     subtitle: CustomTextWidget(
                                       text:
                                           '${userRepository.searchResults[index].centerAddress}',
-                                      size: 8.0.sp,
+                                      size: 1,
                                     ),
                                     trailing: Column(
                                       crossAxisAlignment:
@@ -147,7 +147,7 @@ class _SearchDonationCentersScreenState
                                       children: [
                                         CustomTextWidget(
                                           text: 'Balance',
-                                          size: 12.0.sp,
+                                          size: 14,
                                         ),
                                         CustomTextWidget(
                                           text:

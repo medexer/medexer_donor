@@ -19,6 +19,7 @@ class _MedicalHistoryItemScreenState extends State<MedicalHistoryItemScreen> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       key: scaffoldKey,
       appBar: PreferredSize(

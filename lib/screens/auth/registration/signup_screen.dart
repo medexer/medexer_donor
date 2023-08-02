@@ -96,25 +96,7 @@ class _SignupScreenState extends State<SignupScreen> {
       userRepository.signupFormData.value = SignupFormDataModel.fromJson(data);
 
       Get.to(() => SignupStepTwoScreen());
-      // await authServices.signupController(
-      //   data,
-      // );
-
-      //   debugPrint('[ERROR] :: ${authServices.authRequestError.value}');
-
-      //   if (authServices.authRequestError.value == 'Invalid email address.') {
-      //     Get.snackbar(
-      //         backgroundColor: AppStyles.bgPrimary,
-      //         'ERROR!',
-      //         authServices.authRequestError.value);
-      //   }
-      //   if (authServices.authRequestError.value ==
-      //       'User with this Email Address already exists.') {
-      //     Get.snackbar(
-      //         backgroundColor: AppStyles.bgPrimary,
-      //         'ERROR!',
-      //         authServices.authRequestError.value);
-      //   }
+     
     }
   }
 
@@ -321,7 +303,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   children: [
                     CustomTextWidget(
                       text: 'Already have an account? ',
-                      size: 16.0,
+                      size: 14.0,
                       color: AppStyles.bgGray4,
                     ),
                     GestureDetector(
@@ -335,7 +317,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       },
                       child: CustomTextWidget(
                         text: 'Login',
-                        size: 16.0,
+                        size: 14.0,
                         color: AppStyles.bgBlue,
                       ),
                     ),

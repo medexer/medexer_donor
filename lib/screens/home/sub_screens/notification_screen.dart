@@ -75,7 +75,7 @@ class _NotificationState extends State<NotificationScreen> {
                                 child: Expanded(
                                   child: CustomTextWidget(
                                     text: '${widget.notification.title}',
-                                    size: 12.0.sp,
+                                    size: 14,
                                     weight: FontWeight.w600,
                                   ),
                                 ),
@@ -86,7 +86,7 @@ class _NotificationState extends State<NotificationScreen> {
                             ),
                             CustomTextWidget(
                               text: '${widget.notification.message}',
-                              size: 12.0.sp,
+                              size: 14,
                               lineHeight: 2.5,
                             ),
                           ],

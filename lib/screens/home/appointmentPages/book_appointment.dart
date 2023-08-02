@@ -176,7 +176,7 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
                                         CustomTextWidget(
                                           text:
                                               'Are you donating for an adult?',
-                                          size: 14.0,
+                                          size: 12.3,
                                         ),
                                         Switch(
                                           // thumb color (round icon)
@@ -201,7 +201,7 @@ class _BookAppointmentScreenState extends State<BookAppointmentScreen> {
                                         CustomTextWidget(
                                           text:
                                               'Get notification when blood is used?',
-                                          size: 14.0,
+                                          size: 12.3,
                                         ),
                                         Switch(
                                           // thumb color (round icon)

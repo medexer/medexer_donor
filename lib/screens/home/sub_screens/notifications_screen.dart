@@ -47,7 +47,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       drawer: SideBar(),
       appBar: PreferredSize(
         preferredSize:
-            Size.fromHeight(MediaQuery.of(context).size.height * 0.09),
+            Size.fromHeight(MediaQuery.of(context).size.height * 0.15),
         child: Container(
           margin: EdgeInsets.only(top: 2.0.hp),
           child: Column(
