@@ -318,7 +318,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       CustomTextWidget(
                         text: 'Don\'t have an account? ',
-                        size: 14.0,
+                        size: 16.0,
                         color: AppStyles.bgGray4,
                       ),
                       GestureDetector(
@@ -332,7 +332,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         child: CustomTextWidget(
                           text: 'Signup',
-                          size: 14.0,
+                          size: 16.0,
                           color: AppStyles.bgBlue,
                         ),
                       ),

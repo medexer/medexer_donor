@@ -39,8 +39,8 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       key: scaffoldKey,
       drawer: SideBar(),
@@ -73,7 +73,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                         SizedBox(height: 8.0.hp),
                         CustomTextWidget(
                           text: 'Reach out to us. We\'re always happy to help!',
-                          size:16,
+                          size: 14.0.sp,
                           weight: FontWeight.w500,
                           alignment: TextAlign.center,
                         ),
@@ -88,7 +88,6 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                                 // launchSocialMedia(
                                 //     url: "${appSocials[index]['url']}");
                               },
-                              
                               child: Container(
                                   height: 6.0.hp,
                                   width: 25.0.wp,
@@ -108,12 +107,12 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                                       width: socialMedia[index].type ==
                                               //appSocials[index]['type'] =
                                               'LINKEDIN'
-                                          ? 18
+                                          ? 22.0.sp
                                           : socialMedia[index].type ==
                                                   //appSocials[index]['type'] ==
                                                   'TWITTER'
-                                              ? 18
-                                              : 14,
+                                              ? 22.0.sp
+                                              : 12.0.sp,
                                     ),
                                   )),
                             ),
@@ -131,7 +130,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                                 SizedBox(width: 4.0.wp),
                                 CustomTextWidget(
                                   text: 'Or fill the form below\n to send us an email),',
-                                  size: 4,
+                                  size: 12.0.sp,
                                   color: AppStyles.bgBlack,
                                 ),
                                 SizedBox(width: 4.0.wp),
@@ -197,7 +196,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
 
                             await donorServices.contactUsController(formData);
                           },
-                          fontSize: 14,
+                          fontSize: 12.0.sp,
                           borderRadius: 15,
                           fontColor: Colors.white,
                           fontWeight: FontWeight.bold,

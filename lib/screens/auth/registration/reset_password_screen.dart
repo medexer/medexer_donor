@@ -91,7 +91,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-  
+
     return Scaffold(
       body: Obx(
         () => SingleChildScrollView(
@@ -132,7 +132,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       Center(
                         child: CustomTextWidget(
                           text: 'Reset Password',
-                          size: 16,
+                          size: 25.0.sp,
                           color: Colors.white,
                           weight: FontWeight.bold,
                         ),
@@ -176,7 +176,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                               onTapHandler: () {
                                 resetPasswordHandler();
                               },
-                              fontSize: 14,
+                              fontSize: 12.0.sp,
                               borderRadius: 5,
                               fontColor: Colors.white,
                               fontWeight: FontWeight.bold,

@@ -217,7 +217,7 @@ class _SignupStepTwoScreenState extends State<SignupStepTwoScreen> {
                   children: [
                     CustomTextWidget(
                       text: 'Already have an account? ',
-                      size: 14.0,
+                      size: 16.0,
                       color: AppStyles.bgGray4,
                     ),
                     GestureDetector(
@@ -231,7 +231,7 @@ class _SignupStepTwoScreenState extends State<SignupStepTwoScreen> {
                       },
                       child: CustomTextWidget(
                         text: 'Login',
-                        size: 14.0,
+                        size: 16.0,
                         color: AppStyles.bgBlue,
                       ),
                     ),

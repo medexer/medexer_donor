@@ -60,7 +60,7 @@ class _ForgotPasswordSuccessScreenState
                 onTapHandler: () {
                   Get.to(() => LoginScreen());
                 },
-                fontSize: 14,
+                fontSize: 12.0.sp,
                 borderRadius: 5,
                 fontColor: Colors.white,
                 fontWeight: FontWeight.bold,
