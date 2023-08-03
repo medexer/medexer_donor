@@ -86,12 +86,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       key: scaffoldKey,
       drawer: SideBar(),
       appBar: PreferredSize(
-        preferredSize:
-            Size.fromHeight(MediaQuery.of(context).size.height * 0.35),
+        preferredSize: Size.fromHeight(screenHeight * 0.35),
         child: Container(
           // padding: EdgeInsets.symmetric(horizontal: 4.0.wp),
           // color: AppStyles.bgPrimary,
@@ -99,7 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               Container(
                 width: double.infinity,
-                height: 30.0.hp,
+                height: screenHeight * 0.28,
                 padding: EdgeInsets.only(top: 2.0.hp),
                 decoration: BoxDecoration(
                   color: AppStyles.bgPurpleDark,
@@ -120,7 +122,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: CustomTextWidget(
                         text: '${userRepository.userData.value.fullName}',
                         color: Colors.white,
-                        //size: 20.0.sp,
+                        size: 20.0,
                         // weight: FontWeight.bold,
                       ),
                     ),
@@ -130,18 +132,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Positioned(
                           // top: 5,
                           // padding: EdgeInsets.only(left: 2.0.hp),
-                          child: CircleAvatar(
-                            backgroundColor: Colors.white,
-                            radius: 60,
-                            child: ClipOval(
-                              child: SizedBox(
-                                  width: 40.0.hp,
-                                  height: 40.0.hp,
-                                  child: Image.network(
-                                    '${userRepository.userProfile.value.userAvatar}',
-                                    // '${APIConstants.backendServerRootUrl}${userRepository.userData.value.avatar}',
-                                    fit: BoxFit.cover,
-                                  )),
+                          child: ClipOval(
+                            child: SizedBox(
+                              width: screenWidth * 0.35,
+                              height: screenHeight * 0.15,
+                              child: Image.network(
+                                '${userRepository.userProfile.value.userAvatar}',
+                                // '${APIConstants.backendServerRootUrl}${userRepository.userData.value.avatar}',
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                         ),
@@ -209,7 +208,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
       bottomNavigationBar: Container(
-        height: MediaQuery.of(context).size.height * 0.1,
+        height: MediaQuery.of(context).size.height * 0.08,
         width: double.maxFinite,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -219,7 +218,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 : CustomButton(
                     text: 'Submit',
                     width: MediaQuery.of(context).size.width * 0.85,
-                    height: 6.0.hp,
+                    height: screenHeight * 0.06,
                     onTapHandler: () async {
                       if (userRepository.userData.value.isEmailLogin == true) {
                         if (!emailController.text.trim().isNotEmpty ||
@@ -345,7 +344,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         }
                       }
                     },
-                    fontSize: 12.0.sp,
+                    fontSize: 16.0,
                     borderRadius: 15,
                     fontColor: Colors.white,
                     fontWeight: FontWeight.bold,

@@ -81,62 +81,67 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: SideBar(),
       bottomNavigationBar: BottomAppBar(
         color: Colors.transparent,
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 4.0.wp),
-          height: screenHeight * 0.1,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(20), topLeft: Radius.circular(20)),
-              color: Colors.white),
-          child: Column(
-            children: [
-              SizedBox(height: 1.0.hp),
-              Center(
-                child: Container(
-                  width: 40,
-                  height: screenHeight * 0.005,
+        child: Obx(
+          () => _networkManageController.connectionType.value == 0
+              ? const NetworkErrorMessage()
+              : Container(
+                  padding: EdgeInsets.symmetric(horizontal: 4.0.wp),
+                  height: screenHeight * 0.1,
                   decoration: BoxDecoration(
-                    color: AppStyles.bgBlack,
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                ),
-              ),
-              SizedBox(height: screenHeight * 0.01),
-              GestureDetector(
-                onTap: () {
-                  Get.to(
-                    transition: Transition.downToUp,
-                    duration: Duration(milliseconds: 500),
-                    () => SearchDonationCentersScreen(),
-                  );
-                },
-                child: Container(
-                  height: screenHeight * 0.06,
-                  padding: EdgeInsets.symmetric(
-                    vertical: screenHeight * 0.008,
-                    horizontal: 4.0.wp,
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: AppStyles.bgGray.withOpacity(0.1),
-                  ),
-                  child: Row(
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(20),
+                          topLeft: Radius.circular(20)),
+                      color: Colors.white),
+                  child: Column(
                     children: [
-                      Icon(
-                        Icons.search,
-                        size: 18,
+                      SizedBox(height: 1.0.hp),
+                      Center(
+                        child: Container(
+                          width: 40,
+                          height: screenHeight * 0.005,
+                          decoration: BoxDecoration(
+                            color: AppStyles.bgBlack,
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                        ),
                       ),
-                      SizedBox(width: 2.0.wp),
-                      CustomTextWidget(
-                        text: 'Search for donation center(s)',
-                        size: 14.0,
-                      ),
+                      SizedBox(height: screenHeight * 0.01),
+                      GestureDetector(
+                        onTap: () {
+                          Get.to(
+                            transition: Transition.downToUp,
+                            duration: Duration(milliseconds: 500),
+                            () => SearchDonationCentersScreen(),
+                          );
+                        },
+                        child: Container(
+                          height: screenHeight * 0.06,
+                          padding: EdgeInsets.symmetric(
+                            vertical: screenHeight * 0.008,
+                            horizontal: 4.0.wp,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppStyles.bgGray.withOpacity(0.1),
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.search,
+                                size: 18,
+                              ),
+                              SizedBox(width: 2.0.wp),
+                              CustomTextWidget(
+                                text: 'Search for donation center(s)',
+                                size: 14.0,
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ),
-              )
-            ],
-          ),
         ),
       ),
       body: Obx(

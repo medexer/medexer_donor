@@ -47,15 +47,19 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
       appBar: PreferredSize(
         preferredSize:
             Size.fromHeight(MediaQuery.of(context).size.height * 0.08),
-        child: Container(
-          margin: EdgeInsets.only(top: 2.0.hp),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            // crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              PageHeader(scaffoldKey: scaffoldKey),
-            ],
-          ),
+        child: Obx(
+          () => _networkManageController.connectionType.value == 0
+              ? Container()
+              : Container(
+                  margin: EdgeInsets.only(top: 2.0.hp),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    // crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      PageHeader(scaffoldKey: scaffoldKey),
+                    ],
+                  ),
+                ),
         ),
       ),
       body: Obx(
@@ -73,10 +77,11 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                         SizedBox(height: 8.0.hp),
                         CustomTextWidget(
                           text: 'Reach out to us. We\'re always happy to help!',
-                          size:16,
+                          size: 14,
                           weight: FontWeight.w500,
                           alignment: TextAlign.center,
                         ),
+                        SizedBox(height: 2.0.hp),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: List.generate(
@@ -88,7 +93,6 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                                 // launchSocialMedia(
                                 //     url: "${appSocials[index]['url']}");
                               },
-                              
                               child: Container(
                                   height: 6.0.hp,
                                   width: 25.0.wp,
@@ -119,7 +123,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                             ),
                           ),
                         ),
-                        
+
                         SizedBox(height: 2.0.hp),
                         Column(
                           children: [
@@ -130,8 +134,9 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                                 ),
                                 SizedBox(width: 4.0.wp),
                                 CustomTextWidget(
-                                  text: 'Or fill the form below\n to send us an email),',
-                                  size: 4,
+                                  text:
+                                      'Or fill the form below\n to send us an email',
+                                  size: 10,
                                   color: AppStyles.bgBlack,
                                 ),
                                 SizedBox(width: 4.0.wp),

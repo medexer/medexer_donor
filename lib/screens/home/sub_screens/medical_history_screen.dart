@@ -38,7 +38,10 @@ class _MedicalHistoryScreenState extends State<MedicalHistoryScreen> {
       appBar: PreferredSize(
         preferredSize:
             Size.fromHeight(MediaQuery.of(context).size.height * 0.08),
-        child: Container(
+        child:  Obx(
+        () => _networkManageController.connectionType.value == 0
+            ?  Container()
+            : Container(
           margin: EdgeInsets.only(top: 2.0.hp),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -47,6 +50,7 @@ class _MedicalHistoryScreenState extends State<MedicalHistoryScreen> {
               PageHeader(scaffoldKey: scaffoldKey),
             ],
           ),
+        ),
         ),
       ),
       body: Obx(

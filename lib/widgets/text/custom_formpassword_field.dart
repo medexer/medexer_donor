@@ -9,6 +9,7 @@ class CustomFormPasswordField extends StatefulWidget {
   Color? background;
   Color? fontColor;
   double? borderRadius;
+  double? height;
   ImageIcon? prefixIcon;
   final ImageIcon? suffixIcon;
   TextEditingController? controller;
@@ -16,6 +17,7 @@ class CustomFormPasswordField extends StatefulWidget {
     super.key,
     this.prefixIcon,
     this.background,
+    this.height,
     this.borderRadius,
     this.fontColor,
     required this.suffixIcon,
@@ -32,15 +34,18 @@ class CustomFormPasswordField extends StatefulWidget {
 class _CustomFormPasswordFieldState extends State<CustomFormPasswordField> {
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Container(
       width: double.maxFinite,
-      height: 6.0.hp,
+      height: widget.height ??
+          (screenHeight < 600 ? (screenHeight * 0.08) : (screenHeight * 0.06)),
       decoration: BoxDecoration(
         color: widget.background ?? widget.background,
         border: Border.all(
           color: AppStyles.bgGray,
         ),
-        borderRadius: BorderRadius.circular(widget.borderRadius?? 25),
+        borderRadius: BorderRadius.circular(widget.borderRadius ?? 25),
       ),
       child: TextFormField(
         obscureText: widget.showPassword ? widget.showPassword : false,
@@ -64,11 +69,13 @@ class _CustomFormPasswordFieldState extends State<CustomFormPasswordField> {
             child: widget.suffixIcon,
           ),
           hintStyle: TextStyle(
+            fontSize: constructFontSize(context, 14),
             color: widget.fontColor ?? Colors.white,
           ),
         ),
         style: TextStyle(
           color: widget.fontColor ?? Colors.white,
+          fontSize: constructFontSize(context, 16),
         ),
       ),
     );
