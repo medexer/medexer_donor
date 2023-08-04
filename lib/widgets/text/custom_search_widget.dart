@@ -27,8 +27,9 @@ class CustomSearchField extends StatelessWidget {
     return Container(
       width: double.maxFinite,
       // width: double.maxFinite,
-      padding: EdgeInsets.symmetric(horizontal: 2.0.wp),
-      height: 6.0.hp,
+      padding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width * 0.03),
+      height: MediaQuery.of(context).size.height * 0.08,
       decoration: BoxDecoration(
         border: Border.all(
           color: AppStyles.bgGray,
@@ -36,40 +37,46 @@ class CustomSearchField extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        // mainAxisAlignment: MainAxisAlignment.center,
+        // crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            margin: EdgeInsets.only(left: 10, top: 2),
+            margin: EdgeInsets.only(top: 2),
             child: ImageIcon(
               AssetImage("$icon"),
+              size: MediaQuery.of(context).size.width * 0.06,
               color: AppStyles.bgBlack,
             ),
           ),
-          SizedBox(width: 2.0.wp),
-          Container(
-            margin: EdgeInsets.only(bottom: 0.5.hp),
-            width: 80.0.wp,
-            child: TextFormField(
-              autofocus: focusKeyboard ?? false,
-              onChanged: (String value) {
-                onChangeHandler!(value);
-              },
-              controller: controller ?? controller,
-              textAlignVertical: TextAlignVertical.center,
-              keyboardType: keyboardType ?? TextInputType.multiline,
-              textInputAction: TextInputAction.next,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: hintText,
-                //contentPadding: EdgeInsets.all(15),
-                // prefixIcon: prefixIcon ?? prefixIcon,
-                hintStyle: TextStyle(
-                  fontSize: 12.0.sp,
-                  color: AppStyles.bgGray,
+          SizedBox(width: MediaQuery.of(context).size.width * 0.02),
+          SizedBox(
+            // color: Colors.red,
+            // margin: EdgeInsets.only(bottom: 0.5.hp),
+            width: MediaQuery.of(context).size.width * 0.75,
+            child: Center(
+              child: TextFormField(
+                autofocus: focusKeyboard ?? false,
+                onChanged: (String value) {
+                  onChangeHandler!(value);
+                },
+                controller: controller ?? controller,
+                textAlignVertical: TextAlignVertical.center,
+                keyboardType: keyboardType ?? TextInputType.multiline,
+                textInputAction: TextInputAction.next,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: hintText,
+                  //contentPadding: EdgeInsets.all(15),
+                  // prefixIcon: prefixIcon ?? prefixIcon,
+                  hintStyle: TextStyle(
+                    fontSize: 14.0,
+                    color: AppStyles.bgGray,
+                  ),
                 ),
-              ),
-              style: TextStyle(
-                color: AppStyles.bgBlack,
+                style: TextStyle(
+                  fontSize: 14.0,
+                  color: AppStyles.bgBlack,
+                ),
               ),
             ),
           ),
