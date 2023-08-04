@@ -46,7 +46,7 @@ class _PersonalDetailScreenState extends State<PersonalDetailScreen> {
             CustomButton(
               text: 'Next',
               width: screenWidth * 0.9,
-              height: 6.0.hp,
+              height: MediaQuery.of(context).size.height * 0.06,
               onTapHandler: () async {
                 if (tobaccoUsage == '') {
                   Get.snackbar(
@@ -95,7 +95,7 @@ class _PersonalDetailScreenState extends State<PersonalDetailScreen> {
                   widget.tabController.animateTo(1);
                 }
               },
-              fontSize: 12.0.sp,
+              fontSize: 16.0,
               borderRadius: 15,
               fontColor: AppStyles.bgWhite,
               fontWeight: FontWeight.bold,
@@ -114,7 +114,7 @@ class _PersonalDetailScreenState extends State<PersonalDetailScreen> {
             children: [
               CustomTextWidget(
                 text: 'What is your blood group? (Optional)',
-                size: 10.0.sp,
+                size: 14,
               ),
               SizedBox(height: 0.5.hp),
               CustomBloodGroupButton(
@@ -129,7 +129,7 @@ class _PersonalDetailScreenState extends State<PersonalDetailScreen> {
               SizedBox(height: 2.0.hp),
               CustomTextWidget(
                 text: 'What is your genotype? (Optional)',
-                size: 10.0.sp,
+                size: 14,
               ),
               SizedBox(height: 0.5.hp),
               CustomGenotypeButton(
@@ -144,7 +144,7 @@ class _PersonalDetailScreenState extends State<PersonalDetailScreen> {
               SizedBox(height: 2.0.hp),
               CustomTextWidget(
                 text: 'Have you ever donated blood before?',
-                size: 10.0.sp,
+                size: 14,
               ),
               SizedBox(height: 0.5.hp),
               CustomAffirmationButton(
@@ -160,7 +160,7 @@ class _PersonalDetailScreenState extends State<PersonalDetailScreen> {
               SizedBox(height: 2.0.hp),
               CustomTextWidget(
                 text: 'If yes, when was the last time?',
-                size: 10.0.sp,
+                size: 14,
               ),
               SizedBox(height: 0.5.hp),
               CustomBloodDonationTimelineButton(
@@ -176,7 +176,7 @@ class _PersonalDetailScreenState extends State<PersonalDetailScreen> {
               SizedBox(height: 2.0.hp),
               CustomTextWidget(
                 text: 'Do you have any tattoos?',
-                size: 10.0.sp,
+                size: 14,
               ),
               SizedBox(height: 0.5.hp),
               CustomAffirmationButton(
@@ -192,7 +192,7 @@ class _PersonalDetailScreenState extends State<PersonalDetailScreen> {
               SizedBox(height: 2.0.hp),
               CustomTextWidget(
                 text: 'Have you been vaccinated in the last 3months?',
-                size: 10.0.sp,
+                size: 14,
               ),
               SizedBox(height: 0.5.hp),
               CustomAffirmationButton(
@@ -208,7 +208,7 @@ class _PersonalDetailScreenState extends State<PersonalDetailScreen> {
               SizedBox(height: 2.0.hp),
               CustomTextWidget(
                 text: 'Do you smoke?',
-                size: 10.0.sp,
+                size: 14,
               ),
               SizedBox(height: 0.5.hp),
               CustomAffirmationButton(

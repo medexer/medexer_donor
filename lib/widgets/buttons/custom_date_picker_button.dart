@@ -26,7 +26,7 @@ class _CustomDatePickerButtonState extends State<CustomDatePickerButton> {
   Widget build(BuildContext context) {
     return Container(
       width: double.maxFinite,
-      height: widget.height ?? 6.0.hp,
+      height: widget.height ?? MediaQuery.of(context).size.height * 0.06,
       padding: EdgeInsets.only(
         left: 4.0.wp,
         right: 4.0.wp,
@@ -67,7 +67,7 @@ class _CustomDatePickerButtonState extends State<CustomDatePickerButton> {
               ),
               child: CustomTextWidget(
                 text: widget.controller.text.substring(0, 10),
-                size: 12.0.sp,
+                size: 14.0,
               ),
             ),
             Icon(Icons.keyboard_arrow_down),

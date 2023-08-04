@@ -38,19 +38,20 @@ class _MedicalHistoryScreenState extends State<MedicalHistoryScreen> {
       appBar: PreferredSize(
         preferredSize:
             Size.fromHeight(MediaQuery.of(context).size.height * 0.08),
-        child:  Obx(
-        () => _networkManageController.connectionType.value == 0
-            ?  Container()
-            : Container(
-          margin: EdgeInsets.only(top: 2.0.hp),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            // crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              PageHeader(scaffoldKey: scaffoldKey),
-            ],
-          ),
-        ),
+        child: Obx(
+          () => _networkManageController.connectionType.value == 0
+              ? Container()
+              : Container(
+                  margin: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.005),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    // crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      PageHeader(scaffoldKey: scaffoldKey),
+                    ],
+                  ),
+                ),
         ),
       ),
       body: Obx(
@@ -73,6 +74,7 @@ class _MedicalHistoryScreenState extends State<MedicalHistoryScreen> {
                               children: [
                                 CustomTextWidget(
                                   text: 'Medical History',
+                                  size: 20,
                                   weight: FontWeight.w500,
                                 ),
                                 userRepository.medicalHistory.isEmpty

@@ -51,7 +51,8 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
           () => _networkManageController.connectionType.value == 0
               ? Container()
               : Container(
-                  margin: EdgeInsets.only(top: 2.0.hp),
+                  margin: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.005),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     // crossAxisAlignment: CrossAxisAlignment.center,

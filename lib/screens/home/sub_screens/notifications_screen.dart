@@ -47,12 +47,13 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       drawer: SideBar(),
       appBar: PreferredSize(
         preferredSize:
-            Size.fromHeight(MediaQuery.of(context).size.height * 0.15),
+            Size.fromHeight(MediaQuery.of(context).size.height * 0.12),
         child: Obx(
           () => _networkManageController.connectionType.value == 0
               ? Container()
               : Container(
-                  margin: EdgeInsets.only(top: 2.0.hp),
+                  margin: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.005),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     // crossAxisAlignment: CrossAxisAlignment.center,
@@ -92,8 +93,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                 )
                               : Container(
                                   height: screenHeight * 0.85,
-                                  margin:
-                                      EdgeInsets.only(top: screenHeight * 0.02),
+                                  // margin: EdgeInsets.only(
+                                  //     top: screenHeight * 0.005),
                                   child: ListView.builder(
                                       itemCount:
                                           userRepository.notifications.length,

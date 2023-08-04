@@ -17,6 +17,7 @@ class CustomFormTextField extends StatelessWidget {
   double? paddingLeft;
   double? paddingRight;
   double? borderRadius;
+  double? fontSize;
   ImageIcon? prefixIcon;
   TextEditingController? controller;
   TextInputType? keyboardType;
@@ -31,6 +32,7 @@ class CustomFormTextField extends StatelessWidget {
     this.paddingLeft,
     this.paddingRight,
     this.readOnly,
+    this.fontSize,
     this.hintText,
     this.controller,
     this.borderRadius,
@@ -76,12 +78,12 @@ class CustomFormTextField extends StatelessWidget {
             // prefixIcon: prefixIcon ?? prefixIcon,
             hintStyle: TextStyle(
               color: hintColor,
-              fontSize: constructFontSize(context, 14),
+              fontSize: constructFontSize(context, fontSize ?? 14),
             ),
           ),
           style: TextStyle(
             color: textColor ?? Colors.white,
-            fontSize: constructFontSize(context, 16),
+            fontSize: constructFontSize(context, fontSize ?? 16),
           ),
         ),
       ),

@@ -137,7 +137,7 @@ class _IdProofScreenState extends State<IdProofScreen> {
 
     return Scaffold(
       bottomNavigationBar: SizedBox(
-        height: screenHeight * 0.12,
+        height: screenHeight * 0.08,
         // color: Colors.amber,
         child: Obx(
           () => Row(
@@ -192,7 +192,7 @@ class _IdProofScreenState extends State<IdProofScreen> {
 
                         await authServices.kycCaptureController(formData);
                       },
-                      fontSize: 12.0.sp,
+                      fontSize: 16.0,
                       borderRadius: 15,
                       fontColor: AppStyles.bgWhite,
                       fontWeight: FontWeight.bold,
@@ -216,14 +216,14 @@ class _IdProofScreenState extends State<IdProofScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: CustomButton(
                       text: 'Voter\'s Card',
-                      width: 35.0.wp,
-                      height: 6.0.hp,
+                      width: MediaQuery.of(context).size.width * 0.2,
+                      height: MediaQuery.of(context).size.height * 0.1,
                       onTapHandler: () {
                         setState(() {
                           identificationType = "Voter's Card";
                         });
                       },
-                      fontSize: 10.0.sp,
+                      fontSize: 14.0,
                       fontColor: identificationType == "Voter's Card"
                           ? AppStyles.bgWhite
                           : AppStyles.bgWhite,
@@ -240,8 +240,8 @@ class _IdProofScreenState extends State<IdProofScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: CustomButton(
                       text: 'National Identity Card',
-                      width: 50.0.wp,
-                      height: 6.0.hp,
+                      width: MediaQuery.of(context).size.width * 0.2,
+                      height: MediaQuery.of(context).size.height * 0.1,
                       onTapHandler: () {
                         setState(() {
                           identificationType = "National Identity Card";
@@ -271,7 +271,7 @@ class _IdProofScreenState extends State<IdProofScreen> {
                   child: CustomTextWidget(
                     text:
                         'Upload or take a picture of your identity card preferrable on a plain background. Make sure the edge are visible and file is less than 500kb.',
-                    size: 12.0.sp,
+                    size: 16.0,
                     color: AppStyles.bgBlack.withOpacity(0.8),
                   ),
                 ),
@@ -285,8 +285,8 @@ class _IdProofScreenState extends State<IdProofScreen> {
                           handleFileChange('COVER');
                         },
                         child: Container(
-                          height: 10.0.hp,
-                          width: 40.0.wp,
+                          width: MediaQuery.of(context).size.width * 0.2,
+                          height: MediaQuery.of(context).size.height * 0.1,
                           child: Card(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15.0),
@@ -309,7 +309,7 @@ class _IdProofScreenState extends State<IdProofScreen> {
                                 SizedBox(height: 1.0.hp),
                                 CustomTextWidget(
                                   text: 'Front',
-                                  size: 12.0.sp,
+                                  size: 14.0,
                                   color: isDocumentCoverUploaded
                                       ? AppStyles.bgWhite
                                       : AppStyles.bgBlack,
@@ -326,8 +326,8 @@ class _IdProofScreenState extends State<IdProofScreen> {
                           handleFileChange('REAR');
                         },
                         child: Container(
-                          height: 10.0.hp,
-                          width: 40.0.wp,
+                          width: MediaQuery.of(context).size.width * 0.2,
+                          height: MediaQuery.of(context).size.height * 0.1,
                           child: Card(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15.0)),
@@ -349,7 +349,7 @@ class _IdProofScreenState extends State<IdProofScreen> {
                                 SizedBox(height: 1.0.hp),
                                 CustomTextWidget(
                                   text: 'Back',
-                                  size: 12.0.sp,
+                                  size: 14.0,
                                   color: isDocumentRearUploaded
                                       ? AppStyles.bgWhite
                                       : AppStyles.bgBlack,

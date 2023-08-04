@@ -48,7 +48,7 @@ class _KycScreenState extends State<KycScreen> with TickerProviderStateMixin {
             child: Center(
               child: CustomTextWidget(
                 text: 'Upload KYC',
-                size: 15.0.sp,
+                size: 20,
                 color: AppStyles.bgBlack,
                 weight: FontWeight.w600,
               ),
@@ -86,7 +86,7 @@ class _KycScreenState extends State<KycScreen> with TickerProviderStateMixin {
                         child: CustomTextWidget(
                           text: "Personal Details",
                           // color: AppStyles.bgWhite,
-                          size: 12.0.sp,
+                          size: 16,
                           weight: FontWeight.w500,
                         ),
                       ),
@@ -99,7 +99,7 @@ class _KycScreenState extends State<KycScreen> with TickerProviderStateMixin {
                         child: CustomTextWidget(
                           text: "ID Proof",
                           // color: AppStyles.bgWhite,
-                          size: 12.0.sp,
+                          size: 16,
                           weight: FontWeight.w500,
                         ),
                       ),

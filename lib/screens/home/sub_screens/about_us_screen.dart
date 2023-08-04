@@ -31,12 +31,13 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
       drawer: SideBar(),
       appBar: PreferredSize(
         preferredSize:
-            Size.fromHeight(MediaQuery.of(context).size.height * 0.2),
+            Size.fromHeight(MediaQuery.of(context).size.height * 0.12),
         child: Obx(
           () => _networkManageController.connectionType.value == 0
               ? Container()
               : Container(
-                  margin: EdgeInsets.only(top: 0.5.hp),
+                  margin: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.005),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     // crossAxisAlignment: CrossAxisAlignment.center,
