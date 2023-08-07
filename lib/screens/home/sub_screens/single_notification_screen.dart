@@ -28,12 +28,14 @@ class _SingleNotificationScreenState extends State<SingleNotificationScreen> {
   @override
   void initState() {
     super.initState();
-
-    donorServices.readNotificationsController(widget.notification.pkid);
   }
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    donorServices.readNotificationsController(widget.notification.pkid);
+
     return Scaffold(
       key: scaffoldKey,
       drawer: SideBar(),
@@ -61,42 +63,32 @@ class _SingleNotificationScreenState extends State<SingleNotificationScreen> {
             ? const NetworkErrorMessage()
             : SafeArea(
                 child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      // PageHeader(scaffoldKey: scaffoldKey),
-                      // SizedBox(height: MediaQuery.of(context).size.height * 0.005),
-                      Container(
-                        // height: screenHeight,
-                        padding: EdgeInsets.symmetric(horizontal: 4.0.wp),
-                        child: Column(
+                  child: Container(
+                    color: AppStyles.bgWhite,
+                    height: screenHeight * 0.9,
+                    padding: EdgeInsets.symmetric(horizontal: 4.0.wp),
+                    child: Column(
+                      // cross
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Wrap(
                           children: [
-                            // SizedBox(
-                            //   height: 0.5.hp,
-                            // ),
-                            Container(
-                              width: double.maxFinite,
-                              child: Center(
-                                child: Expanded(
-                                  child: CustomTextWidget(
-                                    text: '${widget.notification.title}',
-                                    size: 16,
-                                    weight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 2.0.hp,
-                            ),
                             CustomTextWidget(
-                              text: '${widget.notification.message}',
-                              size: 14,
-                              lineHeight: 2.5,
+                              text: '${widget.notification.title}',
+                              size: 16,
+                              weight: FontWeight.w600,
                             ),
                           ],
                         ),
-                      ),
-                    ],
+                        SizedBox(height: 2.0.hp),
+                        CustomTextWidget(
+                          maxLines: 100,
+                          text: '${widget.notification.message}',
+                          size: 14,
+                          lineHeight: 2.5,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

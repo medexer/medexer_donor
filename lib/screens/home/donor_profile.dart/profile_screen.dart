@@ -118,11 +118,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(left: 10.0, top: 15.0.hp),
+                      padding:
+                          EdgeInsets.only(left: 10.0, top: screenHeight * 0.12),
                       child: CustomTextWidget(
                         text: '${userRepository.userData.value.fullName}',
                         color: Colors.white,
                         size: 20.0,
+                        // weight: FontWeight.bold,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 10.0),
+                      child: CustomTextWidget(
+                        text: 'ID: ${userRepository.userData.value.donorID}',
+                        color: Colors.white,
+                        size: 16.0,
                         // weight: FontWeight.bold,
                       ),
                     ),
