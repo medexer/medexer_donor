@@ -34,14 +34,14 @@ class _FailedKycInfoScreenState extends State<FailedKycInfoScreen> {
               CustomTextWidget(
                 text:
                     'We appreciate your efforts to want to embark on this noble journey to become a blood donor!',
-                size: 14.0.sp,
+                size: 16.0,
                 alignment: TextAlign.center,
               ),
               SizedBox(height: 1.0.hp),
               CustomTextWidget(
                 text:
                     'Unfortunately, having a tattoo makes you medically unfit to donate. However, you can spread the good news of blood donation to your family and friends!',
-                size: 14.0.sp,
+                size: 16.0,
                 alignment: TextAlign.center,
               ),
               SizedBox(height: 1.0.hp),

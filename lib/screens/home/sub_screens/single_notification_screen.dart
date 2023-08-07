@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medexer_donor/config/app_config.dart';
@@ -12,15 +10,16 @@ import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 import 'package:medexer_donor/network_services/network_error_message.dart';
 import 'package:medexer_donor/network_services/network_manager.dart';
 
-class NotificationScreen extends StatefulWidget {
+class SingleNotificationScreen extends StatefulWidget {
   final NotificationModel notification;
-  const NotificationScreen({super.key, required this.notification});
+  const SingleNotificationScreen({super.key, required this.notification});
 
   @override
-  State<NotificationScreen> createState() => _NotificationState();
+  State<SingleNotificationScreen> createState() =>
+      _SingleNotificationScreenState();
 }
 
-class _NotificationState extends State<NotificationScreen> {
+class _SingleNotificationScreenState extends State<SingleNotificationScreen> {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final DonorServices donorServices = Get.find();
   final NetworkManageController _networkManageController =
@@ -91,7 +90,7 @@ class _NotificationState extends State<NotificationScreen> {
                             ),
                             CustomTextWidget(
                               text: '${widget.notification.message}',
-                              size: 12.0.sp,
+                              size: 14,
                               lineHeight: 2.5,
                             ),
                           ],

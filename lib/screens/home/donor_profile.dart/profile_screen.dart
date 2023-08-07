@@ -86,12 +86,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       key: scaffoldKey,
       drawer: SideBar(),
       appBar: PreferredSize(
-        preferredSize:
-            Size.fromHeight(MediaQuery.of(context).size.height * 0.35),
+        preferredSize: Size.fromHeight(screenHeight * 0.35),
         child: Container(
           // padding: EdgeInsets.symmetric(horizontal: 4.0.wp),
           // color: AppStyles.bgPrimary,
@@ -99,7 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               Container(
                 width: double.infinity,
-                height: 30.0.hp,
+                height: screenHeight * 0.28,
                 padding: EdgeInsets.only(top: 2.0.hp),
                 decoration: BoxDecoration(
                   color: AppStyles.bgPurpleDark,
@@ -120,7 +122,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: CustomTextWidget(
                         text: '${userRepository.userData.value.fullName}',
                         color: Colors.white,
-                        //size: 20.0.sp,
+                        size: 20.0,
                         // weight: FontWeight.bold,
                       ),
                     ),
@@ -130,18 +132,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Positioned(
                           // top: 5,
                           // padding: EdgeInsets.only(left: 2.0.hp),
-                          child: CircleAvatar(
-                            backgroundColor: Colors.white,
-                            radius: 60,
-                            child: ClipOval(
-                              child: SizedBox(
-                                  width: 40.0.hp,
-                                  height: 40.0.hp,
-                                  child: Image.network(
-                                    '${userRepository.userProfile.value.userAvatar}',
-                                    // '${APIConstants.backendServerRootUrl}${userRepository.userData.value.avatar}',
-                                    fit: BoxFit.cover,
-                                  )),
+                          child: ClipOval(
+                            child: SizedBox(
+                              width: screenWidth * 0.35,
+                              height: screenHeight * 0.15,
+                              child: Image.network(
+                                '${userRepository.userProfile.value.userAvatar}',
+                                // '${APIConstants.backendServerRootUrl}${userRepository.userData.value.avatar}',
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                         ),
@@ -193,7 +192,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   : AppStyles.bgBlue,
                               child: Icon(
                                 Icons.add_a_photo,
-                                size: 12.0.sp,
+                                size: 14.0,
                                 color: Colors.white,
                               ),
                             ),
@@ -209,7 +208,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
       bottomNavigationBar: Container(
-        height: MediaQuery.of(context).size.height * 0.1,
+        height: MediaQuery.of(context).size.height * 0.08,
         width: double.maxFinite,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -219,7 +218,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 : CustomButton(
                     text: 'Submit',
                     width: MediaQuery.of(context).size.width * 0.85,
-                    height: 6.0.hp,
+                    height: screenHeight * 0.06,
                     onTapHandler: () async {
                       if (userRepository.userData.value.isEmailLogin == true) {
                         if (!emailController.text.trim().isNotEmpty ||
@@ -345,7 +344,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         }
                       }
                     },
-                    fontSize: 12.0.sp,
+                    fontSize: 16.0,
                     borderRadius: 15,
                     fontColor: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -368,11 +367,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           children: [
                             CustomTextWidget(
                               text: 'Email',
-                              size: 12.0.sp,
+                              size: 14.0,
                               weight: FontWeight.w500,
                             ),
                             CustomFormTextField(
                               maxLines: 1,
+                              fontSize: 14,
                               borderRadius: 15,
                               hintText: 'Email',
                               controller: emailController,
@@ -383,42 +383,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             SizedBox(height: 2.0.hp),
                             CustomTextWidget(
                               text: 'Nationality',
-                              size: 12.0.sp,
+                              size: 14.0,
                               weight: FontWeight.w500,
                             ),
                             CustomFormTextField(
                               maxLines: 1,
                               readOnly: true,
+                              borderRadius: 15,
+                              fontSize: 14,
                               hintText: nationalityController.text,
                               controller: nationalityController,
                               textColor: AppStyles.bgBlack,
                               background: Colors.white.withOpacity(0.4),
                               hintColor: Colors.black,
                             ),
-                            // CustomSelectButton(
-                            //   title: 'Nationality',
-                            //   height: 65.0.hp,
-                            //   borderRadius: 15,
-                            //   textColor: AppStyles.bgBlack,
-                            //   items: appCountries,
-                            //   currentItem:
-                            //       nationalityController.text.toString(),
-                            //   onChangeHandler: (int index) {
-                            //     setState(() {
-                            //       nationalityController.text =
-                            //           appCountries[index]['name'];
-                            //     });
-                            //   },
-                            // ),
                             SizedBox(height: 2.0.hp),
                             CustomTextWidget(
                               text: 'Gender',
-                              size: 12.0.sp,
+                              size: 14.0,
                               weight: FontWeight.w500,
                             ),
                             CustomSelectButton(
                               title: 'Gender',
-                              height: 65.0.hp,
+                              height: screenHeight * 0.3,
                               borderRadius: 15,
                               textColor: AppStyles.bgBlack,
                               items: appGenders,
@@ -433,12 +420,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             SizedBox(height: 2.0.hp),
                             CustomTextWidget(
                               text: 'Religion',
-                              size: 12.0.sp,
+                              size: 14.0,
                               weight: FontWeight.w500,
                             ),
                             CustomSelectButton(
                               title: 'Religion',
-                              height: 65.0.hp,
+                              height: screenHeight * 0.3,
                               borderRadius: 15,
                               textColor: AppStyles.bgBlack,
                               items: appReligions,
@@ -453,13 +440,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             SizedBox(height: 2.0.hp),
                             CustomTextWidget(
                               text: 'Address',
-                              size: 12.0.sp,
+                              size: 14.0,
                               weight: FontWeight.w500,
                             ),
                             CustomFormTextField(
                               maxLines: 1,
                               borderRadius: 15,
                               hintText: 'Address',
+                              fontSize: 14,
                               controller: addressController,
                               textColor: AppStyles.bgBlack,
                               background: Colors.white.withOpacity(0.4),
@@ -468,12 +456,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             SizedBox(height: 2.0.hp),
                             CustomTextWidget(
                               text: 'State',
-                              size: 12.0.sp,
+                              size: 14.0,
                               weight: FontWeight.w500,
                             ),
                             CustomSelectButton(
                               title: 'State',
-                              height: 65.0.hp,
+                              height: screenHeight * 0.5,
                               borderRadius: 15,
                               textColor: AppStyles.bgBlack,
                               items: appStates,
@@ -488,13 +476,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             SizedBox(height: 2.0.hp),
                             CustomTextWidget(
                               text: 'City/Province',
-                              size: 12.0.sp,
+                              size: 14.0,
                               weight: FontWeight.w500,
                             ),
                             CustomFormTextField(
                               maxLines: 1,
                               borderRadius: 15,
                               hintText: 'City/Province',
+                              fontSize: 14,
                               controller: cityProvinceController,
                               textColor: AppStyles.bgBlack,
                               background: Colors.white.withOpacity(0.4),
@@ -503,12 +492,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             SizedBox(height: 2.0.hp),
                             CustomTextWidget(
                               text: 'Phone number',
-                              size: 12.0.sp,
+                              size: 14.0,
                               weight: FontWeight.w500,
                             ),
                             CustomFormTextField(
                               maxLines: 1,
                               borderRadius: 15,
+                              fontSize: 14,
                               hintText: 'Phone number',
                               keyboardType: TextInputType.number,
                               controller: contactNumberController,
@@ -519,7 +509,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             SizedBox(height: 2.0.hp),
                             CustomTextWidget(
                               text: 'Date of birth',
-                              size: 12.0.sp,
+                              size: 14.0,
                               weight: FontWeight.w500,
                             ),
                             CustomDatePickerButton(
@@ -529,17 +519,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ],
                         )
                       : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            CustomTextWidget(
+                              text: 'Email',
+                              size: 14.0,
+                              weight: FontWeight.w500,
+                            ),
                             CustomFormTextField(
                               maxLines: 1,
                               borderRadius: 15,
                               hintText: 'Email',
+                              fontSize: 14,
                               controller: emailController,
                               textColor: AppStyles.bgBlack,
                               background: Colors.white.withOpacity(0.4),
                               hintColor: Colors.black,
                             ),
                             SizedBox(height: 2.0.hp),
+                            CustomTextWidget(
+                              text: 'Current Password',
+                              size: 14.0,
+                              weight: FontWeight.w500,
+                            ),
                             CustomFormPasswordField(
                               borderRadius: 15,
                               controller: passwordController,
@@ -553,6 +555,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               background: Colors.white.withOpacity(0.4),
                             ),
                             SizedBox(height: 2.0.hp),
+                            CustomTextWidget(
+                              text: 'New Password (Optional)',
+                              size: 14.0,
+                              weight: FontWeight.w500,
+                            ),
                             CustomFormPasswordField(
                               borderRadius: 15,
                               controller: newPasswordController,
@@ -566,11 +573,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               background: Colors.white.withOpacity(0.4),
                             ),
                             SizedBox(height: 2.0.hp),
+                            CustomTextWidget(
+                              text: 'Confirm Password (Optional)',
+                              size: 14.0,
+                              weight: FontWeight.w500,
+                            ),
                             CustomFormPasswordField(
                               borderRadius: 15,
                               controller: confirmNewPasswordController,
                               fontColor: AppStyles.bgBlack,
-                              hintText: 'Confirm new password',
+                              hintText: 'Confirm password',
                               suffixIcon: ImageIcon(
                                 AssetImage('assets/icons/icon__eye.png'),
                                 color: Colors.white,
@@ -579,25 +591,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               background: Colors.white.withOpacity(0.4),
                             ),
                             SizedBox(height: 2.0.hp),
-                            CustomSelectButton(
-                              title: 'Nationality',
-                              height: 65.0.hp,
+                            CustomTextWidget(
+                              text: 'Nationality',
+                              size: 14.0,
+                              weight: FontWeight.w500,
+                            ),
+                            CustomFormTextField(
+                              maxLines: 1,
+                              readOnly: true,
                               borderRadius: 15,
+                              fontSize: 14,
+                              hintText: nationalityController.text,
+                              controller: nationalityController,
                               textColor: AppStyles.bgBlack,
-                              items: appCountries,
-                              currentItem:
-                                  nationalityController.text.toString(),
-                              onChangeHandler: (int index) {
-                                setState(() {
-                                  nationalityController.text =
-                                      appCountries[index]['name'];
-                                });
-                              },
+                              background: Colors.white.withOpacity(0.4),
+                              hintColor: Colors.black,
                             ),
                             SizedBox(height: 2.0.hp),
+                            CustomTextWidget(
+                              text: 'Gender',
+                              size: 14.0,
+                              weight: FontWeight.w500,
+                            ),
                             CustomSelectButton(
                               title: 'Gender',
-                              height: 65.0.hp,
+                              height: screenHeight * 0.3,
                               borderRadius: 15,
                               textColor: AppStyles.bgBlack,
                               items: appGenders,
@@ -610,9 +628,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               },
                             ),
                             SizedBox(height: 2.0.hp),
+                            CustomTextWidget(
+                              text: 'Religion',
+                              size: 14.0,
+                              weight: FontWeight.w500,
+                            ),
                             CustomSelectButton(
                               title: 'Religion',
-                              height: 65.0.hp,
+                              height: screenHeight * 0.3,
                               borderRadius: 15,
                               textColor: AppStyles.bgBlack,
                               items: appReligions,
@@ -625,6 +648,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               },
                             ),
                             SizedBox(height: 2.0.hp),
+                            CustomTextWidget(
+                              text: 'Address',
+                              size: 14.0,
+                              weight: FontWeight.w500,
+                            ),
                             CustomFormTextField(
                               maxLines: 1,
                               borderRadius: 15,
@@ -635,9 +663,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               hintColor: Colors.black,
                             ),
                             SizedBox(height: 2.0.hp),
+                            CustomTextWidget(
+                              text: 'State',
+                              size: 14.0,
+                              weight: FontWeight.w500,
+                            ),
                             CustomSelectButton(
                               title: 'State',
-                              height: 65.0.hp,
+                              height: screenHeight * 0.5,
                               borderRadius: 15,
                               textColor: AppStyles.bgBlack,
                               items: appStates,
@@ -650,8 +683,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               },
                             ),
                             SizedBox(height: 2.0.hp),
+                            CustomTextWidget(
+                              text: 'City/Province',
+                              size: 14.0,
+                              weight: FontWeight.w500,
+                            ),
                             CustomFormTextField(
                               maxLines: 1,
+                              fontSize: 14,
                               borderRadius: 15,
                               hintText: 'City/Province',
                               controller: cityProvinceController,
@@ -660,9 +699,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               hintColor: Colors.black,
                             ),
                             SizedBox(height: 2.0.hp),
+                            CustomTextWidget(
+                              text: 'Phone Number',
+                              size: 14.0,
+                              weight: FontWeight.w500,
+                            ),
                             CustomFormTextField(
                               maxLines: 1,
                               borderRadius: 15,
+                              fontSize: 14,
                               hintText: 'Phone number',
                               keyboardType: TextInputType.number,
                               controller: contactNumberController,
@@ -671,6 +716,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               hintColor: Colors.black,
                             ),
                             SizedBox(height: 2.0.hp),
+                            CustomTextWidget(
+                              text: 'Date of Birth',
+                              size: 14.0,
+                              weight: FontWeight.w500,
+                            ),
                             CustomDatePickerButton(
                               date: initialDate,
                               controller: dateOfBirthController,

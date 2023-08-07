@@ -31,6 +31,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
       drawer: SideBar(),
       appBar: PreferredSize(
         preferredSize:
+<<<<<<< HEAD
             Size.fromHeight(MediaQuery.of(context).size.height * 0.09),
         child: Container(
           margin: EdgeInsets.only(top: 2.0.hp),
@@ -45,6 +46,27 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
               ),
             ],
           ),
+=======
+            Size.fromHeight(MediaQuery.of(context).size.height * 0.12),
+        child: Obx(
+          () => _networkManageController.connectionType.value == 0
+              ? Container()
+              : Container(
+                  margin: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.005),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    // crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      PageHeader(scaffoldKey: scaffoldKey),
+                      CustomTextWidget(
+                        text: 'About Us',
+                        weight: FontWeight.w600,
+                      ),
+                    ],
+                  ),
+                ),
+>>>>>>> api-setup
         ),
       ),
       body: Obx(
@@ -58,6 +80,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+<<<<<<< HEAD
                             // SizedBox(height: 2.0.hp),
                             // PageHeader(scaffoldKey: scaffoldKey),
                             // Container(
@@ -72,6 +95,8 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                             //     ],
                             //   ),
                             // ),
+=======
+>>>>>>> api-setup
                             SizedBox(height: 2.0.hp),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -101,7 +126,11 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                                     maxLines: 100,
                                     text:
                                         '\nYour request to book an appointment will have to be approved by the donation centre before you can donate blood. Note: You will have to wait for your KYC to be approved for you to fully use this app.',
+<<<<<<< HEAD
                                     size: 12.0.sp,
+=======
+                                    size: 16,
+>>>>>>> api-setup
                                   ),
                                   CustomTextWidget(
                                     maxLines: 100,
@@ -125,7 +154,11 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                                     maxLines: 100,
                                     text:
                                         'Navigate to Menu > Donation Centers \nClick on Centers and paste the ID or phone number of the donation center. \nMake sure to see that it is a verified donation center, or DO NOT GO.',
+<<<<<<< HEAD
                                     size: 12.0.sp,
+=======
+                                    size: 16,
+>>>>>>> api-setup
                                   ),
                                   CustomTextWidget(
                                     maxLines: 100,
@@ -136,7 +169,11 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                                     maxLines: 100,
                                     text:
                                         'Navigate to Menu > Contact Us and send us a message or \nyou can connect with us through any of \nour social media platforms.',
+<<<<<<< HEAD
                                     size: 12.0.sp,
+=======
+                                    size: 16,
+>>>>>>> api-setup
                                   ),
                                   CustomTextWidget(
                                     maxLines: 100,

@@ -28,7 +28,7 @@ class _CustomBloodDonationTimelineButtonState
         context: context,
         builder: (builder) {
           return Container(
-            height: 30.0.hp,
+            height: MediaQuery.of(context).size.height * 0.25,
             padding: EdgeInsets.symmetric(
               vertical: 4.0.hp,
               horizontal: 4.0.wp,
@@ -45,7 +45,7 @@ class _CustomBloodDonationTimelineButtonState
               children: [
                 CustomTextWidget(
                   text: 'Select previous blood donation timeline',
-                  size: 14.0.sp,
+                  size: 14.0,
                 ),
                 SizedBox(height: 2.0.hp),
                 Expanded(
@@ -70,7 +70,7 @@ class _CustomBloodDonationTimelineButtonState
                               children: [
                                 CustomTextWidget(
                                   text: widget.items[index]['name'],
-                                  size: 14.0.sp,
+                                  size: 14.0,
                                 ),
                                 Container(
                                   width: 2.0.hp,
@@ -115,7 +115,7 @@ class _CustomBloodDonationTimelineButtonState
       onTap: onTapHandler,
       child: Container(
         width: double.maxFinite,
-        height: 6.5.hp,
+        height: MediaQuery.of(context).size.height * 0.06,
         padding: EdgeInsets.only(
           left: 4.0.wp,
           right: 4.0.wp,
@@ -132,7 +132,7 @@ class _CustomBloodDonationTimelineButtonState
           children: [
             CustomTextWidget(
               text: widget.currentItem == '' ? '-' : widget.currentItem,
-              size: 12.0.sp,
+              size: 14.0,
               color: AppStyles.bgBlack,
             ),
             Icon(

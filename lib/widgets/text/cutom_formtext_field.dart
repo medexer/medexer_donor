@@ -17,6 +17,7 @@ class CustomFormTextField extends StatelessWidget {
   double? paddingLeft;
   double? paddingRight;
   double? borderRadius;
+  double? fontSize;
   ImageIcon? prefixIcon;
   TextEditingController? controller;
   TextInputType? keyboardType;
@@ -31,6 +32,7 @@ class CustomFormTextField extends StatelessWidget {
     this.paddingLeft,
     this.paddingRight,
     this.readOnly,
+    this.fontSize,
     this.hintText,
     this.controller,
     this.borderRadius,
@@ -41,11 +43,13 @@ class CustomFormTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Container(
       width: double.maxFinite,
-      height: height ?? screenHeight * 0.06,
+      height: height ??
+          (screenHeight < 600 ? (screenHeight * 0.08) : (screenHeight * 0.06)),
       // height: height ?? 6.0.hp,
       decoration: BoxDecoration(
         color: background ?? background,
@@ -54,29 +58,33 @@ class CustomFormTextField extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(borderRadius ?? 25),
       ),
-      child: TextFormField(
-        readOnly: readOnly ?? false,
-        maxLines: maxLines,
-        maxLength: maxLength ?? 255,
-        controller: controller ?? controller,
-        keyboardType: keyboardType ?? TextInputType.multiline,
-        textInputAction: TextInputAction.next,
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          hintText: hintText ?? '',
-          contentPadding: EdgeInsets.only(
-            left: paddingLeft ?? 20,
-            right: paddingRight ?? 0,
-            top: paddingTop ?? 0,
+      child: Center(
+        child: TextFormField(
+          readOnly: readOnly ?? false,
+          maxLines: maxLines,
+          maxLength: maxLength ?? 255,
+          controller: controller ?? controller,
+          keyboardType: keyboardType ?? TextInputType.multiline,
+          textInputAction: TextInputAction.next,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: hintText ?? '',
+            contentPadding: EdgeInsets.only(
+              left: paddingLeft ?? 20,
+              right: paddingRight ?? 0,
+              top: paddingTop ?? 0,
+            ),
+            counterText: "",
+            // prefixIcon: prefixIcon ?? prefixIcon,
+            hintStyle: TextStyle(
+              color: hintColor,
+              fontSize: constructFontSize(context, fontSize ?? 14),
+            ),
           ),
-          counterText: "",
-          // prefixIcon: prefixIcon ?? prefixIcon,
-          hintStyle: TextStyle(
-            color: hintColor,
+          style: TextStyle(
+            color: textColor ?? Colors.white,
+            fontSize: constructFontSize(context, fontSize ?? 16),
           ),
-        ),
-        style: TextStyle(
-          color: textColor ?? Colors.white,
         ),
       ),
     );

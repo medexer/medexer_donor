@@ -30,7 +30,8 @@ class _SearchDonationCentersScreenState
   final UserRepository userRepository = Get.find();
   TextEditingController locationController = TextEditingController();
   TextEditingController destinationController = TextEditingController();
-  final NetworkManageController _networkManageController = Get.find<NetworkManageController>();
+  final NetworkManageController _networkManageController =
+      Get.find<NetworkManageController>();
 
   @override
   void initState() {
@@ -48,122 +49,125 @@ class _SearchDonationCentersScreenState
     return Scaffold(
       body: SafeArea(
         child: Obx(
-          () => (_networkManageController.connectionType.value == 0)?const NetworkErrorMessage():
-          SingleChildScrollView(
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 2.0.wp),
-              height: screenHeight,
-              child: Column(
-                children: [
-                  SizedBox(height: 1.0.hp),
-                  Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Get.back();
-                        },
-                        child: ClipOval(
-                          child: Container(
-                            width: 4.0.hp,
-                            height: 4.0.hp,
-                            decoration: BoxDecoration(
-                              color: AppStyles.bgGray.withOpacity(0.2),
-                            ),
-                            child: Center(
-                              child: CustomTextWidget(
-                                text: 'x',
-                                size: 14,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 4.0.wp),
-                      CustomTextWidget(
-                        text: 'Search',
-                        size: 16,
-                        weight: FontWeight.w500,
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 2.0.hp),
-                  CustomSearchField(
-                    focusKeyboard: focusKeyboard,
-                    hintText:
-                        'Insert donation center address, or province(state)',
-                    onChangeHandler: (String text) async {
-                      debugPrint('[CURRENT-VALUE] :: ${text}');
-
-                      await Future.delayed(Duration(milliseconds: 2500));
-
-                      donorServices.searchDonationCentersController(text);
-                    },
-                    icon: 'assets/icons/icon__search.png',
-                    // background: Colors.white.withOpacity(0.4),
-                  ),
-                  SizedBox(height: 2.0.hp),
-                  userRepository.searchResults.isEmpty
-                      ? Container(
-                          child: Lottie.asset(
-                              'assets/animations/animation__4.json'),
-                        )
-                      : Container(
-                          height: 40.0.hp,
-                          child: ListView.builder(
-                              itemCount: userRepository.searchResults.length,
-                              itemBuilder: (_, index) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    Get.to(
-                                      () => DonationCenterSearchProfileScreen(
-                                        donationCenter:
-                                            userRepository.searchResults[index],
-                                      ),
-                                    );
-                                  },
-                                  child: ListTile(
-                                    leading: CircleAvatar(
-                                      backgroundColor: AppStyles.bgBlue,
-                                      child: SvgPicture.asset(
-                                        'assets/icons/icon__medical.svg',
-                                        color: AppStyles.bgWhite,
-                                      ),
-                                    ),
-                                    title: CustomTextWidget(
-                                      text:
-                                          '${userRepository.searchResults[index].hospitalName}',
-                                      size: 114,
-                                    ),
-                                    subtitle: CustomTextWidget(
-                                      text:
-                                          '${userRepository.searchResults[index].centerAddress}',
-                                      size: 1,
-                                    ),
-                                    trailing: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        CustomTextWidget(
-                                          text: 'Balance',
-                                          size: 14,
-                                        ),
-                                        CustomTextWidget(
-                                          text:
-                                              '${userRepository.searchResults[index].inventoryBalance} pints',
-                                          size: 8.0.sp,
-                                        ),
-                                      ],
+          () => (_networkManageController.connectionType.value == 0)
+              ? const NetworkErrorMessage()
+              : SingleChildScrollView(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 2.0.wp),
+                    height: screenHeight,
+                    child: Column(
+                      children: [
+                        SizedBox(height: 1.0.hp),
+                        Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Get.back();
+                              },
+                              child: ClipOval(
+                                child: Container(
+                                  width: 4.0.hp,
+                                  height: 4.0.hp,
+                                  decoration: BoxDecoration(
+                                    color: AppStyles.bgGray.withOpacity(0.2),
+                                  ),
+                                  child: Center(
+                                    child: CustomTextWidget(
+                                      text: 'x',
+                                      size: 12,
                                     ),
                                   ),
-                                );
-                              }),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 4.0.wp),
+                            CustomTextWidget(
+                              text: 'Search',
+                              size: 16,
+                              weight: FontWeight.w500,
+                            ),
+                          ],
                         ),
-                ],
-              ),
-            ),
-          ),
+                        SizedBox(height: 2.0.hp),
+                        CustomSearchField(
+                          focusKeyboard: focusKeyboard,
+                          hintText:
+                              'Insert donation center address, or province(state)',
+                          onChangeHandler: (String text) async {
+                            debugPrint('[CURRENT-VALUE] :: ${text}');
+
+                            await Future.delayed(Duration(milliseconds: 2500));
+
+                            donorServices.searchDonationCentersController(text);
+                          },
+                          icon: 'assets/icons/icon__search.png',
+                          // background: Colors.white.withOpacity(0.4),
+                        ),
+                        SizedBox(height: 2.0.hp),
+                        userRepository.searchResults.isEmpty
+                            ? Container(
+                                child: Lottie.asset(
+                                    'assets/animations/animation__4.json'),
+                              )
+                            : Container(
+                                height: 40.0.hp,
+                                child: ListView.builder(
+                                    itemCount:
+                                        userRepository.searchResults.length,
+                                    itemBuilder: (_, index) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          Get.to(
+                                            () =>
+                                                DonationCenterSearchProfileScreen(
+                                              donationCenter: userRepository
+                                                  .searchResults[index],
+                                            ),
+                                          );
+                                        },
+                                        child: ListTile(
+                                          leading: CircleAvatar(
+                                            backgroundColor: AppStyles.bgBlue,
+                                            child: SvgPicture.asset(
+                                              'assets/icons/icon__medical.svg',
+                                              color: AppStyles.bgWhite,
+                                            ),
+                                          ),
+                                          title: CustomTextWidget(
+                                            text:
+                                                '${userRepository.searchResults[index].hospitalName}',
+                                            size: 14,
+                                          ),
+                                          subtitle: CustomTextWidget(
+                                            text:
+                                                '${userRepository.searchResults[index].centerAddress}',
+                                            size: 12,
+                                          ),
+                                          trailing: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              CustomTextWidget(
+                                                text: 'Balance',
+                                                size: 14,
+                                              ),
+                                              CustomTextWidget(
+                                                text:
+                                                    '${userRepository.searchResults[index].inventoryBalance} pints',
+                                                size: 10,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    }),
+                              ),
+                      ],
+                    ),
+                  ),
+                ),
         ),
       ),
     );

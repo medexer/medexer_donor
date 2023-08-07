@@ -35,18 +35,21 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: AppStyles.bgWhite,
       appBar: PreferredSize(
         preferredSize:
             Size.fromHeight(MediaQuery.of(context).size.height * 0.08),
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 4.0.hp),
+          padding: EdgeInsets.symmetric(
+              vertical: MediaQuery.of(context).size.height * 0.02),
           color: AppStyles.bgWhite,
           child: Center(
             child: CustomTextWidget(
               text: 'Update Profile',
-              size: 15.0.sp,
+              size: 20.0,
               color: AppStyles.bgBlack,
               weight: FontWeight.w600,
             ),
@@ -55,7 +58,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       ),
       bottomNavigationBar: Obx(
         () => SizedBox(
-          height: MediaQuery.of(context).size.height * 0.1,
+          height: MediaQuery.of(context).size.height * 0.08,
           width: double.maxFinite,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -65,7 +68,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   : CustomButton(
                       text: 'Submit',
                       width: MediaQuery.of(context).size.width * 0.9,
-                      height: 6.0.hp,
+                      height: screenHeight * 0.06,
                       onTapHandler: () async {
                         if (!nationalityController.text.trim().isNotEmpty ||
                             !genderController.text.trim().isNotEmpty ||
@@ -100,7 +103,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                           );
                         }
                       },
-                      fontSize: 12.0.sp,
+                      fontSize: 14.0,
                       borderRadius: 15,
                       fontColor: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -123,37 +126,27 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
               children: [
                 CustomTextWidget(
                   text: 'Nationality',
-                  size: 12.0.sp,
+                  size: 14.0,
                 ),
                 CustomFormTextField(
                   maxLines: 1,
                   readOnly: true,
+                  fontSize: 14,
+                  height: screenHeight * 0.06,
                   hintText: nationalityController.text,
                   controller: nationalityController,
                   textColor: AppStyles.bgBlack,
                   background: Colors.white.withOpacity(0.4),
                   hintColor: Colors.black,
                 ),
-                // CustomSelectButton(
-                //   title: 'Nationality',
-                //   height: 65.0.hp,
-                //   textColor: AppStyles.bgBlack,
-                //   items: appCountries,
-                //   currentItem: nationalityController.text.toString(),
-                //   onChangeHandler: (int index) {
-                //     setState(() {
-                //       nationalityController.text = appCountries[index]['name'];
-                //     });
-                //   },
-                // ),
                 SizedBox(height: 2.0.hp),
                 CustomTextWidget(
                   text: 'Gender',
-                  size: 12.0.sp,
+                  size: 14.0,
                 ),
                 CustomSelectButton(
                   title: 'Gender',
-                  height: 30.0.hp,
+                  height: screenHeight * 0.3,
                   textColor: AppStyles.bgBlack,
                   items: appGenders,
                   currentItem: genderController.text.toString(),
@@ -166,11 +159,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 SizedBox(height: 2.0.hp),
                 CustomTextWidget(
                   text: 'Religion',
-                  size: 12.0.sp,
+                  size: 14.0,
                 ),
                 CustomSelectButton(
                   title: 'Religion',
-                  height: 30.0.hp,
+                  height: screenHeight * 0.3,
                   textColor: AppStyles.bgBlack,
                   items: appReligions,
                   currentItem: religionController.text.toString(),
@@ -183,11 +176,13 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 SizedBox(height: 2.0.hp),
                 CustomTextWidget(
                   text: 'Address',
-                  size: 12.0.sp,
+                  size: 14.0,
                 ),
                 CustomFormTextField(
                   maxLines: 1,
                   hintText: 'Address',
+                  fontSize: 14,
+                  height: screenHeight * 0.06,
                   controller: addressController,
                   textColor: AppStyles.bgBlack,
                   background: Colors.white.withOpacity(0.4),
@@ -196,11 +191,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 SizedBox(height: 2.0.hp),
                 CustomTextWidget(
                   text: 'State',
-                  size: 12.0.sp,
+                  size: 14.0,
                 ),
                 CustomSelectButton(
                   title: 'State',
-                  height: 65.0.hp,
+                  height: screenHeight * 0.5,
                   items: appStates,
                   textColor: AppStyles.bgBlack,
                   currentItem: stateController.text.toString(),
@@ -213,11 +208,13 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 SizedBox(height: 2.0.hp),
                 CustomTextWidget(
                   text: 'City/Province',
-                  size: 12.0.sp,
+                  size: 14.0,
                 ),
                 CustomFormTextField(
                   maxLines: 1,
                   hintText: 'City/Province',
+                  fontSize: 14,
+                  height: screenHeight * 0.06,
                   controller: cityProvinceController,
                   textColor: AppStyles.bgBlack,
                   background: Colors.white.withOpacity(0.4),
@@ -226,13 +223,15 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 SizedBox(height: 2.0.hp),
                 CustomTextWidget(
                   text: 'Phone Number',
-                  size: 12.0.sp,
+                  size: 14.0,
                 ),
                 CustomFormTextField(
                   maxLines: 1,
                   maxLength: 11,
                   keyboardType: TextInputType.number,
                   hintText: 'Phone number',
+                  fontSize: 14,
+                  height: screenHeight * 0.06,
                   textColor: AppStyles.bgBlack,
                   controller: contactNumberController,
                   background: Colors.white.withOpacity(0.4),
@@ -241,11 +240,12 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 SizedBox(height: 2.0.hp),
                 CustomTextWidget(
                   text: 'Date of Birth',
-                  size: 12.0.sp,
+                  size: 14.0,
                 ),
                 CustomDatePickerButton(
                   date: initialDate,
                   borderRadius: 25,
+                  height: screenHeight * 0.06,
                   controller: dateOfBirthController,
                 ),
               ],

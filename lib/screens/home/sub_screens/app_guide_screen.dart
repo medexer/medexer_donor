@@ -32,17 +32,23 @@ class _AppGuideScreenState extends State<AppGuideScreen> {
       appBar: PreferredSize(
         preferredSize:
             Size.fromHeight(MediaQuery.of(context).size.height * 0.08),
-        child: Container(
-          margin: EdgeInsets.only(top: 2.0.hp),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            // crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              PageHeader(scaffoldKey: scaffoldKey),
-            ],
-          ),
+        child: Obx(
+          () => _networkManageController.connectionType.value == 0
+              ? Container()
+              : Container(
+                  margin: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.005),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    // crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      PageHeader(scaffoldKey: scaffoldKey),
+                    ],
+                  ),
+                ),
         ),
       ),
+<<<<<<< HEAD
       bottomNavigationBar: SizedBox(
         height: MediaQuery.of(context).size.height * 0.06,
         child: Row(
@@ -71,12 +77,46 @@ class _AppGuideScreenState extends State<AppGuideScreen> {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('assets/images/flagNigeria.png'),
+=======
+      bottomNavigationBar: Obx(
+        () => _networkManageController.connectionType.value == 0
+            ? Container()
+            : SizedBox(
+                height: MediaQuery.of(context).size.height * 0.06,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CustomTextWidget(
+                      maxLines: 10,
+                      text: 'Made with',
+                      size: 16,
+                    ),
+                    SizedBox(width: 2.0.wp),
+                    Icon(
+                      Icons.favorite_border_outlined,
+                      color: AppStyles.bgBrightRed.withOpacity(0.4),
+                    ),
+                    SizedBox(width: 2.0.wp),
+                    CustomTextWidget(
+                      maxLines: 10,
+                      text: 'in',
+                      size: 16,
+                    ),
+                    SizedBox(width: 2.0.wp),
+                    Container(
+                      width: 6.0.wp,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/images/flagNigeria.png'),
+                        ),
+                      ),
+                      // child: Image.asset(),
+                    ),
+                  ],
+>>>>>>> api-setup
                 ),
               ),
-              // child: Image.asset(),
-            ),
-          ],
-        ),
       ),
       body: Obx(
         () => (_networkManageController.connectionType.value == 0)
@@ -139,7 +179,11 @@ class _AppGuideScreenState extends State<AppGuideScreen> {
                                           maxLines: 10,
                                           text:
                                               "You will have to wait for your KYC to be approved for you to fully use this app.",
+<<<<<<< HEAD
                                           size: 12.0.sp,
+=======
+                                          size: 16,
+>>>>>>> api-setup
                                           weight: FontWeight.w500,
                                         ),
                                       ],
@@ -159,7 +203,11 @@ class _AppGuideScreenState extends State<AppGuideScreen> {
                                         maxLines: 10,
                                         text: "To do so: "
                                             "Navigate to Main > Donation Centers \n*\tMake sure to see that it is a verified donation center or  DO NOT GO.\n \nGot questions?\nNaviagte to > Menu > Contact Us and send us a message or you can connect with us through any of our social media platforms.",
+<<<<<<< HEAD
                                         size: 12.0.sp,
+=======
+                                        size: 16,
+>>>>>>> api-setup
                                         //weight: FontWeight.bold,
                                       ),
                                     ]),

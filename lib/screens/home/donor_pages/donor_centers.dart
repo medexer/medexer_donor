@@ -1,6 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:medexer_donor/network_services/network_error_message.dart';
+import 'package:medexer_donor/network_services/network_manager.dart';
 import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/screens/home/sidebar.dart';
 import 'package:medexer_donor/screens/home/appointmentPages/appointments.dart';
@@ -17,6 +20,7 @@ class DonorCentersScreen extends StatefulWidget {
 
 class _DonorCentersScreenState extends State<DonorCentersScreen>
     with TickerProviderStateMixin {
+  final NetworkManageController _networkManageController = Get.find();
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -31,88 +35,96 @@ class _DonorCentersScreenState extends State<DonorCentersScreen>
       appBar: PreferredSize(
         preferredSize:
             Size.fromHeight(MediaQuery.of(context).size.height * 0.08),
-        child: Container(
-          margin: EdgeInsets.only(top: 2.0.hp),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            // crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              PageHeader(scaffoldKey: scaffoldKey),
-            ],
-          ),
-        ),
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            width: double.maxFinite,
-            height: screenHeight,
-            child: Column(
-              children: [
-                // PageHeader(scaffoldKey: scaffoldKey),
-                // SizedBox(height: 2.0.hp),
-                TabBar(
-                  labelColor: AppStyles.bgWhite,
-                  unselectedLabelColor: AppStyles.bgBlack,
-                  indicator: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    color: AppStyles.bgPrimary,
-                  ),
-                  indicatorPadding: EdgeInsets.symmetric(
-                    horizontal: 10,
-                    // vertical: 5,
-                  ),
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  // indicatorColor: AppStyles.bgBlue,
-                  controller: tabController,
-                  tabs: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        // border: Border.all(color: AppStyles.bgBlue, width: 1),
-                      ),
-                      padding: EdgeInsets.symmetric(vertical: 1.0.hp),
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: CustomTextWidget(
-                          text: "Centers",
-                          // color: Colors.white,
-                          size: 14.0,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        // border: Border.all(color: AppStyles.bgBlue, width: 1),
-                      ),
-                      padding: EdgeInsets.symmetric(vertical: 1.0.hp),
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: CustomTextWidget(
-                          text: "Appointments",
-                          // color: Colors.white,
-                          size: 14.0,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                Container(
-                  height: screenHeight * 0.82,
-                  padding: EdgeInsets.only(top: 2.0.hp),
-                  child: TabBarView(
-                    controller: tabController,
+        child: Obx(
+          () => _networkManageController.connectionType.value == 0
+              ? Container()
+              : Container(
+                  margin: EdgeInsets.only(top: 2.0.hp),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    // crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      DonationCenters(height: screenHeight * 0.8),
-                      Appointments(height: screenHeight * 0.8),
+                      PageHeader(scaffoldKey: scaffoldKey),
                     ],
                   ),
-                )
-              ],
-            ),
-          ),
+                ),
         ),
+      ),
+      body: Obx(
+        () => _networkManageController.connectionType.value == 0
+            ? const NetworkErrorMessage()
+            : SafeArea(
+                child: SingleChildScrollView(
+                  child: Container(
+                    width: double.maxFinite,
+                    height: screenHeight,
+                    child: Column(
+                      children: [
+                        // PageHeader(scaffoldKey: scaffoldKey),
+                        // SizedBox(height: 2.0.hp),
+                        TabBar(
+                          labelColor: AppStyles.bgWhite,
+                          unselectedLabelColor: AppStyles.bgBlack,
+                          indicator: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            color: AppStyles.bgPrimary,
+                          ),
+                          indicatorPadding: EdgeInsets.symmetric(
+                            horizontal: 10,
+                            // vertical: 5,
+                          ),
+                          indicatorSize: TabBarIndicatorSize.tab,
+                          // indicatorColor: AppStyles.bgBlue,
+                          controller: tabController,
+                          tabs: [
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                // border: Border.all(color: AppStyles.bgBlue, width: 1),
+                              ),
+                              padding: EdgeInsets.symmetric(vertical: 1.0.hp),
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: CustomTextWidget(
+                                  text: "Centers",
+                                  // color: Colors.white,
+                                  size: 14.0,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                // border: Border.all(color: AppStyles.bgBlue, width: 1),
+                              ),
+                              padding: EdgeInsets.symmetric(vertical: 1.0.hp),
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: CustomTextWidget(
+                                  text: "Appointments",
+                                  // color: Colors.white,
+                                  size: 14.0,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        Container(
+                          height: screenHeight * 0.82,
+                          padding: EdgeInsets.only(top: 2.0.hp),
+                          child: TabBarView(
+                            controller: tabController,
+                            children: [
+                              DonationCenters(height: screenHeight * 0.8),
+                              Appointments(height: screenHeight * 0.8),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
       ),
     );
   }

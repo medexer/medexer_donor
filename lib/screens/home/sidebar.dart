@@ -92,183 +92,210 @@ class _SideBarState extends State<SideBar> {
             ),
           ),
           Divider(),
-          ListTile(
-            // leading: ImageIcon(
-            //   AssetImage('assets/icons/icon__home.png'),
-            //   color: AppStyles.bgPrimary,
-            // ),
-            leading: SvgPicture.asset(
-              'assets/icons/icon__home.svg',
-              color: AppStyles.bgPrimary,
-              width: 16.0.sp,
-            ),
-            title: CustomTextWidget(
-              text: 'Home',
-              size: 14.0,
-            ),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.025),
+          GestureDetector(
             onTap: () {
               Get.to(() => HomeScreen());
               debugPrint('[FAV]');
             },
+            child: Row(
+              children: [
+                SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+                SvgPicture.asset(
+                  'assets/icons/icon__home.svg',
+                  color: AppStyles.bgPrimary,
+                  width: 16.0.sp,
+                ),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.08),
+                CustomTextWidget(
+                  text: 'Home',
+                  size: 14.0,
+                ),
+              ],
+            ),
           ),
-          ListTile(
-            // leading: ImageIcon(
-            //   AssetImage('assets/icons/icon__location.png'),
-            //   color: AppStyles.bgPrimary,
-            // ),
-            leading: SvgPicture.asset(
-              'assets/icons/icon__location.svg',
-              color: AppStyles.bgPrimary,
-              width: 18.0.sp,
-            ),
-            title: CustomTextWidget(
-              text: 'Donation Centers',
-              size: 14.0,
-            ),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.025),
+          GestureDetector(
             onTap: () {
               Get.to(() => DonorCentersScreen());
               debugPrint('[DONOR-CENTERS]');
             },
+            child: Row(
+              children: [
+                SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+                SvgPicture.asset(
+                  'assets/icons/icon__location.svg',
+                  color: AppStyles.bgPrimary,
+                  width: 18.0.sp,
+                ),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.08),
+                CustomTextWidget(
+                  text: 'Donation Centers',
+                  size: 14.0,
+                ),
+              ],
+            ),
           ),
-          ListTile(
-            // leading: ImageIcon(
-            //   AssetImage('assets/icons/icon__info.png'),
-            //   color: AppStyles.bgPrimary,
-            // ),
-            leading: SvgPicture.asset(
-              'assets/icons/icon__virus.svg',
-              color: AppStyles.bgPrimary,
-              width: 18.0.sp,
-            ),
-            title: CustomTextWidget(
-              text: 'Medical History',
-              size: 14.0,
-            ),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.025),
+          GestureDetector(
             onTap: () {
               Get.to(() => MedicalHistoryScreen());
               debugPrint('[MEDICAL-HISTORY]');
             },
+            child: Row(
+              children: [
+                SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+                SvgPicture.asset(
+                  'assets/icons/icon__virus.svg',
+                  color: AppStyles.bgPrimary,
+                  width: 18.0.sp,
+                ),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.08),
+                CustomTextWidget(
+                  text: 'Medical History',
+                  size: 14.0,
+                ),
+              ],
+            ),
           ),
-          ListTile(
-            // leading: ImageIcon(
-            //   AssetImage('assets/icons/icon__info.png'),
-            //   color: AppStyles.bgPrimary,
-            // ),
-            leading: SvgPicture.asset(
-              'assets/icons/icon__file.svg',
-              color: AppStyles.bgPrimary,
-              width: 18.0.sp,
-            ),
-            title: CustomTextWidget(
-              text: 'Guide',
-              size: 14.0,
-            ),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.025),
+          GestureDetector(
             onTap: () {
               Get.to(() => AppGuideScreen());
               debugPrint('[APP-GUIDE]');
             },
+            child: Row(
+              children: [
+                SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+                SvgPicture.asset(
+                  'assets/icons/icon__file.svg',
+                  color: AppStyles.bgPrimary,
+                  width: 18.0.sp,
+                ),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.08),
+                CustomTextWidget(
+                  text: 'Guide',
+                  size: 14.0,
+                ),
+              ],
+            ),
           ),
-          ListTile(
-            leading: SvgPicture.asset(
-              'assets/icons/icon__wallet.svg',
-              color: AppStyles.bgPrimary,
-              width: 16.0.sp,
-            ),
-            title: CustomTextWidget(
-              text: 'Rewards',
-              size: 14.0,
-            ),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.025),
+          GestureDetector(
             onTap: () {
               Get.to(() => PendingRewardScreen());
               // Get.to(() => RewardsWalletScreen());
               debugPrint('[REWARDS-WALLET]');
             },
-          ),
-          ListTile(
-            leading: SvgPicture.asset(
-              'assets/icons/icon__call.svg',
-              color: AppStyles.bgPrimary,
-              width: 18.0.sp,
-            ),
-            title: CustomTextWidget(
-              text: 'Contact Us',
-              size: 14.0,
-            ),
-            onTap: () {
-              Get.to(() => ContactUsScreen());
-              debugPrint('[CONTACT-US]');
-            },
-          ),
-          ListTile(
-            leading: SvgPicture.asset(
-              'assets/icons/icon__message.svg',
-              color: AppStyles.bgPrimary,
-              width: 18.0.sp,
-            ),
-            title: Row(
-              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            child: Row(
               children: [
+                SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+                SvgPicture.asset(
+                  'assets/icons/icon__wallet.svg',
+                  color: AppStyles.bgPrimary,
+                  width: 16.0.sp,
+                ),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.08),
                 CustomTextWidget(
-                  text: 'Notification',
+                  text: 'Rewards',
                   size: 14.0,
                 ),
-                SizedBox(width: 1.0.wp),
-                // ClipOval(
-                //   child: Container(
-                //     padding: EdgeInsets.all(3),
-                //     decoration: BoxDecoration(
-                //       color: AppStyles.bgPrimary,
-                //     ),
-                //     child: Center(
-                //       child: CustomTextWidget(
-                //         text: 'New',
-                //         size: 8.0.sp,
-                //         color: Colors.white,
-                //       ),
-                //     ),
-                //   ),
-                // ),
               ],
             ),
+          ),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.025),
+          GestureDetector(
+            onTap: () {
+              Get.to(() => ContactUsScreen());
+              // Get.to(() => RewardsWalletScreen());
+              debugPrint('[CONTACT-US]');
+            },
+            child: Row(
+              children: [
+                SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+                SvgPicture.asset(
+                  'assets/icons/icon__call.svg',
+                  color: AppStyles.bgPrimary,
+                  width: 18.0.sp,
+                ),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.08),
+                CustomTextWidget(
+                  text: 'Contact Us',
+                  size: 14.0,
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.025),
+          GestureDetector(
             onTap: () {
               Get.to(() => NotificationsScreen());
               debugPrint('[NOTIFICATIONS]');
             },
+            child: Row(
+              children: [
+                SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+                SvgPicture.asset(
+                  'assets/icons/icon__message.svg',
+                  color: AppStyles.bgPrimary,
+                  width: 18.0.sp,
+                ),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.08),
+                CustomTextWidget(
+                  text: 'Notification',
+                  size: 14.0,
+                ),
+              ],
+            ),
           ),
-          ListTile(
-            leading: SvgPicture.asset(
-              'assets/icons/icon__heart.svg',
-              color: AppStyles.bgPrimary,
-              width: 18.0.sp,
-            ),
-            title: CustomTextWidget(
-              text: 'About Us',
-              size: 14.0,
-            ),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.025),
+          GestureDetector(
             onTap: () {
               Get.to(() => AboutUsScreen());
               debugPrint('[ABOUT-US]');
             },
+            child: Row(
+              children: [
+                SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+                SvgPicture.asset(
+                  'assets/icons/icon__heart.svg',
+                  color: AppStyles.bgPrimary,
+                  width: 18.0.sp,
+                ),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.08),
+                CustomTextWidget(
+                  text: 'About Us',
+                  size: 14.0,
+                ),
+              ],
+            ),
           ),
-          // ListTile(),
-          // ListTile(),
+          // Row(),
+          // Row(),
           SizedBox(height: MediaQuery.of(context).size.height * 0.035),
-          ListTile(
-            leading: Icon(
-              Icons.logout,
-              color: AppStyles.bgBrightRed,
-            ),
-            title: CustomTextWidget(
-              text: 'Log out',
-              size: 14.0,
-              color: AppStyles.bgBrightRed,
-              // style: TextStyle(color: AppStyles.bgBrightRed),
-            ),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.025),
+          GestureDetector(
             onTap: () async {
               debugPrint('[LOG OUT]');
 
               await authServices.signoutController();
             },
+            child: Row(
+              children: [
+                SizedBox(width: MediaQuery.of(context).size.width * 0.03),
+                Icon(
+                  Icons.logout,
+                  color: AppStyles.bgBrightRed,
+                ),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.08),
+                CustomTextWidget(
+                  text: 'Log out',
+                  size: 14.0,
+                  color: AppStyles.bgBrightRed,
+                  // style: TextStyle(color: AppStyles.bgBrightRed),
+                ),
+              ],
+            ),
           ),
         ],
       ),
