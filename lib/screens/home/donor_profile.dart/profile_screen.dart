@@ -150,41 +150,157 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             onTap: () async {
                               debugPrint('[UPLOAD-AVATAR]');
 
-                              FilePickerResult? result =
-                                  await FilePicker.platform.pickFiles(
-                                type: FileType.custom,
-                                allowedExtensions: [
-                                  'jpg',
-                                  'jpeg',
-                                ],
-                              );
+                                showDialog(
+                                  context: context,builder: (BuildContext context){
+                                    return AlertDialog(
+                                      backgroundColor: AppStyles.bgGray,
+                                      elevation: 1,
+                                      title: CustomTextWidget(text: 'Profile Photo',
+                                        color: AppStyles.bgBlack,
+                                        size: 20.0.sp,
+                                        weight: FontWeight.bold,
+                                      ),
+                                      content: SingleChildScrollView(
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                          
+                                          Column(
+                                            children: [
+                                              SizedBox(height: 2,),
+                                              GestureDetector(
+                                                child: Icon(Icons.add_a_photo,color: AppStyles.bgWhite),
+                                                onTap: ()async{
+                                                    FilePickerResult? result =await FilePicker.platform.pickFiles(
+                                                      type: FileType.custom,
+                                                      allowedExtensions: [
+                                                        'jpg',
+                                                        'jpeg',
+                                                      ],
+                                                    );
 
-                              if (result!.files.isEmpty) return;
+                                                    if (result!.files.isEmpty) return;
 
-                              debugPrint(
-                                  "${result.files[0].path} :: file path ");
-                              debugPrint("[FILE-SIZE] ${result.files[0].size}");
-                              if (result.files[0].size >= 500000) {
-                                Get.snackbar(
-                                  'Error',
-                                  'File uploaded should be less than 500kb.',
-                                  colorText: Colors.white,
-                                  backgroundColor: AppStyles.bgBlue,
+                                                    debugPrint(
+                                                      "${result.files[0].path} :: file path ");
+                                                      debugPrint("[FILE-SIZE] ${result.files[0].size}");
+                                                      if (result.files[0].size >= 500000) {
+                                                        Get.snackbar(
+                                                        'Error',
+                                                        'File uploaded should be less than 500kb.',
+                                                        colorText: Colors.white,
+                                                        backgroundColor: AppStyles.bgBlue,
+                                                      );
+                                                    } else {
+                                                      setState(() {
+                                                        newAvatar = true;
+                                                        avatar = result.files[0];
+                                                      });
+
+                                                    Map formData = {
+                                                      "avatar": avatar,
+                                                    };
+
+                                                    await authServices
+                                                    .updateProfileAvatarController(formData);
+                                                  };
+                                                }
+                                            ),
+                                              CustomTextWidget(text: 'Camera', color:AppStyles.bgWhite)
+                                            ],
+                                          ),
+                                          SizedBox(width: 3.0.wp,),
+
+                                          Column(
+                                              children: [
+                                                SizedBox(height:2),
+                                
+                                                GestureDetector(
+                                                  child: Icon(Icons.photo,color: AppStyles.bgWhite),
+                                                  onTap: ()async{
+
+                                                    FilePickerResult? result =await FilePicker.platform.pickFiles(
+                                                      type: FileType.custom,
+                                                      allowedExtensions: [
+                                                        'jpg',
+                                                        'jpeg',
+                                                      ],
+                                                    );
+
+                                                    if (result!.files.isEmpty) return;
+
+                                                    debugPrint(
+                                                      "${result.files[0].path} :: file path ");
+                                                      debugPrint("[FILE-SIZE] ${result.files[0].size}");
+                                                      if (result.files[0].size >= 500000) {
+                                                        Get.snackbar(
+                                                        'Error',
+                                                        'File uploaded should be less than 500kb.',
+                                                        colorText: Colors.white,
+                                                        backgroundColor: AppStyles.bgBlue,
+                                                      );
+                                                    } else {
+                                                      setState(() {
+                                                        newAvatar = true;
+                                                        avatar = result.files[0];
+                                                      });
+
+                                                    Map formData = {
+                                                      "avatar": avatar,
+                                                    };
+
+                                                    await authServices
+                                                    .updateProfileAvatarController(formData);
+                                                  }
+
+                                                  },
+                                                ),
+                                                CustomTextWidget(text: 'Gallary', color:AppStyles.bgWhite)
+                                              ],
+                                            ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                  }
                                 );
-                              } else {
-                                setState(() {
-                                  newAvatar = true;
-                                  avatar = result.files[0];
-                                });
 
-                                Map formData = {
-                                  "avatar": avatar,
-                                };
+                            //   FilePickerResult? result =
+                            //       await FilePicker.platform.pickFiles(
+                            //     type: FileType.custom,
+                            //     allowedExtensions: [
+                            //       'jpg',
+                            //       'jpeg',
+                            //     ],
+                            //   );
 
-                                await authServices
-                                    .updateProfileAvatarController(formData);
-                              }
-                            },
+                            //   if (result!.files.isEmpty) return;
+
+                            //   debugPrint(
+                            //       "${result.files[0].path} :: file path ");
+                            //   debugPrint("[FILE-SIZE] ${result.files[0].size}");
+                            //   if (result.files[0].size >= 500000) {
+                            //     Get.snackbar(
+                            //       'Error',
+                            //       'File uploaded should be less than 500kb.',
+                            //       colorText: Colors.white,
+                            //       backgroundColor: AppStyles.bgBlue,
+                            //     );
+                            //   } else {
+                            //     setState(() {
+                            //       newAvatar = true;
+                            //       avatar = result.files[0];
+                            //     });
+
+                            //     Map formData = {
+                            //       "avatar": avatar,
+                            //     };
+
+                            //     await authServices
+                            //         .updateProfileAvatarController(formData);
+                            //   }
+
+                             },
                             child: CircleAvatar(
                               radius: 15,
                               backgroundColor: newAvatar

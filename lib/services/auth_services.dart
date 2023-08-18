@@ -208,7 +208,7 @@ class AuthServices extends GetxController {
 
         await authStorage.remove('MDX-USER');
 
-        Get.to(
+        Get.offAll(
           transition: Transition.rightToLeftWithFade,
           duration: const Duration(milliseconds: 500),
           () => LoginScreen(),
