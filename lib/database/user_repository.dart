@@ -8,6 +8,7 @@ import 'package:medexer_donor/models/user_profile_model.dart';
 
 class UserRepository extends GetxController {
   var googleSignin = false.obs;
+  var userLocationUsage = false.obs;
   var currentUserLatitude = 0.0.obs;
   var currentUserLongitude = 0.0.obs;
   var hospitalRouteAdded = false.obs;

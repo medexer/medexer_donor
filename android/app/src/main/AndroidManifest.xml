@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.medexer_donor"
+    package="medexer.medexer_donor"
     xmlns:tools="http://schemas.android.com/tools">
 
     <!-- permissions -->

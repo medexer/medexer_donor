@@ -1,4 +1,4 @@
-package com.example.medexer_donor
+package medexer.medexer_donor
 
 import io.flutter.embedding.android.FlutterActivity
 
