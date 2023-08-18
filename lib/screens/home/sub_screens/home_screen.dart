@@ -132,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               SizedBox(width: 2.0.wp),
                               CustomTextWidget(
-                                text: 'Search for donation center(s)',
+                                text: 'Search for donation centers',
                                 size: 14.0,
                               ),
                             ],

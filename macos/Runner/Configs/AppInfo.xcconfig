@@ -8,7 +8,7 @@
 PRODUCT_NAME = medexer_donor
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.medexerDonor
+PRODUCT_BUNDLE_IDENTIFIER = medexer.medexerDonor
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2022 com.example. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2022 medexer. All rights reserved.

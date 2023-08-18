@@ -11,11 +11,11 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/database/user_repository.dart';
+import 'package:medexer_donor/models/donation_center_model.dart';
+import 'package:medexer_donor/screens/home/donation_center/donation_center_search_profile_screen.dart';
 import 'package:medexer_donor/services/auth_services.dart';
 import 'package:medexer_donor/models/donation_center_geodata_model.dart';
-import 'package:medexer_donor/screens/home/donation_center/hospital_map_donation_center_profile_screen.dart';
 import 'package:medexer_donor/services/donor_services.dart';
-import 'package:medexer_donor/widgets/buttons/custom_button.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 import 'package:location/location.dart' as GeoLocation;
 
@@ -36,6 +36,7 @@ class _FinalMapState extends State<FinalMap> {
       CustomInfoWindowController();
   GeoLocation.LocationData? currentLocation;
   late bool _serviceEnabled;
+  bool _userLocationUsage = false;
   late GeoLocation.PermissionStatus _permissionGranted;
   final Completer<GoogleMapController> _controller = Completer();
 
@@ -112,7 +113,8 @@ class _FinalMapState extends State<FinalMap> {
   }
 
   Future onMapcreated() async {
-    await donorServices.fetchDontationCentersGeoDataController();
+    // await donorServices.fetchDontationCentersGeoDataController();
+    await donorServices.fetchDonationCentersController();
 
     final Uint8List myMarkerIcon = await getBytesFromAsset(
         path: 'assets/icons/icon__marker__3.png', width: 60);
@@ -123,76 +125,87 @@ class _FinalMapState extends State<FinalMap> {
         path: 'assets/icons/icon__marker__2.png', width: 60);
 
     setState(() {
-      for (DonationCenterGeoDataModel location
-          in userRepository.donationCentersGeoData) {
-        // print('LOC :: ${location.location!.lat}');
+      // for (DonationCenterGeoDataModel location
+      //     in userRepository.donationCentersGeoData) {
+      for (DonationCenterModel location in userRepository.donationCenters) {
         markers.add(
           Marker(
               icon: BitmapDescriptor.fromBytes(markerIcon),
-              markerId: MarkerId('${location.centerName}'),
-              position:
-                  LatLng(location.location!.lat!, location.location!.lng!),
+              markerId: MarkerId('${location.hospitalName}'),
+              position: LatLng(location.centerGeoLocation!.lat!,
+                  location.centerGeoLocation!.lng!),
               onTap: () {
                 customInfoWindowcontroller.addInfoWindow!(
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.3,
-                    // height: 25.0.hp,
-                    decoration: BoxDecoration(
-                      color: AppStyles.bgWhite,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          // height: 18.0.hp,
-                          height: MediaQuery.of(context).size.height * 0.18,
-                          // width: double.maxFinite,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10),
-                              topRight: Radius.circular(10),
-                            ),
-                            image: DecorationImage(
-                              image: NetworkImage('${location.hospitalImage}'),
-                              fit: BoxFit.cover,
-                              filterQuality: FilterQuality.high,
-                            ),
-                            // image: DecorationImage(
-                            //   image:
-                            //       AssetImage('assets/images/hospital__1.jpg'),
-                            //   fit: BoxFit.cover,
-                            //   filterQuality: FilterQuality.high,
-                            // ),
-                          ),
+                  GestureDetector(
+                    onTap: () {
+                      Get.to(
+                        () => DonationCenterSearchProfileScreen(
+                          donationCenter: location,
                         ),
-                        Container(
-                          // height: 15.0.hp,
-                          height: MediaQuery.of(context).size.height * 0.12,
-                          padding: EdgeInsets.only(
-                            top: 1.0.hp,
-                            left: 2.0.wp,
-                            right: 2.0.wp,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CustomTextWidget(
-                                text: '${location.centerName}',
-                                size: 16.0,
+                      );
+                    },
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.3,
+                      // height: 25.0.hp,
+                      decoration: BoxDecoration(
+                        color: AppStyles.bgWhite,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            // height: 18.0.hp,
+                            height: MediaQuery.of(context).size.height * 0.18,
+                            // width: double.maxFinite,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                topRight: Radius.circular(10),
                               ),
-                              CustomTextWidget(
-                                text: '${location.address}',
-                                size: 14.0,
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                    '${location.hospitalProfile!.hospitalImage}'),
+                                fit: BoxFit.cover,
+                                filterQuality: FilterQuality.high,
                               ),
-                            ],
+                              // image: DecorationImage(
+                              //   image:
+                              //       AssetImage('assets/images/hospital__1.jpg'),
+                              //   fit: BoxFit.cover,
+                              //   filterQuality: FilterQuality.high,
+                              // ),
+                            ),
                           ),
-                        ),
-                      ],
+                          Container(
+                            // height: 15.0.hp,
+                            height: MediaQuery.of(context).size.height * 0.12,
+                            padding: EdgeInsets.only(
+                              top: 1.0.hp,
+                              left: 2.0.wp,
+                              right: 2.0.wp,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CustomTextWidget(
+                                  text: '${location.hospitalName}',
+                                  size: 16.0,
+                                ),
+                                CustomTextWidget(
+                                  text: '${location.hospitalProfile!.address}',
+                                  size: 14.0,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  LatLng(location.location!.lat!, location.location!.lng!),
+                  LatLng(location.centerGeoLocation!.lat!,
+                      location.centerGeoLocation!.lng!),
                 );
               }),
         );
@@ -231,6 +244,7 @@ class _FinalMapState extends State<FinalMap> {
 
   void initializeMapFunctions() async {
     await initializeCurrentLocation();
+
     await onMapcreated();
   }
 
@@ -238,7 +252,81 @@ class _FinalMapState extends State<FinalMap> {
   void initState() {
     super.initState();
 
-    initializeMapFunctions();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      showModalBottomSheet(
+        backgroundColor: Colors.transparent,
+        context: context,
+        isScrollControlled: true,
+        builder: (BuildContext context) {
+          return Container(
+            padding: EdgeInsets.all(16.0),
+            height: MediaQuery.of(context).size.height *
+                0.35, // Adjust the height as needed
+            decoration: BoxDecoration(
+              color: AppStyles.bgWhite,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CustomTextWidget(
+                  text:
+                      'Allow Medexer to use your location? \nThis helps donation centers find you during emergencies even when the application is closed or not in use. Your choice impacts lifesaving efforts.',
+                  size: 12.0,
+                ),
+                SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TextButton(
+                      onPressed: () async {
+                        setState(() {
+                          _userLocationUsage = false;
+                          userRepository.userLocationUsage.value = false;
+                        });
+
+                        await authServices.signoutController();
+                        // initializeMapFunctions();
+
+                        // Navigator.of(context).pop(); // Close the bottom sheet
+                      },
+                      child: CustomTextWidget(
+                        text: 'Deny',
+                        size: 14,
+                        color: AppStyles.bgBrightRed,
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          _userLocationUsage = true;
+                          userRepository.userLocationUsage.value = true;
+                        });
+
+                        initializeMapFunctions();
+
+                        Navigator.of(context).pop(); // Close the bottom sheet
+                      },
+                      child: CustomTextWidget(
+                        text: 'Accept',
+                        size: 14,
+                        color: AppStyles.bgPrimary,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    });
+
+    // initializeMapFunctions();
   }
 
   @override

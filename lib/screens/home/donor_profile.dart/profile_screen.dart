@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:convert';
 import 'dart:core';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,10 +14,12 @@ import 'package:medexer_donor/widgets/buttons/custom_button.dart';
 import 'package:medexer_donor/widgets/buttons/custom_select_button.dart';
 import 'package:medexer_donor/widgets/page_header.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:medexer_donor/widgets/text/custom_formpassword_field.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 import 'package:medexer_donor/widgets/text/cutom_formtext_field.dart';
 import 'package:medexer_donor/widgets/buttons/custom_date_picker_button.dart';
+import 'dart:io';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -27,7 +30,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-
+  File? file;
   DateTime? _chosenDateTime;
   TextEditingController emailController = TextEditingController();
   TextEditingController nationalityController =
@@ -118,11 +121,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(left: 10.0, top: 15.0.hp),
+                      padding:
+                          EdgeInsets.only(left: 10.0, top: screenHeight * 0.12),
                       child: CustomTextWidget(
                         text: '${userRepository.userData.value.fullName}',
                         color: Colors.white,
                         size: 20.0,
+                        // weight: FontWeight.bold,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 10.0),
+                      child: CustomTextWidget(
+                        text: 'ID: ${userRepository.userData.value.donorID}',
+                        color: Colors.white,
+                        size: 16.0,
                         // weight: FontWeight.bold,
                       ),
                     ),
@@ -171,39 +184,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               GestureDetector(
                                                 child: Icon(Icons.add_a_photo,color: AppStyles.bgWhite),
                                                 onTap: ()async{
-                                                    FilePickerResult? result =await FilePicker.platform.pickFiles(
-                                                      type: FileType.custom,
-                                                      allowedExtensions: [
-                                                        'jpg',
-                                                        'jpeg',
-                                                      ],
-                                                    );
-
-                                                    if (result!.files.isEmpty) return;
-
-                                                    debugPrint(
-                                                      "${result.files[0].path} :: file path ");
-                                                      debugPrint("[FILE-SIZE] ${result.files[0].size}");
-                                                      if (result.files[0].size >= 500000) {
-                                                        Get.snackbar(
+                                                    // FilePickerResult? result =await FilePicker.platform.pickFiles(
+                                                    //   type: FileType.custom,
+                                                    //   allowedExtensions: [
+                                                    //     'jpg',
+                                                    //     'jpeg',
+                                                    //   ],
+                                                    // );
+                                                    final image = await ImagePicker().pickImage(source: ImageSource.camera);
+                                                    if(image == null) {
+                                                       Get.snackbar(
                                                         'Error',
-                                                        'File uploaded should be less than 500kb.',
+                                                        'File uploaded cannot be empty',
                                                         colorText: Colors.white,
                                                         backgroundColor: AppStyles.bgBlue,
                                                       );
-                                                    } else {
-                                                      setState(() {
-                                                        newAvatar = true;
-                                                        avatar = result.files[0];
+                                                    }else{
+                                                      setState(() async {
+                                                        file = base64.encode(File(image.path).readAsBytesSync().toList()) as File?;
+                                                        avatar = file as PlatformFile;
+                                                           Map formData = {
+                                                            "avatar": avatar,
+                                                          };
+                                                          await authServices
+                                                          .updateProfileAvatarController(formData);
                                                       });
-
-                                                    Map formData = {
-                                                      "avatar": avatar,
-                                                    };
-
-                                                    await authServices
-                                                    .updateProfileAvatarController(formData);
-                                                  };
+                                                       
+                                                    }
                                                 }
                                             ),
                                               CustomTextWidget(text: 'Camera', color:AppStyles.bgWhite)

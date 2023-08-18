@@ -140,6 +140,7 @@ class AuthServices extends GetxController {
         debugPrint('[SIGNIN-SUCCESS]');
 
         authStorage.write('MDX-USER', response.data['data']['user']);
+        authStorage.write('MDX-USER-PROFILE', response.data['data']['profile']);
         authStorage.write('MDX-ACCESSTOKEN', response.data['data']['access']);
         authStorage.write('MDX-REFRESHTOKEN', response.data['data']['refresh']);
 

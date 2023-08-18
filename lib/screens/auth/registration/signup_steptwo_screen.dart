@@ -5,12 +5,13 @@ import 'package:get/get.dart';
 import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/data/index.dart';
 import 'package:medexer_donor/screens/auth/login_screen.dart';
+import 'package:medexer_donor/screens/auth/registration/legal_webview_screen.dart';
 import 'package:medexer_donor/widgets/buttons/custom_button.dart';
 import 'package:medexer_donor/widgets/buttons/custom_select_button.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 import 'package:medexer_donor/widgets/text/cutom_formtext_field.dart';
 import 'package:medexer_donor/database/user_repository.dart';
-import '../../../services/auth_services.dart';
+import 'package:medexer_donor/services/auth_services.dart';
 
 class SignupStepTwoScreen extends StatefulWidget {
   const SignupStepTwoScreen({super.key});
@@ -21,7 +22,9 @@ class SignupStepTwoScreen extends StatefulWidget {
 
 class _SignupStepTwoScreenState extends State<SignupStepTwoScreen> {
   bool rememberMe = false;
+  bool acceptTerms = false;
   bool showPassword = true;
+  bool acceptPrivacyPolicy = false;
   bool showConfirmPassword = true;
   final AuthServices authServices = Get.find();
   TextEditingController nationalityController =
@@ -191,6 +194,53 @@ class _SignupStepTwoScreenState extends State<SignupStepTwoScreen> {
                       controller: contactNumberController,
                       background: Colors.white.withOpacity(0.4),
                       hintColor: Colors.white,
+                    ),
+                    SizedBox(height: 2.0.hp),
+                    Wrap(
+                      children: [
+                        CustomTextWidget(
+                          text: "By creating an account you accept Medexer's ",
+                          color: AppStyles.bgWhite,
+                          size: 13,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            // https://medexer.com.ng/donor-terms-of-service
+                            Get.to(
+                              () => LegalWebViewScreen(
+                                url:
+                                    "https://medexer.com.ng/donor-terms-of-service",
+                              ),
+                            );
+                          },
+                          child: CustomTextWidget(
+                            text: "Terms of Service ",
+                            color: AppStyles.bgBlue,
+                            size: 13,
+                          ),
+                        ),
+                        CustomTextWidget(
+                          text: "and ",
+                          color: AppStyles.bgWhite,
+                          size: 13,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            // https://medexer.com.ng/donor-privacy-policy
+                            Get.to(
+                              () => LegalWebViewScreen(
+                                url:
+                                    "https://medexer.com.ng/donor-privacy-policy",
+                              ),
+                            );
+                          },
+                          child: CustomTextWidget(
+                            text: "Privacy Policy",
+                            color: AppStyles.bgBlue,
+                            size: 13,
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(height: 2.0.hp),
                     authServices.authRequestStatus.value == 'PENDING'

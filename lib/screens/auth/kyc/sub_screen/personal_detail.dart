@@ -159,7 +159,7 @@ class _PersonalDetailScreenState extends State<PersonalDetailScreen> {
               ),
               SizedBox(height: 2.0.hp),
               CustomTextWidget(
-                text: 'If yes, when was the last time?',
+                text: 'If yes, when was the last time? (Optional)',
                 size: 14,
               ),
               SizedBox(height: 0.5.hp),

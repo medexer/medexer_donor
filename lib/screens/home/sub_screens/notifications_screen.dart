@@ -61,7 +61,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                       PageHeader(scaffoldKey: scaffoldKey),
                       CustomTextWidget(
                         text: 'Notifications',
-                        size: 20.0,
+                        size: 18.0,
                         weight: FontWeight.w600,
                       ),
                     ],

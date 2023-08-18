@@ -242,7 +242,7 @@ class _SideBarState extends State<SideBar> {
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.08),
                 CustomTextWidget(
-                  text: 'Notification',
+                  text: 'Notifications',
                   size: 14.0,
                 ),
               ],
