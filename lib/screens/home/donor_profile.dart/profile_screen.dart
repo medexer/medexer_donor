@@ -12,6 +12,7 @@ import 'package:medexer_donor/screens/home/sidebar.dart';
 import 'package:medexer_donor/services/auth_services.dart';
 import 'package:medexer_donor/widgets/buttons/custom_button.dart';
 import 'package:medexer_donor/widgets/buttons/custom_select_button.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:medexer_donor/widgets/page_header.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
@@ -166,7 +167,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 showDialog(
                                   context: context,builder: (BuildContext context){
                                     return AlertDialog(
-                                      backgroundColor: AppStyles.bgGray,
+                                      backgroundColor: AppStyles.bgWhite,
                                       elevation: 1,
                                       title: CustomTextWidget(text: 'Profile Photo',
                                         color: AppStyles.bgBlack,
@@ -182,38 +183,69 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             children: [
                                               SizedBox(height: 2,),
                                               GestureDetector(
-                                                child: Icon(Icons.add_a_photo,color: AppStyles.bgWhite),
+                                                child: Icon(Icons.add_a_photo,color: AppStyles.bgBlack),
                                                 onTap: ()async{
-                                                    // FilePickerResult? result =await FilePicker.platform.pickFiles(
-                                                    //   type: FileType.custom,
-                                                    //   allowedExtensions: [
-                                                    //     'jpg',
-                                                    //     'jpeg',
-                                                    //   ],
-                                                    // );
-                                                    final image = await ImagePicker().pickImage(source: ImageSource.camera);
-                                                    if(image == null) {
-                                                       Get.snackbar(
+                                                  //getImage();
+                                                    final image = await ImagePicker().pickImage(source: ImageSource.camera, imageQuality: 1);
+                                                      if(image==null)return;
+
+                                                      file = File(image.path);
+                                                     // PlatformFile platformFile=PlatformFile(name: 'peter.jpg', size: file!.lengthSync());
+                                                      PlatformFile platformFile=PlatformFile(name: file.toString(), size: file!.lengthSync());
+                                                      debugPrint('FILE PATH] $platformFile'); 
+                                                      if(platformFile.size>=500000){
+                                                        Get.snackbar(
                                                         'Error',
-                                                        'File uploaded cannot be empty',
+                                                        'File uploaded should be less than 500kb.',
                                                         colorText: Colors.white,
                                                         backgroundColor: AppStyles.bgBlue,
                                                       );
-                                                    }else{
-                                                      setState(() async {
-                                                        file = base64.encode(File(image.path).readAsBytesSync().toList()) as File?;
-                                                        avatar = file as PlatformFile;
-                                                           Map formData = {
-                                                            "avatar": avatar,
-                                                          };
-                                                          await authServices
-                                                          .updateProfileAvatarController(formData);
+                                                    } else {
+                                                      setState(() {
+                                                        newAvatar = true;
+                                                        avatar = platformFile;
                                                       });
-                                                       
-                                                    }
+                                                      Map formData = {
+                                                      "avatar": platformFile,
+                                                    };
+                                                    await authServices
+                                                    .updateProfileAvatarController(formData);
+                                                  }
+
+                                                //     if(image == null) {
+                                                //        Get.snackbar(
+                                                //         'Error',
+                                                //         'File uploaded cannot be empty',
+                                                //         colorText: Colors.white,
+                                                //         backgroundColor: AppStyles.bgBlue,
+                                                //       );
+                                                //     }else{
+                                                //       setState((){
+                                                //         newAvatar = true;
+                                                //         //file = base64.encode(File(image.path).readAsBytesSync().toList()) as File?;
+                                                //         file = File(image.path);
+                                                //         PlatformFile platformFile=PlatformFile(name: 'peter.jpg', size: file!.lengthSync());
+                                                //         debugPrint('FILE PATH] $platformFile');
+                                                //         //avatar = file as PlatformFile;
+                                                //         //if(platformFile.size>=0)
+                                                //         avatar =platformFile;
+                                                        
+                                                //       });
+                                                //       try{
+                                                //          Map formData = {
+                                                //             "avatar": avatar,
+                                                //             //"avatar":file,
+                                                //           };
+                                                //           await authServices
+                                                //           .updateProfileAvatarController(formData);
+                                                //       }catch(e){
+                                                //           debugPrint(e.toString());    
+                                                //       }
+                                                //     }   
                                                 }
+                                                
                                             ),
-                                              CustomTextWidget(text: 'Camera', color:AppStyles.bgWhite)
+                                              CustomTextWidget(text: 'Camera', color:AppStyles.bgBlack)
                                             ],
                                           ),
                                           SizedBox(width: 3.0.wp,),
@@ -223,9 +255,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 SizedBox(height:2),
                                 
                                                 GestureDetector(
-                                                  child: Icon(Icons.photo,color: AppStyles.bgWhite),
+                                                  child: Icon(Icons.photo,color: AppStyles.bgBlack),
                                                   onTap: ()async{
-
                                                     FilePickerResult? result =await FilePicker.platform.pickFiles(
                                                       type: FileType.custom,
                                                       allowedExtensions: [
@@ -255,14 +286,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                     Map formData = {
                                                       "avatar": avatar,
                                                     };
-
                                                     await authServices
                                                     .updateProfileAvatarController(formData);
                                                   }
 
                                                   },
                                                 ),
-                                                CustomTextWidget(text: 'Gallary', color:AppStyles.bgWhite)
+                                                CustomTextWidget(text: 'Gallary', color:AppStyles.bgBlack)
                                               ],
                                             ),
                                         ],
@@ -858,6 +888,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
+  
 
   void _showDatePicker(context) {
     // showCupertinoModalPopup is a built-in function of the cupertino library

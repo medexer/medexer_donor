@@ -37,7 +37,7 @@ class _PersonalDetailScreenState extends State<PersonalDetailScreen> {
 
     return Scaffold(
       bottomNavigationBar: Container(
-        height: screenHeight * 0.12,
+        height: screenHeight== MediaQuery.of(context).size.height? 0.12:0.2,
         color: AppStyles.bgWhite,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

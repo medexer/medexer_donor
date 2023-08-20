@@ -60,6 +60,7 @@ dependencies:
   flutter_inappwebview: ^5.7.2+3
   # flutter_facebook_auth: ^6.0.0
   connectivity:
+  flutter_image_compress: ^2.0.4
 
 
 dev_dependencies:
