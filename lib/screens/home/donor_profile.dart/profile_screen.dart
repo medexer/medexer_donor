@@ -12,7 +12,7 @@ import 'package:medexer_donor/screens/home/sidebar.dart';
 import 'package:medexer_donor/services/auth_services.dart';
 import 'package:medexer_donor/widgets/buttons/custom_button.dart';
 import 'package:medexer_donor/widgets/buttons/custom_select_button.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
+//import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:medexer_donor/widgets/page_header.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
