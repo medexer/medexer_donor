@@ -208,8 +208,10 @@ class AuthServices extends GetxController {
         debugPrint('[SIGNOUT-SUCCESS]');
 
         await authStorage.remove('MDX-USER');
+        await authStorage.remove('MDX-USER-PROFILE');
+        await authStorage.remove('USER-LOCATION-PERMISSION');
 
-        Get.to(
+        Get.offAll(
           transition: Transition.rightToLeftWithFade,
           duration: const Duration(milliseconds: 500),
           () => LoginScreen(),
@@ -525,6 +527,69 @@ class AuthServices extends GetxController {
         authLoading.value = false;
         authRequestStatus.value = 'FAILED';
         debugPrint('[RESETPASSSWORD CATCH ERROR] ${error.response!.data}');
+      }
+    }
+  }
+
+  Future<void> updateProfileAvatarWithFileController(Map dto) async {
+    try {
+      authLoading.value = true;
+      authRequestStatus.value = 'PENDING';
+
+      debugPrint('[UPDATE-PROFILE-AVATAR-VIA-FILE-PENDING]');
+
+      DioFormData.FormData formData = DioFormData.FormData.fromMap({
+        'avatar': await DioMultipartFile.MultipartFile.fromFile(
+            dto['avatar'].path,
+            filename: dto['avatar'].name)
+      });
+
+      debugPrint('[PAYLOAD] :: ${formData}');
+
+      final response = await dio.put(
+        '${APIConstants.backendServerUrl}auth/donor/update-profile-avatar',
+        // data: dto,
+        data: formData,
+        options: Options(
+          headers: {
+            'Authorization': authStorage.read('MDX-ACCESSTOKEN'),
+            'Content-Type': 'multipart/form-data'
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        authLoading.value = false;
+        authRequestError.value = '';
+        authRequestStatus.value = 'SUCCESS';
+
+        debugPrint("[DATA] :: ${response.data['data']}");
+
+        authStorage.write('MDX-USER-PROFILE', response.data['data']);
+        userRepository.userProfile.value =
+            UserProfileModel.fromJson(response.data['data']);
+
+        Get.snackbar(
+          'Success',
+          'Avatar updated successfully!',
+          colorText: Colors.white,
+          backgroundColor: AppStyles.bgBlue.withOpacity(0.8),
+        );
+
+        Get.to(
+          transition: Transition.fade,
+          duration: const Duration(milliseconds: 500),
+          () => HomeScreen(),
+        );
+        debugPrint('[UPDATE-PROFILE-AVATAR-SUCCESS] :: ${response.data}');
+      }
+    } catch (error) {
+      authLoading.value = false;
+      authRequestStatus.value = 'FAILED';
+      if (error is DioError) {
+        authLoading.value = false;
+        authRequestStatus.value = 'FAILED';
+        debugPrint('[UPDATE-PROFILE-AVATAR-ERROR] ${error.response!.data}');
       }
     }
   }

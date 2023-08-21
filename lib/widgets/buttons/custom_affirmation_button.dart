@@ -30,7 +30,7 @@ class _CustomAffirmationButtonState extends State<CustomAffirmationButton> {
         context: context,
         builder: (builder) {
           return Container(
-            height: MediaQuery.of(context).size.height * 0.2,
+            height: MediaQuery.of(context).size.height * 0.3,
             padding: EdgeInsets.symmetric(
               vertical: 4.0.hp,
               horizontal: 4.0.wp,

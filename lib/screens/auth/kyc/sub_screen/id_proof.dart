@@ -204,6 +204,7 @@ class _IdProofScreenState extends State<IdProofScreen> {
       ),
       body: SingleChildScrollView(
           child: Container(
+        color: AppStyles.bgWhite,
         margin: EdgeInsets.symmetric(horizontal: 2.0.wp),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

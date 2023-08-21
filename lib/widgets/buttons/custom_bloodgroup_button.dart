@@ -27,7 +27,7 @@ class _CustomBloodGroupButtonState extends State<CustomBloodGroupButton> {
         context: context,
         builder: (builder) {
           return Container(
-            height: MediaQuery.of(context).size.height * 0.4,
+            height: MediaQuery.of(context).size.height * 0.3,
             padding: EdgeInsets.symmetric(
               vertical: 4.0.hp,
               horizontal: 4.0.wp,

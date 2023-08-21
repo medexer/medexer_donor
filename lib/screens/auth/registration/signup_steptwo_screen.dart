@@ -92,6 +92,7 @@ class _SignupStepTwoScreenState extends State<SignupStepTwoScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
@@ -258,16 +259,16 @@ class _SignupStepTwoScreenState extends State<SignupStepTwoScreen> {
                             fontWeight: FontWeight.bold,
                             backgroundColor: AppStyles.bgPrimary,
                           ),
-                    SizedBox(height: 3.0.hp),
+                    // SizedBox(height: 3.0.hp),
                   ],
                 ),
-                SizedBox(height: 5.0.hp),
+                SizedBox(height: screenWidth * 0.04),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CustomTextWidget(
                       text: 'Already have an account? ',
-                      size: 16.0,
+                      size: 13.0,
                       color: AppStyles.bgGray4,
                     ),
                     GestureDetector(
@@ -281,7 +282,7 @@ class _SignupStepTwoScreenState extends State<SignupStepTwoScreen> {
                       },
                       child: CustomTextWidget(
                         text: 'Login',
-                        size: 16.0,
+                        size: 13.0,
                         color: AppStyles.bgBlue,
                       ),
                     ),

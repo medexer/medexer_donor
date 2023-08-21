@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:convert';
 import 'dart:core';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,16 +8,20 @@ import 'package:get/get.dart';
 import 'package:medexer_donor/config/app_config.dart';
 import 'package:medexer_donor/data/index.dart';
 import 'package:medexer_donor/database/user_repository.dart';
+import 'package:medexer_donor/screens/home/donor_profile.dart/edit_profile.dart';
 import 'package:medexer_donor/screens/home/sidebar.dart';
 import 'package:medexer_donor/services/auth_services.dart';
 import 'package:medexer_donor/widgets/buttons/custom_button.dart';
 import 'package:medexer_donor/widgets/buttons/custom_select_button.dart';
+//import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:medexer_donor/widgets/page_header.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:medexer_donor/widgets/text/custom_formpassword_field.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 import 'package:medexer_donor/widgets/text/cutom_formtext_field.dart';
 import 'package:medexer_donor/widgets/buttons/custom_date_picker_button.dart';
+import 'dart:io';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -27,7 +32,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-
+  File? file;
   DateTime? _chosenDateTime;
   TextEditingController emailController = TextEditingController();
   TextEditingController nationalityController =
@@ -117,26 +122,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 // padding: EdgeInsets.only(left: 25.0.wp, top: 14.0.hp),
                 child: Column(
                   children: [
-                    Padding(
-                      padding:
-                          EdgeInsets.only(left: 10.0, top: screenHeight * 0.12),
-                      child: CustomTextWidget(
-                        text: '${userRepository.userData.value.fullName}',
-                        color: Colors.white,
-                        size: 20.0,
-                        // weight: FontWeight.bold,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 10.0),
-                      child: CustomTextWidget(
-                        text: 'ID: ${userRepository.userData.value.donorID}',
-                        color: Colors.white,
-                        size: 16.0,
-                        // weight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 2.0.hp),
+                    // Padding(
+                    //   padding:
+                    //       EdgeInsets.only(left: 10.0, top: screenHeight * 0.12),
+                    //   child: CustomTextWidget(
+                    //     text: '${userRepository.userData.value.fullName}',
+                    //     color: Colors.white,
+                    //     size: 20.0,
+                    //     // weight: FontWeight.bold,
+                    //   ),
+                    // ),
+                    // Padding(
+                    //   padding: EdgeInsets.only(left: 10.0),
+                    //   child: CustomTextWidget(
+                    //     text: 'ID: ${userRepository.userData.value.donorID}',
+                    //     color: Colors.white,
+                    //     size: 16.0,
+                    //     // weight: FontWeight.bold,
+                    //   ),
+                    // ),
+                    SizedBox(height: screenHeight * 0.1),
                     Stack(
                       children: [
                         Positioned(
@@ -144,66 +149,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           // padding: EdgeInsets.only(left: 2.0.hp),
                           child: ClipOval(
                             child: SizedBox(
-                              width: screenWidth * 0.35,
-                              height: screenHeight * 0.15,
+                              width: screenWidth * 0.5,
+                              height: screenHeight * 0.25,
                               child: Image.network(
                                 '${userRepository.userProfile.value.userAvatar}',
                                 // '${APIConstants.backendServerRootUrl}${userRepository.userData.value.avatar}',
                                 fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 10.5.hp, top: 12.0.hp),
-                          child: GestureDetector(
-                            onTap: () async {
-                              debugPrint('[UPLOAD-AVATAR]');
-
-                              FilePickerResult? result =
-                                  await FilePicker.platform.pickFiles(
-                                type: FileType.custom,
-                                allowedExtensions: [
-                                  'jpg',
-                                  'jpeg',
-                                ],
-                              );
-
-                              if (result!.files.isEmpty) return;
-
-                              debugPrint(
-                                  "${result.files[0].path} :: file path ");
-                              debugPrint("[FILE-SIZE] ${result.files[0].size}");
-                              if (result.files[0].size >= 500000) {
-                                Get.snackbar(
-                                  'Error',
-                                  'File uploaded should be less than 500kb.',
-                                  colorText: Colors.white,
-                                  backgroundColor: AppStyles.bgBlue,
-                                );
-                              } else {
-                                setState(() {
-                                  newAvatar = true;
-                                  avatar = result.files[0];
-                                });
-
-                                Map formData = {
-                                  "avatar": avatar,
-                                };
-
-                                await authServices
-                                    .updateProfileAvatarController(formData);
-                              }
-                            },
-                            child: CircleAvatar(
-                              radius: 15,
-                              backgroundColor: newAvatar
-                                  ? AppStyles.bgBlack
-                                  : AppStyles.bgBlue,
-                              child: Icon(
-                                Icons.add_a_photo,
-                                size: 14.0,
-                                color: Colors.white,
                               ),
                             ),
                           ),
@@ -223,143 +174,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            authServices.authRequestStatus.value == 'PENDING'
-                ? const CircularProgressIndicator()
-                : CustomButton(
-                    text: 'Submit',
-                    width: MediaQuery.of(context).size.width * 0.85,
-                    height: screenHeight * 0.06,
-                    onTapHandler: () async {
-                      if (userRepository.userData.value.isEmailLogin == true) {
-                        if (!emailController.text.trim().isNotEmpty ||
-                            !nationalityController.text.trim().isNotEmpty ||
-                            !genderController.text.trim().isNotEmpty ||
-                            !religionController.text.trim().isNotEmpty ||
-                            !stateController.text.trim().isNotEmpty ||
-                            !cityProvinceController.text.trim().isNotEmpty ||
-                            !addressController.text.trim().isNotEmpty ||
-                            !dateOfBirthController.text.trim().isNotEmpty ||
-                            !contactNumberController.text.trim().isNotEmpty) {
-                          Get.snackbar(
-                            'ERROR',
-                            'All fields are required.',
-                            colorText: Colors.white,
-                            duration: Duration(seconds: 5),
-                            backgroundColor:
-                                AppStyles.bgBrightRed.withOpacity(0.5),
-                          );
-                        } else if (!emailPattern
-                            .hasMatch(emailController.text.trim())) {
-                          Get.snackbar(
-                            'ERROR!',
-                            'Invalid email address',
-                            colorText: Colors.white,
-                            duration: Duration(seconds: 5),
-                            backgroundColor:
-                                AppStyles.bgBrightRed.withOpacity(0.5),
-                          );
-                        } else {
-                          Map formData = {
-                            "nationality": nationalityController.text.trim(),
-                            "gender": genderController.text.trim(),
-                            "religion": religionController.text.trim(),
-                            "address": addressController.text.trim(),
-                            "state": stateController.text.trim(),
-                            "city_province": cityProvinceController.text.trim(),
-                            "contact_number":
-                                contactNumberController.text.trim(),
-                            "dateOfBirth": dateOfBirthController.text
-                                .trim()
-                                .substring(0, 10),
-                            'email': emailController.text.trim(),
-                            // 'avatar': avatar
-                          };
-
-                          debugPrint('[PAYLOAD] :: $formData');
-
-                          await authServices
-                              .updateProfileWithGoogleSigninController(
-                            formData,
-                          );
-                        }
-                      } else {
-                        if (!emailController.text.trim().isNotEmpty ||
-                            !passwordController.text.trim().isNotEmpty ||
-                            !nationalityController.text.trim().isNotEmpty ||
-                            !genderController.text.trim().isNotEmpty ||
-                            !religionController.text.trim().isNotEmpty ||
-                            !stateController.text.trim().isNotEmpty ||
-                            !cityProvinceController.text.trim().isNotEmpty ||
-                            !addressController.text.trim().isNotEmpty ||
-                            !dateOfBirthController.text.trim().isNotEmpty ||
-                            !contactNumberController.text.trim().isNotEmpty) {
-                          Get.snackbar(
-                            colorText: AppStyles.bgWhite,
-                            backgroundColor: AppStyles.bgBlue,
-                            'ERROR',
-                            'All fields are required.',
-                          );
-                        } else {
-                          if (newPasswordController.text.trim().isNotEmpty &&
-                              confirmNewPasswordController.text
-                                  .trim()
-                                  .isNotEmpty &&
-                              newPasswordController.text.trim() ==
-                                  confirmNewPasswordController.text.trim()) {
-                            Get.snackbar(
-                              colorText: AppStyles.bgWhite,
-                              backgroundColor: AppStyles.bgBlue,
-                              'ERROR',
-                              'Passwords do not match.',
-                            );
-                          } else if (newPasswordController.text
-                                  .trim()
-                                  .isNotEmpty &&
-                              !passwordPattern.hasMatch(
-                                  newPasswordController.text.trim())) {
-                            Get.snackbar(
-                              'ERROR!',
-                              'Password must include a number, uppercase and lowercase alphabet',
-                              colorText: Colors.white,
-                              duration: Duration(seconds: 5),
-                              backgroundColor:
-                                  AppStyles.bgBrightRed.withOpacity(0.5),
-                            );
-                          } else {
-                            Map formData = {
-                              "nationality": nationalityController.text.trim(),
-                              "gender": genderController.text.trim(),
-                              "religion": religionController.text.trim(),
-                              "address": addressController.text.trim(),
-                              "state": stateController.text.trim(),
-                              "city_province":
-                                  cityProvinceController.text.trim(),
-                              "contact_number":
-                                  contactNumberController.text.trim(),
-                              "dateOfBirth": dateOfBirthController.text
-                                  .trim()
-                                  .substring(0, 10),
-                              'new_password': newPasswordController.text.trim(),
-                              'password': passwordController.text.trim(),
-                              'email': emailController.text.trim(),
-                              // 'avatar': avatar
-                            };
-
-                            debugPrint('[PAYLOAD] :: $formData');
-
-                            await authServices.updateProfileController(
-                              formData,
-                            );
-                          }
-                        }
-                      }
-                    },
-                    fontSize: 16.0,
-                    borderRadius: 15,
-                    fontColor: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    backgroundColor: AppStyles.bgPurpleDark,
-                  ),
+            CustomButton(
+              text: 'Update',
+              width: MediaQuery.of(context).size.width * 0.9,
+              height: screenHeight * 0.06,
+              onTapHandler: () async {
+                Get.to(() => EditProfileScreen());
+              },
+              fontSize: 16.0,
+              borderRadius: 15,
+              fontColor: Colors.white,
+              fontWeight: FontWeight.bold,
+              backgroundColor: AppStyles.bgPurpleDark,
+            ),
           ],
         ),
       ),
@@ -370,374 +197,66 @@ class _ProfileScreenState extends State<ProfileScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: userRepository.userData.value.isEmailLogin == true
-                      ? Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CustomTextWidget(
-                              text: 'Email',
-                              size: 14.0,
-                              weight: FontWeight.w500,
-                            ),
-                            CustomFormTextField(
-                              maxLines: 1,
-                              fontSize: 14,
-                              borderRadius: 15,
-                              hintText: 'Email',
-                              controller: emailController,
-                              textColor: AppStyles.bgBlack,
-                              background: Colors.white.withOpacity(0.4),
-                              hintColor: Colors.black,
-                            ),
-                            SizedBox(height: 2.0.hp),
-                            CustomTextWidget(
-                              text: 'Nationality',
-                              size: 14.0,
-                              weight: FontWeight.w500,
-                            ),
-                            CustomFormTextField(
-                              maxLines: 1,
-                              readOnly: true,
-                              borderRadius: 15,
-                              fontSize: 14,
-                              hintText: nationalityController.text,
-                              controller: nationalityController,
-                              textColor: AppStyles.bgBlack,
-                              background: Colors.white.withOpacity(0.4),
-                              hintColor: Colors.black,
-                            ),
-                            SizedBox(height: 2.0.hp),
-                            CustomTextWidget(
-                              text: 'Gender',
-                              size: 14.0,
-                              weight: FontWeight.w500,
-                            ),
-                            CustomSelectButton(
-                              title: 'Gender',
-                              height: screenHeight * 0.3,
-                              borderRadius: 15,
-                              textColor: AppStyles.bgBlack,
-                              items: appGenders,
-                              currentItem: genderController.text.toString(),
-                              onChangeHandler: (int index) {
-                                setState(() {
-                                  genderController.text =
-                                      appGenders[index]['name'];
-                                });
-                              },
-                            ),
-                            SizedBox(height: 2.0.hp),
-                            CustomTextWidget(
-                              text: 'Religion',
-                              size: 14.0,
-                              weight: FontWeight.w500,
-                            ),
-                            CustomSelectButton(
-                              title: 'Religion',
-                              height: screenHeight * 0.3,
-                              borderRadius: 15,
-                              textColor: AppStyles.bgBlack,
-                              items: appReligions,
-                              currentItem: religionController.text.toString(),
-                              onChangeHandler: (int index) {
-                                setState(() {
-                                  religionController.text =
-                                      appReligions[index]['name'];
-                                });
-                              },
-                            ),
-                            SizedBox(height: 2.0.hp),
-                            CustomTextWidget(
-                              text: 'Address',
-                              size: 14.0,
-                              weight: FontWeight.w500,
-                            ),
-                            CustomFormTextField(
-                              maxLines: 1,
-                              borderRadius: 15,
-                              hintText: 'Address',
-                              fontSize: 14,
-                              controller: addressController,
-                              textColor: AppStyles.bgBlack,
-                              background: Colors.white.withOpacity(0.4),
-                              hintColor: Colors.black,
-                            ),
-                            SizedBox(height: 2.0.hp),
-                            CustomTextWidget(
-                              text: 'State',
-                              size: 14.0,
-                              weight: FontWeight.w500,
-                            ),
-                            CustomSelectButton(
-                              title: 'State',
-                              height: screenHeight * 0.5,
-                              borderRadius: 15,
-                              textColor: AppStyles.bgBlack,
-                              items: appStates,
-                              currentItem: stateController.text.toString(),
-                              onChangeHandler: (int index) {
-                                setState(() {
-                                  stateController.text =
-                                      appStates[index]['name'];
-                                });
-                              },
-                            ),
-                            SizedBox(height: 2.0.hp),
-                            CustomTextWidget(
-                              text: 'City/Province',
-                              size: 14.0,
-                              weight: FontWeight.w500,
-                            ),
-                            CustomFormTextField(
-                              maxLines: 1,
-                              borderRadius: 15,
-                              hintText: 'City/Province',
-                              fontSize: 14,
-                              controller: cityProvinceController,
-                              textColor: AppStyles.bgBlack,
-                              background: Colors.white.withOpacity(0.4),
-                              hintColor: Colors.black,
-                            ),
-                            SizedBox(height: 2.0.hp),
-                            CustomTextWidget(
-                              text: 'Phone number',
-                              size: 14.0,
-                              weight: FontWeight.w500,
-                            ),
-                            CustomFormTextField(
-                              maxLines: 1,
-                              borderRadius: 15,
-                              fontSize: 14,
-                              hintText: 'Phone number',
-                              keyboardType: TextInputType.number,
-                              controller: contactNumberController,
-                              textColor: AppStyles.bgBlack,
-                              background: Colors.white.withOpacity(0.4),
-                              hintColor: Colors.black,
-                            ),
-                            SizedBox(height: 2.0.hp),
-                            CustomTextWidget(
-                              text: 'Date of birth',
-                              size: 14.0,
-                              weight: FontWeight.w500,
-                            ),
-                            CustomDatePickerButton(
-                              date: initialDate,
-                              controller: dateOfBirthController,
-                            ),
-                          ],
-                        )
-                      : Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CustomTextWidget(
-                              text: 'Email',
-                              size: 14.0,
-                              weight: FontWeight.w500,
-                            ),
-                            CustomFormTextField(
-                              maxLines: 1,
-                              borderRadius: 15,
-                              hintText: 'Email',
-                              fontSize: 14,
-                              controller: emailController,
-                              textColor: AppStyles.bgBlack,
-                              background: Colors.white.withOpacity(0.4),
-                              hintColor: Colors.black,
-                            ),
-                            SizedBox(height: 2.0.hp),
-                            CustomTextWidget(
-                              text: 'Current Password',
-                              size: 14.0,
-                              weight: FontWeight.w500,
-                            ),
-                            CustomFormPasswordField(
-                              borderRadius: 15,
-                              controller: passwordController,
-                              fontColor: AppStyles.bgBlack,
-                              hintText: 'Current password',
-                              suffixIcon: ImageIcon(
-                                AssetImage('assets/icons/icon__eye.png'),
-                                color: Colors.white,
-                              ),
-                              showPassword: showPassword,
-                              background: Colors.white.withOpacity(0.4),
-                            ),
-                            SizedBox(height: 2.0.hp),
-                            CustomTextWidget(
-                              text: 'New Password (Optional)',
-                              size: 14.0,
-                              weight: FontWeight.w500,
-                            ),
-                            CustomFormPasswordField(
-                              borderRadius: 15,
-                              controller: newPasswordController,
-                              fontColor: AppStyles.bgBlack,
-                              hintText: 'New password',
-                              suffixIcon: ImageIcon(
-                                AssetImage('assets/icons/icon__eye.png'),
-                                color: Colors.white,
-                              ),
-                              showPassword: showConfirmPassword,
-                              background: Colors.white.withOpacity(0.4),
-                            ),
-                            SizedBox(height: 2.0.hp),
-                            CustomTextWidget(
-                              text: 'Confirm Password (Optional)',
-                              size: 14.0,
-                              weight: FontWeight.w500,
-                            ),
-                            CustomFormPasswordField(
-                              borderRadius: 15,
-                              controller: confirmNewPasswordController,
-                              fontColor: AppStyles.bgBlack,
-                              hintText: 'Confirm password',
-                              suffixIcon: ImageIcon(
-                                AssetImage('assets/icons/icon__eye.png'),
-                                color: Colors.white,
-                              ),
-                              showPassword: showConfirmNewPassword,
-                              background: Colors.white.withOpacity(0.4),
-                            ),
-                            SizedBox(height: 2.0.hp),
-                            CustomTextWidget(
-                              text: 'Nationality',
-                              size: 14.0,
-                              weight: FontWeight.w500,
-                            ),
-                            CustomFormTextField(
-                              maxLines: 1,
-                              readOnly: true,
-                              borderRadius: 15,
-                              fontSize: 14,
-                              hintText: nationalityController.text,
-                              controller: nationalityController,
-                              textColor: AppStyles.bgBlack,
-                              background: Colors.white.withOpacity(0.4),
-                              hintColor: Colors.black,
-                            ),
-                            SizedBox(height: 2.0.hp),
-                            CustomTextWidget(
-                              text: 'Gender',
-                              size: 14.0,
-                              weight: FontWeight.w500,
-                            ),
-                            CustomSelectButton(
-                              title: 'Gender',
-                              height: screenHeight * 0.3,
-                              borderRadius: 15,
-                              textColor: AppStyles.bgBlack,
-                              items: appGenders,
-                              currentItem: genderController.text.toString(),
-                              onChangeHandler: (int index) {
-                                setState(() {
-                                  genderController.text =
-                                      appGenders[index]['name'];
-                                });
-                              },
-                            ),
-                            SizedBox(height: 2.0.hp),
-                            CustomTextWidget(
-                              text: 'Religion',
-                              size: 14.0,
-                              weight: FontWeight.w500,
-                            ),
-                            CustomSelectButton(
-                              title: 'Religion',
-                              height: screenHeight * 0.3,
-                              borderRadius: 15,
-                              textColor: AppStyles.bgBlack,
-                              items: appReligions,
-                              currentItem: religionController.text.toString(),
-                              onChangeHandler: (int index) {
-                                setState(() {
-                                  religionController.text =
-                                      appReligions[index]['name'];
-                                });
-                              },
-                            ),
-                            SizedBox(height: 2.0.hp),
-                            CustomTextWidget(
-                              text: 'Address',
-                              size: 14.0,
-                              weight: FontWeight.w500,
-                            ),
-                            CustomFormTextField(
-                              maxLines: 1,
-                              borderRadius: 15,
-                              hintText: 'Address',
-                              controller: addressController,
-                              textColor: AppStyles.bgBlack,
-                              background: Colors.white.withOpacity(0.4),
-                              hintColor: Colors.black,
-                            ),
-                            SizedBox(height: 2.0.hp),
-                            CustomTextWidget(
-                              text: 'State',
-                              size: 14.0,
-                              weight: FontWeight.w500,
-                            ),
-                            CustomSelectButton(
-                              title: 'State',
-                              height: screenHeight * 0.5,
-                              borderRadius: 15,
-                              textColor: AppStyles.bgBlack,
-                              items: appStates,
-                              currentItem: stateController.text.toString(),
-                              onChangeHandler: (int index) {
-                                setState(() {
-                                  stateController.text =
-                                      appStates[index]['name'];
-                                });
-                              },
-                            ),
-                            SizedBox(height: 2.0.hp),
-                            CustomTextWidget(
-                              text: 'City/Province',
-                              size: 14.0,
-                              weight: FontWeight.w500,
-                            ),
-                            CustomFormTextField(
-                              maxLines: 1,
-                              fontSize: 14,
-                              borderRadius: 15,
-                              hintText: 'City/Province',
-                              controller: cityProvinceController,
-                              textColor: AppStyles.bgBlack,
-                              background: Colors.white.withOpacity(0.4),
-                              hintColor: Colors.black,
-                            ),
-                            SizedBox(height: 2.0.hp),
-                            CustomTextWidget(
-                              text: 'Phone Number',
-                              size: 14.0,
-                              weight: FontWeight.w500,
-                            ),
-                            CustomFormTextField(
-                              maxLines: 1,
-                              borderRadius: 15,
-                              fontSize: 14,
-                              hintText: 'Phone number',
-                              keyboardType: TextInputType.number,
-                              controller: contactNumberController,
-                              textColor: AppStyles.bgBlack,
-                              background: Colors.white.withOpacity(0.4),
-                              hintColor: Colors.black,
-                            ),
-                            SizedBox(height: 2.0.hp),
-                            CustomTextWidget(
-                              text: 'Date of Birth',
-                              size: 14.0,
-                              weight: FontWeight.w500,
-                            ),
-                            CustomDatePickerButton(
-                              date: initialDate,
-                              controller: dateOfBirthController,
-                            ),
-                          ],
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ProfileItemContainer(
+                          title: 'Fullname',
+                          content: "${userRepository.userData.value.fullName}",
                         ),
-                )
+                        SizedBox(height: screenHeight * 0.005),
+                        ProfileItemContainer(
+                          title: 'Donor ID',
+                          content: "${userRepository.userData.value.donorID}",
+                        ),
+                        SizedBox(height: screenHeight * 0.005),
+                        ProfileItemContainer(
+                          title: 'Email',
+                          content: emailController.text,
+                        ),
+                        SizedBox(height: screenHeight * 0.005),
+                        ProfileItemContainer(
+                          title: 'Gender',
+                          content: genderController.text ?? " ",
+                        ),
+                        SizedBox(height: screenHeight * 0.005),
+                        ProfileItemContainer(
+                          title: 'Religion',
+                          content: religionController.text ?? " ",
+                        ),
+                        SizedBox(height: screenHeight * 0.005),
+                        ProfileItemContainer(
+                          title: 'Nationality',
+                          content: nationalityController.text ?? " ",
+                        ),
+                        SizedBox(height: screenHeight * 0.005),
+                        ProfileItemContainer(
+                          title: 'Address',
+                          content: addressController.text ?? " ",
+                        ),
+                        SizedBox(height: screenHeight * 0.005),
+                        ProfileItemContainer(
+                          title: 'State',
+                          content: stateController.text ?? " ",
+                        ),
+                        SizedBox(height: screenHeight * 0.005),
+                        ProfileItemContainer(
+                          title: 'City/Province',
+                          content: cityProvinceController.text ?? " ",
+                        ),
+                        SizedBox(height: screenHeight * 0.005),
+                        ProfileItemContainer(
+                          title: 'Phone number',
+                          content: contactNumberController.text ?? " ",
+                        ),
+                        SizedBox(height: screenHeight * 0.005),
+                        ProfileItemContainer(
+                          title: 'Date of Birth',
+                          content: dateOfBirthController.text ?? " ",
+                        ),
+                      ],
+                    ))
               ],
             ),
           ),
@@ -745,32 +264,73 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
+}
 
-  void _showDatePicker(context) {
-    // showCupertinoModalPopup is a built-in function of the cupertino library
-    showCupertinoModalPopup(
-        context: context,
-        builder: (_) => Container(
-              height: 500,
-              color: Color.fromARGB(255, 255, 255, 255),
-              child: Column(
+class ProfileItemContainer extends StatelessWidget {
+  final String title;
+  final String content;
+  const ProfileItemContainer({
+    super.key,
+    required this.title,
+    required this.content,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.of(context).size.height;
+
+    return Container(
+      width: double.maxFinite,
+      height: screenHeight * 0.06,
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: AppStyles.bgBlack.withOpacity(0.05),
+          ),
+        ),
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Container(
+                height: 10,
+                width: 10,
+                decoration: BoxDecoration(
+                  color: AppStyles.bgWhite,
+                  border: Border.all(
+                    color: AppStyles.bgBlack.withOpacity(0.3),
+                  ),
+                  borderRadius: BorderRadius.circular(100),
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 1,
+                      spreadRadius: 3,
+                      color: AppStyles.bgBlack.withOpacity(0.1),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(width: 4.0.wp),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    height: 400,
-                    child: CupertinoDatePicker(
-                        mode: CupertinoDatePickerMode.date,
-                        dateOrder: DatePickerDateOrder.ymd,
-                        //dateOrder: DatePickerDateOrder.dmy,
-                        use24hFormat: false,
-                        initialDateTime: DateTime(1961, 1, 1),
-                        onDateTimeChanged: (val) {
-                          setState(() {
-                            _chosenDateTime = val;
-                          });
-                        }),
+                  CustomTextWidget(
+                    text: title,
+                    size: 15.0,
+                    weight: FontWeight.w600,
+                  ),
+                  CustomTextWidget(
+                    text: content,
+                    size: 14.0,
+                    // weight: FontWeight.w500,
                   ),
                 ],
               ),
-            ));
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }

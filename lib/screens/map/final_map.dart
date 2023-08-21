@@ -18,6 +18,7 @@ import 'package:medexer_donor/models/donation_center_geodata_model.dart';
 import 'package:medexer_donor/services/donor_services.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 import 'package:location/location.dart' as GeoLocation;
+import 'package:get_storage/get_storage.dart';
 
 class FinalMap extends StatefulWidget {
   const FinalMap({super.key});
@@ -29,6 +30,7 @@ class FinalMap extends StatefulWidget {
 class _FinalMapState extends State<FinalMap> {
   Set<Marker> markers = {};
   final Set<Polyline> _polyLines = {};
+  final authStorage = GetStorage();
   final DonorServices donorServices = Get.find();
   final AuthServices authServices = Get.find();
   final UserRepository userRepository = Get.find();
@@ -248,85 +250,101 @@ class _FinalMapState extends State<FinalMap> {
     await onMapcreated();
   }
 
+  void initializePermissions() async {
+    debugPrint(
+        "[PERMISSION]  ::  ${authStorage.read("USER-LOCATION-PERMISSION")}");
+
+    if (await authStorage.read("USER-LOCATION-PERMISSION") == true) {
+      return initializeMapFunctions();
+    } else {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showModalBottomSheet(
+          isDismissible: false,
+          backgroundColor: Colors.transparent,
+          context: context,
+          isScrollControlled: true,
+          builder: (BuildContext context) {
+            return Container(
+              padding: EdgeInsets.all(16.0),
+              // height: MediaQuery.of(context).size.height > 600
+              height: MediaQuery.of(context).size.height * 0.3,
+              // ? 0.25
+              // : 0.35, // Adjust the height as needed
+              decoration: BoxDecoration(
+                color: AppStyles.bgWhite,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                ),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomTextWidget(
+                    text:
+                        'Allow Medexer to use your location? \nThis helps donation centers find you during emergencies even when the application is closed or not in use. Your choice impacts lifesaving efforts.',
+                    size: 16.0,
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextButton(
+                        onPressed: () async {
+                          setState(() {
+                            _userLocationUsage = false;
+                            userRepository.userLocationUsage.value = false;
+                          });
+                          authStorage.write("USER-LOCATION-PERMISSION", false);
+
+                          await authServices.signoutController();
+                          // initializeMapFunctions();
+
+                          // Navigator.of(context).pop(); // Close the bottom sheet
+                        },
+                        child: CustomTextWidget(
+                          text: 'Deny',
+                          size: 14,
+                          color: AppStyles.bgBrightRed,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            _userLocationUsage = true;
+                            userRepository.userLocationUsage.value = true;
+                          });
+                          authStorage.write("USER-LOCATION-PERMISSION", true);
+
+                          initializeMapFunctions();
+
+                          Navigator.of(context).pop(); // Close the bottom sheet
+                        },
+                        child: CustomTextWidget(
+                          text: 'Accept',
+                          size: 14,
+                          color: AppStyles.bgPrimary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      });
+    }
+    ;
+  }
+
   @override
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      showModalBottomSheet(
-        backgroundColor: Colors.transparent,
-        context: context,
-        isScrollControlled: true,
-        builder: (BuildContext context) {
-          return Container(
-            padding: EdgeInsets.all(16.0),
-            height: MediaQuery.of(context).size.height *
-                0.25, // Adjust the height as needed
-            decoration: BoxDecoration(
-              color: AppStyles.bgWhite,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-              ),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                CustomTextWidget(
-                  text:
-                      'Allow Medexer to use your location? \nThis helps donation centers find you during emergencies even when the application is closed or not in use. Your choice impacts lifesaving efforts.',
-                  size: 16.0,
-                ),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    TextButton(
-                      onPressed: () async {
-                        setState(() {
-                          _userLocationUsage = false;
-                          userRepository.userLocationUsage.value = false;
-                        });
-
-                        await authServices.signoutController();
-                        // initializeMapFunctions();
-
-                        // Navigator.of(context).pop(); // Close the bottom sheet
-                      },
-                      child: CustomTextWidget(
-                        text: 'Deny',
-                        size: 14,
-                        color: AppStyles.bgBrightRed,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          _userLocationUsage = true;
-                          userRepository.userLocationUsage.value = true;
-                        });
-
-                        initializeMapFunctions();
-
-                        Navigator.of(context).pop(); // Close the bottom sheet
-                      },
-                      child: CustomTextWidget(
-                        text: 'Accept',
-                        size: 14,
-                        color: AppStyles.bgPrimary,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          );
-        },
-      );
-    });
-
-    // initializeMapFunctions();
+    initializePermissions();
+    // initializeMapFunctions()
   }
 
   @override
