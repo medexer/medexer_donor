@@ -12,21 +12,36 @@ import 'package:medexer_donor/widgets/buttons/custom_genotype_button.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 
 class PersonalDetailScreen extends StatefulWidget {
-  final TabController tabController;
-  const PersonalDetailScreen({super.key, required this.tabController});
+  String genotype;
+  String hasTattos;
+  String tobaccoUsage;
+  String isRecentVaccineRecipient;
+  String bloodGroup;
+  String previouslyDonatedBlood;
+  String previouslyDonatedBloodTimeline;
+  PersonalDetailScreen({
+    super.key,
+    required this.genotype,
+    required this.hasTattos,
+    required this.tobaccoUsage,
+    required this.isRecentVaccineRecipient,
+    required this.bloodGroup,
+    required this.previouslyDonatedBlood,
+    required this.previouslyDonatedBloodTimeline,
+  });
 
   @override
   State<PersonalDetailScreen> createState() => _PersonalDetailScreenState();
 }
 
 class _PersonalDetailScreenState extends State<PersonalDetailScreen> {
-  String genotype = '';
-  String hasTattos = '';
-  String tobaccoUsage = '';
-  String isRecentVaccineRecipient = '';
-  String bloodGroup = '';
-  String previouslyDonatedBlood = '';
-  String previouslyDonatedBloodTimeline = '';
+  // String genotype = '';
+  // String hasTattos = '';
+  // String tobaccoUsage = '';
+  // String isRecentVaccineRecipient = '';
+  // String bloodGroup = '';
+  // String previouslyDonatedBlood = '';
+  // String previouslyDonatedBloodTimeline = '';
 
   final UserRepository userRepository = Get.find();
 
@@ -36,78 +51,12 @@ class _PersonalDetailScreenState extends State<PersonalDetailScreen> {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      bottomNavigationBar: Container(
-        height: screenHeight == MediaQuery.of(context).size.height ? 0.12 : 0.2,
-        color: AppStyles.bgWhite,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CustomButton(
-              text: 'Next',
-              width: screenWidth * 0.9,
-              height: MediaQuery.of(context).size.height * 0.06,
-              onTapHandler: () async {
-                if (tobaccoUsage == '') {
-                  Get.snackbar(
-                    'Error',
-                    'Please affirm if you smoke or not.',
-                    colorText: Colors.white,
-                    backgroundColor: AppStyles.bgBlue.withOpacity(0.8),
-                  );
-                } else if (isRecentVaccineRecipient == '') {
-                  Get.snackbar(
-                    'Error',
-                    'Please affirm if you have been vaccinated recently or not.',
-                    colorText: Colors.white,
-                    backgroundColor: AppStyles.bgBlue.withOpacity(0.8),
-                  );
-                } else if (previouslyDonatedBlood == '') {
-                  Get.snackbar(
-                    'Error',
-                    'Blood donation history is required.',
-                    colorText: Colors.white,
-                    backgroundColor: AppStyles.bgBlue.withOpacity(0.8),
-                  );
-                } else if (hasTattos == '') {
-                  Get.snackbar(
-                    'Error',
-                    'Please validation is you have tattoos.',
-                    colorText: Colors.white,
-                    backgroundColor: AppStyles.bgBlue.withOpacity(0.8),
-                  );
-                } else {
-                  Map<String, dynamic> formData = {
-                    'bloodGroup': bloodGroup,
-                    'genotype': genotype,
-                    'haveDonatedBlood':
-                        previouslyDonatedBlood == 'YES' ? true : false,
-                    'lastBloodDonationTime': previouslyDonatedBloodTimeline,
-                    'hasTattos': hasTattos == 'YES' ? true : false,
-                    'tobaccoUsage': tobaccoUsage == 'YES' ? true : false,
-                    'isRecentVaccineRecipient':
-                        isRecentVaccineRecipient == 'YES' ? true : false,
-                  };
-
-                  userRepository.kycFormData.value =
-                      KYCFormDataModel.fromJson(formData);
-
-                  widget.tabController.animateTo(1);
-                }
-              },
-              fontSize: 16.0,
-              borderRadius: 15,
-              fontColor: AppStyles.bgWhite,
-              fontWeight: FontWeight.bold,
-              backgroundColor: AppStyles.bgPrimary,
-            ),
-          ],
-        ),
-      ),
+      backgroundColor: AppStyles.bgWhite,
       body: SingleChildScrollView(
         child: Container(
           color: AppStyles.bgWhite,
-          height: screenHeight,
+          height: screenHeight * 0.85,
+          padding: EdgeInsets.only(top: 1.0.hp),
           margin: EdgeInsets.symmetric(horizontal: 4.0.wp),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -120,10 +69,12 @@ class _PersonalDetailScreenState extends State<PersonalDetailScreen> {
               SizedBox(height: 0.5.hp),
               CustomBloodGroupButton(
                 items: appBloodGroups,
-                currentItem: bloodGroup,
+                currentItem:
+                    "${userRepository.kycPersonalData.value.bloodGroup ?? ""}",
                 onChangeHandler: (int index) {
                   setState(() {
-                    bloodGroup = appBloodGroups[index]['name'];
+                    userRepository.kycPersonalData.value.bloodGroup =
+                        appBloodGroups[index]['name'];
                   });
                 },
               ),
@@ -135,10 +86,12 @@ class _PersonalDetailScreenState extends State<PersonalDetailScreen> {
               SizedBox(height: 0.5.hp),
               CustomGenotypeButton(
                 items: appGenotypes,
-                currentItem: genotype,
+                currentItem:
+                    "${userRepository.kycPersonalData.value.genotype ?? ""}",
                 onChangeHandler: (int index) {
                   setState(() {
-                    genotype = appGenotypes[index]['name'];
+                    userRepository.kycPersonalData.value.genotype =
+                        appGenotypes[index]['name'];
                   });
                 },
               ),
@@ -151,10 +104,12 @@ class _PersonalDetailScreenState extends State<PersonalDetailScreen> {
               CustomAffirmationButton(
                 title: 'Have you ever donated blood before?',
                 items: appAfirmations,
-                currentItem: previouslyDonatedBlood,
+                currentItem:
+                    "${userRepository.kycPersonalData.value.previouslyDonatedBlood ?? ""}",
                 onChangeHandler: (int index) {
                   setState(() {
-                    previouslyDonatedBlood = appAfirmations[index]['name'];
+                    userRepository.kycPersonalData.value
+                        .previouslyDonatedBlood = appAfirmations[index]['name'];
                   });
                 },
               ),
@@ -166,10 +121,12 @@ class _PersonalDetailScreenState extends State<PersonalDetailScreen> {
               SizedBox(height: 0.5.hp),
               CustomBloodDonationTimelineButton(
                 items: appBloodDonationTimeline,
-                currentItem: previouslyDonatedBloodTimeline,
+                currentItem:
+                    "${userRepository.kycPersonalData.value.previouslyDonatedBloodTimeline ?? ""}",
                 onChangeHandler: (int index) {
                   setState(() {
-                    previouslyDonatedBloodTimeline =
+                    userRepository.kycPersonalData.value
+                            .previouslyDonatedBloodTimeline =
                         appBloodDonationTimeline[index]['name'];
                   });
                 },
@@ -183,10 +140,12 @@ class _PersonalDetailScreenState extends State<PersonalDetailScreen> {
               CustomAffirmationButton(
                 title: 'Do you have any tattos?',
                 items: appAfirmations,
-                currentItem: hasTattos,
+                currentItem:
+                    "${userRepository.kycPersonalData.value.hasTattos ?? ""}",
                 onChangeHandler: (int index) {
                   setState(() {
-                    hasTattos = appAfirmations[index]['name'];
+                    userRepository.kycPersonalData.value.hasTattos =
+                        appAfirmations[index]['name'];
                   });
                 },
               ),
@@ -199,10 +158,13 @@ class _PersonalDetailScreenState extends State<PersonalDetailScreen> {
               CustomAffirmationButton(
                 title: 'Have you been vaccinated in the last 3months?',
                 items: appAfirmations,
-                currentItem: isRecentVaccineRecipient,
+                currentItem:
+                    "${userRepository.kycPersonalData.value.isRecentVaccineRecipient ?? ""}",
                 onChangeHandler: (int index) {
                   setState(() {
-                    isRecentVaccineRecipient = appAfirmations[index]['name'];
+                    userRepository
+                            .kycPersonalData.value.isRecentVaccineRecipient =
+                        appAfirmations[index]['name'];
                   });
                 },
               ),
@@ -215,10 +177,12 @@ class _PersonalDetailScreenState extends State<PersonalDetailScreen> {
               CustomAffirmationButton(
                 title: 'Do you smoke?',
                 items: appAfirmations,
-                currentItem: tobaccoUsage,
+                currentItem:
+                    "${userRepository.kycPersonalData.value.tobaccoUsage ?? ""}",
                 onChangeHandler: (int index) {
                   setState(() {
-                    tobaccoUsage = appAfirmations[index]['name'];
+                    userRepository.kycPersonalData.value.tobaccoUsage =
+                        appAfirmations[index]['name'];
                   });
                 },
               ),

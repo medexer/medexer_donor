@@ -1,26 +1,30 @@
 import 'package:file_picker/file_picker.dart';
 
-class KYCFormDataModel {
+class KYCPersonalDataModel {
   String? bloodGroup;
   String? genotype;
-  bool? haveDonatedBlood;
+  String? haveDonatedBlood;
   String? lastBloodDonationTime;
-  bool? hasTattos;
-  bool? tobaccoUsage;
-  bool? isRecentVaccineRecipient;
+  String? hasTattos;
+  String? tobaccoUsage;
+  String? isRecentVaccineRecipient;
+  String? previouslyDonatedBlood;
+  String? previouslyDonatedBloodTimeline;
   late PlatformFile? documentRear;
   late PlatformFile? documentCover;
   bool? isDocumentRearUploaded;
   bool? isDocumentCoverUploaded;
   String? identificationType;
 
-  KYCFormDataModel({
+  KYCPersonalDataModel({
     this.bloodGroup,
     this.genotype,
     this.haveDonatedBlood,
     this.lastBloodDonationTime,
     this.tobaccoUsage,
     this.isRecentVaccineRecipient,
+    this.previouslyDonatedBlood,
+    this.previouslyDonatedBloodTimeline,
     this.hasTattos,
     this.documentCover,
     this.documentRear,
@@ -29,7 +33,7 @@ class KYCFormDataModel {
     this.identificationType,
   });
 
-  KYCFormDataModel.fromJson(Map<String, dynamic> json) {
+  KYCPersonalDataModel.fromJson(Map<String, dynamic> json) {
     bloodGroup = json['bloodGroup'];
     genotype = json['genotype'];
     haveDonatedBlood = json['haveDonatedBlood'];
@@ -37,6 +41,8 @@ class KYCFormDataModel {
     hasTattos = json['hasTattos'];
     tobaccoUsage = json['tobaccoUsage'];
     isRecentVaccineRecipient = json['isRecentVaccineRecipient'];
+    previouslyDonatedBlood = json['previouslyDonatedBlood'];
+    previouslyDonatedBloodTimeline = json['previouslyDonatedBloodTimeline'];
 
     documentCover = json['documentCover'];
     documentRear = json['documentRear'];
@@ -54,6 +60,9 @@ class KYCFormDataModel {
     data['hasTattos'] = this.hasTattos;
     data['tobaccoUsage'] = this.tobaccoUsage;
     data['isRecentVaccineRecipient'] = this.isRecentVaccineRecipient;
+    data['previouslyDonatedBlood'] = this.previouslyDonatedBlood;
+    data['previouslyDonatedBloodTimeline'] =
+        this.previouslyDonatedBloodTimeline;
 
     documentCover = this.documentCover;
     documentRear = this.documentRear;

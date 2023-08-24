@@ -63,7 +63,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(height: 2.0.hp),
+                            // SizedBox(height: 2.0.hp),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
@@ -73,66 +73,50 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                                   CustomTextWidget(
                                     maxLines: 100,
                                     text:
-                                        'Medexer seeks to increase the ease with which hospitals have access \n to blood and save lives by connecting hospitals directly to blood donors.',
-                                    size: 12.0.sp,
+                                        'Medexer seeks to increase the ease with which hospitals have access to blood and save lives by connecting hospitals directly to blood donors. We do this by utilizing two digital platforms, harnessing the power of geolocation technology (like Uber), for the hospitals and the donors, where the hospital in need of blood can search for and contact the closest matching donors, especially during cases of emergency, and donors can also search for, and book blood donation appointments with hospitals or blood banks.\n',
+                                    size: 14.0,
                                   ),
                                   CustomTextWidget(
                                     maxLines: 100,
                                     text:
-                                        'You an find and book appointments with blood donation centres by doing the following:\n',
-                                    size: 12.0.sp,
+                                        'At Medexer, we understand the critical role that blood transfusions play in saving lives. Unfortunately, the process of blood donation and transfusion can be complex, time-consuming, and sometimes even inaccessible for many people. Our platform seeks to change that by creating a convenient, easy-to-use, and secure platform where hospitals and blood donors can connect with ease.\n',
+                                    size: 14.0,
                                   ),
                                   CustomTextWidget(
                                     maxLines: 100,
                                     text:
-                                        ' 1. Navigate to Menu > Home \n 2. Enter the name of the hospital or donation centre on the search bar. \n 3. Click on the correct result that pops up. \n 4. Make a call or send an SMS to the hospital or donation centre to book an appointment. \n 5. Locate the donation centre by following the map directions.',
-                                    size: 12.0.sp,
+                                        'Our platform allows you to easily search for, and book blood donation appointments at your convenience with just a few clicks.\n',
+                                    size: 14.0,
                                   ),
                                   CustomTextWidget(
                                     maxLines: 100,
                                     text:
-                                        '\nYour request to book an appointment will have to be approved by the donation centre before you can donate blood. Note: You will have to wait for your KYC to be approved for you to fully use this app.',
-                                    size: 16,
+                                        'Our platform allows hospitals to search for and identify donors who are eligible to donate blood. Hospitals can make requests to potential donors based on the donor\'s blood type, location, and other factors by identifying them via the desktop app and contacting them via phone call. Once a donor accepts the request, the platform will schedule an appointment and provide the necessary details, such as the location, time, and date of the donation.\n',
+                                    size: 14,
                                   ),
                                   CustomTextWidget(
                                     maxLines: 100,
                                     text:
-                                        'Note: You will have to wait for your KYC to be approved for you to fully use this app.',
-                                    size: 12.0.sp,
+                                        'For donors, our platform offers a convenient way to donate blood, with the flexibility to choose the location and time that work best for them. Donors can sign up on our platform, and we will notify them when a hospital needs their blood type. They can then choose to accept or reject the request, depending on their availability.\n',
+                                    size: 14.0,
                                   ),
                                   CustomTextWidget(
                                     maxLines: 100,
                                     text:
-                                        '\nALWAYS MAKE SURE THE DONATION CENTER YOU WERE CONTACTED BY IS VERIFIED!',
-                                    size: 12.0.sp,
-                                    weight: FontWeight.w600,
-                                  ),
-                                  CustomTextWidget(
-                                    maxLines: 100,
-                                    text: 'To do so',
-                                    size: 12.0.sp,
+                                        'At Medexer, we prioritize the safety and security of our users. Our platform follows strict data protection guidelines, and we take all necessary measures to ensure that donor and hospital information is kept confidential. We will also try to ensure that blood donors are compensated properly to boost their morale to donate next time and save lives.\n',
+                                    size: 14.0,
                                   ),
                                   CustomTextWidget(
                                     maxLines: 100,
                                     text:
-                                        'Navigate to Menu > Donation Centers \nClick on Centers and paste the ID or phone number of the donation center. \nMake sure to see that it is a verified donation center, or DO NOT GO.',
-                                    size: 16,
-                                  ),
-                                  CustomTextWidget(
-                                    maxLines: 100,
-                                    text: '\nGot questions?',
-                                    size: 12.0.sp,
+                                        'We are also committed to educating the public about the importance of blood donation and transfusion. Through our platform, we provide educational resources and materials that help potential donors understand the donation process, the benefits of blood donation, and the impact it can have on saving lives.\n',
+                                    size: 14.0,
                                   ),
                                   CustomTextWidget(
                                     maxLines: 100,
                                     text:
-                                        'Navigate to Menu > Contact Us and send us a message or \nyou can connect with us through any of \nour social media platforms.',
-                                    size: 16,
-                                  ),
-                                  CustomTextWidget(
-                                    maxLines: 100,
-                                    text: '',
-                                    size: 12.0.sp,
+                                        'Join us today and be a part of our mission to save lives through blood donation and transfusion. Tell a friend to tell a friend to sign up on our platform as a donor or a hospital and help us make a difference in the world.\n',
+                                    size: 14,
                                   ),
                                 ],
                               ),

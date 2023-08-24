@@ -64,19 +64,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     super.initState();
 
     setState(() {
-      emailController.text = "${userRepository.userData.value.email}";
+      emailController.text = "${userRepository.userData.value.email ?? ""}";
       nationalityController.text =
-          "${userRepository.userProfile.value.nationality}";
-      genderController.text = "${userRepository.userProfile.value.gender}";
-      religionController.text = "${userRepository.userProfile.value.religion}";
-      addressController.text = "${userRepository.userProfile.value.address}";
-      stateController.text = "${userRepository.userProfile.value.state}";
+          "${userRepository.userProfile.value.nationality ?? ""}";
+      genderController.text =
+          "${userRepository.userProfile.value.gender ?? ""}";
+      religionController.text =
+          "${userRepository.userProfile.value.religion ?? ""}";
+      addressController.text =
+          "${userRepository.userProfile.value.address ?? ""}";
+      stateController.text = "${userRepository.userProfile.value.state ?? ""}";
       cityProvinceController.text =
-          "${userRepository.userProfile.value.cityProvince}";
+          "${userRepository.userProfile.value.cityProvince ?? ""}";
       contactNumberController.text =
-          "${userRepository.userProfile.value.contactNumber}";
+          "${userRepository.userProfile.value.contactNumber ?? ""}";
       dateOfBirthController.text =
-          "${userRepository.userProfile.value.dateOfBirth}";
+          "${userRepository.userProfile.value.dateOfBirth ?? ""}";
 
       if (userRepository.userProfile.value.dateOfBirth != null) {
         initialDate = DateTime.parse(

@@ -14,12 +14,14 @@ class CustomButton extends StatelessWidget {
   final double fontSize;
   Color? borderColor;
   final FontWeight fontWeight;
+  TextAlign? textAlignment;
   final Color backgroundColor;
   String? type;
   CustomButton({
     super.key,
     this.type,
     this.borderColor,
+    this.textAlignment,
     required this.text,
     required this.width,
     required this.height,
@@ -53,6 +55,7 @@ class CustomButton extends StatelessWidget {
             color: fontColor,
             size: fontSize,
             weight: fontWeight,
+            alignment: textAlignment ?? TextAlign.left,
           ),
         ),
       ),

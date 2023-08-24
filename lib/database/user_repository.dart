@@ -5,6 +5,7 @@ import 'package:medexer_donor/models/kyc_formdata_model.dart';
 import 'package:medexer_donor/models/signup_formdata_model.dart';
 import 'package:medexer_donor/models/user_model.dart';
 import 'package:medexer_donor/models/user_profile_model.dart';
+import 'package:medexer_donor/models/kyc_personal_data_model.dart';
 
 class UserRepository extends GetxController {
   var googleSignin = false.obs;
@@ -35,6 +36,7 @@ class UserRepository extends GetxController {
   RxList get medicalHistory => _medicalHistory;
 
   var kycFormData = KYCFormDataModel.fromJson({}).obs;
+  var kycPersonalData = KYCPersonalDataModel.fromJson({}).obs;
 
   var signupFormData = SignupFormDataModel.fromJson({}).obs;
 }

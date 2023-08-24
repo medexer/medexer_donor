@@ -267,7 +267,7 @@ class _FinalMapState extends State<FinalMap> {
             return Container(
               padding: EdgeInsets.all(16.0),
               // height: MediaQuery.of(context).size.height > 600
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.35,
               // ? 0.25
               // : 0.35, // Adjust the height as needed
               decoration: BoxDecoration(
@@ -284,7 +284,7 @@ class _FinalMapState extends State<FinalMap> {
                   CustomTextWidget(
                     text:
                         'Allow Medexer to use your location? \nThis helps donation centers find you during emergencies even when the application is closed or not in use. Your choice impacts lifesaving efforts.',
-                    size: 16.0,
+                    size: 14.0,
                   ),
                   SizedBox(height: 10),
                   Row(

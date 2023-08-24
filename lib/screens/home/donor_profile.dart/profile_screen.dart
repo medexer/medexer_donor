@@ -67,19 +67,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
 
     setState(() {
-      emailController.text = "${userRepository.userData.value.email}";
+      emailController.text = "${userRepository.userData.value.email ?? ""}";
       nationalityController.text =
-          "${userRepository.userProfile.value.nationality}";
-      genderController.text = "${userRepository.userProfile.value.gender}";
-      religionController.text = "${userRepository.userProfile.value.religion}";
-      addressController.text = "${userRepository.userProfile.value.address}";
-      stateController.text = "${userRepository.userProfile.value.state}";
+          "${userRepository.userProfile.value.nationality ?? ""}";
+      genderController.text =
+          "${userRepository.userProfile.value.gender ?? ""}";
+      religionController.text =
+          "${userRepository.userProfile.value.religion ?? ""}";
+      addressController.text =
+          "${userRepository.userProfile.value.address ?? ""}";
+      stateController.text = "${userRepository.userProfile.value.state ?? ""}";
       cityProvinceController.text =
-          "${userRepository.userProfile.value.cityProvince}";
+          "${userRepository.userProfile.value.cityProvince ?? ""}";
       contactNumberController.text =
-          "${userRepository.userProfile.value.contactNumber}";
+          "${userRepository.userProfile.value.contactNumber ?? ""}";
       dateOfBirthController.text =
-          "${userRepository.userProfile.value.dateOfBirth}";
+          "${userRepository.userProfile.value.dateOfBirth ?? ""}";
 
       if (userRepository.userProfile.value.dateOfBirth != null) {
         initialDate = DateTime.parse(
@@ -218,42 +221,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         SizedBox(height: screenHeight * 0.005),
                         ProfileItemContainer(
                           title: 'Gender',
-                          content: genderController.text ?? " ",
+                          content: genderController.text,
                         ),
                         SizedBox(height: screenHeight * 0.005),
                         ProfileItemContainer(
                           title: 'Religion',
-                          content: religionController.text ?? " ",
+                          content: religionController.text,
                         ),
                         SizedBox(height: screenHeight * 0.005),
                         ProfileItemContainer(
                           title: 'Nationality',
-                          content: nationalityController.text ?? " ",
+                          content: nationalityController.text,
                         ),
                         SizedBox(height: screenHeight * 0.005),
                         ProfileItemContainer(
                           title: 'Address',
-                          content: addressController.text ?? " ",
+                          content: addressController.text,
                         ),
                         SizedBox(height: screenHeight * 0.005),
                         ProfileItemContainer(
                           title: 'State',
-                          content: stateController.text ?? " ",
+                          content: stateController.text,
                         ),
                         SizedBox(height: screenHeight * 0.005),
                         ProfileItemContainer(
                           title: 'City/Province',
-                          content: cityProvinceController.text ?? " ",
+                          content: cityProvinceController.text,
                         ),
                         SizedBox(height: screenHeight * 0.005),
                         ProfileItemContainer(
                           title: 'Phone number',
-                          content: contactNumberController.text ?? " ",
+                          content: contactNumberController.text,
                         ),
                         SizedBox(height: screenHeight * 0.005),
                         ProfileItemContainer(
                           title: 'Date of Birth',
-                          content: dateOfBirthController.text ?? " ",
+                          content: dateOfBirthController.text,
                         ),
                       ],
                     ))
@@ -281,7 +284,7 @@ class ProfileItemContainer extends StatelessWidget {
 
     return Container(
       width: double.maxFinite,
-      height: screenHeight * 0.06,
+      height: screenHeight * 0.09,
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
@@ -290,6 +293,7 @@ class ProfileItemContainer extends StatelessWidget {
         ),
       ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
             children: [
