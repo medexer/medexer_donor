@@ -36,8 +36,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       TextEditingController(text: "Nigerian");
   TextEditingController genderController =
       TextEditingController(text: 'Gender');
-  TextEditingController religionController =
-      TextEditingController(text: 'Religion');
+  // TextEditingController religionController =
+  //     TextEditingController(text: 'Religion');
   TextEditingController addressController = TextEditingController();
   TextEditingController stateController = TextEditingController(text: 'State');
   TextEditingController cityProvinceController = TextEditingController();
@@ -69,8 +69,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           "${userRepository.userProfile.value.nationality ?? ""}";
       genderController.text =
           "${userRepository.userProfile.value.gender ?? ""}";
-      religionController.text =
-          "${userRepository.userProfile.value.religion ?? ""}";
+      // religionController.text =
+      //     "${userRepository.userProfile.value.religion ?? ""}";
       addressController.text =
           "${userRepository.userProfile.value.address ?? ""}";
       stateController.text = "${userRepository.userProfile.value.state ?? ""}";
@@ -363,7 +363,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         if (!emailController.text.trim().isNotEmpty ||
                             !nationalityController.text.trim().isNotEmpty ||
                             !genderController.text.trim().isNotEmpty ||
-                            !religionController.text.trim().isNotEmpty ||
+                            //!religionController.text.trim().isNotEmpty ||
                             !stateController.text.trim().isNotEmpty ||
                             !cityProvinceController.text.trim().isNotEmpty ||
                             !addressController.text.trim().isNotEmpty ||
@@ -391,7 +391,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           Map formData = {
                             "nationality": nationalityController.text.trim(),
                             "gender": genderController.text.trim(),
-                            "religion": religionController.text.trim(),
+                            //"religion": religionController.text.trim(),
                             "address": addressController.text.trim(),
                             "state": stateController.text.trim(),
                             "city_province": cityProvinceController.text.trim(),
@@ -416,7 +416,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             !passwordController.text.trim().isNotEmpty ||
                             !nationalityController.text.trim().isNotEmpty ||
                             !genderController.text.trim().isNotEmpty ||
-                            !religionController.text.trim().isNotEmpty ||
+                            //!religionController.text.trim().isNotEmpty ||
                             !stateController.text.trim().isNotEmpty ||
                             !cityProvinceController.text.trim().isNotEmpty ||
                             !addressController.text.trim().isNotEmpty ||
@@ -458,7 +458,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             Map formData = {
                               "nationality": nationalityController.text.trim(),
                               "gender": genderController.text.trim(),
-                              "religion": religionController.text.trim(),
+                             // "religion": religionController.text.trim(),
                               "address": addressController.text.trim(),
                               "state": stateController.text.trim(),
                               "city_province":
@@ -557,26 +557,26 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               },
                             ),
                             SizedBox(height: 2.0.hp),
-                            CustomTextWidget(
-                              text: 'Religion',
-                              size: 14.0,
-                              weight: FontWeight.w500,
-                            ),
-                            CustomSelectButton(
-                              title: 'Religion',
-                              height: screenHeight * 0.3,
-                              borderRadius: 15,
-                              textColor: AppStyles.bgBlack,
-                              items: appReligions,
-                              currentItem: religionController.text.toString(),
-                              onChangeHandler: (int index) {
-                                setState(() {
-                                  religionController.text =
-                                      appReligions[index]['name'];
-                                });
-                              },
-                            ),
-                            SizedBox(height: 2.0.hp),
+                            // CustomTextWidget(
+                            //   text: 'Religion',
+                            //   size: 14.0,
+                            //   weight: FontWeight.w500,
+                            // ),
+                            // CustomSelectButton(
+                            //   title: 'Religion',
+                            //   height: screenHeight * 0.3,
+                            //   borderRadius: 15,
+                            //   textColor: AppStyles.bgBlack,
+                            //   items: appReligions,
+                            //   currentItem: religionController.text.toString(),
+                            //   onChangeHandler: (int index) {
+                            //     setState(() {
+                            //       religionController.text =
+                            //           appReligions[index]['name'];
+                            //     });
+                            //   },
+                            // ),
+                            // SizedBox(height: 2.0.hp),
                             CustomTextWidget(
                               text: 'Address',
                               size: 14.0,
@@ -766,26 +766,26 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 });
                               },
                             ),
-                            SizedBox(height: 2.0.hp),
-                            CustomTextWidget(
-                              text: 'Religion',
-                              size: 14.0,
-                              weight: FontWeight.w500,
-                            ),
-                            CustomSelectButton(
-                              title: 'Religion',
-                              height: screenHeight * 0.3,
-                              borderRadius: 15,
-                              textColor: AppStyles.bgBlack,
-                              items: appReligions,
-                              currentItem: religionController.text.toString(),
-                              onChangeHandler: (int index) {
-                                setState(() {
-                                  religionController.text =
-                                      appReligions[index]['name'];
-                                });
-                              },
-                            ),
+                            // SizedBox(height: 2.0.hp),
+                            // CustomTextWidget(
+                            //   text: 'Religion',
+                            //   size: 14.0,
+                            //   weight: FontWeight.w500,
+                            // ),
+                            // CustomSelectButton(
+                            //   title: 'Religion',
+                            //   height: screenHeight * 0.3,
+                            //   borderRadius: 15,
+                            //   textColor: AppStyles.bgBlack,
+                            //   items: appReligions,
+                            //   currentItem: religionController.text.toString(),
+                            //   onChangeHandler: (int index) {
+                            //     setState(() {
+                            //       religionController.text =
+                            //           appReligions[index]['name'];
+                            //     });
+                            //   },
+                            // ),
                             SizedBox(height: 2.0.hp),
                             CustomTextWidget(
                               text: 'Address',

@@ -55,7 +55,7 @@ class _PersonalDetailScreenState extends State<PersonalDetailScreen> {
       body: SingleChildScrollView(
         child: Container(
           color: AppStyles.bgWhite,
-          height: screenHeight * 0.85,
+          height: screenHeight,
           padding: EdgeInsets.only(top: 1.0.hp),
           margin: EdgeInsets.symmetric(horizontal: 4.0.wp),
           child: Column(

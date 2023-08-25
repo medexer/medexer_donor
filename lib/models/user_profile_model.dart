@@ -4,7 +4,7 @@ class UserProfileModel {
   String? dateOfBirth;
   String? nationality;
   String? gender;
-  String? religion;
+  //String? religion;
   String? address;
   String? state;
   String? cityProvince;
@@ -18,7 +18,7 @@ class UserProfileModel {
       this.dateOfBirth,
       this.nationality,
       this.gender,
-      this.religion,
+      //this.religion,
       this.address,
       this.state,
       this.cityProvince,
@@ -32,7 +32,7 @@ class UserProfileModel {
     dateOfBirth = json['dateOfBirth'];
     nationality = json['nationality'];
     gender = json['gender'];
-    religion = json['religion'];
+    //religion = json['religion'];
     address = json['address'];
     state = json['state'];
     cityProvince = json['city_province'];
@@ -48,7 +48,7 @@ class UserProfileModel {
     data['dateOfBirth'] = this.dateOfBirth;
     data['nationality'] = this.nationality;
     data['gender'] = this.gender;
-    data['religion'] = this.religion;
+    //data['religion'] = this.religion;
     data['address'] = this.address;
     data['state'] = this.state;
     data['city_province'] = this.cityProvince;

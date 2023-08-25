@@ -31,8 +31,7 @@ class _SignupStepTwoScreenState extends State<SignupStepTwoScreen> {
       TextEditingController(text: "Nigerian");
   TextEditingController genderController =
       TextEditingController(text: 'Gender');
-  TextEditingController religionController =
-      TextEditingController(text: 'Religion');
+  //TextEditingController religionController =TextEditingController(text: 'Religion');
   TextEditingController addressController = TextEditingController();
   TextEditingController stateController = TextEditingController(text: 'State');
   TextEditingController cityProvinceController = TextEditingController();
@@ -44,7 +43,7 @@ class _SignupStepTwoScreenState extends State<SignupStepTwoScreen> {
   Future<void> signupHandler() async {
     if (!nationalityController.text.trim().isNotEmpty ||
         !genderController.text.trim().isNotEmpty ||
-        !religionController.text.trim().isNotEmpty ||
+        //!religionController.text.trim().isNotEmpty ||
         !stateController.text.trim().isNotEmpty ||
         !cityProvinceController.text.trim().isNotEmpty ||
         !addressController.text.trim().isNotEmpty ||
@@ -60,7 +59,7 @@ class _SignupStepTwoScreenState extends State<SignupStepTwoScreen> {
         "password": userRepository.signupFormData.value.password,
         "nationality": nationalityController.text.trim(),
         "gender": genderController.text.trim(),
-        "religion": religionController.text.trim(),
+        //"religion": religionController.text.trim(),
         "address": addressController.text.trim(),
         "state": stateController.text.trim(),
         "city_province": cityProvinceController.text.trim(),
@@ -147,18 +146,18 @@ class _SignupStepTwoScreenState extends State<SignupStepTwoScreen> {
                       },
                     ),
                     SizedBox(height: 1.0.hp),
-                    CustomSelectButton(
-                      title: 'Religion',
-                      height: 30.0.hp,
-                      items: appReligions,
-                      currentItem: religionController.text.toString(),
-                      onChangeHandler: (int index) {
-                        setState(() {
-                          religionController.text = appReligions[index]['name'];
-                        });
-                      },
-                    ),
-                    SizedBox(height: 1.0.hp),
+                    // CustomSelectButton(
+                    //   title: 'Religion',
+                    //   height: 30.0.hp,
+                    //   items: appReligions,
+                    //   currentItem: religionController.text.toString(),
+                    //   onChangeHandler: (int index) {
+                    //     setState(() {
+                    //       religionController.text = appReligions[index]['name'];
+                    //     });
+                    //   },
+                    // ),
+                    // SizedBox(height: 1.0.hp),
                     CustomFormTextField(
                       maxLines: 1,
                       hintText: 'Address',

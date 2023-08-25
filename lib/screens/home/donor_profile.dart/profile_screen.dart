@@ -39,8 +39,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       TextEditingController(text: "Nigerian");
   TextEditingController genderController =
       TextEditingController(text: 'Gender');
-  TextEditingController religionController =
-      TextEditingController(text: 'Religion');
+  //TextEditingController religionController = TextEditingController(text: 'Religion');
   TextEditingController addressController = TextEditingController();
   TextEditingController stateController = TextEditingController(text: 'State');
   TextEditingController cityProvinceController = TextEditingController();
@@ -72,8 +71,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           "${userRepository.userProfile.value.nationality ?? ""}";
       genderController.text =
           "${userRepository.userProfile.value.gender ?? ""}";
-      religionController.text =
-          "${userRepository.userProfile.value.religion ?? ""}";
+      // religionController.text =
+      //     "${userRepository.userProfile.value.religion ?? ""}";
       addressController.text =
           "${userRepository.userProfile.value.address ?? ""}";
       stateController.text = "${userRepository.userProfile.value.state ?? ""}";
@@ -223,11 +222,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           title: 'Gender',
                           content: genderController.text,
                         ),
-                        SizedBox(height: screenHeight * 0.005),
-                        ProfileItemContainer(
-                          title: 'Religion',
-                          content: religionController.text,
-                        ),
+                        // SizedBox(height: screenHeight * 0.005),
+                        // ProfileItemContainer(
+                        //   title: 'Religion',
+                        //   content: religionController.text,
+                        // ),
                         SizedBox(height: screenHeight * 0.005),
                         ProfileItemContainer(
                           title: 'Nationality',
