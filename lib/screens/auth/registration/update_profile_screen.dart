@@ -22,8 +22,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       TextEditingController(text: "Nigerian");
   TextEditingController genderController =
       TextEditingController(text: 'Gender');
-  // TextEditingController religionController =
-  //     TextEditingController(text: 'Religion');
+  TextEditingController religionController =
+      TextEditingController(text: 'Religion');
   TextEditingController dateOfBirthController =
       TextEditingController(text: "${DateTime(1985)}");
   TextEditingController addressController = TextEditingController();
@@ -72,7 +72,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                       onTapHandler: () async {
                         if (!nationalityController.text.trim().isNotEmpty ||
                             !genderController.text.trim().isNotEmpty ||
-                            //!religionController.text.trim().isNotEmpty ||
+                            !religionController.text.trim().isNotEmpty ||
                             !stateController.text.trim().isNotEmpty ||
                             !cityProvinceController.text.trim().isNotEmpty ||
                             !addressController.text.trim().isNotEmpty ||
@@ -86,7 +86,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                           Map data = {
                             "nationality": nationalityController.text.trim(),
                             "gender": genderController.text.trim(),
-                            //"religion": religionController.text.trim(),
+                            "religion": religionController.text.trim(),
                             "address": addressController.text.trim(),
                             "state": stateController.text.trim(),
                             "dateOfBirth": dateOfBirthController.text
@@ -157,23 +157,23 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   },
                 ),
                 SizedBox(height: 2.0.hp),
-                // CustomTextWidget(
-                //   text: 'Religion',
-                //   size: 14.0,
-                // ),
-                // CustomSelectButton(
-                //   title: 'Religion',
-                //   height: screenHeight * 0.3,
-                //   textColor: AppStyles.bgBlack,
-                //   items: appReligions,
-                //   currentItem: religionController.text.toString(),
-                //   onChangeHandler: (int index) {
-                //     setState(() {
-                //       religionController.text = appReligions[index]['name'];
-                //     });
-                //   },
-                // ),
-                // SizedBox(height: 2.0.hp),
+                CustomTextWidget(
+                  text: 'Religion',
+                  size: 14.0,
+                ),
+                CustomSelectButton(
+                  title: 'Religion',
+                  height: screenHeight * 0.3,
+                  textColor: AppStyles.bgBlack,
+                  items: appReligions,
+                  currentItem: religionController.text.toString(),
+                  onChangeHandler: (int index) {
+                    setState(() {
+                      religionController.text = appReligions[index]['name'];
+                    });
+                  },
+                ),
+                SizedBox(height: 2.0.hp),
                 CustomTextWidget(
                   text: 'Address',
                   size: 14.0,

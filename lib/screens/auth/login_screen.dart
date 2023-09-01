@@ -88,18 +88,15 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
     return WillPopScope(
       onWillPop: () async {
-        await authServices.signoutController();
+        if (await authStorage.read('MDX-USER') == null) {
+          Get.to(() => LoginScreen());
+        }
         return true;
       },
       child: Scaffold(
@@ -142,26 +139,28 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(height: 3.0.hp),
                       CustomFormPasswordField(
                         controller: passwordController,
-                        hintText: 'Enter your password',
+                        hintText: 'Password',
                         suffixIcon: ImageIcon(
                           AssetImage('assets/icons/icon__eye.png'),
                         ),
                         showPassword: showPassword,
                         background: Colors.white.withOpacity(0.4),
                       ),
+                      SizedBox(height: 0.5.hp),
                       Row(
                         children: [
-                          Switch(
-                            value: rememberMe,
-                            onChanged: (value) {
-                              setState(() {
-                                rememberMe = !rememberMe;
-                              });
+                          // Switch(
+                          //   value: rememberMe,
+                          //   onChanged: (value) {
+                          //     setState(() {
+                          //       rememberMe = !rememberMe;
+                          //     });
 
-                              debugPrint('[REMEMBER ME] :: $rememberMe');
-                            },
-                            inactiveTrackColor: AppStyles.bgGray,
-                          ),
+                          //     debugPrint('[REMEMBER ME] :: $rememberMe');
+                          //   },
+                          //   inactiveTrackColor: AppStyles.bgGray,
+                          // ),
+                          Container(),
                           Spacer(),
                           GestureDetector(
                             onTap: () {
@@ -204,7 +203,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           SizedBox(width: 4.0.wp),
                           CustomTextWidget(
                             text: 'Or login with',
-                            size: 16.0,
+                            size: 14.0,
                             color: AppStyles.bgGray4,
                           ),
                           SizedBox(width: 4.0.wp),
@@ -318,7 +317,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       CustomTextWidget(
                         text: 'Don\'t have an account? ',
-                        size: 16.0,
+                        size: 14.0,
                         color: AppStyles.bgGray4,
                       ),
                       GestureDetector(
@@ -332,7 +331,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         child: CustomTextWidget(
                           text: 'Signup',
-                          size: 16.0,
+                          size: 14.0,
                           color: AppStyles.bgBlue,
                         ),
                       ),

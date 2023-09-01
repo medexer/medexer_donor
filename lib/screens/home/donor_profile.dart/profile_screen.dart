@@ -81,7 +81,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       contactNumberController.text =
           "${userRepository.userProfile.value.contactNumber ?? ""}";
       dateOfBirthController.text =
-          "${userRepository.userProfile.value.dateOfBirth ?? ""}";
+          "${userRepository.userProfile.value.dateOfBirth ?? DateTime(1980).toString().substring(0, 10)}";
 
       if (userRepository.userProfile.value.dateOfBirth != null) {
         initialDate = DateTime.parse(
@@ -95,6 +95,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+
+    debugPrint("${userRepository.userProfile.value.dateOfBirth}");
 
     return Scaffold(
       key: scaffoldKey,

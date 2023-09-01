@@ -43,12 +43,20 @@ class _SideBarState extends State<SideBar> {
         children: [
           Obx(
             () => ListTile(
-              leading: CircleAvatar(
-                radius: 30,
-                backgroundColor: AppStyles.bgWhite,
-                backgroundImage: NetworkImage(
-                    '${userRepository.userProfile.value.userAvatar}'),
-              ),
+              leading: userRepository.userProfile.value.userAvatar == null
+                  ? CircleAvatar(
+                      radius: 30,
+                      backgroundColor: AppStyles.bgWhite,
+                      backgroundImage: AssetImage(
+                        'assets/images/avatar.png',
+                      ),
+                    )
+                  : CircleAvatar(
+                      radius: 30,
+                      backgroundColor: AppStyles.bgWhite,
+                      backgroundImage: NetworkImage(
+                          '${userRepository.userProfile.value.userAvatar}'),
+                    ),
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

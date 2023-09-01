@@ -19,6 +19,8 @@ import 'package:medexer_donor/widgets/text/custom_formpassword_field.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 import 'package:medexer_donor/widgets/text/cutom_formtext_field.dart';
 import 'package:medexer_donor/widgets/buttons/custom_date_picker_button.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:path_provider/path_provider.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -79,7 +81,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       contactNumberController.text =
           "${userRepository.userProfile.value.contactNumber ?? ""}";
       dateOfBirthController.text =
-          "${userRepository.userProfile.value.dateOfBirth ?? ""}";
+          "${userRepository.userProfile.value.dateOfBirth ?? DateTime(1980).toString().substring(0, 10)}";
 
       if (userRepository.userProfile.value.dateOfBirth != null) {
         initialDate = DateTime.parse(
@@ -99,7 +101,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       drawer: SideBar(),
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(screenHeight * 0.35),
-        child: Container(
+        child: SizedBox(
           // padding: EdgeInsets.symmetric(horizontal: 4.0.wp),
           // color: AppStyles.bgPrimary,
           child: Stack(
@@ -141,7 +143,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         // weight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 2.0.hp),
+                    SizedBox(height: screenHeight * 0.005),
                     Stack(
                       children: [
                         Positioned(
@@ -149,8 +151,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           // padding: EdgeInsets.only(left: 2.0.hp),
                           child: ClipOval(
                             child: SizedBox(
-                              width: screenWidth * 0.35,
-                              height: screenHeight * 0.15,
+                              width: screenWidth * 0.39,
+                              height: screenHeight * 0.19,
                               child: Image.network(
                                 '${userRepository.userProfile.value.userAvatar}',
                                 // '${APIConstants.backendServerRootUrl}${userRepository.userData.value.avatar}',
@@ -160,7 +162,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 10.5.hp, top: 12.0.hp),
+                          padding: EdgeInsets.only(
+                            left: screenWidth * 0.25,
+                            top: screenHeight * 0.15,
+                          ),
                           child: GestureDetector(
                             onTap: () async {
                               debugPrint('[UPLOAD-AVATAR]');
@@ -252,9 +257,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                                     }),
                                               ],
                                             ),
-                                            SizedBox(
-                                              width: 3.0.wp,
-                                            ),
+                                            SizedBox(width: 3.0.wp),
                                             Column(
                                               children: [
                                                 SizedBox(height: 2),
@@ -291,7 +294,36 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                                         "${result.files[0].path} :: file path ");
                                                     debugPrint(
                                                         "[FILE-SIZE] ${result.files[0].size}");
-                                                    if (result.files[0].size >=
+                                                    //compress
+                                                    final Directory appDocDir =
+                                                        await getApplicationDocumentsDirectory();
+                                                    final String targetPath =
+                                                        '${appDocDir.path}/${result.files[0].name}';
+
+                                                    final compressedFile =
+                                                        await FlutterImageCompress
+                                                            .compressAndGetFile(
+                                                      "${result.files[0].path}",
+                                                      targetPath,
+                                                      quality: 15,
+                                                    );
+
+                                                    File newImage = File(
+                                                        compressedFile!.path);
+                                                    // PlatformFile platformFile=PlatformFile(name: 'peter.jpg', size: file!.lengthSync());
+                                                    PlatformFile platformFile =
+                                                        PlatformFile(
+                                                      name: "avatar",
+                                                      path: newImage.path,
+                                                      size:
+                                                          newImage.lengthSync(),
+                                                    );
+                                                    debugPrint(
+                                                        "[DEBUG]  :: ${compressedFile}");
+                                                    debugPrint(
+                                                        "[DEBUG]  :: ${platformFile.size}");
+
+                                                    if (platformFile.size >=
                                                         500000) {
                                                       Get.snackbar(
                                                         'Error',
@@ -303,8 +335,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                                     } else {
                                                       setState(() {
                                                         newAvatar = true;
-                                                        avatar =
-                                                            result.files[0];
+                                                        avatar = platformFile;
                                                       });
 
                                                       Map formData = {
@@ -328,7 +359,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               radius: 15,
                               backgroundColor: newAvatar
                                   ? AppStyles.bgBlack
-                                  : AppStyles.bgBlue,
+                                  : AppStyles.bgPurpleDark,
                               child: Icon(
                                 Icons.add_a_photo,
                                 size: 14.0,
@@ -346,109 +377,44 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-        height: MediaQuery.of(context).size.height * 0.08,
-        width: double.maxFinite,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            authServices.authRequestStatus.value == 'PENDING'
-                ? const CircularProgressIndicator()
-                : CustomButton(
-                    text: 'Submit',
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    height: screenHeight * 0.06,
-                    onTapHandler: () async {
-                      if (userRepository.userData.value.isEmailLogin == true) {
-                        if (!emailController.text.trim().isNotEmpty ||
-                            !nationalityController.text.trim().isNotEmpty ||
-                            !genderController.text.trim().isNotEmpty ||
-                            //!religionController.text.trim().isNotEmpty ||
-                            !stateController.text.trim().isNotEmpty ||
-                            !cityProvinceController.text.trim().isNotEmpty ||
-                            !addressController.text.trim().isNotEmpty ||
-                            !dateOfBirthController.text.trim().isNotEmpty ||
-                            !contactNumberController.text.trim().isNotEmpty) {
-                          Get.snackbar(
-                            'ERROR',
-                            'All fields are required.',
-                            colorText: Colors.white,
-                            duration: Duration(seconds: 5),
-                            backgroundColor:
-                                AppStyles.bgBrightRed.withOpacity(0.5),
-                          );
-                        } else if (!emailPattern
-                            .hasMatch(emailController.text.trim())) {
-                          Get.snackbar(
-                            'ERROR!',
-                            'Invalid email address',
-                            colorText: Colors.white,
-                            duration: Duration(seconds: 5),
-                            backgroundColor:
-                                AppStyles.bgBrightRed.withOpacity(0.5),
-                          );
-                        } else {
-                          Map formData = {
-                            "nationality": nationalityController.text.trim(),
-                            "gender": genderController.text.trim(),
-                            //"religion": religionController.text.trim(),
-                            "address": addressController.text.trim(),
-                            "state": stateController.text.trim(),
-                            "city_province": cityProvinceController.text.trim(),
-                            "contact_number":
-                                contactNumberController.text.trim(),
-                            "dateOfBirth": dateOfBirthController.text
-                                .trim()
-                                .substring(0, 10),
-                            'email': emailController.text.trim(),
-                            // 'avatar': avatar
-                          };
-
-                          debugPrint('[PAYLOAD] :: $formData');
-
-                          await authServices
-                              .updateProfileWithGoogleSigninController(
-                            formData,
-                          );
-                        }
-                      } else {
-                        if (!emailController.text.trim().isNotEmpty ||
-                            !passwordController.text.trim().isNotEmpty ||
-                            !nationalityController.text.trim().isNotEmpty ||
-                            !genderController.text.trim().isNotEmpty ||
-                            //!religionController.text.trim().isNotEmpty ||
-                            !stateController.text.trim().isNotEmpty ||
-                            !cityProvinceController.text.trim().isNotEmpty ||
-                            !addressController.text.trim().isNotEmpty ||
-                            !dateOfBirthController.text.trim().isNotEmpty ||
-                            !contactNumberController.text.trim().isNotEmpty) {
-                          Get.snackbar(
-                            colorText: AppStyles.bgWhite,
-                            backgroundColor: AppStyles.bgBlue,
-                            'ERROR',
-                            'All fields are required.',
-                          );
-                        } else {
-                          if (newPasswordController.text.trim().isNotEmpty &&
-                              confirmNewPasswordController.text
-                                  .trim()
-                                  .isNotEmpty &&
-                              newPasswordController.text.trim() ==
-                                  confirmNewPasswordController.text.trim()) {
+      bottomNavigationBar: Obx(
+        () => Container(
+          height: MediaQuery.of(context).size.height * 0.08,
+          width: double.maxFinite,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              authServices.authRequestStatus.value == 'PENDING'
+                  ? const CircularProgressIndicator()
+                  : CustomButton(
+                      text: 'Submit',
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      height: screenHeight * 0.06,
+                      onTapHandler: () async {
+                        if (userRepository.userData.value.isEmailLogin ==
+                            true) {
+                          if (!emailController.text.trim().isNotEmpty ||
+                              !nationalityController.text.trim().isNotEmpty ||
+                              !genderController.text.trim().isNotEmpty ||
+                              //!religionController.text.trim().isNotEmpty ||
+                              !stateController.text.trim().isNotEmpty ||
+                              !cityProvinceController.text.trim().isNotEmpty ||
+                              !addressController.text.trim().isNotEmpty ||
+                              !dateOfBirthController.text.trim().isNotEmpty ||
+                              !contactNumberController.text.trim().isNotEmpty) {
                             Get.snackbar(
-                              colorText: AppStyles.bgWhite,
-                              backgroundColor: AppStyles.bgBlue,
                               'ERROR',
-                              'Passwords do not match.',
+                              'All fields are required.',
+                              colorText: Colors.white,
+                              duration: Duration(seconds: 5),
+                              backgroundColor:
+                                  AppStyles.bgBrightRed.withOpacity(0.5),
                             );
-                          } else if (newPasswordController.text
-                                  .trim()
-                                  .isNotEmpty &&
-                              !passwordPattern.hasMatch(
-                                  newPasswordController.text.trim())) {
+                          } else if (!emailPattern
+                              .hasMatch(emailController.text.trim())) {
                             Get.snackbar(
                               'ERROR!',
-                              'Password must include a number, uppercase and lowercase alphabet',
+                              'Invalid email address',
                               colorText: Colors.white,
                               duration: Duration(seconds: 5),
                               backgroundColor:
@@ -458,7 +424,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             Map formData = {
                               "nationality": nationalityController.text.trim(),
                               "gender": genderController.text.trim(),
-                             // "religion": religionController.text.trim(),
+                              //"religion": religionController.text.trim(),
                               "address": addressController.text.trim(),
                               "state": stateController.text.trim(),
                               "city_province":
@@ -468,28 +434,99 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               "dateOfBirth": dateOfBirthController.text
                                   .trim()
                                   .substring(0, 10),
-                              'new_password': newPasswordController.text.trim(),
-                              'password': passwordController.text.trim(),
                               'email': emailController.text.trim(),
                               // 'avatar': avatar
                             };
 
                             debugPrint('[PAYLOAD] :: $formData');
 
-                            await authServices.updateProfileController(
+                            await authServices
+                                .updateProfileWithGoogleSigninController(
                               formData,
                             );
                           }
+                        } else {
+                          if (!emailController.text.trim().isNotEmpty ||
+                              !passwordController.text.trim().isNotEmpty ||
+                              !nationalityController.text.trim().isNotEmpty ||
+                              !genderController.text.trim().isNotEmpty ||
+                              //!religionController.text.trim().isNotEmpty ||
+                              !stateController.text.trim().isNotEmpty ||
+                              !cityProvinceController.text.trim().isNotEmpty ||
+                              !addressController.text.trim().isNotEmpty ||
+                              !dateOfBirthController.text.trim().isNotEmpty ||
+                              !contactNumberController.text.trim().isNotEmpty) {
+                            Get.snackbar(
+                              colorText: AppStyles.bgWhite,
+                              backgroundColor: AppStyles.bgBlue,
+                              'ERROR',
+                              'All fields are required.',
+                            );
+                          } else {
+                            if (newPasswordController.text.trim().isNotEmpty &&
+                                confirmNewPasswordController.text
+                                    .trim()
+                                    .isNotEmpty &&
+                                newPasswordController.text.trim() ==
+                                    confirmNewPasswordController.text.trim()) {
+                              Get.snackbar(
+                                colorText: AppStyles.bgWhite,
+                                backgroundColor: AppStyles.bgBlue,
+                                'ERROR',
+                                'Passwords do not match.',
+                              );
+                            } else if (newPasswordController.text
+                                    .trim()
+                                    .isNotEmpty &&
+                                !passwordPattern.hasMatch(
+                                    newPasswordController.text.trim())) {
+                              Get.snackbar(
+                                'ERROR!',
+                                'Password must include a number, uppercase and lowercase alphabet',
+                                colorText: Colors.white,
+                                duration: Duration(seconds: 5),
+                                backgroundColor:
+                                    AppStyles.bgBrightRed.withOpacity(0.5),
+                              );
+                            } else {
+                              Map formData = {
+                                "nationality":
+                                    nationalityController.text.trim(),
+                                "gender": genderController.text.trim(),
+                                // "religion": religionController.text.trim(),
+                                "address": addressController.text.trim(),
+                                "state": stateController.text.trim(),
+                                "city_province":
+                                    cityProvinceController.text.trim(),
+                                "contact_number":
+                                    contactNumberController.text.trim(),
+                                "dateOfBirth": dateOfBirthController.text
+                                    .trim()
+                                    .substring(0, 10),
+                                'new_password':
+                                    newPasswordController.text.trim(),
+                                'password': passwordController.text.trim(),
+                                'email': emailController.text.trim(),
+                                // 'avatar': avatar
+                              };
+
+                              debugPrint('[PAYLOAD] :: $formData');
+
+                              await authServices.updateProfileController(
+                                formData,
+                              );
+                            }
+                          }
                         }
-                      }
-                    },
-                    fontSize: 16.0,
-                    borderRadius: 15,
-                    fontColor: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    backgroundColor: AppStyles.bgPurpleDark,
-                  ),
-          ],
+                      },
+                      fontSize: 16.0,
+                      borderRadius: 15,
+                      fontColor: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      backgroundColor: AppStyles.bgPurpleDark,
+                    ),
+            ],
+          ),
         ),
       ),
       body: SingleChildScrollView(

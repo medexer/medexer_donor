@@ -43,15 +43,23 @@ class _SignupStepTwoScreenState extends State<SignupStepTwoScreen> {
   Future<void> signupHandler() async {
     if (!nationalityController.text.trim().isNotEmpty ||
         !genderController.text.trim().isNotEmpty ||
-        //!religionController.text.trim().isNotEmpty ||
         !stateController.text.trim().isNotEmpty ||
         !cityProvinceController.text.trim().isNotEmpty ||
         !addressController.text.trim().isNotEmpty ||
         !contactNumberController.text.trim().isNotEmpty) {
       Get.snackbar(
-          backgroundColor: AppStyles.bgPrimary,
-          'ERROR!',
-          'Please ensure your fill in all fields in the form as the are required.');
+        'ERROR',
+        'Please ensure your fill in all fields in the form as the are required.',
+        colorText: AppStyles.bgWhite,
+        backgroundColor: AppStyles.bgBrightRed.withOpacity(0.5),
+      );
+    } else if (acceptTerms == false) {
+      Get.snackbar(
+        'ERROR',
+        'Please accept the terms and privacy policy.',
+        colorText: AppStyles.bgWhite,
+        backgroundColor: AppStyles.bgBrightRed.withOpacity(0.5),
+      );
     } else {
       Map data = {
         "email": userRepository.signupFormData.value.email,
@@ -124,16 +132,17 @@ class _SignupStepTwoScreenState extends State<SignupStepTwoScreen> {
                       ),
                     ),
                     SizedBox(height: 6.0.hp),
-                    CustomFormTextField(
-                      maxLines: 1,
-                      readOnly: true,
-                      hintText: nationalityController.text,
-                      controller: nationalityController,
-                      textColor: AppStyles.bgWhite,
-                      background: Colors.white.withOpacity(0.4),
-                      hintColor: Colors.black,
-                    ),
-                    SizedBox(height: 1.0.hp),
+                    // CustomFormTextField(
+                    //   maxLines: 1,
+                    //   fontSize: 14,
+                    //   readOnly: true,
+                    //   hintText: nationalityController.text,
+                    //   controller: nationalityController,
+                    //   textColor: AppStyles.bgWhite,
+                    //   background: Colors.white.withOpacity(0.4),
+                    //   hintColor: Colors.black,
+                    // ),
+                    // SizedBox(height: 1.0.hp),
                     CustomSelectButton(
                       title: 'Gender',
                       height: 30.0.hp,
@@ -145,7 +154,7 @@ class _SignupStepTwoScreenState extends State<SignupStepTwoScreen> {
                         });
                       },
                     ),
-                    SizedBox(height: 1.0.hp),
+                    SizedBox(height: screenHeight * 0.02),
                     // CustomSelectButton(
                     //   title: 'Religion',
                     //   height: 30.0.hp,
@@ -157,7 +166,7 @@ class _SignupStepTwoScreenState extends State<SignupStepTwoScreen> {
                     //     });
                     //   },
                     // ),
-                    // SizedBox(height: 1.0.hp),
+                    // SizedBox(height: screenHeight * 0.02),
                     CustomFormTextField(
                       maxLines: 1,
                       hintText: 'Address',
@@ -165,7 +174,7 @@ class _SignupStepTwoScreenState extends State<SignupStepTwoScreen> {
                       background: Colors.white.withOpacity(0.4),
                       hintColor: Colors.white,
                     ),
-                    SizedBox(height: 1.0.hp),
+                    SizedBox(height: screenHeight * 0.02),
                     CustomSelectButton(
                       title: 'State',
                       height: 65.0.hp,
@@ -177,7 +186,7 @@ class _SignupStepTwoScreenState extends State<SignupStepTwoScreen> {
                         });
                       },
                     ),
-                    SizedBox(height: 1.0.hp),
+                    SizedBox(height: screenHeight * 0.02),
                     CustomFormTextField(
                       maxLines: 1,
                       hintText: 'City/Province',
@@ -185,7 +194,7 @@ class _SignupStepTwoScreenState extends State<SignupStepTwoScreen> {
                       background: Colors.white.withOpacity(0.4),
                       hintColor: Colors.white,
                     ),
-                    SizedBox(height: 1.0.hp),
+                    SizedBox(height: screenHeight * 0.02),
                     CustomFormTextField(
                       maxLines: 1,
                       maxLength: 11,
@@ -196,52 +205,75 @@ class _SignupStepTwoScreenState extends State<SignupStepTwoScreen> {
                       hintColor: Colors.white,
                     ),
                     SizedBox(height: 2.0.hp),
-                    Wrap(
+                    Row(
                       children: [
-                        CustomTextWidget(
-                          text: "By creating an account you accept Medexer's ",
-                          color: AppStyles.bgWhite,
-                          size: 13,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            // https://medexer.com.ng/donor-terms-of-service
-                            Get.to(
-                              () => LegalWebViewScreen(
-                                url:
-                                    "https://medexer.com.ng/donor-terms-of-service",
-                              ),
-                            );
-                          },
-                          child: CustomTextWidget(
-                            text: "Terms of Service ",
-                            color: AppStyles.bgBlue,
-                            size: 13,
+                        Theme(
+                          data: ThemeData(
+                            unselectedWidgetColor:
+                                AppStyles.bgWhite.withOpacity(0.8),
+                          ),
+                          child: Checkbox(
+                            checkColor: AppStyles.bgWhite,
+                            value: acceptTerms,
+                            onChanged: (value) {
+                              setState(() {
+                                acceptTerms = value!;
+                              });
+                            },
                           ),
                         ),
-                        CustomTextWidget(
-                          text: "and ",
-                          color: AppStyles.bgWhite,
-                          size: 13,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            // https://medexer.com.ng/donor-privacy-policy
-                            Get.to(
-                              () => LegalWebViewScreen(
-                                url:
-                                    "https://medexer.com.ng/donor-privacy-policy",
+                        Expanded(
+                          child: Wrap(
+                            children: [
+                              CustomTextWidget(
+                                text:
+                                    "By creating an account you accept Medexer's ",
+                                color: AppStyles.bgWhite,
+                                size: 13,
                               ),
-                            );
-                          },
-                          child: CustomTextWidget(
-                            text: "Privacy Policy",
-                            color: AppStyles.bgBlue,
-                            size: 13,
+                              GestureDetector(
+                                onTap: () {
+                                  // https://medexer.com.ng/donor-terms-of-service
+                                  Get.to(
+                                    () => LegalWebViewScreen(
+                                      url:
+                                          "https://medexer.com.ng/donor-terms-of-service",
+                                    ),
+                                  );
+                                },
+                                child: CustomTextWidget(
+                                  text: "Terms of Service ",
+                                  color: AppStyles.bgBlue,
+                                  size: 13,
+                                ),
+                              ),
+                              CustomTextWidget(
+                                text: "and ",
+                                color: AppStyles.bgWhite,
+                                size: 13,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  // https://medexer.com.ng/donor-privacy-policy
+                                  Get.to(
+                                    () => LegalWebViewScreen(
+                                      url:
+                                          "https://medexer.com.ng/donor-privacy-policy",
+                                    ),
+                                  );
+                                },
+                                child: CustomTextWidget(
+                                  text: "Privacy Policy",
+                                  color: AppStyles.bgBlue,
+                                  size: 13,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
+
                     SizedBox(height: 2.0.hp),
                     authServices.authRequestStatus.value == 'PENDING'
                         ? CircularProgressIndicator()

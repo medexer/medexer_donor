@@ -181,6 +181,12 @@ class AuthServices extends GetxController {
         debugPrint('${error}');
         debugPrint('${error.response}');
         if (error.response?.data['message'] != null) {
+          Get.snackbar(
+            'Error',
+            'Invalid credentials',
+            colorText: Colors.white,
+            backgroundColor: AppStyles.bgBrightRed.withOpacity(0.5),
+          );
           authRequestError.value = error.response!.data['message'];
         }
         debugPrint('[SIGNIN CATCH ERROR] ${error.response?.data}');
@@ -270,6 +276,12 @@ class AuthServices extends GetxController {
         authRequestStatus.value = 'FAILED';
         debugPrint('[SIGNUP CATCH ERROR] ${error.response!.data}');
         if (error.response!.data['email'] != null) {
+          Get.snackbar(
+            'Message',
+            'An error occured, please try again',
+            colorText: Colors.white,
+            backgroundColor: AppStyles.bgBrightRed.withOpacity(0.5),
+          );
           authRequestError.value = error.response!.data['email'][0];
         }
         if (error.response!.data['message'] != null) {

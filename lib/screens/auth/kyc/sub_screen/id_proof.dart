@@ -1,5 +1,7 @@
 // ignore_for_file: sized_box_for_whitespace, prefer_const_constructors
 
+import 'dart:io';
+
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
@@ -9,6 +11,8 @@ import 'package:medexer_donor/database/user_repository.dart';
 import 'package:medexer_donor/widgets/buttons/custom_button.dart';
 import 'package:medexer_donor/widgets/text/custom_text_widget.dart';
 import 'package:medexer_donor/widgets/snackbars/custom_snackbar_container.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:path_provider/path_provider.dart';
 
 class IdProofScreen extends StatefulWidget {
   const IdProofScreen({super.key});
@@ -38,9 +42,27 @@ class _IdProofScreenState extends State<IdProofScreen> {
     );
 
     if (result!.files.isEmpty) return;
+    debugPrint("[FILE] :: ${result.files[0].name}");
+    final Directory appDocDir = await getApplicationDocumentsDirectory();
+    final String targetPath = '${appDocDir.path}/${result.files[0].name}';
 
-    debugPrint("${result.files[0].path} :: file path ");
-    if (result.files[0].size >= 500000) {
+    final compressedFile = await FlutterImageCompress.compressAndGetFile(
+      "${result.files[0].path}",
+      targetPath,
+      quality: 15,
+    );
+
+    File newImage = File(compressedFile!.path);
+    // PlatformFile platformFile=PlatformFile(name: 'peter.jpg', size: file!.lengthSync());
+    PlatformFile platformFile = PlatformFile(
+      name: "position.jpg",
+      path: newImage.path,
+      size: newImage.lengthSync(),
+    );
+
+    debugPrint("[FILE-SIZE] :: ${platformFile.toString()} ");
+    debugPrint("[FILE-SIZE] :: ${platformFile.size} ");
+    if (platformFile.size >= 500000) {
       Get.snackbar(
         'Error',
         'File uploaded should be less than 500kb.',
@@ -51,12 +73,12 @@ class _IdProofScreenState extends State<IdProofScreen> {
       if (position == 'COVER') {
         setState(() {
           userRepository.kycPersonalData.value.isDocumentCoverUploaded = true;
-          userRepository.kycPersonalData.value.documentCover = result.files[0];
+          userRepository.kycPersonalData.value.documentCover = platformFile;
         });
       } else {
         setState(() {
           userRepository.kycPersonalData.value.isDocumentRearUploaded = true;
-          userRepository.kycPersonalData.value.documentRear = result.files[0];
+          userRepository.kycPersonalData.value.documentRear = platformFile;
         });
       }
     }
@@ -208,7 +230,7 @@ class _IdProofScreenState extends State<IdProofScreen> {
                       padding: EdgeInsets.symmetric(horizontal: 4.0.wp),
                       child: CustomTextWidget(
                         text:
-                            'Upload or take a picture of your identity card preferrable on a plain background. Make sure the edge are visible and file is less than 500kb.',
+                            'Upload or take a picture of your identity card preferrable on a plain background. Please ensure that the edges are visible.',
                         size: 16.0,
                         color: AppStyles.bgBlack.withOpacity(0.8),
                       ),
