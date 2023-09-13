@@ -269,7 +269,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                                               .bgBlack),
                                                       SizedBox(height: 4),
                                                       CustomTextWidget(
-                                                        text: 'Gallary',
+                                                        text: 'Gallery',
                                                       )
                                                     ],
                                                   ),
