@@ -88,11 +88,23 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                           children: List.generate(
                             socialMedia.length,
                             (index) => GestureDetector(
-                              onTap: () {
-                                Get.to(WebViewPage(
-                                    socialmedia: socialMedia[index]));
+                              onTap: () async {
+                                // Get.to(WebViewPage(
+                                //     socialmedia: socialMedia[index]));
+                                final Uri url =
+                                    Uri.parse(appSocials[index]['weburl']);
+
+                                if (await canLaunchUrl(url)) {
+                                  await launchUrl(
+                                    url,
+                                    mode: LaunchMode.externalApplication,
+                                    // webViewConfiguration: WebViewConfiguration()
+                                  );
+                                } else {
+                                  throw 'Could not launch $url';
+                                }
                                 // launchSocialMedia(
-                                //     url: "${appSocials[index]['url']}");
+                                //     url: "${url}");
                               },
                               child: Container(
                                   height: 6.0.hp,
