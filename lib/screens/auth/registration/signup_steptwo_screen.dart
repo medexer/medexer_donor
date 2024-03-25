@@ -83,16 +83,18 @@ class _SignupStepTwoScreenState extends State<SignupStepTwoScreen> {
 
       if (authServices.authRequestError.value == 'Invalid email address.') {
         Get.snackbar(
-            backgroundColor: AppStyles.bgPrimary,
-            'ERROR!',
-            authServices.authRequestError.value);
+          backgroundColor: AppStyles.bgPrimary,
+          'ERROR!',
+          authServices.authRequestError.value,
+        );
       }
       if (authServices.authRequestError.value ==
           'User with this Email Address already exists.') {
         Get.snackbar(
-            backgroundColor: AppStyles.bgPrimary,
-            'ERROR!',
-            authServices.authRequestError.value);
+          backgroundColor: AppStyles.bgPrimary,
+          'ERROR!',
+          authServices.authRequestError.value,
+        );
       }
     }
   }
@@ -132,17 +134,6 @@ class _SignupStepTwoScreenState extends State<SignupStepTwoScreen> {
                       ),
                     ),
                     SizedBox(height: 6.0.hp),
-                    // CustomFormTextField(
-                    //   maxLines: 1,
-                    //   fontSize: 14,
-                    //   readOnly: true,
-                    //   hintText: nationalityController.text,
-                    //   controller: nationalityController,
-                    //   textColor: AppStyles.bgWhite,
-                    //   background: Colors.white.withOpacity(0.4),
-                    //   hintColor: Colors.black,
-                    // ),
-                    // SizedBox(height: 1.0.hp),
                     CustomSelectButton(
                       title: 'Gender',
                       height: 30.0.hp,
@@ -155,18 +146,6 @@ class _SignupStepTwoScreenState extends State<SignupStepTwoScreen> {
                       },
                     ),
                     SizedBox(height: screenHeight * 0.02),
-                    // CustomSelectButton(
-                    //   title: 'Religion',
-                    //   height: 30.0.hp,
-                    //   items: appReligions,
-                    //   currentItem: religionController.text.toString(),
-                    //   onChangeHandler: (int index) {
-                    //     setState(() {
-                    //       religionController.text = appReligions[index]['name'];
-                    //     });
-                    //   },
-                    // ),
-                    // SizedBox(height: screenHeight * 0.02),
                     CustomFormTextField(
                       maxLines: 1,
                       hintText: 'Address',
