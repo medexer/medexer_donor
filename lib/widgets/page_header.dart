@@ -33,13 +33,13 @@ class PageHeader extends StatelessWidget {
               ],
             ),
             child: Center(
-              child: IconButton(
-                onPressed: () {
+              child: InkWell(
+                onTap: () {
                   // Scaffold.of(context).openDrawer();
                   // SideBar();
                   scaffoldKey.currentState!.openDrawer();
                 },
-                icon: Icon(
+                child: Icon(
                   Icons.menu,
                   color: AppStyles.bgBlack,
                 ),

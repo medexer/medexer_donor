@@ -101,7 +101,7 @@ class _SideBarState extends State<SideBar> {
           ),
           Divider(),
           SizedBox(height: MediaQuery.of(context).size.height * 0.025),
-          GestureDetector(
+          InkWell(
             onTap: () {
               Get.to(() => HomeScreen());
               debugPrint('[FAV]');
@@ -123,7 +123,7 @@ class _SideBarState extends State<SideBar> {
             ),
           ),
           SizedBox(height: MediaQuery.of(context).size.height * 0.025),
-          GestureDetector(
+          InkWell(
             onTap: () {
               Get.to(() => DonorCentersScreen());
               debugPrint('[DONOR-CENTERS]');
@@ -145,7 +145,7 @@ class _SideBarState extends State<SideBar> {
             ),
           ),
           SizedBox(height: MediaQuery.of(context).size.height * 0.025),
-          GestureDetector(
+          InkWell(
             onTap: () {
               Get.to(() => MedicalHistoryScreen());
               debugPrint('[MEDICAL-HISTORY]');
@@ -167,7 +167,7 @@ class _SideBarState extends State<SideBar> {
             ),
           ),
           SizedBox(height: MediaQuery.of(context).size.height * 0.025),
-          GestureDetector(
+          InkWell(
             onTap: () {
               Get.to(() => AppGuideScreen());
               debugPrint('[APP-GUIDE]');
@@ -189,7 +189,7 @@ class _SideBarState extends State<SideBar> {
             ),
           ),
           SizedBox(height: MediaQuery.of(context).size.height * 0.025),
-          GestureDetector(
+          InkWell(
             onTap: () {
               Get.to(() => PendingRewardScreen());
               // Get.to(() => RewardsWalletScreen());
@@ -212,7 +212,7 @@ class _SideBarState extends State<SideBar> {
             ),
           ),
           SizedBox(height: MediaQuery.of(context).size.height * 0.025),
-          GestureDetector(
+          InkWell(
             onTap: () {
               Get.to(() => ContactUsScreen());
               // Get.to(() => RewardsWalletScreen());
@@ -235,7 +235,7 @@ class _SideBarState extends State<SideBar> {
             ),
           ),
           SizedBox(height: MediaQuery.of(context).size.height * 0.025),
-          GestureDetector(
+          InkWell(
             onTap: () {
               Get.to(() => NotificationsScreen());
               debugPrint('[NOTIFICATIONS]');
@@ -257,7 +257,7 @@ class _SideBarState extends State<SideBar> {
             ),
           ),
           SizedBox(height: MediaQuery.of(context).size.height * 0.025),
-          GestureDetector(
+          InkWell(
             onTap: () {
               Get.to(() => AboutUsScreen());
               debugPrint('[ABOUT-US]');
@@ -282,7 +282,7 @@ class _SideBarState extends State<SideBar> {
           // Row(),
           SizedBox(height: MediaQuery.of(context).size.height * 0.035),
           SizedBox(height: MediaQuery.of(context).size.height * 0.025),
-          GestureDetector(
+          InkWell(
             onTap: () async {
               debugPrint('[LOG OUT]');
 
